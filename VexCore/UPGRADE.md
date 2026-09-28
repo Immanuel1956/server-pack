@@ -1,5 +1,11 @@
 # VexCore update: install and configuration
 
+## Round 21 (one sound per action, fixes, speed)
+
+Nothing to change: install the new jar. One sound per action is on by default. To see the switch in your file, add `one-per-action: true` under `sounds:` in `config.yml` (`false` plays every sound again, on top of each other).
+
+Quick test: open /boosts and activate one (only the boost sound, no click on top), click an info item (silent), click a button with no money (only the error sound), open /socials and click Discord (only the link sound).
+
 ## Round 20 (keyall placeholders, permission and placeholder lists)
 
 Nothing to change: install the new jar. `/vexcore permissions` and `/vexcore placeholders` work at once (the texts come from the jar's `globalmessages.yml` until you copy the `list-*` keys into yours to change them), and `permissions.txt` / `placeholders.txt` appear in the plugin folder. For `%vexcore_keyall_at%` in another time zone, copy `placeholder:` from the bundled `features/server/keyall.yml`. Your existing `/vexcore` help text doesn't list the two new commands; copy `core-help` from the bundled `globalmessages.yml` if you want it to.

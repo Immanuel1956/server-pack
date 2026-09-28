@@ -240,7 +240,7 @@ public final class NametagsFeature extends Feature implements Listener {
             ownerOf.put(id, tag.owner);
         }
         tags.put(p.getUniqueId(), tag);
-        tagVersion++;
+        tagVersion.incrementAndGet();
         update(p, tag, true);
         if (!Scheduler.FOLIA) {
             tag.hiddenFrom.clear();
@@ -282,7 +282,7 @@ public final class NametagsFeature extends Feature implements Listener {
 
     private void remove(Player p) {
         Tag tag = tags.remove(p.getUniqueId());
-        if (tag != null) tagVersion++;
+        if (tag != null) tagVersion.incrementAndGet();
         removeTag(tag);
     }
 
@@ -377,7 +377,8 @@ public final class NametagsFeature extends Feature implements Listener {
     private boolean strayed(Player p, Tag tag) {
         TextDisplay d = tag.display;
         if (d == null || !d.isValid()) return true;
-        if (ticks() - tag.followed > 40) return true; // the follow timer stopped (2 seconds without a run)
+        // The follow timer stopped (5 seconds without a run; a lag spike alone is shorter than that).
+        if (ticks() - tag.followed > 100) return true;
         if (Scheduler.FOLIA && !Bukkit.isOwnedByCurrentRegion(d)) return true;
         Location at = d.getLocation();
         Location should = p.getLocation();
@@ -453,14 +454,14 @@ public final class NametagsFeature extends Feature implements Listener {
     }
 
     /** Bumped whenever a tag comes or goes; boards whose team matches it are skipped. */
-    private volatile long tagVersion;
+    private final java.util.concurrent.atomic.AtomicLong tagVersion = new java.util.concurrent.atomic.AtomicLong();
     private final Map<Scoreboard, Long> teamVersion = new java.util.WeakHashMap<>(); // main thread (Paper only)
 
     /** The vanilla name tag is hidden with a team, on every scoreboard in use. Paper only. */
     private void hideVanilla(boolean full) {
         Set<Scoreboard> done = java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<>());
         List<Player> online = null;
-        long version = tagVersion;
+        long version = tagVersion.get();
         for (Player viewer : Bukkit.getOnlinePlayers()) {
             Scoreboard board = viewer.getScoreboard();
             if (!done.add(board)) continue;

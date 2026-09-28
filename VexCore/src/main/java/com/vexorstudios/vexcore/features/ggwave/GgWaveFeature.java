@@ -58,7 +58,7 @@ public final class GgWaveFeature extends Feature implements Listener {
     }
 
     @Override
-    protected void disable() {
+    protected synchronized void disable() { // with start(): never cancel one wave's end and keep the next
         ending.cancel();
         until = 0;
     }

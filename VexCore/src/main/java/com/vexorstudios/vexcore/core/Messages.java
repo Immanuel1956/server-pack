@@ -137,15 +137,27 @@ public final class Messages {
         }
         List<Line> lines = prepare(raw, placeholders, prefix(feature));
         if (lines.isEmpty()) return; // a message set to "" is off, sound included
-        SoundSpec sound = messageSound(feature, key, direct, lines.stream().anyMatch(l -> l.kind == Kind.SOUND),
-                lines.stream().allMatch(l -> l.kind == Kind.ACTIONBAR));
+        boolean inline = false, actionbarOnly = true;
+        for (Line l : lines) {
+            inline |= l.kind == Kind.SOUND;
+            actionbarOnly &= l.kind == Kind.ACTIONBAR;
+        }
+        SoundSpec sound = messageSound(feature, key, direct, inline, actionbarOnly);
+        int level = sound == null ? 0 : level(sound, raw);
+        boolean audible = sound != null || inline; // only these need the repeat check
         for (CommandSender receiver : to) {
-            boolean quiet = repeated(receiver, feature, key);
+            boolean quiet = audible && repeated(receiver, feature, key);
             runOnReceiver(receiver, () -> {
-                if (sound != null && !quiet && receiver instanceof Player player) sound.play(player);
+                if (sound != null && !quiet && receiver instanceof Player player) sound.play(player, level);
                 for (Line line : lines) if (!quiet || line.kind != Kind.SOUND) line.send(receiver, placeholders);
             });
         }
+    }
+
+    /** How important a message's sound is next to others at the same moment (see {@link SoundGate}). */
+    private int level(SoundSpec sound, Object raw) {
+        if (isError(raw)) return SoundGate.ERROR;
+        return sound.equals(SoundSpec.of(global.get("default-sound"))) ? SoundGate.CLICK : SoundGate.NORMAL;
     }
 
     /**
@@ -192,8 +204,9 @@ public final class Messages {
         SoundSpec fallback = lines.stream().anyMatch(l -> l.kind == Kind.SOUND) ? null
                 : isError(raw) ? SoundSpec.of(global.get("error-sound"))
                 : clickOnMessages ? SoundSpec.of(global.get("default-sound")) : null;
+        int level = isError(raw) ? SoundGate.ERROR : SoundGate.CLICK;
         runOnReceiver(to, () -> {
-            if (to instanceof Player player && fallback != null) fallback.play(player);
+            if (to instanceof Player player && fallback != null) fallback.play(player, level);
             for (Line line : lines) line.send(to, placeholders);
         });
     }

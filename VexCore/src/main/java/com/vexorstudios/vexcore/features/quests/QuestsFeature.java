@@ -584,8 +584,8 @@ public final class QuestsFeature extends Feature implements PlayerData.Store, Li
         if (b.getBlockData() instanceof Ageable age && age.getAge() >= age.getMaximumAge()) add(e.getPlayer(), "HARVEST_CROP", type, 1);
         // A block a player put there doesn't count as mined, and no longer counts as placed
         // either (place, break, repeat); its drops don't count as picked up.
-        String key = placedKey(b);
-        UUID placer = placed.remove(key);
+        At key = placed.isEmpty() ? null : placedKey(b); // no key built while nobody placed anything
+        UUID placer = key == null ? null : placed.remove(key);
         if (placer != null) {
             Player who = Bukkit.getPlayer(placer);
             if (who != null) take(who, "PLACE_BLOCK", type);
@@ -610,15 +610,22 @@ public final class QuestsFeature extends Feature implements PlayerData.Store, Li
     /** When each player last moved a block (PLAYTIME skips idle players). */
     private final Map<UUID, Long> active = new ConcurrentHashMap<>();
 
-    /** Blocks players placed (world + position -> who), so breaking them again isn't progress. */
-    private final Map<String, UUID> placed = new ConcurrentHashMap<>();
+    /**
+     * Blocks players placed (world + position -> who), so breaking them again isn't progress. A
+     * world id and a packed position instead of text: a fraction of the memory at 500k blocks,
+     * and nothing to build on every block event.
+     */
+    private record At(UUID world, long pos) {
+    }
+
+    private final Map<At, UUID> placed = new ConcurrentHashMap<>();
     /** Self-placed blocks just broken, and the item entities they dropped: not pickup progress. */
-    private final java.util.Set<String> selfDrops = ConcurrentHashMap.newKeySet();
+    private final java.util.Set<At> selfDrops = ConcurrentHashMap.newKeySet();
     private final java.util.Set<UUID> noPickup = ConcurrentHashMap.newKeySet();
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onDrops(org.bukkit.event.block.BlockDropItemEvent e) {
-        if (!selfDrops.remove(placedKey(e.getBlock()))) return;
+        if (selfDrops.isEmpty() || !selfDrops.remove(placedKey(e.getBlock()))) return;
         if (noPickup.size() >= 10_000) noPickup.clear();
         for (org.bukkit.entity.Item item : e.getItems()) noPickup.add(item.getUniqueId());
     }
@@ -642,8 +649,8 @@ public final class QuestsFeature extends Feature implements PlayerData.Store, Li
         }
     }
 
-    private static String placedKey(Block b) {
-        return b.getWorld().getName() + ':' + b.getBlockKey();
+    private static At placedKey(Block b) {
+        return new At(b.getWorld().getUID(), b.getBlockKey());
     }
 
     // Placed blocks keep their mark when they move (pistons, sand falling) and lose it when
@@ -875,6 +882,7 @@ public final class QuestsFeature extends Feature implements PlayerData.Store, Li
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onOpen(InventoryOpenEvent e) {
         if (e.getInventory().getType() == InventoryType.BREWING && e.getInventory().getLocation() != null && e.getPlayer() instanceof Player p) {
+            if (brewers.size() >= 10_000) brewers.clear(); // one entry per stand ever opened otherwise
             brewers.put(key(e.getInventory().getLocation()), p.getUniqueId());
         }
     }

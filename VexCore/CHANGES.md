@@ -1,5 +1,26 @@
 # VexCore changelog
 
+## Round 21: one sound per action, fixes and speed
+
+### Sounds don't pile up
+- One sound per action (`sounds.one-per-action: true` in config.yml). The sounds a player gets within one tick are collected and only the most important plays, one tick (50 ms) later: an error, then a message or reward, then a menu opening/closing/turning a page, then a click. A menu click that gives a boost, opens another menu, runs /discord or fails now plays that one sound instead of the click on top of it. A key-all's reward and broadcast, or several messages at once, play once.
+- For 150 ms after a sound, sounds that aren't more important are dropped too (a result a tick late, double clicks).
+- Menu buttons that do nothing (info items, decoration) no longer click. An item's own `sound:` still plays.
+- Menu `click` counts as a click, `open`/`close`/`page` as menu sounds, other menu sounds (a coinflip win) as ordinary ones; dialog open/close as menu sounds; error messages as errors; the message click as a click.
+
+### Fixes
+- GG waves: stopping the feature while a wave started could leave the new wave's end timer running (start and stop now take turns).
+- Name tags: the change counter used by the vanilla-name hiding is atomic (two players' tags changing at once on Folia could skip an update). A lag spike no longer makes every tag count as stuck (5 seconds without a follow instead of 2).
+
+### Speed
+- Messages without a sound skip the repeat bookkeeping (a string and a map write per receiver per message, most of all for broadcasts).
+- Quests: player-placed blocks are remembered by world id and packed position instead of a text key: much less memory at the 500,000-block cap and no text built on every block broken, placed or dropped. Nothing is looked up while nobody has placed anything. The brewing stand list is capped.
+- Despawn phantoms: no area scan every few seconds in the nether or end, where phantoms don't spawn.
+
+Checked with SpotBugs (static analysis, max effort) over all of VexCore: the remaining reports are false alarms (config getters with defaults, `setItemMeta` results, fields set once at start). No blocking database waits on the server thread, and every per-player map is cleaned on quit or capped.
+
+Validation: `mvn clean package` against Paper API 1.21.10: compiles, 40 tests pass (new: which sound wins, drops within the window, players apart), ProGuard completes. Not run on a live server.
+
 ## Round 20: keyall placeholders, permission and placeholder lists
 
 ### Keyall placeholders

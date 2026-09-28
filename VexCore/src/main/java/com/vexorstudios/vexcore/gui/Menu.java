@@ -195,10 +195,22 @@ public final class Menu implements InventoryHolder {
         return left.getAmount() > 0 ? left : null;
     }
 
-    /** Plays one of the file's sounds. */
+    /**
+     * Plays one of the file's sounds. open/close/page count as menu sounds and click as a click,
+     * so the result of a button (a reward, an error, the next menu) wins over them; the rest (a
+     * coinflip win) are ordinary sounds.
+     */
     public void sound(String key) {
         SoundSpec sound = file.sound(key);
-        if (sound != null) sound.play(viewer);
+        if (sound != null) sound.play(viewer, soundLevel(key));
+    }
+
+    static int soundLevel(String key) {
+        return switch (key) {
+            case "click" -> com.vexorstudios.vexcore.core.SoundGate.CLICK;
+            case "open", "close", "page" -> com.vexorstudios.vexcore.core.SoundGate.MENU;
+            default -> com.vexorstudios.vexcore.core.SoundGate.NORMAL;
+        };
     }
 
     // ── Drawing ───────────────────────────────────────────────────────────
@@ -302,7 +314,7 @@ public final class Menu implements InventoryHolder {
         if (sound == null || core == null || !core.isEnabled() || !viewer.isOnline()) return;
         try {
             com.vexorstudios.vexcore.core.Scheduler.entityLater(viewer, () -> {
-                if (!(viewer.getOpenInventory().getTopInventory().getHolder(false) instanceof Menu)) sound.play(viewer);
+                if (!(viewer.getOpenInventory().getTopInventory().getHolder(false) instanceof Menu)) sound.play(viewer, com.vexorstudios.vexcore.core.SoundGate.MENU);
             }, 1);
         } catch (RuntimeException ignored) {
         }
@@ -332,8 +344,12 @@ public final class Menu implements InventoryHolder {
     void click(int slot, Button button, ClickType type) {
         MenuItem source = button.source;
         if (source == null || !source.silent()) {
-            SoundSpec sound = source != null && source.sound() != null ? source.sound() : file.sound("click");
-            if (sound != null) sound.play(viewer);
+            // An item's own sound always plays; the menu's click only on a button that does
+            // something (a border or an info item clicked by accident stays quiet).
+            boolean acts = button.action != null || (source != null && (source.close() || !source.commandsFor(type).isEmpty()));
+            SoundSpec sound = source != null && source.sound() != null ? source.sound() : acts ? file.sound("click") : null;
+            // A click: whatever the button does (its reward, an error, the next menu) is heard instead.
+            if (sound != null) sound.play(viewer, com.vexorstudios.vexcore.core.SoundGate.CLICK);
         }
         if (source != null) Actions.run(viewer, source.commandsFor(type), button.placeholders, this);
         if (button.action != null) button.action.accept(new Click(this, viewer, type, slot));

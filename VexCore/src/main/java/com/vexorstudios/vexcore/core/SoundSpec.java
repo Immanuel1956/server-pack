@@ -35,10 +35,16 @@ public record SoundSpec(boolean enabled, String name, float volume, float pitch)
     /** {@code sounds.ticking} in config.yml: false silences sounds that repeat every second or so. */
     private static volatile boolean ticking = false;
 
+    /** {@code sounds.one-per-action}: only the most important sound of one action plays (see {@link SoundGate}). */
+    private static volatile boolean onePerAction = true;
+    private static final SoundGate GATE = new SoundGate();
+
     /** Reads the {@code sounds:} switches of config.yml (on start and reload). */
     public static void configure(org.bukkit.configuration.file.YamlConfiguration config) {
         master = config.getBoolean("sounds.enabled", true);
         ticking = config.getBoolean("sounds.ticking", false);
+        onePerAction = config.getBoolean("sounds.one-per-action", true);
+        GATE.clear();
     }
 
     /**
@@ -81,7 +87,37 @@ public record SoundSpec(boolean enabled, String name, float volume, float pitch)
         }
     }
 
+    /** Plays it as an ordinary sound ({@link SoundGate#NORMAL}). */
     public void play(Player player) {
+        play(player, SoundGate.NORMAL);
+    }
+
+    /**
+     * Plays it, or with one-per-action on, a tick later if nothing more important for the same
+     * player comes in that tick (see {@link SoundGate} for the levels).
+     */
+    public void play(Player player, int priority) {
+        if (!enabled || !master || player == null) return;
+        com.vexorstudios.vexcore.VexCore core = com.vexorstudios.vexcore.VexCore.get();
+        if (!onePerAction || core == null || !core.isEnabled()) {
+            playNow(player);
+            return;
+        }
+        java.util.UUID id = player.getUniqueId();
+        if (!GATE.offer(id, this, priority, System.currentTimeMillis())) return;
+        try {
+            Scheduler.entityLater(player, () -> {
+                SoundSpec winner = GATE.take(id, System.currentTimeMillis());
+                if (winner != null) winner.playNow(player);
+            }, () -> GATE.drop(id), 1);
+        } catch (RuntimeException e) {
+            GATE.drop(id); // scheduling refused (shutting down): play it straight away
+            playNow(player);
+        }
+    }
+
+    /** Plays it right now, whatever else is playing. */
+    public void playNow(Player player) {
         if (!enabled || !master || player == null) return;
         try {
             Sound sound = resolve(name);

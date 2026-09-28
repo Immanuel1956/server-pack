@@ -481,6 +481,6 @@ public final class ReportsFeature extends Feature {
 
     void play(Player p, String key) {
         SoundSpec s = SoundSpec.of(config().get("sounds." + key));
-        if (s != null) s.play(p);
+        if (s != null) s.play(p, key.startsWith("dialog-") ? com.vexorstudios.vexcore.core.SoundGate.MENU : com.vexorstudios.vexcore.core.SoundGate.NORMAL);
     }
 }

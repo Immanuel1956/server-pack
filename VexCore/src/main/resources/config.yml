@@ -157,6 +157,11 @@ sounds:
   # The small click on messages that have no sound of their own (default-sound in
   # globalmessages.yml). Action-bar status lines never click.
   click-on-messages: false
+  # One sound per action: when something makes several sounds at once (a menu click that gives a
+  # reward, opens another menu or fails), only the most important one plays:
+  #   error > message or reward > menu open/close/page > click.
+  # false: every sound plays, on top of each other.
+  one-per-action: true
 
 # ──────────────────────────────────────────────────────────────────────────
 #  OPERATOR BYPASS  -  what operators (/op) skip without needing the bypass permissions.

@@ -80,7 +80,7 @@ final class HomeDialogs {
 
     private void click(Player p) {
         com.vexorstudios.vexcore.core.SoundSpec s = com.vexorstudios.vexcore.core.SoundSpec.of(feature.config().get("sounds.dialog-click"));
-        if (s != null) s.play(p);
+        if (s != null) s.play(p, com.vexorstudios.vexcore.core.SoundGate.CLICK);
     }
 
     // ── The home ──────────────────────────────────────────────────────────

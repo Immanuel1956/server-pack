@@ -109,6 +109,8 @@ public final class PhantomsFeature extends Feature implements Listener {
     private void clear(Player p) {
         if (!p.isOnline()) return;
         World world = p.getWorld();
+        // Phantoms only spawn in the overworld: no area scan every few seconds in the nether or end.
+        if (world.getEnvironment() != World.Environment.NORMAL) return;
         for (Phantom phantom : world.getNearbyEntitiesByType(Phantom.class, p.getLocation(), radius)) {
             phantom.getScheduler().run(plugin, task -> {
                 if (!phantom.isValid()) return;

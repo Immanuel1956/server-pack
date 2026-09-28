@@ -74,6 +74,8 @@ A message can be one line or a list. An empty string sends nothing. A line can s
 
 If `sounds.<key>` exists, that sound plays whenever message `<key>` is sent. VexCore looks for it in the feature's own file first, then in `globalmessages.yml`.
 
+One action makes one sound (`sounds.one-per-action`): of the sounds a player gets in the same tick only the most important plays (error > message or reward > menu open/close/page > click), and a less important one right after it is dropped. Menu buttons that do nothing don't click.
+
 A message that is sent again within 2.5 seconds (a countdown, a status bar) only plays its sound the first time, unless `sounds.ticking` is true in `config.yml`. The click for messages without a sound of their own (`default-sound`) only plays with `sounds.click-on-messages: true`.
 
 ## Menus
@@ -222,6 +224,7 @@ Placeholders:
 | 8 ✔ | LifestealCore nametags (text displays fixed to the head with PacketEvents), LifestealCore quest board, /hide, speed pass |
 | 9 ✔ | ProGuard, code check, speed and bug-fix pass |
 | 18 ✔ | Server warps, player warps, all-time alt links, giveaway cancel and login win titles, startup banner, speed pass |
+| 21 ✔ | One sound per action, silent info items, GG wave and name tag fixes, less work per message and per block for quests, SpotBugs pass |
 | 20 ✔ | Keyall placeholders, `/vexcore permissions` and `/vexcore placeholders`, permissions.txt and placeholders.txt, PERMISSIONS-AND-PLACEHOLDERS.md |
 | 19 ✔ | Quiet sounds (no ticking), one boost at a time, chat hover for staff, stacked name tags that can't get stuck, operator bypass, social folder with /socials, link commands and broadcasts, grouped feature folders |
 
