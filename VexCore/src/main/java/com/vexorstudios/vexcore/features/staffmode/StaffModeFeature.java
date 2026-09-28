@@ -136,6 +136,18 @@ public final class StaffModeFeature extends Feature implements Listener {
     }
 
     private void restore(Player p, Saved saved) {
+        // Anything that isn't a tool got into the staff-mode inventory some other way (taken out of
+        // a chest, dragged in, left on the cursor, /give): handed back after the restore instead
+        // of being wiped with the tools.
+        List<ItemStack> extras = new ArrayList<>();
+        for (ItemStack item : p.getInventory().getContents()) {
+            if (item != null && !item.isEmpty() && !isTool(item)) extras.add(item.clone());
+        }
+        ItemStack cursor = p.getItemOnCursor();
+        if (!cursor.isEmpty()) {
+            if (!isTool(cursor)) extras.add(cursor.clone());
+            p.setItemOnCursor(null);
+        }
         p.getInventory().clear();
         try {
             ItemStack[] items = ItemStack.deserializeItemsFromBytes(Base64.getDecoder().decode(saved.items));
@@ -158,7 +170,27 @@ public final class StaffModeFeature extends Feature implements Listener {
         if (plugin.features().get("vanish") instanceof VanishFeature vanish && config().getBoolean("vanish-on-enter", true)) {
             vanish.setVanished(p, saved.wasVanished);
         }
+        for (ItemStack extra : extras) com.vexorstudios.vexcore.gui.Menu.giveBack(p, extra);
         p.updateInventory();
+    }
+
+    /** A staff tool (marked when it was given), whatever the tools config says now. */
+    private boolean isTool(ItemStack item) {
+        return item.hasItemMeta() && item.getItemMeta().getPersistentDataContainer().has(toolKey, PersistentDataType.STRING);
+    }
+
+    /**
+     * Invulnerable doesn't protect from the void or /kill. A death in staff mode drops nothing
+     * (the tools would lie on the ground for anyone) and keeps the level; they respawn with their
+     * tools, still in staff mode.
+     */
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onDeath(org.bukkit.event.entity.PlayerDeathEvent event) {
+        if (!active.containsKey(event.getEntity().getUniqueId())) return;
+        event.setKeepInventory(true);
+        event.getDrops().clear();
+        event.setKeepLevel(true);
+        event.setDroppedExp(0);
     }
 
     private void staffAlert(String key, Player who) {

@@ -11,6 +11,7 @@ Build with a JDK 21 (not only a JRE) and Maven.
 |---|---|
 | `mvn clean package` | The obfuscated jar, `target/VexCore-1.0.0.jar`. This is the one to sell. |
 | `mvn clean package -Ddev` | A readable jar without ProGuard, for testing. |
+| `mvn -Ddev -Panalysis verify` | Bug scan: SpotBugs at max effort, fails on any finding (noise kinds listed in `tools/spotbugs-exclude.xml`). |
 
 - ProGuard settings are in `proguard.conf`. Only VexCore's own classes are renamed. The class in plugin.yml, event handlers, the PlaceholderAPI hook and the PacketEvents bridge keep their names.
 - Keep `target/proguard-mapping.txt` from every release you ship, and never publish it. ProGuard's retrace tool uses it to turn an obfuscated error from a buyer back into real class names and line numbers.
@@ -224,6 +225,7 @@ Placeholders:
 | 8 ✔ | LifestealCore nametags (text displays fixed to the head with PacketEvents), LifestealCore quest board, /hide, speed pass |
 | 9 ✔ | ProGuard, code check, speed and bug-fix pass |
 | 18 ✔ | Server warps, player warps, all-time alt links, giveaway cancel and login win titles, startup banner, speed pass |
+| 22 ✔ | Staff mode death and item fixes, mutes cover team chat, locale-safe triggers, rollback backup before restore, Error Prone and SpotBugs scans, `-Panalysis` profile |
 | 21 ✔ | One sound per action, silent info items, GG wave and name tag fixes, less work per message and per block for quests, SpotBugs pass |
 | 20 ✔ | Keyall placeholders, `/vexcore permissions` and `/vexcore placeholders`, permissions.txt and placeholders.txt, PERMISSIONS-AND-PLACEHOLDERS.md |
 | 19 ✔ | Quiet sounds (no ticking), one boost at a time, chat hover for staff, stacked name tags that can't get stuck, operator bypass, social folder with /socials, link commands and broadcasts, grouped feature folders |

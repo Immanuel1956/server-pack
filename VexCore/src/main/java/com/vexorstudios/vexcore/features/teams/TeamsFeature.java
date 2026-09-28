@@ -979,6 +979,9 @@ public final class TeamsFeature extends Feature implements Listener {
         boolean triggered = !trigger.isEmpty() && text.startsWith(trigger) && text.length() > trigger.length()
                 && byMember.containsKey(player.getUniqueId());
         if (!triggered && !chatMode.contains(player.getUniqueId())) return;
+        // Muted: left to punishments (it cancels the message and says why) instead of reaching the team.
+        if (plugin.features().get("punishments") instanceof com.vexorstudios.vexcore.features.punishments.PunishmentsFeature punish
+                && punish.isMuted(player.getUniqueId())) return;
         event.setCancelled(true);
         teamChat(player, triggered ? text.substring(trigger.length()).strip() : text);
     }

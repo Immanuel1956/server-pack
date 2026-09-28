@@ -1,5 +1,27 @@
 # VexCore changelog
 
+## Round 22: second bug scan, staff mode and mute fixes, repeatable analysis
+
+### Fixes
+- **Staff mode: dying dropped the staff tools.** Invulnerability doesn't stop the void or /kill. A death in staff mode now drops nothing and keeps the level; the staff member respawns with their tools, still in staff mode.
+- **Staff mode: items could be deleted.** Anything that got into a staff-mode inventory besides the tools (shift-clicked out of a chest, dragged in, left on the cursor when a chest closed, /give) was wiped when staff mode ended. It is now handed back after the real inventory is restored (dropped at their feet if full). Tools are recognised by their mark, so an old tool whose config entry was removed is still taken away.
+- **Muted players could talk in team chat** with the `!` prefix or team chat mode: team chat ran before the mute check. It now leaves muted players to punishments, which cancels the message and says why.
+- **Chat triggers on Turkish servers:** `[item]`/`[inv]`/`[ec]` and `/joincounter` subcommands compared text in the server's language; "ITEM" lowercases to "ıtem" in Turkish. Now language-independent.
+- **Skull textures** turned text into bytes with the server's default encoding (differs between Windows and Linux hosts); now always UTF-8.
+- A teleport restriction (combat, duel, screenshare...) that throws an error used to be skipped silently, so it stopped blocking. It is still skipped (one broken rule mustn't stop every teleport) but now logged once with the error.
+- A misspelled event under `auto.types` in the events file is reported by /vexcore reload instead of being ignored.
+
+### Improvements
+- **Inventory rollback keeps what the player has before a restore** (an AUTO backup "before restore by <staff>"), so restoring the wrong backup can be undone. `backup-before-restore: true` in the rollback config.
+- **Repeatable bug scan:** `mvn -Ddev -Panalysis verify` runs SpotBugs at max effort and fails on anything it finds; `tools/spotbugs-exclude.xml` lists the kinds that are only noise here (with the reason for each). It passes clean.
+
+### Scanned
+- Error Prone (Google's compiler checks, 154 warnings) and SpotBugs over all of VexCore. Real findings are fixed above; the rest (fire-and-forget teleport futures, deliberate empty catches, operator precedence that reads as meant, concurrent collections changed while iterating, which is safe) need nothing.
+- By hand, every money and item path: /pay and offline balances, sell (menu, hand, all), coinflip create/join/refund, invest withdraw, giveaway claims, kits, player warp purchase and refunds, staff mode, rollback. Apart from staff mode (fixed) no dupe or loss was found: payments are single conditional statements, stakes are removed atomically before paying, claims are deleted before items are handed out, failures refund.
+- Cross-checks of code against the bundled files: every message key the code sends exists, every menu `function:` is offered by its feature, menu items that share a slot are all intended (the border first, the button over it).
+
+Validation: `mvn clean package` against Paper API 1.21.10: compiles, 40 tests pass, ProGuard completes; `mvn -Ddev -Panalysis verify` passes. Not run on a live server.
+
 ## Round 21: one sound per action, fixes and speed
 
 ### Sounds don't pile up

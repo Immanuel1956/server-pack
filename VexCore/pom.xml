@@ -182,5 +182,36 @@
                 </plugins>
             </build>
         </profile>
+        <!--
+          Bug scan: `mvn -Ddev -Panalysis verify` runs SpotBugs over VexCore (max effort) and fails
+          on anything it finds. tools/spotbugs-exclude.xml leaves out the kinds that are only noise
+          here (config getters with a default, setItemMeta results, fields set once at start).
+          Off in the normal build; run it before a release.
+        -->
+        <profile>
+            <id>analysis</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <version>4.8.6.6</version>
+                        <configuration>
+                            <effort>Max</effort>
+                            <threshold>Medium</threshold>
+                            <excludeFilterFile>tools/spotbugs-exclude.xml</excludeFilterFile>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 </project>

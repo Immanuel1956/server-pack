@@ -1,5 +1,11 @@
 # VexCore update: install and configuration
 
+## Round 22 (staff mode and mute fixes, rollback safety)
+
+Nothing to change: install the new jar. Optional: add `backup-before-restore: true` to `features/invrollback/config.yml` to see the new switch (it is on without it).
+
+Quick test: /staff, open a chest and shift-click an item out, /staff again (the item is in your inventory). /staff, `/kill` yourself (nothing drops, tools are back after respawn). `/mute <alt> 5m`, then `!hi` as the alt in a team (refused with the mute message). Restore a rollback backup, then find "before restore by <you>" under AUTO.
+
 ## Round 21 (one sound per action, fixes, speed)
 
 Nothing to change: install the new jar. One sound per action is on by default. To see the switch in your file, add `one-per-action: true` under `sounds:` in `config.yml` (`false` plays every sound again, on top of each other).

@@ -9,6 +9,9 @@ restore-permission: "vexcore.invrollback.restore"
 restore-level: false
 # Tell the player their inventory was restored.
 tell-player: true
+# Before a restore, what the player has right now is saved as an AUTO backup ("before restore by
+# <staff>"), so restoring the wrong backup can be undone.
+backup-before-restore: true
 # Don't save empty inventories.
 skip-empty: true
 

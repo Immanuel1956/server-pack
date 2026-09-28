@@ -341,7 +341,7 @@ public final class ChatFeature extends Feature implements Listener {
             if (t == null || !t.getBoolean("enabled", true)) continue;
             String trigger = t.getString("trigger", "[" + kind + "]");
             String permission = t.getString("permission", "");
-            if (!raw.toLowerCase().contains(trigger.toLowerCase()) || (!permission.isEmpty() && !player.hasPermission(permission))) continue;
+            if (!raw.toLowerCase(java.util.Locale.ROOT).contains(trigger.toLowerCase(java.util.Locale.ROOT)) || (!permission.isEmpty() && !player.hasPermission(permission))) continue;
             Component shown = switch (kind) {
                 case "item" -> item(player, t);
                 case "inventory" -> link(player, t, onOwner(player, () -> inventory(player)), "inventory");

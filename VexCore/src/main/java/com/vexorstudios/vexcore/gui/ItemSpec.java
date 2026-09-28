@@ -113,7 +113,7 @@ public final class ItemSpec {
     private static void skin(SkullMeta head, String value) {
         if (value.isEmpty()) return;
         if (value.length() > 32) {
-            PlayerProfile profile = Bukkit.createProfile(UUID.nameUUIDFromBytes(value.getBytes()), null);
+            PlayerProfile profile = Bukkit.createProfile(UUID.nameUUIDFromBytes(value.getBytes(java.nio.charset.StandardCharsets.UTF_8)), null);
             profile.setProperty(new ProfileProperty("textures", value));
             head.setPlayerProfile(profile);
             return;

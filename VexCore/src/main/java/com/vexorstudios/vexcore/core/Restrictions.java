@@ -24,30 +24,34 @@ public final class Restrictions {
 
     public void clear(Feature owner) {
         rules.removeIf(r -> r.owner == owner);
+        reported.removeIf(r -> r.owner == owner);
     }
 
     /** The first rule that blocks this player, or null. */
     public Rule check(Player player) {
-        for (Rule rule : rules) {
-            try {
-                if (rule.blocks.test(player)) return rule;
-            } catch (RuntimeException ignored) {
-            }
-        }
-        return null;
+        return checkOthers(player, null);
     }
 
     /** The first rule of another feature than {@code except} that blocks this player, or null. */
     public Rule checkOthers(Player player, Feature except) {
         for (Rule rule : rules) {
-            if (rule.owner == except) continue;
+            if (except != null && rule.owner == except) continue;
             try {
                 if (rule.blocks.test(player)) return rule;
-            } catch (RuntimeException ignored) {
+            } catch (RuntimeException error) {
+                // A broken rule must not break every teleport, but it must not go unnoticed either:
+                // until it is fixed, that restriction (combat, a duel...) doesn't block anything.
+                if (reported.add(rule)) {
+                    com.vexorstudios.vexcore.VexCore core = com.vexorstudios.vexcore.VexCore.get();
+                    if (core != null) core.getLogger().log(java.util.logging.Level.WARNING, "The teleport restriction of "
+                            + (rule.owner == null ? "the core" : rule.owner.id()) + " failed; it is skipped", error);
+                }
             }
         }
         return null;
     }
+
+    private final java.util.Set<Rule> reported = java.util.Collections.newSetFromMap(new java.util.concurrent.ConcurrentHashMap<>());
 
     /** Tells the player why they are blocked. True if they are. */
     public boolean deny(Player player) {

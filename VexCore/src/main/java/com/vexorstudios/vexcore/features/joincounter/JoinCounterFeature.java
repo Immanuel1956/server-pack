@@ -32,7 +32,7 @@ public final class JoinCounterFeature extends Feature implements Listener {
                 msg(sender, "current", "counter", format(counter));
                 return;
             }
-            switch (args[0].toLowerCase()) {
+            switch (args[0].toLowerCase(java.util.Locale.ROOT)) {
                 case "reset", "clear" -> {
                     save(0);
                     msg(sender, args[0].equalsIgnoreCase("clear") ? "clear" : "reset");

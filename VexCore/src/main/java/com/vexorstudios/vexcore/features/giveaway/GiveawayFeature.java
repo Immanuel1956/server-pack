@@ -710,7 +710,7 @@ public final class GiveawayFeature extends Feature implements org.bukkit.event.L
                         default -> {
                         }
                     }
-                    told.add((long) n[0]);
+                    told.add((Long) n[0]);
                 }
                 clearNotify(id, told);
             }, delay);

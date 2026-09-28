@@ -160,6 +160,11 @@ public final class PunishmentsFeature extends Feature implements Listener {
                 rs.getInt(11) == 1, rs.getString(12), rs.getLong(13));
     }
 
+    /** Whether a /mute is in force for this player (other chat paths, like team chat, ask). */
+    public boolean isMuted(UUID id) {
+        return activeMute(id) != null;
+    }
+
     private Punishment activeMute(UUID id) {
         Punishment p = mutes.get(id);
         return p != null && p.inForce() ? p : null;

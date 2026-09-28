@@ -200,7 +200,8 @@ public final class RtpFeature extends Feature implements Listener {
     public void onDamage(EntityDamageEvent event) {
         // Protected players can't use it to hit others either.
         if (config().getBoolean("safe-landing-block-attacking", true)
-                && event instanceof org.bukkit.event.entity.EntityDamageByEntityEvent e && attacker(e.getDamager()) instanceof Player attacker) {
+                && event instanceof org.bukkit.event.entity.EntityDamageByEntityEvent e && attacker(e.getDamager()) != null) {
+            Player attacker = attacker(e.getDamager());
             Long until = landing.get(attacker.getUniqueId());
             if (until != null && until > System.currentTimeMillis()) {
                 event.setCancelled(true);

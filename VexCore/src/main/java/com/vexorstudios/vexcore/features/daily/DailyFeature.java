@@ -261,7 +261,7 @@ public final class DailyFeature extends Feature implements PlayerData.Store {
         }
         OfflinePlayer target = Bukkit.getOfflinePlayerIfCached(args[1]);
         if (target == null) {
-            msg(sender, "unknown-player", "player", args.length < 2 ? "?" : args[1]);
+            msg(sender, "unknown-player", "player", args[1]);
             return;
         }
         lastClaim.remove(target.getUniqueId());

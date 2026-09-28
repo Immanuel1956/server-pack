@@ -404,6 +404,9 @@ public final class InvRollbackFeature extends Feature implements Listener {
                 msg(staff, "not-online", "target", targetName);
                 return;
             }
+            // What they have now is kept first (under AUTO), so a restore of the wrong backup can
+            // be undone by restoring this one.
+            if (config().getBoolean("backup-before-restore", true)) capture(target, Trigger.AUTO, "before restore by " + staff.getName());
             ItemStack[] contents = new ItemStack[target.getInventory().getSize()];
             for (int i = 0; i < contents.length && i < items.length; i++) {
                 contents[i] = items[i] == null || items[i].isEmpty() ? null : items[i];

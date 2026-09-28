@@ -103,6 +103,14 @@ public final class EventsFeature extends Feature implements Listener {
             else blocks.add(m);
         }
         miningBlocks = Set.copyOf(blocks);
+        for (String raw : config().getStringList("auto.types")) {
+            try {
+                Type.valueOf(raw.toUpperCase(Locale.ROOT));
+            } catch (IllegalArgumentException bad) {
+                problems().add(com.vexorstudios.vexcore.core.Files.configPath(id()) + ": auto.types: unknown event '" + raw
+                        + "' (" + java.util.Arrays.toString(Type.values()).toLowerCase(Locale.ROOT) + ")");
+            }
+        }
         scheduleAuto();
         every(20, this::tick);
         command("event", this::command, (s, a) -> {
@@ -268,7 +276,7 @@ public final class EventsFeature extends Feature implements Listener {
         Map.Entry<UUID, Integer> lead = null;
         for (Map.Entry<UUID, Integer> e : r.scores.entrySet()) if (lead == null || e.getValue() > lead.getValue()) lead = e;
         ph.put("leader", lead == null ? config().getString("words.nobody", "nobody") : r.names.getOrDefault(lead.getKey(), "?"));
-        ph.put("score", lead == null ? 0 : lead.getValue());
+        ph.put("score", lead == null ? Integer.valueOf(0) : lead.getValue());
         float progress = (float) Math.max(0, Math.min(1, (double) (r.ends - System.currentTimeMillis()) / Math.max(1, r.ends - r.started)));
         if (r.type == Type.KOTH) {
             ph.put("capturer", r.capturer == null ? config().getString("words.nobody", "nobody") : r.names.getOrDefault(r.capturer, "?"));
@@ -513,7 +521,7 @@ public final class EventsFeature extends Feature implements Listener {
         ph.put("time", plugin.messages().time(Math.max(0, (r.ends - System.currentTimeMillis()) / 1000)));
         ph.put("question", r.question == null ? "-" : r.question);
         Integer mine = sender instanceof Player p ? r.scores.get(p.getUniqueId()) : null;
-        ph.put("score", mine == null ? 0 : mine);
+        ph.put("score", mine == null ? Integer.valueOf(0) : mine);
         msg(sender, "status", ph);
     }
 

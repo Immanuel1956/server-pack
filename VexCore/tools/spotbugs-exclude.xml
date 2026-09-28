@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Kinds of SpotBugs reports that are only noise in VexCore (see the analysis profile in pom.xml). -->
+<FindBugsFilter>
+    <!-- Bukkit marks getString(path, default) and friends @Nullable; with a default they never are. -->
+    <Match><Bug pattern="NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"/></Match>
+    <!-- Arrays and lists handed between VexCore's own classes on purpose. -->
+    <Match><Bug pattern="EI_EXPOSE_REP"/></Match>
+    <Match><Bug pattern="EI_EXPOSE_REP2"/></Match>
+    <Match><Bug pattern="MS_EXPOSE_REP"/></Match>
+    <!-- setItemMeta(), mkdirs(), delete(): their boolean result isn't needed. -->
+    <Match><Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE"/></Match>
+    <Match><Bug pattern="RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT"/></Match>
+    <!-- Static state set from onEnable/load on purpose (the plugin instance, PlaceholderAPI hook, title times). -->
+    <Match><Bug pattern="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD"/></Match>
+    <!-- Concurrent maps also used as locks for multi-step changes, on purpose. -->
+    <Match><Bug pattern="JLM_JSR166_UTILCONCURRENT_MONITORENTER"/></Match>
+    <!-- Fields set once in enable() and read later (file handles). -->
+    <Match><Bug pattern="IS2_INCONSISTENT_SYNC"/></Match>
+    <!-- completeOnTimeout(null) means "found nothing" in SafeSpot. -->
+    <Match><Bug pattern="NP_NONNULL_PARAM_VIOLATION"/></Match>
+    <!-- Toggles.flip returns null while a player's data is loading. -->
+    <Match><Bug pattern="NP_BOOLEAN_RETURN_NULL"/></Match>
+    <!-- One Random for a salt / a roll. -->
+    <Match><Bug pattern="DMI_RANDOM_USED_ONLY_ONCE"/></Match>
+    <!-- The PlaceholderAPI expansion class inherits equals from PlaceholderAPI. -->
+    <Match><Bug pattern="HE_INHERITS_EQUALS_USE_HASHCODE"/></Match>
+    <!-- The leaderboard query is built from the configured categories, which are checked against a fixed list. -->
+    <Match><Bug pattern="SQL_NONCONSTANT_STRING_PASSED_TO_EXECUTE"/></Match>
+    <!-- Tebex head art: any failure getting a skin (offline mode, Mojang down) means the default face. -->
+    <Match><Class name="~com\.vexorstudios\.vexcore\.features\.tebex\.HeadArt.*"/><Bug pattern="DE_MIGHT_IGNORE"/></Match>
+</FindBugsFilter>
