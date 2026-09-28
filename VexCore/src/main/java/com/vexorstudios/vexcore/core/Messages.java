@@ -39,11 +39,38 @@ public final class Messages {
     }
 
     public void load(YamlConfiguration global) {
+        load(global, plugin == null ? new YamlConfiguration() : plugin.settings());
+    }
+
+    /** {@code settings} is config.yml, for its {@code sounds:} switches. */
+    public void load(YamlConfiguration global, YamlConfiguration settings) {
         this.global = global;
         warned.clear();
         sounds.clear();
         titleTimes = times(global.getConfigurationSection("title-times"));
         globalSounds.clear();
+        lastSent.clear();
+        SoundSpec.configure(settings);
+        clickOnMessages = settings.getBoolean("sounds.click-on-messages", false);
+    }
+
+    /** {@code sounds.click-on-messages} in config.yml: whether default-sound is used at all. */
+    private volatile boolean clickOnMessages;
+
+    /**
+     * When each message was last sent to each player. A message that comes again within
+     * {@link #REPEAT_MS} (a teleport countdown, the combat timer, the vanish reminder) is a tick:
+     * its sound only plays the first time, unless {@code sounds.ticking} is on.
+     */
+    private final Map<String, Long> lastSent = new ConcurrentHashMap<>();
+    private static final long REPEAT_MS = 2500;
+
+    private boolean repeated(CommandSender receiver, Feature feature, String key) {
+        if (!(receiver instanceof Player player)) return false;
+        long now = System.currentTimeMillis();
+        Long before = lastSent.put(player.getUniqueId() + ":" + (feature == null ? "" : feature.id()) + ":" + key, now);
+        if (lastSent.size() > 4096) lastSent.values().removeIf(t -> now - t > REPEAT_MS);
+        return before != null && now - before < REPEAT_MS && !SoundSpec.ticking();
     }
 
     /** How long [title] lines fade in, stay and fade out (title-times in globalmessages.yml). */
@@ -104,24 +131,33 @@ public final class Messages {
         if (raw == null) {
             if (warned.add((feature == null ? "global" : feature.id()) + ":" + key)) {
                 plugin.getLogger().warning("Missing message '" + key + "' ("
-                        + (feature == null ? "globalmessages.yml" : "features/" + feature.id() + "/config.yml") + ")");
+                        + (feature == null ? "globalmessages.yml" : Files.configPath(feature.id())) + ")");
             }
             return;
         }
         List<Line> lines = prepare(raw, placeholders, prefix(feature));
         if (lines.isEmpty()) return; // a message set to "" is off, sound included
-        SoundSpec sound = messageSound(feature, key, direct, lines.stream().anyMatch(l -> l.kind == Kind.SOUND));
-        for (CommandSender receiver : to) runOnReceiver(receiver, () -> {
-            if (sound != null && receiver instanceof Player player) sound.play(player);
-            for (Line line : lines) line.send(receiver, placeholders);
-        });
+        SoundSpec sound = messageSound(feature, key, direct, lines.stream().anyMatch(l -> l.kind == Kind.SOUND),
+                lines.stream().allMatch(l -> l.kind == Kind.ACTIONBAR));
+        for (CommandSender receiver : to) {
+            boolean quiet = repeated(receiver, feature, key);
+            runOnReceiver(receiver, () -> {
+                if (sound != null && !quiet && receiver instanceof Player player) sound.play(player);
+                for (Line line : lines) if (!quiet || line.kind != Kind.SOUND) line.send(receiver, placeholders);
+            });
+        }
     }
 
-    SoundSpec messageSound(Feature feature, String key, boolean direct, boolean inline) {
+    /**
+     * The sound of a message: its own, else (only when {@code sounds.click-on-messages} is on)
+     * default-sound for a direct chat message. Action-bar status lines never get the click.
+     */
+    SoundSpec messageSound(Feature feature, String key, boolean direct, boolean inline, boolean actionbarOnly) {
         if (inline) return null;
         SoundSpec specific = sound(feature, key);
+        if (specific != null) return specific;
         boolean explicit = (feature != null && feature.config().contains("sounds." + key)) || global.contains("sounds." + key);
-        return specific != null ? specific : direct && !explicit ? SoundSpec.of(global.get("default-sound")) : null;
+        return direct && !explicit && !actionbarOnly && clickOnMessages ? SoundSpec.of(global.get("default-sound")) : null;
     }
 
     /** The sound that goes with a message key, or null. */
@@ -154,7 +190,8 @@ public final class Messages {
         List<Line> lines = prepare(raw, placeholders, prefix);
         if (lines.isEmpty()) return;
         SoundSpec fallback = lines.stream().anyMatch(l -> l.kind == Kind.SOUND) ? null
-                : SoundSpec.of(global.get(isError(raw) ? "error-sound" : "default-sound"));
+                : isError(raw) ? SoundSpec.of(global.get("error-sound"))
+                : clickOnMessages ? SoundSpec.of(global.get("default-sound")) : null;
         runOnReceiver(to, () -> {
             if (to instanceof Player player && fallback != null) fallback.play(player);
             for (Line line : lines) line.send(to, placeholders);

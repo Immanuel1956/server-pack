@@ -360,7 +360,8 @@ public final class CoinflipFeature extends Feature implements PlayerData.Store {
         task[0] = Scheduler.entityTimer(viewer, () -> {
             step[0]++;
             if (step[0] < steps) {
-                menu.sound("flip");
+                // Every step is a tick: only the first unless sounds.ticking is on (config.yml).
+                if (step[0] == 1 || com.vexorstudios.vexcore.core.SoundSpec.ticking()) menu.sound("flip");
                 menu.refresh();
                 return;
             }

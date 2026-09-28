@@ -99,7 +99,7 @@ public final class EventsFeature extends Feature implements Listener {
         Set<Material> blocks = new HashSet<>();
         for (String name : typeConfig(Type.MINING).getStringList("blocks")) {
             Material m = Material.matchMaterial(name);
-            if (m == null) problems().add("features/events/config.yml: types.mining.blocks: unknown block '" + name + "'");
+            if (m == null) problems().add(com.vexorstudios.vexcore.core.Files.configPath(id()) + ": types.mining.blocks: unknown block '" + name + "'");
             else blocks.add(m);
         }
         miningBlocks = Set.copyOf(blocks);

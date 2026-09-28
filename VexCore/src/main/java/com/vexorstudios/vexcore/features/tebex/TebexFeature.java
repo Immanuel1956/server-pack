@@ -105,7 +105,7 @@ public final class TebexFeature extends Feature implements Listener {
             long seconds = Math.max(15, config().getLong("poll-seconds", 30));
             track(Scheduler.asyncTimer(this::poll, 40, seconds * 20));
         } else if (community()) {
-            problems().add("features/tebex/config.yml: goals.source is community but there is no secret key.");
+            problems().add(com.vexorstudios.vexcore.core.Files.configPath(id()) + ": goals.source is community but there is no secret key.");
         }
 
         command("tebexpurchase", this::purchaseCommand, (s, a) -> a.length == 1 ? null : List.of());

@@ -1,0 +1,5 @@
+# /socials (also /social, /links): one menu with every link and info menu of the server.
+# The whole menu is made in gui/socials.yml: each button just runs a command (/discord,
+# /store, /media...), so add, move, restyle or remove buttons freely.
+
+prefix: "&#00BDF9&lSOCIALS &7▷ "

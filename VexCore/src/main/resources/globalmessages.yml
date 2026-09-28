@@ -1,5 +1,5 @@
 # Messages every feature shares. A feature can override any of these under messages: in its
-# own features/<name>/config.yml, and add a sound for it under sounds:.
+# own feature file (features/<name>/config.yml or features/<group>/<name>.yml), and add a sound for it under sounds:.
 #
 #   {prefix}                  the feature's prefix (or the one below)
 #   "" (empty)                sends nothing
@@ -13,7 +13,8 @@
 
 prefix: "&#A66CFF&lVEXCORE &7▷ "
 
-# Only direct messages without their own sound. Set enabled: false to turn off.
+# The click on direct messages without a sound of their own. Only used when
+# sounds.click-on-messages is true in config.yml (off by default).
 default-sound: {enabled: true, sound: "ui.button.click", volume: 0.6, pitch: 1.2}
 
 # ── Errors ──────────────────────────────────────────────────────────────────
@@ -42,7 +43,8 @@ time:
   units: 2
 
 # ── Teleports (spawn, afk, home, tpa) ───────────────────────────────────────
-# %seconds% = seconds left. The countdown is sent once a second.
+# %seconds% = seconds left. The countdown is sent once a second; its sound only plays on the
+# first second unless sounds.ticking is true in config.yml.
 teleport-countdown: "[actionbar]{prefix}&fTeleporting in &#A66CFF%seconds%s&f, don't move."
 teleport-success: "[actionbar]{prefix}&fTeleported."
 teleport-cancelled: "{prefix}&fTeleport cancelled, you moved."

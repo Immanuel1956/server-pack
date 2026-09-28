@@ -1,5 +1,19 @@
 # VexCore update: install and configuration
 
+## Round 19 (sounds, boosts, chat hover, name tags, social folder, op bypass)
+
+Build with JDK 21: `mvn clean package`, then install `target/VexCore-1.0.0.jar` (keep `target/proguard-mapping.txt`). Back up the `plugins/VexCore` folder first: this update moves files.
+
+1. **Files move on first start.** The small features' folders are moved into shared folders: `features/discord/config.yml` becomes `features/social/discord.yml`, `features/rules/gui/rules.yml` becomes `features/social/gui/rules.yml`, and the same for `teleport/`, `toggles/`, `pvp/`, `staff/`, `server/` and `utility/` (the list is at the top of the new `config.yml`). Your settings are kept. The console says what was moved; if it warns that an old folder is "no longer read", something (a `.bak` file) is left in it: move what you need and delete the folder.
+2. **config.yml is not overwritten.** Nothing is required: the new `sounds:` and `op-bypass:` settings use their defaults (quiet, ops skip the chat filter). To see and edit them, copy the `sounds:` and `op-bypass:` blocks from the bundled `config.yml`, or rename yours to `config.yml.bak`, restart, and copy your `features:` switches back. New features (`socials`, `links`, `broadcast`) count as on when missing.
+3. **Sounds:** nothing to do. For the old behaviour: `sounds.ticking: true` (every countdown second) and `sounds.click-on-messages: true` (the message click).
+4. **Name tags** switch to `mode: FOLLOW` automatically (the key is new). Optional in `features/server/nametags.yml`: `y-offset: 0.3`, `teleport-duration: 2`, `hide-own: true`, `hide-empty-lines: true`; remove `line-gap`. If you liked the PacketEvents riding, set `mode: RIDE`.
+5. **Chat:** copy `hover.staff` and `keep-format-on-top` from the bundled `features/chat/config.yml` to change them (they default to on). Give moderators `vexcore.chat.manage` (ops have it). If another chat plugin should format the chat instead, set `keep-format-on-top: false`.
+6. **Boosts:** optional: copy `one-at-a-time`, `status.none`, the `already-active` / `already-running` messages and sounds from the bundled `features/boosts/config.yml`, and the `active` item (slot 4, border `0-3, 5-10, 16-35`) from `gui/boosts.yml`. The rule works without them.
+7. **Social:** set your links in `features/social/discord.yml`, `store.yml`, `apply.yml`; turn on extra links in `links.yml`; review `broadcast.yml` (every 5 minutes; `broadcast: false` in config.yml turns it off). `features/server/commandwhitelist.yml` is not overwritten: add `socials, social, links` (and the names of the links you turn on) to the default group.
+
+Quick test: `/spawn` (one pling, then quiet until the teleport), hit a player (no ticking while tagged). `/boosts`: activate speed, buy the reset, try strength (refused, "one boost at a time"). Chat with an op and a normal account: both see the profile card on the name; the op's card ends with "CLICK to manage" and a click opens `/punish`. Walk, sprint, go through a nether portal and `/spawn` from another world: the tag stays on the head, lines stacked. As op, swear and post a link in chat (not blocked). `/socials`, `/website` after enabling it.
+
 ## Round 18 (warps, player warps, all-time alt links, giveaway cancel, banner)
 
 Build with JDK 21: `mvn clean package`, then install `target/VexCore-1.0.0.jar` (keep `target/proguard-mapping.txt`). New files (`features/warps`, `features/pwarps`) are created on start, new database tables and columns too. Both warp features are on by default.

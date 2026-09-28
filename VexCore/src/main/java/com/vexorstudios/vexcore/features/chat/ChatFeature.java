@@ -184,7 +184,34 @@ public final class ChatFeature extends Feature implements Listener {
             });
         }
         AtomicReference<Component> plain = new AtomicReference<>();
-        event.renderer((source, displayName, text, viewer) -> line(source, text, plain));
+        AtomicReference<Component> staff = new AtomicReference<>();
+        io.papermc.paper.chat.ChatRenderer renderer = (source, displayName, text, viewer) ->
+                isStaff(viewer) ? line(source, text, staff, true) : line(source, text, plain, false);
+        event.renderer(renderer);
+        if (config().getBoolean("keep-format-on-top", true)) renderers.put(event, renderer);
+    }
+
+    /** The renderer each chat event got at LOW, put back at HIGHEST (see onChatLate). */
+    private final Map<AsyncChatEvent, io.papermc.paper.chat.ChatRenderer> renderers =
+            java.util.Collections.synchronizedMap(new java.util.WeakHashMap<>());
+
+    /**
+     * Another chat plugin that sets its own renderer after VexCore (a "click to manage" hover for
+     * staff, a different format) would replace the whole line and with it the profile card. With
+     * keep-format-on-top VexCore's line is put back last; staff get their manage click from
+     * hover.staff instead.
+     */
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onChatLate(AsyncChatEvent event) {
+        io.papermc.paper.chat.ChatRenderer renderer = renderers.remove(event);
+        if (renderer != null && event.renderer() != renderer) event.renderer(renderer);
+    }
+
+    /** Whether a chat viewer sees the staff card (manage click). */
+    private boolean isStaff(Audience viewer) {
+        if (!(viewer instanceof Player p) || !config().getBoolean("hover.staff.enabled", true)) return false;
+        String permission = config().getString("hover.staff.permission", "vexcore.chat.manage");
+        return permission.isEmpty() || p.hasPermission(permission);
     }
 
     private static final Pattern MENTION = Pattern.compile("(?<![A-Za-z0-9_])@([A-Za-z0-9_]{3,16})(?![A-Za-z0-9_])");
@@ -194,18 +221,18 @@ public final class ChatFeature extends Feature implements Listener {
         return player.hasPermission(colourPermission) ? Text.parse(MiniMessage.miniMessage().escapeTags(raw)) : Component.text(raw);
     }
 
-    /** The formatted line, built once and shared by every viewer. */
-    private Component line(Player source, Component text, AtomicReference<Component> cached) {
+    /** The formatted line, built once and shared by every viewer (once more for staff). */
+    private Component line(Player source, Component text, AtomicReference<Component> cached, boolean staff) {
         Component done = cached.get();
         if (done == null) {
-            done = format(source, text);
+            done = format(source, text, staff);
             cached.set(done);
         }
         return done;
     }
 
-    /** The whole chat line of a player. */
-    private Component format(Player source, Component message) {
+    /** The whole chat line of a player; {@code staff} adds the manage lines and click. */
+    private Component format(Player source, Component message, boolean staff) {
         Map<String, Object> ph = new HashMap<>();
         // /hide: only the shared name, no rank, team or profile card that would give them away.
         boolean disguised = plugin.features().get("hide") instanceof com.vexorstudios.vexcore.features.hide.HideFeature h && h.isHidden(source.getUniqueId());
@@ -218,9 +245,22 @@ public final class ChatFeature extends Feature implements Listener {
                 .replace("{prefix}", UNRESOLVED.matcher(prefix).matches() ? "" : prefix)
                 .replace("{suffix}", UNRESOLVED.matcher(suffix).matches() ? "" : suffix)
                 .replace("{team}", tag == null ? "" : tag);
-        Component hover = disguised ? null : hover(source);
-        String click = !disguised && config().getBoolean("hover.click.enabled", true)
-                ? "/" + config().getString("hover.click.command", "stats %player%").replace("%player%", source.getName()) : null;
+        Component hover = disguised ? null : hover(source, staff);
+        String click = null;
+        if (staff) {
+            // Staff click the real name even when the player is disguised.
+            String manage = config().getString("hover.staff.command", "punish %player%").strip();
+            String label = manage.split(" ", 2)[0];
+            // A command that isn't there (punishments turned off) falls back to the normal click.
+            if (!manage.isEmpty() && Bukkit.getCommandMap().getCommand(label) != null) {
+                click = "/" + manage.replace("%player%", source.getName());
+            } else if (config().getBoolean("hover.click.enabled", true)) {
+                click = "/" + config().getString("hover.click.command", "stats %player%").replace("%player%", source.getName());
+            }
+            if (disguised) hover = hover(source, true);
+        } else if (!disguised && config().getBoolean("hover.click.enabled", true)) {
+            click = "/" + config().getString("hover.click.command", "stats %player%").replace("%player%", source.getName());
+        }
         boolean nameOnly = config().getString("hover.apply-to", "WHOLE-LINE").equalsIgnoreCase("NAME");
         int split = format.indexOf("{message}");
         String head = split < 0 ? format : format.substring(0, split);
@@ -237,21 +277,39 @@ public final class ChatFeature extends Feature implements Listener {
         return c;
     }
 
-    private record Card(Component card, long until) {
+    private record Card(Component card, Component staff, long until) {
     }
 
     private final Map<java.util.UUID, Card> cards = new java.util.concurrent.ConcurrentHashMap<>();
 
-    /** The profile card, rebuilt at most every few seconds per player (it runs many placeholders). */
-    private Component hover(Player source) {
-        if (!config().getBoolean("hover.enabled", true)) return null;
+    /**
+     * The profile card, rebuilt at most every few seconds per player (it runs many placeholders).
+     * Staff see the same card with the hover.staff lines under it, so the profile never goes
+     * missing behind a "click to manage".
+     */
+    private Component hover(Player source, boolean staff) {
         long now = System.currentTimeMillis();
         Card c = cards.get(source.getUniqueId());
-        if (c != null && c.until > now) return c.card;
-        Component card = buildHover(source);
-        if (cards.size() > 1000) cards.clear();
-        cards.put(source.getUniqueId(), new Card(card, now + config().getLong("hover.cache-seconds", 5) * 1000));
-        return card;
+        if (c == null || c.until <= now) {
+            Component card = config().getBoolean("hover.enabled", true) ? buildHover(source) : null;
+            Component extra = lines(config().getStringList("hover.staff.lines"), source);
+            Component forStaff = card == null ? extra : extra == null ? card : card.append(Component.newline()).append(extra);
+            c = new Card(card, forStaff, now + config().getLong("hover.cache-seconds", 5) * 1000);
+            if (cards.size() > 1000) cards.clear();
+            cards.put(source.getUniqueId(), c);
+        }
+        return staff ? c.staff : c.card;
+    }
+
+    /** Plain config lines with %player%, joined; null when there are none. */
+    private static Component lines(List<String> lines, Player source) {
+        Component out = null;
+        Map<String, Object> ph = Map.of("player", source.getName());
+        for (String line : lines) {
+            Component c = Text.parse(line, source, ph);
+            out = out == null ? c : out.append(Component.newline()).append(c);
+        }
+        return out;
     }
 
     /** Lines whose placeholders found no plugin are left out. */

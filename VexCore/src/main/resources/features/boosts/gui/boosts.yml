@@ -1,6 +1,7 @@
 # /boosts menu. function: boost-<name> activates that boost from config.yml,
 # function: reset-cooldown (only while on cooldown) buys the cooldown away.
-# %cooldown% (ready or time left) and %reset_cost% work everywhere.
+# %cooldown% (ready or time left), %reset_cost%, %active% (the running boost, or none) and
+# %active_time% (its time left) work everywhere. Only one boost runs at a time.
 #
 # Every item and template takes: slot / slots, material, name, lore, glow, amount,
 # custom-model-data, item-model, skull, permission, sound ("" = silent), close-on-click, and
@@ -13,9 +14,23 @@ rows: 4
 items:
 
   border:
-    slots: "0-10, 16-35" # 31 is covered by reset-cooldown while it shows
+    slots: "0-3, 5-10, 16-35" # 31 is covered by reset-cooldown while it shows
     material: BLACK_STAINED_GLASS_PANE
     name: " "
+    sound: ""
+
+  active:
+    slot: 4
+    material: CLOCK
+    name: "&#FFD900&lACTIVE BOOST"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FFD900¦ &fRunning: %active%"
+      - "&#FFD900¦ &fTime left: &#FFD900%active_time%"
+      - "&#FFD900¦ &fCooldown: %cooldown%"
+      - ""
+      - "&7Only one boost can be active at a time."
     sound: ""
 
   speed:

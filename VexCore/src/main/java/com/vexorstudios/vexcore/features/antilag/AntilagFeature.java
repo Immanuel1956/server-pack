@@ -33,7 +33,7 @@ public final class AntilagFeature extends Feature {
             if (at > 0) countdowns.put(at, cd.getString(key + ".actionbar", ""));
         }
         if (Scheduler.FOLIA) {
-            problems().add("features/antilag: Folia can't list entities world-wide, so item clearing is off on this server");
+            problems().add(com.vexorstudios.vexcore.core.Files.configPath(id()) + ": Folia can't list entities world-wide, so item clearing is off on this server");
             return;
         }
         schedule();

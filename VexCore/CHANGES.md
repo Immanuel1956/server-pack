@@ -1,5 +1,45 @@
 # VexCore changelog
 
+## Round 19: quiet sounds, one boost at a time, chat hover, name tags, social folder, op bypass
+
+### No more ticking
+- Messages that come again within 2.5 seconds (the teleport countdown, the combat timer, the vanish reminder, keyall/antilag warnings) only play their sound the first time. The duel countdown and the coinflip spin tick once, at the start.
+- The click VexCore played on every message without its own sound (`default-sound`) is off. Action-bar status lines never click, even when it is turned back on.
+- New `sounds:` in config.yml: `enabled` (every VexCore sound), `ticking` (true brings the per-second sounds back), `click-on-messages` (true brings the click back). Existing servers are quiet after the update without editing anything.
+
+### /boosts: one at a time
+- A second boost can't start while one runs, not after buying the cooldown away and not with `vexcore.boosts.bypass` (that only skips the cooldown). Messages `already-active` / `already-running`.
+- The running boost is saved with the cooldown (two new columns in `boosts`, added automatically), so relogging doesn't free a slot. Milk or dying ends it early.
+- `one-at-a-time: true` in `features/boosts/config.yml`; `vexcore.boosts.stack` (nobody by default, not even ops) may stack.
+- The menu shows the running boost (`%active%`, `%active_time%`, new ACTIVE BOOST item in slot 4). Placeholders `%vexcore_boosts_active%`, `%vexcore_boosts_active_time%`.
+
+### Chat: the name hover works for staff
+- Staff (`vexcore.chat.manage`, op by default) see the same profile card as everyone, with a "CLICK to manage" line under it, and clicking a name opens `/punish <player>` for them (`hover.staff` in the chat config). One hover for everyone, so the profile never disappears behind a manage hover.
+- `keep-format-on-top: true`: VexCore puts its chat line back after every other plugin. Another chat plugin that replaces the whole line (its own format or its own "click to manage" hover) used to hide the profile card.
+- If `/punish` doesn't exist (punishments off), staff get the normal click.
+
+### Name tags
+- All lines of a player are one text display, one line under the other: lines can't sit on top of each other any more.
+- New `mode: FOLLOW` (default): the server keeps the tag on the head every tick and slides it there (`teleport-duration: 2`, matching how other players move on screen). No PacketEvents needed. The old PacketEvents riding is `mode: RIDE`.
+- Tags can't get stuck: every half second each tag is checked; one that is gone, in another world (portals), far from its player, or whose follow timer stopped is put up again. A world change or long teleport moves it at once.
+- `hide-own: true` by default (like vanilla), `hide-empty-lines: true` (a line whose placeholder had no answer leaves no gap), `y-offset: 0.3`. `line-gap` is no longer used.
+
+### Operators skip the chat filter
+- New `op-bypass:` in config.yml. Operators skip every chat filter word rule and filter mute (`chat-filter`), and slowmode, the join delay, spam, repeat, caps and symbol checks (`chat-cooldowns`), without the bypass permissions (which aren't given to ops). `combat-tag` (off by default) keeps ops out of combat tags. Other bypasses (cooldowns, countdowns, command whitelist, chat lock) were already op by default.
+
+### Social, and fewer folders
+- Small features share a folder now, like SetupCore: `features/social/` (discord, store, apply, live, rules, guide, media, ranks), `teleport/`, `toggles/`, `pvp/`, `staff/`, `server/`, `utility/`. Each feature is one file there (`features/social/discord.yml`), menus in the group's `gui/`. 33 folders instead of 73.
+- Existing servers: on start the old folders (`features/discord/config.yml`, `features/rules/gui/rules.yml`...) are moved to their new place, with every change kept. A file whose new place is already taken stays and is reported.
+- `/socials` (`/social`, `/links`): one menu with Discord, Store, Apply, Media, Rules, Guide and Ranks (`features/social/gui/socials.yml`).
+- `features/social/links.yml`: your own link commands, each with its own name, aliases and permission: website, tiktok, youtube and x/twitter are ready (off until `enabled: true`). Names another VexCore command uses are refused.
+- `features/social/broadcast.yml`: every `interval-minutes` (5) one social message goes to everyone (discord, store, apply, a link from links.yml, or your own lines), silent by default. `broadcast: false` in config.yml turns it off.
+- Discord, store and apply show "The link was sent in the chat." above the hotbar (`actionbar:`, "" = off).
+
+### config.yml
+- Feature switches are grouped the same way as the folders (Social, Teleports, Player toggles, Economy, Chat, Staff, PvP, Server, Utilities) with a short note each, followed by `sounds:`, `op-bypass:` and the general settings.
+
+Validation: `mvn clean package` against Paper API 1.21.10 (compiled from PaperMC's ver/1.21.10 source), PlaceholderAPI 2.11.5, VaultAPI 1.7 and PacketEvents 2.14.0: compiles, 33 tests pass (new: feature files and toggles, moving old folders without losing or overwriting anything, message click off by default, action-bar lines never click), ProGuard 7.6.1 completes. Not run on a live server.
+
 ## Round 18: warps, player warps, all-time alt links, giveaway cancel, startup banner
 
 ### Build fix (release blocker)

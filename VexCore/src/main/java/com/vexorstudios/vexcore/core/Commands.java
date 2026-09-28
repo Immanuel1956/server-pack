@@ -81,6 +81,13 @@ public final class Commands {
         return active.containsKey(id);
     }
 
+    /** Whether a VexCore command already answers to this name or alias. */
+    public boolean taken(String label) {
+        String l = label.toLowerCase(Locale.ROOT);
+        for (Registered r : active.values()) if (r.getName().equals(l) || r.getAliases().contains(l)) return true;
+        return false;
+    }
+
     /** The command word of a typed command ("/Home set" -> "home"), without splitting the rest. */
     public static String label(String message) {
         int start = message.startsWith("/") ? 1 : 0;
@@ -94,20 +101,30 @@ public final class Commands {
 
     /** Registers command {@code id} for {@code owner} (null = the core). False if disabled. */
     public boolean register(Feature owner, String id, Handler handler, Completer completer) {
+        return register(owner, id, id, List.of(), "vexcore." + id, "", handler, completer);
+    }
+
+    /**
+     * Registers a command that isn't listed in commands.yml (a link from features/social/links.yml):
+     * its name, aliases, permission and description come from the caller. An entry for {@code id}
+     * in commands.yml still wins.
+     */
+    public boolean register(Feature owner, String id, String defaultName, List<String> defaultAliases, String defaultPermission,
+                            String defaultDescription, Handler handler, Completer completer) {
         ConfigurationSection s = section(id);
         if (s != null && s.contains("enabled") && !s.getBoolean("enabled")) return false;
-        String name = value(s, "name", id).toLowerCase(Locale.ROOT).trim();
+        String name = value(s, "name", defaultName).toLowerCase(Locale.ROOT).trim();
         if (name.isEmpty() || name.contains(" ")) {
             plugin.getLogger().warning("commands.yml: '" + id + "' has an invalid name '" + name + "', using '" + id + "'.");
             name = id;
         }
         List<String> aliases = new ArrayList<>();
-        if (s != null) for (String a : s.getStringList("aliases")) {
+        for (String a : s != null && s.contains("aliases") ? s.getStringList("aliases") : defaultAliases) {
             String alias = a.toLowerCase(Locale.ROOT).trim();
             if (!alias.isEmpty() && !alias.contains(" ") && !alias.equals(name)) aliases.add(alias);
         }
-        String permission = value(s, "permission", "vexcore." + id);
-        String description = value(s, "description", "");
+        String permission = value(s, "permission", defaultPermission);
+        String description = value(s, "description", defaultDescription);
         Registered cmd = new Registered(owner, id, name, description, aliases, permission, handler, completer);
         Registered old = active.put(id, cmd);
         if (old != null) remove(old);

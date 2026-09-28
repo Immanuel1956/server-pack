@@ -691,6 +691,15 @@ commands:
     permission: "vexcore.ranks"
     description: "The server ranks"
     usage: "/%command%"
+  socials:
+    enabled: true
+    name: socials
+    aliases: [social, links]
+    permission: "vexcore.socials"
+    description: "Every link and menu of the server in one place"
+    usage: "/%command%"
+  # The link commands of features/social/links.yml (/website, /tiktok, ...) take their name,
+  # aliases and permission from that file.
 
   # ── Utilities ───────────────────────────────────────────────────
   craft:

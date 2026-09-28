@@ -1,0 +1,141 @@
+# /socials menu: every button runs one of the social commands.
+#
+# Every item:  slot / slots, material, name, lore, glow, custom-model-data, item-model,
+#              skull, amount, permission (hidden without it), sound (its own click sound,
+#              "" = silent), close-on-click, and
+#              commands: / left-commands: / right-commands: - lines like
+#                [player] discord        [console] give %player% dirt
+#                [message] &aHi          [close]   [refresh]
+# A button for a command you turned off in config.yml or commands.yml does nothing useful:
+# remove it here too.
+
+title: "&8Socials | Links"
+rows: 3
+
+items:
+
+  border:
+    slots: "0-9, 17-26"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  discord:
+    slot: 10
+    material: LIGHT_BLUE_DYE
+    name: "&#00BDF9&l✉ DISCORD"
+    lore:
+      - "&8Community"
+      - ""
+      - "&#00BDF9¦ &fNews, giveaways and support."
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 for the invite"
+    commands:
+      - "[close]"
+      - "[player] discord"
+
+  store:
+    slot: 11
+    material: EMERALD
+    name: "&#97F900&l$ STORE"
+    lore:
+      - "&8Support the server"
+      - ""
+      - "&#97F900¦ &fRanks, keys and more."
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 for the link"
+    commands:
+      - "[close]"
+      - "[player] store"
+
+  apply:
+    slot: 12
+    material: WRITABLE_BOOK
+    name: "&#D66BFC&l✎ STAFF APPLICATIONS"
+    lore:
+      - "&8Join the team"
+      - ""
+      - "&#D66BFC¦ &fWant to help run the server?"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to apply"
+    commands:
+      - "[close]"
+      - "[player] apply"
+
+  media:
+    slot: 13
+    material: PINK_DYE
+    name: "&#FF256E&l🎥 MEDIA RANK"
+    lore:
+      - "&8Creators"
+      - ""
+      - "&#FF256E¦ &fRequirements for YouTube,"
+      - "&#FF256E¦ &fTikTok and Twitch ranks."
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to open"
+    commands:
+      - "[player] media"
+
+  rules:
+    slot: 14
+    material: BOOK
+    name: "&#FF3B3B&l⚠ RULES"
+    lore:
+      - "&8Read before playing"
+      - ""
+      - "&#FF3B3B¦ &fWhat is and isn't allowed."
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to open"
+    commands:
+      - "[player] rules"
+
+  guide:
+    slot: 15
+    material: COMPASS
+    name: "&#FFD900&l★ GUIDE"
+    lore:
+      - "&8New here?"
+      - ""
+      - "&#FFD900¦ &fEverything to get started."
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to open"
+    commands:
+      - "[player] guide"
+
+  ranks:
+    slot: 16
+    material: DIAMOND
+    name: "&#2BD6FF&l♦ RANKS"
+    lore:
+      - "&8Perks"
+      - ""
+      - "&#2BD6FF¦ &fWhat every rank gets."
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to open"
+    commands:
+      - "[player] ranks"
+
+  live:
+    slot: 22
+    material: RED_CANDLE
+    name: "&#FF256E&l● STREAMING?"
+    lore:
+      - "&8Creators"
+      - ""
+      - "&#FF256E¦ &fTell everyone you are live with"
+      - "&#FF256E¦ &#FF256E/live <link>&f (media rank)."
+      - "&#FF256E¦ &fHide announcements: &#FF256E/live toggle"
+    sound: ""
+
+# ── Sounds ──────────────────────────────────────────────────────────────────
+sounds:
+  open:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.6
+    pitch: 1.4
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2

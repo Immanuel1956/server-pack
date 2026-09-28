@@ -1,0 +1,27 @@
+# Social broadcasts, like SetupCore's: every interval one message goes to everyone online.
+# An entry is either the name of a link command (discord, store, apply, or one from links.yml:
+# the message from its file is sent), or your own lines:
+#   - lines: ["&eLine one", "&7Line two"]
+#     url: "https://..."        (optional: every line opens it)
+#     hover: "&7Click to open"  (optional)
+# A link whose feature is turned off is skipped. Turn the whole thing off with
+# broadcast: false in config.yml.
+
+prefix: "&#00BDF9&lSOCIAL &7▷ "
+
+# Minutes between two broadcasts.
+interval-minutes: 5
+
+# Nothing is sent with fewer players online than this.
+min-players: 1
+
+# false: one after another in this order. true: a random one each time.
+random: false
+
+# Played with every broadcast. "" = silent (the default: no noise every few minutes).
+sound: ""
+
+messages:
+  - discord
+  - store
+  - apply

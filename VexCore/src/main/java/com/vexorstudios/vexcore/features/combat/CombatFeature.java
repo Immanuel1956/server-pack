@@ -65,7 +65,7 @@ public final class CombatFeature extends Feature implements Listener {
     }
 
     private void tag(Player player, Player other) {
-        if (player.hasPermission("vexcore.combat.bypass")) return;
+        if (com.vexorstudios.vexcore.core.Bypass.has(player, "vexcore.combat.bypass", "combat-tag")) return;
         for (String world : config().getStringList("disabled-worlds")) {
             if (world.equalsIgnoreCase(player.getWorld().getName())) return;
         }
@@ -110,7 +110,7 @@ public final class CombatFeature extends Feature implements Listener {
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onCommand(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
-        if (!isTagged(player.getUniqueId()) || player.hasPermission("vexcore.combat.bypass")) return;
+        if (!isTagged(player.getUniqueId()) || com.vexorstudios.vexcore.core.Bypass.has(player, "vexcore.combat.bypass", "combat-tag")) return;
         String label = com.vexorstudios.vexcore.core.Commands.label(event.getMessage());
         if (blocks(label)) {
             event.setCancelled(true);

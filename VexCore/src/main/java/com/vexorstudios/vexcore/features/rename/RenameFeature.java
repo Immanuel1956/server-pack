@@ -57,7 +57,7 @@ public final class RenameFeature extends Feature {
                 return;
             }
             ChatFilterFeature filter = ChatFilterFeature.of(plugin);
-            if (filter != null && !player.hasPermission("vexcore.chatfilter.bypass") && !filter.cleanName(visible)) {
+            if (filter != null && !com.vexorstudios.vexcore.core.Bypass.has(player, "vexcore.chatfilter.bypass", "chat-filter") && !filter.cleanName(visible)) {
                 msg(player, "blocked-name");
                 return;
             }

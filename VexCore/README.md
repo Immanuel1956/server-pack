@@ -19,15 +19,17 @@ Build with a JDK 21 (not only a JRE) and Maven.
 
 | Path | What it holds |
 |---|---|
-| `config.yml` | How often player data is autosaved, and an on/off switch for each feature. |
+| `config.yml` | An on/off switch for each feature (grouped like the folders), `sounds:` (master switch, countdown ticking, message click), `op-bypass:` (what operators skip), autosave and the startup banner. |
 | `database.yml` | `SQLITE` (a file in `data/`) or `MYSQL`/MariaDB, plus a table prefix. |
 | `commands.yml` | Every command. For each one you can set `enabled`, `name`, `aliases`, `permission`, `description` and `usage`. Also holds `shortcuts`. |
 | `globalmessages.yml` | The shared prefix, error messages and teleport messages, the `/vexcore` messages, and their sounds. |
-| `features/<name>/config.yml` | One folder per feature, with every setting, message and sound for that feature. |
+| `features/<group>/<name>.yml` | Small features share a folder, one file each: `social/` (discord, store, apply, live, rules, guide, media, ranks, socials, links, broadcast), `teleport/` (spawn, afk, tpa), `toggles/` (nightvision, playerhide, mobtoggle, phantoms, joinmessages, deathmessages), `pvp/` (combat, duel, ffa), `staff/` (vanish, screenshare, stafftp, staffessentials, staffchat, hide, ranktrial, ipprotection), `server/` (announce, antilag, joincounter, ggwave, keyall, tebex, events, leaderboard, stats, scoreboard, nametags, commandwhitelist, commandroutes), `utility/` (dropfix, workstations, sign, ping, msg, rename). Their menus are `features/<group>/gui/<name>.yml`. |
+| `features/<name>/config.yml` | Bigger features with menus keep a folder of their own, with every setting, message and sound for that feature. |
 | `features/<name>/gui/*.yml` | One file per menu. |
 | `data/` | Server-local data: `spawns.yml`, `warps.yml` (server warps), `afk.yml`, `keyall.yml` (when the next key-all is due), `kits.yml` (the items of each kit), and `vexcore.db` when using SQLite. |
 
 - Missing files are restored from the jar on start and on reload. Existing files are never overwritten.
+- Folders from before the grouping (`features/discord/`, `features/spawn/`...) are moved to their new place on start, with every change kept.
 - In settings files, a key you delete falls back to its default.
 - In menu files, an item you delete stays deleted.
 
@@ -42,6 +44,8 @@ Build with a JDK 21 (not only a JRE) and Maven.
 | `/pwarp` | Player warps: browse, `/pwarp <name>`, `/pwarp set|delete|icon|desc <name>`, `/pwarp list [player]`, `/pwarp cost`. The first costs 100k, each more costs more; 3 slots, more with `vexcore.pwarps.<n>`. |
 | `/giveaway cancel [n]` | Cancel your own giveaway (the prize comes back to Your Prizes). Staff: `/giveaway forcecancel <player> [reason]`. |
 | `/alts <player>` | Every account linked to a player, all time (shared any network, or through another alt). |
+| `/socials` | One menu with every link and info menu (Discord, Store, Apply, Media, Rules, Guide, Ranks). |
+| `/website`, `/tiktok`, ... | Your own link commands from `features/social/links.yml` (name, aliases and permission set there). |
 
 - Turning a feature off in `config.yml` removes its commands, menus, listeners, timers and placeholders.
 - A command can also be removed on its own with `enabled: false` in `commands.yml`.
@@ -65,7 +69,9 @@ A message can be one line or a list. An empty string sends nothing. A line can s
 | `[title] Title\|Subtitle` | Shows a title and subtitle. |
 | `[sound] name;volume;pitch` | Plays a sound. |
 
-If `sounds.<key>` exists, that sound plays whenever message `<key>` is sent. VexCore looks for it in the feature's `config.yml` first, then in `globalmessages.yml`.
+If `sounds.<key>` exists, that sound plays whenever message `<key>` is sent. VexCore looks for it in the feature's own file first, then in `globalmessages.yml`.
+
+A message that is sent again within 2.5 seconds (a countdown, a status bar) only plays its sound the first time, unless `sounds.ticking` is true in `config.yml`. The click for messages without a sound of their own (`default-sound`) only plays with `sounds.click-on-messages: true`.
 
 ## Menus
 
@@ -128,6 +134,8 @@ Command attachment lines:
 
 Every message runs through the checks in `features/chatfilter/config.yml` in order (slowmode, length and character spam, repeat, shouting), then through the rules in `blocked.yml`. The first one that blocks ends it. Every rule runs three times: on the raw message; on a folded copy (accents, zalgo, invisible characters, look-alike letters from other alphabets, fullwidth, small caps and leetspeak turned back into plain letters); and on a glued copy where `f u c k` and `f.u.c.k` read as one word again while `who read` stays two. `/chatfilter test <message>` shows which rule catches a message, `/chatfilter regex <word>` adds one, and `/chathistory` shows everything that was caught. Public chat, `/msg`, team chat, renames, team names and any commands listed under `scan.commands` all go through it.
 
+Operators skip the word rules (`op-bypass.chat-filter`) and the checks (`op-bypass.chat-cooldowns`) in `config.yml`; other players need `vexcore.chatfilter.bypass` (checks) or a rule's own bypass permission.
+
 VexCore's own `%vexcore_...%` placeholders work in every VexCore text even without PlaceholderAPI.
 
 ## Economy
@@ -186,7 +194,7 @@ Placeholders:
 | playtime | `%vexcore_playtime%` |
 | killrewards | `%vexcore_kills%` |
 | prestige | `%vexcore_prestige%`, `%vexcore_prestige_max%` |
-| boosts | `%vexcore_boosts_cooldown%` |
+| boosts | `%vexcore_boosts_cooldown%`, `%vexcore_boosts_active%`, `%vexcore_boosts_active_time%` |
 | sell | `%vexcore_sell_multiplier%` |
 | kits | `%vexcore_kit_<name>%` (Ready, the time left, Claimed or Locked) |
 | teams | `%vexcore_team%`, `%vexcore_team_tag%`, `%vexcore_team_role%`, `%vexcore_team_members%`, `%vexcore_team_online%` |
@@ -211,6 +219,7 @@ Placeholders:
 | 8 ✔ | LifestealCore nametags (text displays fixed to the head with PacketEvents), LifestealCore quest board, /hide, speed pass |
 | 9 ✔ | ProGuard, code check, speed and bug-fix pass |
 | 18 ✔ | Server warps, player warps, all-time alt links, giveaway cancel and login win titles, startup banner, speed pass |
+| 19 ✔ | Quiet sounds (no ticking), one boost at a time, chat hover for staff, stacked name tags that can't get stuck, operator bypass, social folder with /socials, link commands and broadcasts, grouped feature folders |
 
 Dropped: MOTD, portals, spawners, server tools, arena reset, orders, the shop, player vaults and crates.
 

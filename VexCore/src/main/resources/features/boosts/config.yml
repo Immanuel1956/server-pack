@@ -1,5 +1,8 @@
 # /boosts: short potion boosts. Using any boost starts ONE shared cooldown; reset-cost buys it
 # away. vexcore.boosts.bypass ignores the cooldown.
+# Only one boost can be active at a time (one-at-a-time), even after buying the cooldown away or
+# with the bypass. Milk or dying ends a boost early. vexcore.boosts.stack (nobody by default, not
+# even ops) may run several at once.
 # Every boost below becomes a menu function "boost-<name>" (see gui/boosts.yml).
 #   effect      a potion effect key: speed, strength, haste, jump_boost, regeneration, ...
 #   amplifier   0 = level I, 1 = level II, ...
@@ -12,13 +15,18 @@ prefix: "&#FF3B3B&lBOOSTS &7▷ "
 
 cooldown: "30m"
 
+# true: a second boost can't start while one is running.
+one-at-a-time: true
+
 # Money that resets the cooldown. 0 = free.
 reset-cost: 5000
 
 # What %cooldown% shows in the menu. %time% = time left.
+# %active% in the menu and %vexcore_boosts_active% show the running boost's name, or none.
 status:
   ready: "&#80EE0BReady!"
   active: "&#FF3B3B%time%"
+  none: "&7None"
 
 # Effect particles around the player, and the effect icon in the inventory and top right.
 show-particles: true
@@ -61,6 +69,8 @@ messages:
   on-cooldown: "&#FF0000&lERROR &7▷ &fYou are on cooldown for &#FF3B3B%time%&f."
   no-cooldown: "&#FF0000&lERROR &7▷ &fYou have no cooldown to reset."
   reset: "{prefix}&fYour cooldown was reset for &#80EE0B%amount%&f."
+  already-active: "&#FF0000&lERROR &7▷ &fYou already have %boost% &factive for &#FF3B3B%time%&f. Only one boost at a time."
+  already-running: "&#FF0000&lERROR &7▷ &f%boost% &fis already active for &#FF3B3B%time%&f."
 
 sounds:
   activated:
@@ -83,3 +93,13 @@ sounds:
     sound: "entity.player.levelup"
     volume: 1.0
     pitch: 1.2
+  already-active:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  already-running:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0

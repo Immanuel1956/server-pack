@@ -48,7 +48,7 @@ public final class ScoreboardFeature extends Feature implements Listener {
         disabledWorlds = java.util.Set.copyOf(config().getStringList("disabled-worlds"));
         hideNumbers = config().getBoolean("hide-numbers", true);
         if (Scheduler.FOLIA) {
-            problems().add("features/scoreboard: Folia has no scoreboard API, so the scoreboard is off on this server");
+            problems().add(com.vexorstudios.vexcore.core.Files.configPath(id()) + ": Folia has no scoreboard API, so the scoreboard is off on this server");
             return;
         }
         listen(this);

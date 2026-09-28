@@ -461,8 +461,11 @@ public final class ChatFilterFeature extends Feature implements Listener {
     public Verdict check(Player player, String message, String source) {
         String raw = ZALGO.matcher(stripInvisible(message == null ? "" : message)).replaceAll("$1").strip();
         if (raw.isEmpty()) return new Verdict(true, null, "EMPTY");
-        boolean bypass = player != null && player.hasPermission("vexcore.chatfilter.bypass");
-        if (!bypass && player != null && !source.equals("command")) {
+        // vexcore.chatfilter.bypass skips the checks (slowmode, join delay, spam, caps); operators
+        // skip them with op-bypass.chat-cooldowns, and the word rules with op-bypass.chat-filter.
+        boolean bypass = player != null && com.vexorstudios.vexcore.core.Bypass.has(player, "vexcore.chatfilter.bypass", "chat-cooldowns");
+        boolean opWords = player != null && com.vexorstudios.vexcore.core.Bypass.op(player, "chat-filter");
+        if (!bypass && !opWords && player != null && !source.equals("command")) {
             long muted = mutedFor(player.getUniqueId());
             if (muted > 0) {
                 msg(player, "filter-muted", "time", plugin.messages().time(muted));
@@ -480,7 +483,7 @@ public final class ChatFilterFeature extends Feature implements Listener {
                 raw = raw.toLowerCase(Locale.ROOT);
             }
         }
-        if (!settings.words()) return new Verdict(false, raw, null);
+        if (!settings.words() || opWords) return new Verdict(false, raw, null);
         Map.Entry<Rule, List<int[]>> hit = firstRule(player, withoutAllowed(raw));
         if (hit == null) return new Verdict(false, raw, null);
         Rule rule = hit.getKey();
@@ -698,7 +701,7 @@ public final class ChatFilterFeature extends Feature implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        if (settings.joinDelayMs() <= 0 || event.getPlayer().hasPermission("vexcore.chatfilter.bypass")) return;
+        if (settings.joinDelayMs() <= 0 || com.vexorstudios.vexcore.core.Bypass.has(event.getPlayer(), "vexcore.chatfilter.bypass", "chat-cooldowns")) return;
         State st = states.computeIfAbsent(event.getPlayer().getUniqueId(), k -> new State());
         synchronized (st) {
             st.joined = System.currentTimeMillis();

@@ -11,7 +11,9 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -21,6 +23,8 @@ import java.util.jar.JarFile;
  *   config.yml, database.yml, commands.yml, globalmessages.yml
  *   features/&lt;feature&gt;/config.yml
  *   features/&lt;feature&gt;/gui/*.yml
+ *   features/&lt;group&gt;/&lt;feature&gt;.yml        small features share a folder (see GROUPS)
+ *   features/&lt;group&gt;/gui/&lt;feature&gt;.yml
  *   data/
  * </pre>
  * Missing files are copied out of the jar on every start and reload; existing files are never
@@ -28,6 +32,48 @@ import java.util.jar.JarFile;
  * to its default instead of breaking. Menu files do not, so an item someone deleted stays gone.
  */
 public final class Files {
+
+    /**
+     * Small features whose files live together in one folder instead of a folder each:
+     * features/social/discord.yml instead of features/discord/config.yml. A grouped feature's
+     * menus are features/&lt;group&gt;/gui/&lt;feature&gt;.yml (its main menu) and
+     * &lt;feature&gt;-&lt;menu&gt;.yml. Folders from before the grouping are moved on start.
+     */
+    private static final Map<String, String> GROUPS = groups(
+            "social", "discord, store, apply, live, rules, guide, media, ranks, socials, links, broadcast",
+            "teleport", "spawn, afk, tpa",
+            "toggles", "nightvision, playerhide, mobtoggle, phantoms, joinmessages, deathmessages",
+            "utility", "dropfix, workstations, sign, ping, msg, rename",
+            "pvp", "combat, duel, ffa",
+            "staff", "vanish, screenshare, stafftp, staffessentials, staffchat, hide, ranktrial, ipprotection",
+            "server", "announce, antilag, joincounter, ggwave, keyall, tebex, events, leaderboard, stats, scoreboard, "
+                    + "nametags, commandwhitelist, commandroutes");
+
+    private static Map<String, String> groups(String... pairs) {
+        Map<String, String> out = new LinkedHashMap<>();
+        for (int i = 0; i + 1 < pairs.length; i += 2) {
+            for (String id : pairs[i + 1].split(",")) out.put(id.trim(), pairs[i]);
+        }
+        return java.util.Collections.unmodifiableMap(out);
+    }
+
+    /** The shared folder of a feature, or null when it has a folder of its own. */
+    public static String group(String feature) {
+        return GROUPS.get(feature);
+    }
+
+    /** Where a feature's settings are: features/&lt;id&gt;/config.yml or features/&lt;group&gt;/&lt;id&gt;.yml. */
+    public static String configPath(String feature) {
+        String group = GROUPS.get(feature);
+        return group == null ? "features/" + feature + "/config.yml" : "features/" + group + "/" + feature + ".yml";
+    }
+
+    /** Where one of a feature's menus is. */
+    public static String menuPath(String feature, String menu) {
+        String group = GROUPS.get(feature);
+        if (group == null) return "features/" + feature + "/gui/" + menu + ".yml";
+        return "features/" + group + "/gui/" + (menu.equals(feature) ? feature : feature + "-" + menu) + ".yml";
+    }
 
     private final VexCore plugin;
     private final List<String> errors = new ArrayList<>();
@@ -46,6 +92,7 @@ public final class Files {
 
     /** Copies every missing file out of the jar. */
     public void extract() {
+        migrate();
         for (String name : List.of("config.yml", "database.yml", "commands.yml", "globalmessages.yml")) {
             if (!new File(dir(), name).exists()) plugin.saveResource(name, false);
         }
@@ -86,12 +133,66 @@ public final class Files {
         }
     }
 
-    /** The menu files of a feature: features/&lt;id&gt;/gui/*.yml. */
+    /** The menu files of a feature: features/&lt;id&gt;/gui/*.yml, or its own files in its group's gui/. */
     public List<String> menus(String feature) {
-        File[] files = new File(dir(), "features/" + feature + "/gui").listFiles((d, n) -> n.endsWith(".yml"));
+        String group = GROUPS.get(feature);
+        File dir = new File(dir(), group == null ? "features/" + feature + "/gui" : "features/" + group + "/gui");
+        File[] files = dir.listFiles((d, n) -> n.endsWith(".yml"));
         List<String> names = new ArrayList<>();
-        if (files != null) for (File f : files) names.add(f.getName().substring(0, f.getName().length() - 4));
+        if (files != null) for (File f : files) {
+            String name = f.getName().substring(0, f.getName().length() - 4);
+            if (group == null) names.add(name);
+            else if (name.equals(feature)) names.add(name);
+            else if (name.startsWith(feature + "-") && name.length() > feature.length() + 1) names.add(name.substring(feature.length() + 1));
+        }
         return names;
+    }
+
+    /**
+     * Moves the files of features that now share a folder out of their old one-feature folders
+     * (features/discord/config.yml to features/social/discord.yml, its menus to gui/), so an
+     * update keeps every change the server made. A file whose new place is taken stays where it
+     * is and is reported. Emptied old folders are removed.
+     */
+    private void migrate() {
+        migrate(dir(), plugin.getLogger());
+    }
+
+    /** {@link #migrate()} for a plugin folder; static so it can be tried on a copy. */
+    static void migrate(File root, java.util.logging.Logger log) {
+        for (Map.Entry<String, String> e : GROUPS.entrySet()) {
+            String id = e.getKey();
+            File old = new File(root, "features/" + id);
+            if (!old.isDirectory()) continue;
+            boolean moved = move(new File(old, "config.yml"), new File(root, configPath(id)), log);
+            File[] menus = new File(old, "gui").listFiles((d, n) -> n.endsWith(".yml"));
+            if (menus != null) for (File menu : menus) {
+                String name = menu.getName().substring(0, menu.getName().length() - 4);
+                moved |= move(menu, new File(root, menuPath(id, name)), log);
+            }
+            deleteIfEmpty(new File(old, "gui"));
+            deleteIfEmpty(old);
+            if (moved) log.info("Moved features/" + id + "/ into features/" + e.getValue() + "/ (" + configPath(id) + ")");
+            if (old.exists()) log.warning("features/" + id + "/ is no longer read; its settings are in "
+                    + configPath(id) + ". Move anything you still need and delete the old folder.");
+        }
+    }
+
+    private static boolean move(File from, File to, java.util.logging.Logger log) {
+        if (!from.isFile() || to.exists()) return false;
+        to.getParentFile().mkdirs();
+        try {
+            java.nio.file.Files.move(from.toPath(), to.toPath());
+            return true;
+        } catch (IOException ex) {
+            log.warning("Could not move " + from + " to " + to + ": " + ex.getMessage());
+            return false;
+        }
+    }
+
+    private static void deleteIfEmpty(File dir) {
+        String[] left = dir.list();
+        if (left != null && left.length == 0) dir.delete();
     }
 
     private YamlConfiguration read(String path) {

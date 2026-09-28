@@ -42,6 +42,21 @@ hover:
   click:
     enabled: true
     command: "stats %player%"
+  # Staff see the SAME profile card with these lines under it, and clicking a name runs
+  # "command" for them instead (the /punish menu by default). So the name hover keeps working
+  # for staff: there is one hover, not a "click to manage" that covers the profile.
+  staff:
+    enabled: true
+    permission: "vexcore.chat.manage"
+    command: "punish %player%"
+    lines:
+      - ""
+      - "&#FF3B3B▶ &n&lCLICK&r&#FF3B3B to manage %player%"
+
+# true: VexCore puts its chat line back after every other plugin had its turn. Another chat
+# plugin that changes the whole line (its own format, its own "click to manage" hover) would
+# otherwise hide the profile card. Set false if you want that other plugin's format instead.
+keep-format-on-top: true
 
 # Whether [item], [inv] and [ec] also work in /msg and /reply.
 private-messages: true

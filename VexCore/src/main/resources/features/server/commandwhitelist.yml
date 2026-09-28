@@ -1,0 +1,20 @@
+# Only these commands can be used and show up in tab completion; everything else answers like
+# an unknown command. "plugin:command" forms are always blocked. vexcore.commandwhitelist.bypass
+# skips it all. Enabled by default. Add your other plugins' commands to the groups below.
+
+# Every VexCore command (current names and aliases) is allowed on top of the lists below.
+allow-vexcore-commands: false
+
+groups:
+  default:
+    permission: ""
+    commands: [1v1, afk, apply, back, bal, balance, balancetop, baltop, boost, booster, boosts, cf, chattoggle, chatview, coinflip, creator, daily, dc, event, events, deathtoggle, delhome, discord, disposal, duel, ffa, ffaaccept, giveaway, giveaways, goal, goals, guide, gws, help, home, homes, ignore, invest, jointoggle, keyall, killrewards, kit, kits, lb, leaderboard, list, live, m, media, mentions, mentiontoggle, mobtoggle, money, moneytop, msg, msgtoggle, nightvision, nv, options, pay, payhistory, payments, paytoggle, ph, phantoms, phantomtoggle, ping, pl, playerhide, playtime, playtimerewards, plugins, pm, prefs, prestige, price, quest, questboard, quests, r, randomtp, rank, ranks, reply, report, rewards, rtp, rules, sb, scoreboard, sell, sethome, settings, spawn, spawns, stat, stats, store, storegoal, stream, t, tc, team, teamchat, teams, tell, togglechat, togglementions, togglemsg, togglepm, top, topvoters, tpa, tpacancel, tpaccept, tpahere, tpask, tpatoggle, tpauto, tpcancel, tpdeny, tpno, tptoggle, tpyes, trash, tutorial, vote, voteparty, votes, votetop, vp, w, warp, warps, pwarp, pwarps, pw, playerwarp, playerwarps, webstore, whisper, wild, worth, socials, social, links, website, site, web, tiktok, tt, youtube, yt, x, twitter]
+  staff:
+    permission: "vexcore.commandwhitelist.staff"
+    commands: [gamemode, gm, tp, kick, ban, mute, warn, invsee, co, coreprotect, reports, invrollback, alts, altcheck, dupeip, ban, tempban, ipban, banip, tempipban, mute, tempmute, unban, pardon, unipban, unmute, unwarn, delwarn, history, punishments, checkpunish, punish, p, staff, staffmode, mod, fly, heal, feed, eat, god, godmode, speed, gmc, gms, gma, gmsp, inv, clearinventory, ci, clear, fakevote, rollback, invrb, restoreinv, setwarp, delwarp]
+
+messages:
+  blocked: "&fUnknown command. Type \"/help\" for help."
+
+sounds:
+  blocked: {sound: "entity.villager.no", volume: 1.0, pitch: 1.0}

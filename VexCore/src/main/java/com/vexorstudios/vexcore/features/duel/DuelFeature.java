@@ -335,7 +335,8 @@ public final class DuelFeature extends Feature implements Listener {
                             Text.parse(config().getString(go ? "start.go-subtitle" : "start.subtitle", ""), p, ph),
                             com.vexorstudios.vexcore.core.Messages.times(config().getConfigurationSection("start.title-times"))));
                     var sound = com.vexorstudios.vexcore.core.SoundSpec.of(config().get(go ? "start.go-sound" : "start.countdown-sound"));
-                    if (sound != null) sound.play(p);
+                    // The countdown ticks only on its first second unless sounds.ticking is on.
+                    if (sound != null && (go || remaining == seconds || com.vexorstudios.vexcore.core.SoundSpec.ticking())) sound.play(p);
                 });
             }
             if (go) { fight.started = true; task[0].cancel(); }

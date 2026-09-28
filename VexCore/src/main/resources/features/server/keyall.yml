@@ -1,0 +1,71 @@
+# Key-all: every interval everyone online gets one reward rolled from the table below.
+# Rewards are command lines, so they work with any crate plugin.
+# /keyall shows the time left. Admin: /keyall force, /keyall set <duration>
+# Placeholder: %vexcore_keyall% (time left)
+
+prefix: "&#FFD900&lKEYALL &7▷ "
+
+# 1d, 1h, 30m, 45s or several together (1h30m).
+interval: "1h"
+
+# true: key-alls happen on the clock (every hour at xx:00, every 30m at xx:00 and xx:30, in the
+# server's time zone). false: interval after the previous one.
+align-to-clock: true
+
+# A countdown boss bar for everyone during the last show-minutes. %time% = time left.
+bossbar:
+  enabled: true
+  show-minutes: 5
+  color: YELLOW
+  title: "&#FFD900&lKEYALL &7▷ &fEveryone gets a key in &#FFD900%time%"
+
+# Nothing is handed out while fewer players are online (the timer starts over).
+minimum-players: 0
+
+# A reminder is broadcast this long before the key-all.
+warnings:
+  - "5m"
+  - "1m"
+  - "10s"
+
+# chance = weight. %player% and %reward% (the name) work in the commands.
+rewards:
+  keyall:
+    name: "&#FFD900Keyall"
+    chance: 60
+    commands:
+      - "[console] crate key give %player% keyall 1"
+  rare:
+    name: "&#22AFFBRare"
+    chance: 30
+    commands:
+      - "[console] crate key give %player% rare 1"
+  legendary:
+    name: "&#FF256ELegendary"
+    chance: 10
+    commands:
+      - "[console] crate key give %player% legendary 1"
+
+messages:
+  received:
+    - "{prefix}&fYou got a &#FFD900%reward% &fkey!"
+    - "[title] &#FFD900&lFREE KEY|&f%reward% &7key"
+  broadcast: "{prefix}&fEveryone just got a free key! &7Next one in %time%."
+  warning: "{prefix}&fKey-all in &#FFD900%time%&f!"
+  too-few: "{prefix}&fNot enough players for a key-all &7(%minimum% needed)&f. Next try in %time%."
+  next: "{prefix}&fThe next key-all is in &#FFD900%time%&f."
+  forced: "{prefix}&fHanded a key to everyone online."
+  no-rewards: "{prefix}&cThere are no rewards set up under rewards: in features/server/keyall.yml."
+  set: "{prefix}&fThe next key-all is now in &#FFD900%time%&f."
+
+sounds:
+  received:
+    enabled: true
+    sound: "entity.player.levelup"
+    volume: 0.8
+    pitch: 1.4
+  warning:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 1.2

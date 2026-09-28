@@ -97,8 +97,11 @@ permissions:
     description: /boosts
     default: true
   vexcore.boosts.bypass:
-    description: Skip the boost cooldown
+    description: Skip the boost cooldown (still one boost at a time)
     default: op
+  vexcore.boosts.stack:
+    description: Run several boosts at once
+    default: false
 
   # ── Selling and kits ─────────────────────────────────────────────────
   vexcore.sell:
@@ -252,6 +255,9 @@ permissions:
   vexcore.rules:
     description: /rules
     default: true
+  vexcore.socials:
+    description: /socials
+    default: true
   vexcore.guide:
     description: /guide
     default: true
@@ -330,6 +336,9 @@ permissions:
     default: true
   vexcore.chat.admin:
     description: "/mutechat, /clearchat"
+    default: op
+  vexcore.chat.manage:
+    description: "Staff chat hover: the profile card plus a click that opens /punish"
     default: op
   vexcore.chat.bypass:
     description: "Talk while chat is locked, keep chat on /clearchat"

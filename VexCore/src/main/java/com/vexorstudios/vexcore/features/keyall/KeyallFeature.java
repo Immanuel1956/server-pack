@@ -43,8 +43,8 @@ public final class KeyallFeature extends Feature {
             list.add(new Reward(key, s.getString("name", key), s.getDouble("chance", 0), ownList(s, "commands")));
         }
         rewards = List.copyOf(list);
-        if (interval() <= 0) problems().add("features/keyall/config.yml: interval '" + config().getString("interval") + "' is not a duration");
-        if (rewards.isEmpty()) problems().add("features/keyall/config.yml: no rewards with a chance above 0");
+        if (interval() <= 0) problems().add(com.vexorstudios.vexcore.core.Files.configPath(id()) + ": interval '" + config().getString("interval") + "' is not a duration");
+        if (rewards.isEmpty()) problems().add(com.vexorstudios.vexcore.core.Files.configPath(id()) + ": no rewards with a chance above 0");
         file = plugin.files().data("keyall.yml");
         next = YamlConfiguration.loadConfiguration(file).getLong("next", 0);
         if (next <= 0) schedule();

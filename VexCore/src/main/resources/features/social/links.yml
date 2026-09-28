@@ -1,0 +1,80 @@
+# More link commands, like /discord, /store and /apply (those have their own files here).
+# Every entry with enabled: true becomes a command: the entry's name, or "name:" if set.
+#   aliases      other names for the same command
+#   permission   needed to use it; "" = everyone
+#   message      the lines; every line opens url when clicked. %url% and {prefix} work.
+#   hover        shown when hovering the message ("" = nothing)
+#   actionbar    a short note above the hotbar ("" = nothing)
+#   sound        played to the player
+# Add as many as you like (twitter, tiktok, website, map, forums...). A name another VexCore
+# command already uses is refused (see /vexcore reload).
+
+prefix: "&#00BDF9&lLINKS &7▷ "
+
+links:
+
+  website:
+    enabled: false
+    aliases: [site, web]
+    permission: ""
+    url: "https://yourserver.com"
+    hover: "&7Click to open &#2BD6FF%url%"
+    actionbar: "&7The link was sent in the chat."
+    message:
+      - ""
+      - "&#2BD6FF🌐 &lWEBSITE&r &#2BD6FF🌐"
+      - ""
+      - "&#2BD6FF¦ &fNews, guides and everything else"
+      - "&#2BD6FF¦ &fabout the server."
+      - ""
+      - "&#2BD6FF▷ &fLink: &#2BD6FF&n%url%"
+    sound: {sound: "block.note_block.pling", volume: 0.8, pitch: 1.4}
+
+  tiktok:
+    enabled: false
+    aliases: [tt]
+    permission: ""
+    url: "https://tiktok.com/@yourserver"
+    hover: "&7Click to open &#FF007B%url%"
+    actionbar: "&7The link was sent in the chat."
+    message:
+      - ""
+      - "&#FF007B♪ &lTIKTOK&r &#FF007B♪"
+      - ""
+      - "&#FF007B¦ &fClips, events and sneak peeks."
+      - ""
+      - "&#FF007B▷ &fLink: &#FF007B&n%url%"
+    sound: {sound: "block.note_block.pling", volume: 0.8, pitch: 1.4}
+
+  youtube:
+    enabled: false
+    aliases: [yt]
+    permission: ""
+    url: "https://youtube.com/@yourserver"
+    hover: "&7Click to open &#FF0000%url%"
+    actionbar: "&7The link was sent in the chat."
+    message:
+      - ""
+      - "&#FF0000▶ &lYOUTUBE&r &#FF0000▶"
+      - ""
+      - "&#FF0000¦ &fTrailers, updates and events."
+      - ""
+      - "&#FF0000▷ &fLink: &#FF0000&n%url%"
+    sound: {sound: "block.note_block.pling", volume: 0.8, pitch: 1.4}
+
+  twitter:
+    enabled: false
+    name: x
+    aliases: [twitter]
+    permission: ""
+    url: "https://x.com/yourserver"
+    hover: "&7Click to open &f%url%"
+    actionbar: "&7The link was sent in the chat."
+    message:
+      - ""
+      - "&f&lX / TWITTER"
+      - ""
+      - "&f¦ Announcements and status updates."
+      - ""
+      - "&f▷ Link: &n%url%"
+    sound: {sound: "block.note_block.pling", volume: 0.8, pitch: 1.4}

@@ -2,13 +2,24 @@
 #   VexCore by VexorStudios
 # ─────────────────────────────────────────────────────────────────────────────
 #
-#   config.yml           this file: saving, and which features are on
+#   config.yml           this file: which features are on, sounds, operator bypass
 #   database.yml         SQLite or MySQL
 #   commands.yml         rename, alias, re-permission or turn off any command
 #   globalmessages.yml   messages every feature shares (prefix, errors, teleports)
-#   features/<name>/     one folder per feature: its config.yml, and a gui/ folder
-#                        with one file per menu
-#   data/                server data: spawns, afk area, the SQLite database
+#   features/            the settings of every feature:
+#     social/            discord, store, apply, live, rules, guide, media, ranks, socials,
+#                        links (your own /website, /tiktok...), broadcast
+#     teleport/          spawn, afk, tpa
+#     toggles/           nightvision, playerhide, mobtoggle, phantoms, join/death messages
+#     pvp/               combat, duel, ffa
+#     staff/             vanish, screenshare, stafftp, staffessentials, staffchat, hide,
+#                        ranktrial, ipprotection
+#     server/            announce, antilag, joincounter, ggwave, keyall, tebex, events,
+#                        leaderboard, stats, scoreboard, nametags, commandwhitelist, commandroutes
+#     utility/           dropfix, workstations, sign, ping, msg, rename
+#     <feature>/         bigger features with menus keep a folder of their own
+#                        (config.yml, and gui/ with one file per menu)
+#   data/                server data: spawns, warps, afk area, the SQLite database
 #
 #   Text works everywhere with &-codes, &#RRGGBB, #RRGGBB and MiniMessage
 #   (<gradient:#ff0000:#0000ff>, <click:run_command:/spawn>, <hover:show_text:'hi'>),
@@ -17,6 +28,153 @@
 #   /vexcore reload re-reads every file and restarts every feature.
 #   Files that are missing are put back with their defaults on start and reload.
 # ─────────────────────────────────────────────────────────────────────────────
+
+# ──────────────────────────────────────────────────────────────────────────
+#  FEATURES  -  true = on, false = off. Off means completely gone: no commands, menus,
+#  listeners, timers or placeholders. Takes effect on /vexcore reload.
+#  A single command can also be turned off with enabled: false in commands.yml.
+# ──────────────────────────────────────────────────────────────────────────
+features:
+
+  # ── Social (features/social/) ─────────────────────────────────────────
+  discord: true
+  store: true
+  apply: true
+  # /live <link>: announce your stream.
+  live: true
+  rules: true
+  guide: true
+  media: true
+  ranks: true
+  # /socials: one menu with all of the above.
+  socials: true
+  # Your own link commands (/website, /tiktok, /youtube...): switch each on in links.yml.
+  links: true
+  # Sends the discord/store/apply messages to everyone every few minutes.
+  broadcast: true
+
+  # ── Teleports (features/teleport/, warps and homes have their own folder) ──
+  spawn: true
+  afk: true
+  tpa: true
+  home: true
+  # Server warps (/warp, /warps) set by staff.
+  warps: true
+  # Player warps (/pwarp): players buy public warps; ranks get more slots.
+  pwarps: true
+  rtp: true
+
+  # ── Player toggles (features/toggles/, the /settings menu) ──────────────
+  settings: true
+  nightvision: true
+  playerhide: true
+  mobtoggle: true
+  phantoms: true
+  joinmessages: true
+  deathmessages: true
+
+  # ── Economy ─────────────────────────────────────────────────────────────
+  # VexCore's own money, registered with Vault. Off: everything uses another Vault economy.
+  economy: true
+  # Alt accounts can't multiply invest, keyall, GG, giveaway, kill/playtime/daily rewards.
+  ipprotection: true
+  coinflip: true
+  invest: true
+  daily: true
+  keyall: true
+  playtime: true
+  killrewards: true
+  prestige: true
+  # Potion boosts; one at a time.
+  boosts: true
+  sell: true
+  kits: true
+
+  # ── Chat ────────────────────────────────────────────────────────────────
+  chatfilter: true
+  chat: true
+  msg: true
+  staffchat: true
+  commandwhitelist: true
+  commandroutes: true
+  rename: true
+  ranktrial: true
+  teams: true
+
+  # ── Staff (features/staff/) ─────────────────────────────────────────────
+  vanish: true
+  screenshare: true
+  stafftp: true
+  punishments: true
+  staffmode: true
+  staffessentials: true
+  reports: true
+  invrollback: true
+  # Needs the PacketEvents plugin.
+  hide: true
+
+  # ── PvP (features/pvp/) ─────────────────────────────────────────────────
+  combat: true
+  duel: true
+  ffa: true
+
+  # ── Server (features/server/) ───────────────────────────────────────────
+  # Name tags and scoreboard: Paper only, Folia has no scoreboards.
+  nametags: true
+  scoreboard: true
+  stats: true
+  leaderboard: true
+  joincounter: true
+  announce: true
+  antilag: true
+  ggwave: true
+  # Store goals, goal boss bar and purchase GG waves (needs your Tebex secret key).
+  tebex: true
+  # Vote rewards and vote party (needs NuVotifier).
+  votes: true
+  # Chat games, competitions and KOTH.
+  events: true
+  giveaway: true
+  quests: true
+
+  # ── Utilities (features/utility/) ───────────────────────────────────────
+  dropfix: true
+  workstations: true
+  sign: true
+  ping: true
+  trash: true
+
+# ──────────────────────────────────────────────────────────────────────────
+#  SOUNDS
+# ──────────────────────────────────────────────────────────────────────────
+sounds:
+  # false: VexCore plays no sounds at all (menus, messages, countdowns).
+  enabled: true
+  # Sounds that repeat every second or so: the pling on every second of a teleport countdown,
+  # the combat timer, duel countdowns, the coinflip spin. false (default): only the first one
+  # plays, then it is quiet until something new happens. true: every tick plays.
+  ticking: false
+  # The small click on messages that have no sound of their own (default-sound in
+  # globalmessages.yml). Action-bar status lines never click.
+  click-on-messages: false
+
+# ──────────────────────────────────────────────────────────────────────────
+#  OPERATOR BYPASS  -  what operators (/op) skip without needing the bypass permissions.
+#  Most bypasses (cooldowns, countdowns, the command whitelist, the chat lock) are already given
+#  to operators through plugin.yml; these are the ones that aren't.
+# ──────────────────────────────────────────────────────────────────────────
+op-bypass:
+  enabled: true
+  # Every chat filter word rule (swears, links, advertising...) and filter mutes.
+  chat-filter: true
+  # Slowmode, the join delay, spam, repeat, caps and symbol checks.
+  chat-cooldowns: true
+  # Never combat tagged. false keeps PvP fair for operators who fight.
+  combat-tag: false
+
+# ──────────────────────────────────────────────────────────────────────────
+#  GENERAL
+# ──────────────────────────────────────────────────────────────────────────
 
 # true: players don't see commands they have no permission for (not in /help, not in tab, and
 # using one says "Unknown command"). false: they see them and get the no-permission message.
@@ -36,108 +194,3 @@ autosave-minutes: 5
 #   SIMPLE  plain ASCII, for consoles that show ? or boxes instead of symbols
 #   OFF     only the ready line (and any problems)
 startup-banner: FANCY
-
-# false turns a feature off completely: its commands disappear from the server, its menus
-# close, and its listeners, timers and placeholders stop. Takes effect on /vexcore reload.
-features:
-
-  # Economy (VexCore's own money, registered with Vault) and everything built on it.
-  # Turning economy off makes the others use any other Vault economy instead.
-  economy: true
-  # Alt accounts can't multiply invest, keyall, GG, giveaway, kill/playtime/daily rewards.
-  ipprotection: true
-  coinflip: true
-  invest: true
-  daily: true
-  keyall: true
-  playtime: true
-  killrewards: true
-  prestige: true
-  boosts: true
-
-  # Selling items and kits
-  sell: true
-  kits: true
-
-  # Chat
-  chatfilter: true
-  chat: true
-  msg: true
-  staffchat: true
-  commandwhitelist: true
-  commandroutes: true
-  rename: true
-  ranktrial: true
-  teams: true
-
-  # Staff
-  vanish: true
-  screenshare: true
-  stafftp: true
-  punishments: true
-  staffmode: true
-  staffessentials: true
-  reports: true
-  invrollback: true
-  # Needs the PacketEvents plugin.
-  hide: true
-
-  # Display (Paper only, Folia has no scoreboards)
-  nametags: true
-  scoreboard: true
-
-  # Events and progress
-  stats: true
-  leaderboard: true
-  joincounter: true
-  announce: true
-  antilag: true
-  ggwave: true
-  # Store goals, goal boss bar and purchase GG waves (needs your Tebex secret key).
-  tebex: true
-  # Vote rewards and vote party (needs NuVotifier).
-  votes: true
-  # Chat games, competitions and KOTH.
-  events: true
-  giveaway: true
-  ffa: true
-  duel: true
-  quests: true
-  rtp: true
-
-  # Teleports
-  spawn: true
-  # Server warps (/warp, /warps) set by staff.
-  warps: true
-  # Player warps (/pwarp): players buy public warps; ranks get more slots.
-  pwarps: true
-  afk: true
-  home: true
-  tpa: true
-  combat: true
-
-  # Player toggles
-  settings: true
-  nightvision: true
-  playerhide: true
-  mobtoggle: true
-  phantoms: true
-  joinmessages: true
-  deathmessages: true
-
-  # Links and menus
-  discord: true
-  store: true
-  apply: true
-  live: true
-  rules: true
-  guide: true
-  media: true
-  ranks: true
-
-  # Utilities
-  dropfix: true
-  workstations: true
-  sign: true
-  ping: true
-  trash: true

@@ -1,0 +1,28 @@
+# /apply: every line of the message opens the link when clicked. Turn it off with apply: false
+# in config.yml; /socials has a button for it.
+# %url% can be used in the message. {prefix} works too.
+
+message:
+  - ""
+  - "&#D66BFC✎ &lSTAFF APPLICATIONS&r &#D66BFC✎"
+  - "&7[ɪɴғᴏʀᴍᴀᴛɪᴏɴ]"
+  - ""
+  - "&#D66BFC¦ &fWant to join the &#D66BFCstaff team&f?"
+  - "&#D66BFC¦ &fApply on our &#D66BFCDiscord &fserver!"
+  - ""
+  - "&#D66BFC▷ &fLink: &#D66BFC&n%url%"
+
+url: "https://discord.gg/yourserver"
+
+# Shown above the hotbar, like SetupCore's "the link was sent in the chat". "" = nothing.
+actionbar: "&7The link was sent in the chat."
+
+# Shown when hovering over the message. "" = nothing.
+hover: "&7Click to open &#D66BFC%url%"
+
+# Played when the message is shown.
+sound:
+  enabled: true
+  sound: "block.note_block.pling"
+  volume: 0.8
+  pitch: 1.4

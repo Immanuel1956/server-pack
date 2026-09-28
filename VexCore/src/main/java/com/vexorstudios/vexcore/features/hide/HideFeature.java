@@ -55,7 +55,7 @@ public final class HideFeature extends Feature implements Listener {
         // VexCore starts before most plugins: PacketEvents may simply not be running yet. Only a
         // server without it at all is told now; otherwise /hide hooks in on first use.
         if (Bukkit.getPluginManager().getPlugin("packetevents") == null) {
-            problems().add("features/hide: /hide is disabled due to a missing dependency (install PacketEvents)");
+            problems().add(com.vexorstudios.vexcore.core.Files.configPath(id()) + ": /hide is disabled due to a missing dependency (install PacketEvents)");
             plugin.getLogger().warning("/hide is disabled due to a missing dependency: PacketEvents is not installed.");
             return;
         }

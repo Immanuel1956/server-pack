@@ -22,7 +22,8 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * A feature: one folder under features/, one toggle in config.yml.
+ * A feature: one folder under features/ (or one file in a shared folder, see {@link Files}),
+ * one toggle in config.yml.
  *
  * <p>Everything a feature registers through these helpers (listeners, timers, commands,
  * toggles, placeholders, player data, teleport restrictions) is removed again when it is
@@ -46,9 +47,9 @@ public abstract class Feature {
     final void start(VexCore plugin, String id) {
         this.plugin = plugin;
         this.id = id;
-        this.config = plugin.files().settings("features/" + id + "/config.yml");
+        this.config = plugin.files().settings(Files.configPath(id));
         for (String name : plugin.files().menus(id)) {
-            String path = "features/" + id + "/gui/" + name + ".yml";
+            String path = Files.menuPath(id, name);
             MenuFile file = new MenuFile(path, plugin.files().menu(path));
             problems.addAll(file.problems());
             menus.put(name, file);
@@ -161,6 +162,12 @@ public abstract class Feature {
         if (plugin.commands().register(this, commandId, handler, completer)) commandIds.add(commandId);
     }
 
+    /** A command not in commands.yml, with its name, aliases and permission given here. */
+    protected final void command(String commandId, String name, List<String> aliases, String permission, String description,
+                                 Commands.Handler handler) {
+        if (plugin.commands().register(this, commandId, name, aliases, permission, description, handler, null)) commandIds.add(commandId);
+    }
+
     protected final void store(PlayerData.Store store) {
         plugin.data().register(this, store);
     }
@@ -257,7 +264,7 @@ public abstract class Feature {
     public final Menu open(Player player, String name, Consumer<Menu> builder) {
         MenuFile file = menus.get(name);
         if (file == null) {
-            msg(player, "menu-missing", "menu", "features/" + id + "/gui/" + name + ".yml");
+            msg(player, "menu-missing", "menu", Files.menuPath(id, name));
             return null;
         }
         Menu menu = new Menu(this, file, player, builder);

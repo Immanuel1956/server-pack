@@ -30,6 +30,25 @@ public record SoundSpec(boolean enabled, String name, float volume, float pitch)
 
     private static final Map<String, Optional<Sound>> CACHE = new ConcurrentHashMap<>();
 
+    /** {@code sounds.enabled} in config.yml: false silences every VexCore sound. */
+    private static volatile boolean master = true;
+    /** {@code sounds.ticking} in config.yml: false silences sounds that repeat every second or so. */
+    private static volatile boolean ticking = false;
+
+    /** Reads the {@code sounds:} switches of config.yml (on start and reload). */
+    public static void configure(org.bukkit.configuration.file.YamlConfiguration config) {
+        master = config.getBoolean("sounds.enabled", true);
+        ticking = config.getBoolean("sounds.ticking", false);
+    }
+
+    /**
+     * Whether repeating sounds play: every second of a teleport or duel countdown, the combat
+     * timer, the coinflip spin. Off by default; the first sound of a countdown still plays.
+     */
+    public static boolean ticking() {
+        return master && ticking;
+    }
+
     /** Reads a section, a one-line string or a map. Null when there is nothing usable. */
     public static SoundSpec of(Object raw) {
         if (raw instanceof ConfigurationSection s) {
@@ -63,7 +82,7 @@ public record SoundSpec(boolean enabled, String name, float volume, float pitch)
     }
 
     public void play(Player player) {
-        if (!enabled || player == null) return;
+        if (!enabled || !master || player == null) return;
         try {
             Sound sound = resolve(name);
             if (sound != null) {

@@ -204,6 +204,11 @@ public final class VexCore extends JavaPlugin implements Listener {
         features.add("duel", com.vexorstudios.vexcore.features.duel.DuelFeature::new);
         features.add("quests", com.vexorstudios.vexcore.features.quests.QuestsFeature::new);
         features.add("rtp", com.vexorstudios.vexcore.features.rtp.RtpFeature::new);
+        // Social hub, extra link commands and link broadcasts (features/social/). Last: links
+        // refuse names the other features' commands already use.
+        features.add("socials", MenuFeature::new);
+        features.add("links", com.vexorstudios.vexcore.features.links.LinksFeature::new);
+        features.add("broadcast", com.vexorstudios.vexcore.features.links.BroadcastFeature::new);
     }
 
     /** Reads the files, opens the database and starts every enabled feature. Returns problems. */
