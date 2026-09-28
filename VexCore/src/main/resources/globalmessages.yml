@@ -59,6 +59,8 @@ core-help:
   - ""
   - "&#A66CFF/%command% reload &8· &7Reload every file and feature"
   - "&#A66CFF/%command% features &8· &7Which features are on"
+  - "&#A66CFF/%command% permissions [search] [page] &8· &7Every permission"
+  - "&#A66CFF/%command% placeholders [search] [page] &8· &7Every placeholder"
   - "&#A66CFF/%command% version &8· &7Version and database"
   - "&#A66CFF/%command% import setupcore &8· &7Copy data from SetupCore"
   - ""
@@ -74,6 +76,27 @@ features-header: "{prefix}&#A66CFF%active%&f of &#A66CFF%total% &ffeatures are o
 features-on: "&8 ✔ &f%feature% &8· &7%commands% commands, %menus% menus"
 features-off: "&8 ✘ &7%feature% &8· &7off in config.yml"
 features-failed: "&8 ✘ &#FF3B3B%feature% &8· &7failed: %error%"
+
+# ── /vexcore permissions and /vexcore placeholders ──────────────────────────
+# %node% / %placeholder% copy themselves when clicked. The full lists are also written to
+# permissions.txt and placeholders.txt in the plugin folder on every start and reload.
+list-permissions-header: "{prefix}&fPermissions &7(%count%, search: %search%) &8· &fpage &#A66CFF%page%&f/&#A66CFF%pages%"
+list-placeholders-header: "{prefix}&fPlaceholders &7(%count%, search: %search%) &8· &fpage &#A66CFF%page%&f/&#A66CFF%pages%"
+list-permission: "&8▪ &#A66CFF%node% &8· %default% &8· &7%description%"
+list-placeholder: "&8▪ &#A66CFF%placeholder% %off%&8· &7%description%"
+list-footer: "%previous% &8| &fpage &#A66CFF%page%&f/&#A66CFF%pages% &8| %next% &8· &7all in plugins/VexCore/%file%"
+list-previous: "&#A66CFF&l« PREVIOUS"
+list-previous-off: "&8« PREVIOUS"
+list-next: "&#A66CFF&lNEXT »"
+list-next-off: "&8NEXT »"
+list-copy-hover: "&7Click to copy"
+list-off: "&c(off) "
+list-empty: "{prefix}&fNothing matches &#A66CFF%search%&f."
+list-access:
+  everyone: "&aeveryone"
+  op: "&eop"
+  nobody: "&cnobody"
+  not-op: "&6not op"
 
 import-confirm:
   - "{prefix}&fThis copies homes, spawns, the afk area, player toggles, balances,"

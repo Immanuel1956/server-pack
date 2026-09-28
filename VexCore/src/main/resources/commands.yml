@@ -34,8 +34,8 @@ commands:
     name: vexcore
     aliases: [vcore, vc]
     permission: "vexcore.admin"
-    description: "VexCore admin: reload, import, features, version"
-    usage: "/%command% <reload|features|version|import setupcore>"
+    description: "VexCore admin: reload, import, features, permissions, placeholders, version"
+    usage: "/%command% <reload|features|permissions|placeholders|version|import setupcore>"
 
   # ── Economy ─────────────────────────────────────────────────────
   balance:

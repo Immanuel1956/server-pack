@@ -21,6 +21,7 @@ lines:
   - "&#A66CFF&lSERVER"
   - "&8▶ &fOnline: &#A66CFF%online%"
   - "&8▶ &fPing: &#A66CFF%ping%ms"
+  - "&8▶ &fKey-all: &#FFD900%vexcore_keyall_countdown%"
   - "&7  "
   - "&#A66CFFyourserver.net"
 messages:

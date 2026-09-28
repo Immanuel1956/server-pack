@@ -1,5 +1,22 @@
 # VexCore changelog
 
+## Round 20: keyall placeholders, permission and placeholder lists
+
+### Keyall placeholders
+- `%vexcore_keyall%` (42m 10s) now has forms for scoreboards and holograms: `_countdown` (42:10, 1:02:03 from an hour up), `_seconds`, `_minutes` (rounded up), `_at` (the clock time of the next one, 18:00) and `_interval` (1h).
+- `placeholder.time-format` and `placeholder.time-zone` in `features/server/keyall.yml` set how `_at` is written.
+- The bundled scoreboard shows `Key-all: %vexcore_keyall_countdown%`.
+
+### Every permission and placeholder, listed
+- `/vexcore permissions [search] [page]`: every permission from plugin.yml, the commands' own (renamed ones and the links.yml commands too) and the ones made from settings (`vexcore.home.<n>`, `vexcore.pwarps.<n>`...), with who has it by default and what it does. Click one to copy it; pages have clickable previous/next.
+- `/vexcore placeholders [search] [page]`: every placeholder with what it shows, grouped by feature; features that are off are marked. A placeholder a feature registers without a description still shows.
+- `permissions.txt` and `placeholders.txt` in the plugin folder, written again on every start and `/vexcore reload`.
+- `PERMISSIONS-AND-PLACEHOLDERS.md` (in the source): the full tables of permissions, commands and placeholders, built by `tools/gen_reference.py`.
+- `vexcore.chatfilter.bypass.personalinfo` (the PERSONAL_INFO rule's bypass) was used but missing from plugin.yml, so permission plugins didn't offer it: added.
+- New tests keep it complete: every placeholder the code registers must be described, and every permission the code or the bundled files use must be in plugin.yml.
+
+Validation: `mvn clean package` against Paper API 1.21.10: compiles, 36 tests pass, ProGuard completes. Not run on a live server.
+
 ## Round 19: quiet sounds, one boost at a time, chat hover, name tags, social folder, op bypass
 
 ### No more ticking

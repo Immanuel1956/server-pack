@@ -1,5 +1,9 @@
 # VexCore update: install and configuration
 
+## Round 20 (keyall placeholders, permission and placeholder lists)
+
+Nothing to change: install the new jar. `/vexcore permissions` and `/vexcore placeholders` work at once (the texts come from the jar's `globalmessages.yml` until you copy the `list-*` keys into yours to change them), and `permissions.txt` / `placeholders.txt` appear in the plugin folder. For `%vexcore_keyall_at%` in another time zone, copy `placeholder:` from the bundled `features/server/keyall.yml`. Your existing `/vexcore` help text doesn't list the two new commands; copy `core-help` from the bundled `globalmessages.yml` if you want it to.
+
 ## Round 19 (sounds, boosts, chat hover, name tags, social folder, op bypass)
 
 Build with JDK 21: `mvn clean package`, then install `target/VexCore-1.0.0.jar` (keep `target/proguard-mapping.txt`). Back up the `plugins/VexCore` folder first: this update moves files.

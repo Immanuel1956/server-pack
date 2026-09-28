@@ -26,6 +26,7 @@ Build with a JDK 21 (not only a JRE) and Maven.
 | `features/<group>/<name>.yml` | Small features share a folder, one file each: `social/` (discord, store, apply, live, rules, guide, media, ranks, socials, links, broadcast), `teleport/` (spawn, afk, tpa), `toggles/` (nightvision, playerhide, mobtoggle, phantoms, joinmessages, deathmessages), `pvp/` (combat, duel, ffa), `staff/` (vanish, screenshare, stafftp, staffessentials, staffchat, hide, ranktrial, ipprotection), `server/` (announce, antilag, joincounter, ggwave, keyall, tebex, events, leaderboard, stats, scoreboard, nametags, commandwhitelist, commandroutes), `utility/` (dropfix, workstations, sign, ping, msg, rename). Their menus are `features/<group>/gui/<name>.yml`. |
 | `features/<name>/config.yml` | Bigger features with menus keep a folder of their own, with every setting, message and sound for that feature. |
 | `features/<name>/gui/*.yml` | One file per menu. |
+| `permissions.txt`, `placeholders.txt` | Every permission (with who has it by default) and every placeholder, written again on every start and reload. |
 | `data/` | Server-local data: `spawns.yml`, `warps.yml` (server warps), `afk.yml`, `keyall.yml` (when the next key-all is due), `kits.yml` (the items of each kit), and `vexcore.db` when using SQLite. |
 
 - Missing files are restored from the jar on start and on reload. Existing files are never overwritten.
@@ -40,6 +41,8 @@ Build with a JDK 21 (not only a JRE) and Maven.
 | `/vexcore reload` | Saves every online player, then stops all features, closes the database and rereads every file. It then reopens the database, starts the enabled features, re-registers commands and reloads the players. Afterwards it prints a report: one line per feature (its commands and menus), every problem it found (YAML errors, unknown materials or sounds, slots outside the menu), and a summary. |
 | `/vexcore features` | Lists every feature as on, off or failed. |
 | `/vexcore version` | Shows the version and the database type. |
+| `/vexcore permissions [search] [page]` | Every permission, who has it by default and what it does. Click one to copy it. |
+| `/vexcore placeholders [search] [page]` | Every placeholder and what it shows (features that are off are marked). Click one to copy it. |
 | `/warp [name]`, `/warps` | Server warps (menu, or warp straight there). Staff: `/setwarp <name> [description]` (icon: the item in your hand), `/delwarp <name>`. |
 | `/pwarp` | Player warps: browse, `/pwarp <name>`, `/pwarp set|delete|icon|desc <name>`, `/pwarp list [player]`, `/pwarp cost`. The first costs 100k, each more costs more; 3 slots, more with `vexcore.pwarps.<n>`. |
 | `/giveaway cancel [n]` | Cancel your own giveaway (the prize comes back to Your Prizes). Staff: `/giveaway forcecancel <player> [reason]`. |
@@ -174,7 +177,7 @@ rest use whatever other Vault economy is installed.
 
 ## Permissions and placeholders
 
-Every permission is `vexcore.*`; `plugin.yml` lists them all.
+Every permission is `vexcore.*`; `plugin.yml` lists them all. The full tables (permissions, commands, placeholders) are in `PERMISSIONS-AND-PLACEHOLDERS.md`, built by `tools/gen_reference.py`; in game use `/vexcore permissions` and `/vexcore placeholders`.
 
 Placeholders:
 
@@ -190,7 +193,7 @@ Placeholders:
 | coinflip | `%vexcore_coinflip_games%`, `%vexcore_coinflip_wins%`, `%vexcore_coinflip_losses%` |
 | invest | `%vexcore_invest_invested%`, `%vexcore_invest_pending%`, `%vexcore_invest_income%`, `%vexcore_invest_limit%` |
 | daily | `%vexcore_daily%` (time left, or `placeholder-ready`) |
-| keyall | `%vexcore_keyall%` |
+| keyall | `%vexcore_keyall%` (42m 10s), `%vexcore_keyall_countdown%` (42:10), `%vexcore_keyall_seconds%`, `%vexcore_keyall_minutes%`, `%vexcore_keyall_at%` (18:00), `%vexcore_keyall_interval%` |
 | playtime | `%vexcore_playtime%` |
 | killrewards | `%vexcore_kills%` |
 | prestige | `%vexcore_prestige%`, `%vexcore_prestige_max%` |
@@ -219,6 +222,7 @@ Placeholders:
 | 8 ✔ | LifestealCore nametags (text displays fixed to the head with PacketEvents), LifestealCore quest board, /hide, speed pass |
 | 9 ✔ | ProGuard, code check, speed and bug-fix pass |
 | 18 ✔ | Server warps, player warps, all-time alt links, giveaway cancel and login win titles, startup banner, speed pass |
+| 20 ✔ | Keyall placeholders, `/vexcore permissions` and `/vexcore placeholders`, permissions.txt and placeholders.txt, PERMISSIONS-AND-PLACEHOLDERS.md |
 | 19 ✔ | Quiet sounds (no ticking), one boost at a time, chat hover for staff, stacked name tags that can't get stuck, operator bypass, social folder with /socials, link commands and broadcasts, grouped feature folders |
 
 Dropped: MOTD, portals, spawners, server tools, arena reset, orders, the shop, player vaults and crates.

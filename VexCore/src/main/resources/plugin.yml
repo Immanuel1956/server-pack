@@ -20,7 +20,7 @@ permissions:
     default: op
 
   vexcore.admin:
-    description: /vexcore (reload, import, features)
+    description: /vexcore (reload, import, features, permissions, placeholders)
     default: op
 
   # ── Economy and rewards ─────────────────────────────────────────────
@@ -327,6 +327,9 @@ permissions:
     default: false
   vexcore.chatfilter.bypass.links:
     description: "Post links"
+    default: false
+  vexcore.chatfilter.bypass.personalinfo:
+    description: "Post e-mail addresses and phone numbers (the PERSONAL_INFO rule)"
     default: false
   vexcore.chattoggle:
     description: "/chattoggle"

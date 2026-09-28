@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-/** {@code /vexcore} (renamable in commands.yml): help, reload, features, version, import. */
+/** {@code /vexcore} (renamable in commands.yml): help, reload, features, permissions, placeholders, version, import. */
 public final class CoreCommand {
 
     private final VexCore plugin;
@@ -29,6 +29,8 @@ public final class CoreCommand {
         switch (sub) {
             case "reload", "rl" -> Scheduler.global(() -> plugin.reload(sender));
             case "features", "feature", "list" -> features(sender);
+            case "permissions", "permission", "perms" -> Reference.show(plugin, sender, label, true, rest(args));
+            case "placeholders", "placeholder", "papi" -> Reference.show(plugin, sender, label, false, rest(args));
             case "version", "ver" -> send(sender, "core-version",
                     "version", plugin.getPluginMeta().getVersion(), "database", plugin.database().type().name());
             case "import" -> {
@@ -43,6 +45,10 @@ public final class CoreCommand {
             }
             default -> send(sender, "core-help", "command", label);
         }
+    }
+
+    private static String[] rest(String[] args) {
+        return java.util.Arrays.copyOfRange(args, 1, args.length);
     }
 
     private void features(CommandSender sender) {
@@ -61,7 +67,7 @@ public final class CoreCommand {
     }
 
     private List<String> complete(CommandSender sender, String[] args) {
-        if (args.length == 1) return List.of("help", "reload", "features", "version", "import");
+        if (args.length == 1) return List.of("help", "reload", "features", "permissions", "placeholders", "version", "import");
         if (args.length == 2 && args[0].equalsIgnoreCase("import")) return List.of("setupcore");
         if (args.length == 3 && args[0].equalsIgnoreCase("import")) return List.of("confirm");
         return List.of();

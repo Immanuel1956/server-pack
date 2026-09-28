@@ -36,6 +36,15 @@ public final class Placeholders {
         lookups.clear();
     }
 
+    /** Every registered key and the feature it belongs to ("core" for VexCore's own). */
+    public Map<String, String> keys() {
+        Map<String, String> out = new java.util.TreeMap<>();
+        for (Map.Entry<String, Entry> e : entries.entrySet()) {
+            out.put(e.getKey(), e.getValue().owner == null ? "core" : e.getValue().owner.id());
+        }
+        return out;
+    }
+
     public void clear(Feature owner) {
         entries.values().removeIf(e -> e.owner == owner);
         lookups.clear();

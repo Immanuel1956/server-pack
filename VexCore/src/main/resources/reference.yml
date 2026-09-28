@@ -1,0 +1,131 @@
+# Read by /vexcore placeholders and /vexcore permissions, and for permissions.txt and
+# placeholders.txt in the plugin folder. Stays inside the jar: nothing to edit.
+#
+# Every permission in plugin.yml is listed from plugin.yml itself; below are only the ones VexCore
+# builds from your settings. [x] stands for a part you fill in.
+
+permission-patterns:
+  - node: "vexcore.home.[number]"
+    default: "nobody"
+    feature: home
+    description: "Up to that many homes (vexcore.home.5); the highest one counts"
+  - node: "vexcore.pwarps.[number]"
+    default: "nobody"
+    feature: pwarps
+    description: "Up to that many player warps (vexcore.pwarps.5)"
+  - node: "vexcore.warp.[name]"
+    default: "nobody"
+    feature: warps
+    description: "Use that server warp, when per-warp-permission is on"
+  - node: "vexcore.kit.[kit]"
+    default: "nobody"
+    feature: kits
+    description: "Claim that kit (a kit without its own permission: line)"
+  - node: "[any permission you write in a config]"
+    default: "nobody"
+    feature: ""
+    description: "permission: of a boost, kit, menu item or link, permission-homes, sell multipliers, command whitelist groups"
+
+placeholders:
+  core:
+    - placeholder: "%vexcore_toggle_[id]%"
+      description: "true/false for a /settings toggle: pay, msg, tpa, tpahere, tpauto, chat, mentions, scoreboard, nightvision, playerhide, mobtoggle, phantoms, joinmessages, deathmessages, live, coinflip"
+  economy:
+    - {placeholder: "%vexcore_balance%", description: "Balance, plain number (1500.25)"}
+    - {placeholder: "%vexcore_balance_formatted%", description: "Balance with the currency ($1,500.25)"}
+    - {placeholder: "%vexcore_balance_short%", description: "Balance short ($1.5k)"}
+    - {placeholder: "%vexcore_baltop_name_[place]%", description: "Name at that place of /baltop (baltop_name_1)"}
+    - {placeholder: "%vexcore_baltop_balance_[place]%", description: "Balance at that place of /baltop"}
+  keyall:
+    - {placeholder: "%vexcore_keyall%", description: "Time to the next key-all (42m 10s)"}
+    - {placeholder: "%vexcore_keyall_countdown%", description: "Time to the next key-all as a clock (42:10, 1:02:03)"}
+    - {placeholder: "%vexcore_keyall_seconds%", description: "Seconds to the next key-all"}
+    - {placeholder: "%vexcore_keyall_minutes%", description: "Minutes to the next key-all, rounded up"}
+    - {placeholder: "%vexcore_keyall_at%", description: "Clock time of the next key-all (18:00, placeholder.time-format)"}
+    - {placeholder: "%vexcore_keyall_interval%", description: "How often key-alls happen (1h)"}
+  home:
+    - {placeholder: "%vexcore_homes%", description: "Homes the player has"}
+    - {placeholder: "%vexcore_homes_max%", description: "Homes the player may have"}
+  warps:
+    - {placeholder: "%vexcore_warps%", description: "How many server warps there are"}
+  pwarps:
+    - {placeholder: "%vexcore_pwarps%", description: "Player warps the player owns"}
+    - {placeholder: "%vexcore_pwarps_max%", description: "Player warps the player may own"}
+    - {placeholder: "%vexcore_pwarps_next_cost%", description: "What the next player warp costs"}
+  combat:
+    - {placeholder: "%vexcore_combat%", description: "In combat / Safe (placeholder: in the combat file)"}
+    - {placeholder: "%vexcore_combat_seconds%", description: "Seconds of combat tag left"}
+  ping:
+    - {placeholder: "%vexcore_ping%", description: "The player's ping in ms"}
+  coinflip:
+    - {placeholder: "%vexcore_coinflip_games%", description: "Open coinflip games"}
+    - {placeholder: "%vexcore_coinflip_wins%", description: "Coinflips the player won"}
+    - {placeholder: "%vexcore_coinflip_losses%", description: "Coinflips the player lost"}
+  invest:
+    - {placeholder: "%vexcore_invest_invested%", description: "Money invested"}
+    - {placeholder: "%vexcore_invest_pending%", description: "Income waiting to be collected"}
+    - {placeholder: "%vexcore_invest_income%", description: "Income per second"}
+    - {placeholder: "%vexcore_invest_hourly%", description: "Income per hour online"}
+    - {placeholder: "%vexcore_invest_limit%", description: "How much the player may invest"}
+    - {placeholder: "%vexcore_invest_earned%", description: "Everything the investment has earned"}
+  daily:
+    - {placeholder: "%vexcore_daily%", description: "Time to the next /daily, or Ready"}
+    - {placeholder: "%vexcore_daily_streak%", description: "Days in a row the player claimed /daily"}
+  playtime:
+    - {placeholder: "%vexcore_playtime%", description: "The player's playtime"}
+  killrewards:
+    - {placeholder: "%vexcore_kills%", description: "Player kills (what kill rewards count)"}
+  prestige:
+    - {placeholder: "%vexcore_prestige%", description: "The player's prestige level"}
+    - {placeholder: "%vexcore_prestige_max%", description: "The highest prestige level"}
+  boosts:
+    - {placeholder: "%vexcore_boosts_cooldown%", description: "Boost cooldown left, or Ready"}
+    - {placeholder: "%vexcore_boosts_active%", description: "The running boost's name, or None"}
+    - {placeholder: "%vexcore_boosts_active_time%", description: "Time left on the running boost"}
+  sell:
+    - {placeholder: "%vexcore_sell_multiplier%", description: "The player's sell multiplier (1.5)"}
+  kits:
+    - {placeholder: "%vexcore_kit_[kit]%", description: "Ready, time left, Claimed or Locked (kit_starter)"}
+  teams:
+    - {placeholder: "%vexcore_team%", description: "The player's team name"}
+    - {placeholder: "%vexcore_team_tag%", description: "The team tag for chat and name tags"}
+    - {placeholder: "%vexcore_team_role%", description: "The player's role in the team"}
+    - {placeholder: "%vexcore_team_members%", description: "Members of the team"}
+    - {placeholder: "%vexcore_team_online%", description: "Members of the team online"}
+  vanish:
+    - {placeholder: "%vexcore_vanished%", description: "true/false: the player is vanished"}
+    - {placeholder: "%vexcore_online%", description: "Players online, without vanished staff"}
+  staffmode:
+    - {placeholder: "%vexcore_staffmode%", description: "true/false: the player is in staff mode"}
+  punishments:
+    - {placeholder: "%vexcore_punish_muted%", description: "true/false: the player is muted"}
+  reports:
+    - {placeholder: "%vexcore_reports_pending%", description: "Reports waiting for staff"}
+  stats:
+    - {placeholder: "%vexcore_stats_[stat]%", description: "kills, deaths, streak, best_streak, mob_kills, blocks_broken, blocks_placed, duel_wins, duel_losses, ffa_kills"}
+    - {placeholder: "%vexcore_stats_kdr%", description: "Kills per death"}
+  leaderboard:
+    - {placeholder: "%vexcore_top_[category]_[place]_name%", description: "Name at that place (top_kills_1_name); categories are in the leaderboard file"}
+    - {placeholder: "%vexcore_top_[category]_[place]_value%", description: "Value at that place (top_kills_1_value)"}
+  joincounter:
+    - {placeholder: "%vexcore_joincount%", description: "How many new players have joined (first joins)"}
+  antilag:
+    - {placeholder: "%vexcore_antilag%", description: "Time to the next ground item clear"}
+  quests:
+    - {placeholder: "%vexcore_quests_done%", description: "Quests the player finished"}
+  tebex:
+    - {placeholder: "%vexcore_goal_name%", description: "The store goal's name"}
+    - {placeholder: "%vexcore_goal_current%", description: "Money towards the goal, plain number"}
+    - {placeholder: "%vexcore_goal_current_formatted%", description: "Money towards the goal ($120.00)"}
+    - {placeholder: "%vexcore_goal_target%", description: "The goal's target, plain number"}
+    - {placeholder: "%vexcore_goal_target_formatted%", description: "The goal's target ($500.00)"}
+    - {placeholder: "%vexcore_goal_percent%", description: "How far the goal is, in percent"}
+  votes:
+    - {placeholder: "%vexcore_voteparty_current%", description: "Votes towards the next vote party"}
+    - {placeholder: "%vexcore_voteparty_needed%", description: "Votes a vote party needs"}
+  events:
+    - {placeholder: "%vexcore_event_name%", description: "The running event, or None"}
+    - {placeholder: "%vexcore_event_time%", description: "Time left in the running event"}
+    - {placeholder: "%vexcore_event_next%", description: "Time to the next automatic event"}
+  rtp:
+    - {placeholder: "%vexcore_end_locked%", description: "true/false: the End is locked"}

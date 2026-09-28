@@ -50,7 +50,34 @@ public final class KeyallFeature extends Feature {
         if (next <= 0) schedule();
         command("keyall", this::command, (s, a) -> a.length == 1 && s.hasPermission("vexcore.keyall.admin") ? List.of("force", "set") : List.of());
         every(20, this::tick);
-        placeholder("keyall", (p, a) -> plugin.messages().time(left()));
+        placeholder("keyall", (p, a) -> placeholder(a));
+    }
+
+    /**
+     * %vexcore_keyall% (time left, "42m 10s") and its forms: _countdown ("42:10"), _seconds,
+     * _minutes (rounded up), _at (the clock time of the next one, placeholder.time-format) and
+     * _interval. Anything else after keyall_ answers nothing, so a typo shows up as-is.
+     */
+    private String placeholder(String form) {
+        long left = left();
+        return switch (form.toLowerCase(java.util.Locale.ROOT)) {
+            case "" -> plugin.messages().time(left);
+            case "countdown", "clock" -> countdown(left);
+            case "seconds" -> String.valueOf(left);
+            case "minutes" -> String.valueOf((left + 59) / 60);
+            case "at", "time" -> com.vexorstudios.vexcore.core.Dates.format(next,
+                    config().getString("placeholder.time-format", "HH:mm"), config().getString("placeholder.time-zone", ""));
+            case "interval" -> plugin.messages().time(Math.max(0, interval()));
+            default -> null;
+        };
+    }
+
+    /** 42:10, or 1:02:03 from an hour up. */
+    public static String countdown(long seconds) {
+        long s = Math.max(0, seconds);
+        long h = s / 3600, m = s % 3600 / 60, sec = s % 60;
+        return h > 0 ? String.format(java.util.Locale.ROOT, "%d:%02d:%02d", h, m, sec)
+                : String.format(java.util.Locale.ROOT, "%d:%02d", m, sec);
     }
 
     @Override

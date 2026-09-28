@@ -235,6 +235,8 @@ public final class VexCore extends JavaPlugin implements Listener {
         features.enableAll(config);
         new CoreCommand(this).register();
         commands.registerShortcuts();
+        // permissions.txt and placeholders.txt in the plugin folder, always up to date.
+        com.vexorstudios.vexcore.core.Reference.write(this);
         data.loadAll();
         data.startAutosave(config.getInt("autosave-minutes", 5));
         problems.addAll(files.takeErrors());

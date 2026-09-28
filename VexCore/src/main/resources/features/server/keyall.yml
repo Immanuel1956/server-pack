@@ -1,7 +1,14 @@
 # Key-all: every interval everyone online gets one reward rolled from the table below.
 # Rewards are command lines, so they work with any crate plugin.
 # /keyall shows the time left. Admin: /keyall force, /keyall set <duration>
-# Placeholder: %vexcore_keyall% (time left)
+#
+# Placeholders (scoreboards, holograms, tab):
+#   %vexcore_keyall%            time left, e.g. 42m 10s
+#   %vexcore_keyall_countdown%  time left as a clock, e.g. 42:10 (1:02:03 from an hour up)
+#   %vexcore_keyall_seconds%    seconds left, a plain number
+#   %vexcore_keyall_minutes%    minutes left, rounded up
+#   %vexcore_keyall_at%         when the next one happens, e.g. 18:00 (see placeholder: below)
+#   %vexcore_keyall_interval%   the interval, e.g. 1h
 
 prefix: "&#FFD900&lKEYALL &7▷ "
 
@@ -18,6 +25,12 @@ bossbar:
   show-minutes: 5
   color: YELLOW
   title: "&#FFD900&lKEYALL &7▷ &fEveryone gets a key in &#FFD900%time%"
+
+# How %vexcore_keyall_at% writes the time (Java date pattern: HH:mm = 18:00, h:mm a = 6:00 PM).
+# time-zone "" = the server's; or e.g. "Europe/London", "America/New_York".
+placeholder:
+  time-format: "HH:mm"
+  time-zone: ""
 
 # Nothing is handed out while fewer players are online (the timer starts over).
 minimum-players: 0
