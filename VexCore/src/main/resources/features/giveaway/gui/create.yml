@@ -1,0 +1,31 @@
+# Put the prize into item-slots. START takes them (left click), right click changes the duration.
+# Closing without starting (or BACK to the prize choice) gives everything back.
+title: "&8Giveaway | Create"
+rows: 5
+item-slots: "0-35"
+items:
+  border:
+    slots: "37-39, 41-44"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+  back:
+    slot: 36
+    function: back
+    material: ARROW
+    name: "&#FFB02E&l← BACK"
+  start:
+    slot: 40
+    function: start
+    material: LIME_DYE
+    name: "&#97F900&lSTART"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#97F900¦ &fDuration: &#97F900%duration%"
+      - ""
+      - "&#97F900▷ &n&lLEFT CLICK&r&#97F900 To Start"
+      - "&7▷ Right click to change the duration"
+sounds:
+  open: {sound: "block.chest.open", volume: 0.7, pitch: 1.2}
+  click: {sound: "ui.button.click", volume: 1.0, pitch: 1.2}

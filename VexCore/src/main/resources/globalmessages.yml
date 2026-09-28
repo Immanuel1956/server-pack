@@ -1,0 +1,174 @@
+# Messages every feature shares. A feature can override any of these under messages: in its
+# own features/<name>/config.yml, and add a sound for it under sounds:.
+#
+#   {prefix}                  the feature's prefix (or the one below)
+#   "" (empty)                sends nothing
+#   a list                    sends several lines
+#   [actionbar] text          shows it above the hotbar instead of in chat
+#   [title] Title|Subtitle    shows it as a title
+#   [sound] name;volume;pitch plays a sound as part of the message
+#
+# Sounds: a message key listed under sounds: at the bottom plays that sound whenever the
+# message is sent, from any feature (unless the feature sets its own).
+
+prefix: "&#A66CFF&lVEXCORE &7▷ "
+
+# Only direct messages without their own sound. Set enabled: false to turn off.
+default-sound: {enabled: true, sound: "ui.button.click", volume: 0.6, pitch: 1.2}
+
+# ── Errors ──────────────────────────────────────────────────────────────────
+no-permission: "&#FF0000&lERROR &7▷ &fYou don't have permission to do that."
+players-only: "&#FF0000&lERROR &7▷ &fOnly players can do that."
+player-not-found: "&#FF0000&lERROR &7▷ &#FF3B3B%player% &fis not online."
+usage: "{prefix}&fUse &#A66CFF%usage%"
+command-error: "&#FF0000&lERROR &7▷ &fSomething went wrong. The console has the details."
+data-loading: "&#FF0000&lERROR &7▷ &fYour data is still loading, try again in a moment."
+menu-missing: "&#FF0000&lERROR &7▷ &fThis menu is missing: &7%menu%"
+unknown-player: "&#FF0000&lERROR &7▷ &#FF3B3B%player% &fhas never been on this server."
+invalid-amount: "&#FF0000&lERROR &7▷ &fThat is not a valid amount. &7(e.g. 1500, 2.5k, 1m)"
+cannot-afford: "&#FF0000&lERROR &7▷ &fYou can't afford &#FF3B3B%amount%&f."
+no-economy: "&#FF0000&lERROR &7▷ &fThere is no economy right now."
+
+# ── Typing an answer in chat (invest amount, coinflip bet...) ──────────────
+input-cancel-word: "cancel"
+input-cancelled: "{prefix}&fCancelled."
+
+# ── How durations are written everywhere (units = how many parts: "1h 5m" with 2) ──
+time:
+  days: "d"
+  hours: "h"
+  minutes: "m"
+  seconds: "s"
+  units: 2
+
+# ── Teleports (spawn, afk, home, tpa) ───────────────────────────────────────
+# %seconds% = seconds left. The countdown is sent once a second.
+teleport-countdown: "[actionbar]{prefix}&fTeleporting in &#A66CFF%seconds%s&f, don't move."
+teleport-success: "[actionbar]{prefix}&fTeleported."
+teleport-cancelled: "{prefix}&fTeleport cancelled, you moved."
+teleport-cancelled-damage: "{prefix}&fTeleport cancelled, you took damage."
+teleport-failed: "&#FF0000&lERROR &7▷ &fThat place can't be reached right now."
+already-teleporting: "&#FF0000&lERROR &7▷ &fYou are already teleporting."
+
+# ── /vexcore ────────────────────────────────────────────────────────────────
+core-help:
+  - ""
+  - "&#A66CFF&lVEXCORE &7by VexorStudios"
+  - ""
+  - "&#A66CFF/%command% reload &8· &7Reload every file and feature"
+  - "&#A66CFF/%command% features &8· &7Which features are on"
+  - "&#A66CFF/%command% version &8· &7Version and database"
+  - "&#A66CFF/%command% import setupcore &8· &7Copy data from SetupCore"
+  - ""
+core-version: "{prefix}&fVexCore &#A66CFF%version% &8· &fdatabase &#A66CFF%database%"
+
+reload-start: "{prefix}&fReloading..."
+reload-feature: "&8 ✔ &f%feature% &8· &7%commands% commands, %menus% menus"
+reload-feature-failed: "&8 ✘ &#FF3B3B%feature% &8· &7%error%"
+reload-problem: "&8 ⚠ &#FFD23B%problem%"
+reload-done: "{prefix}&fReloaded &#A66CFF%features% &ffeatures &7(%disabled% off)&f, &#A66CFF%commands% &fcommands, &#A66CFF%problems% &fproblems in &#A66CFF%time%ms&f."
+
+features-header: "{prefix}&#A66CFF%active%&f of &#A66CFF%total% &ffeatures are on:"
+features-on: "&8 ✔ &f%feature% &8· &7%commands% commands, %menus% menus"
+features-off: "&8 ✘ &7%feature% &8· &7off in config.yml"
+features-failed: "&8 ✘ &#FF3B3B%feature% &8· &7failed: %error%"
+
+import-confirm:
+  - "{prefix}&fThis copies homes, spawns, the afk area, player toggles, balances,"
+  - "&finvestments and prestige levels from &7%folder% &finto VexCore."
+  - "&fVexCore data of the same players is overwritten."
+  - "<click:run_command:'%command%'><hover:show_text:'&aClick to start'>&#A66CFF&l[CLICK TO CONFIRM]</hover></click> &7or type &f%command%"
+import-not-found: "&#FF0000&lERROR &7▷ &fNo SetupCore data found in &7%folder%"
+import-started: "{prefix}&fImporting from SetupCore. Online players' data reloads when it is done."
+import-line: "&8 ✔ &f%feature% &8· &7%result%"
+import-empty: "{prefix}&fSetupCore had nothing VexCore could import."
+import-failed: "&#FF0000&lERROR &7▷ &fThe import failed: &7%error%"
+import-done: "{prefix}&fImport finished."
+
+# ── Sounds for the messages above (and for any feature that does not set its own) ──
+# Every message containing error-marker (colour codes ignored) plays error-sound, unless it has
+# a sound of its own under sounds. error-marker "" turns this off.
+error-marker: "ERROR"
+error-sound:
+  enabled: true
+  sound: "entity.villager.no"
+  volume: 1.0
+  pitch: 1.0
+
+sounds:
+  no-permission:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  player-not-found:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  invalid-amount:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  cannot-afford:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  unknown-player:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  data-loading:
+    enabled: true
+    sound: "block.note_block.bass"
+    volume: 0.8
+    pitch: 0.8
+  teleport-countdown:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.7
+    pitch: 1.0
+  teleport-success:
+    enabled: true
+    sound: "entity.enderman.teleport"
+    volume: 1.0
+    pitch: 1.0
+  teleport-cancelled:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  teleport-cancelled-damage:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  teleport-failed:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  already-teleporting:
+    enabled: true
+    sound: "block.note_block.bass"
+    volume: 0.8
+    pitch: 0.8
+  reload-done:
+    enabled: true
+    sound: "entity.player.levelup"
+    volume: 0.8
+    pitch: 1.4
+  import-done:
+    enabled: true
+    sound: "entity.player.levelup"
+    volume: 0.8
+    pitch: 1.4
+
+# How long every [title] line fades in, stays and fades out, in ticks (20 = 1 second).
+title-times:
+  fade-in: 10
+  stay: 70
+  fade-out: 20

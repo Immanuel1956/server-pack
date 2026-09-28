@@ -1,0 +1,56 @@
+# /chathistory: everything the filter caught, newest first.
+
+title: "&8Chat History [%page%/%pages%]"
+rows: 6
+content-slots: "0-44"
+
+items:
+  border:
+    slots: "45-47, 49, 51-53"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+  previous:
+    slot: 48
+    function: previous-page
+    material: ARROW
+    name: "&#FF0000▷ &fPrevious Page"
+  next:
+    slot: 50
+    function: next-page
+    material: ARROW
+    name: "&#FF0000▷ &fNext Page"
+
+templates:
+  entry:
+    material: PAPER
+    name: "&#FF0000&l%player%"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF0000Information:"
+      - "&#FF0000¦ &fA message the chat"
+      - "&#FF0000¦ &ffilter &#FF0000caught&f."
+      - ""
+      - "&#22AFFBℹ &fRule: &#22AFFB%rule%"
+      - "&#FF0000⛨ &fAction &7▷ &#FF0000%action%"
+      - "&#FFD900✉ &fWhere: &#FFD900%source%"
+      - ""
+      - "&#FF0000Message:"
+      - "&f%message%"
+      - ""
+      - "&#FFD900⌛ &fWhen: &#FFD900%time%"
+
+sounds:
+  open:
+    sound: "block.barrel.open"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    sound: "ui.button.click"
+    volume: 1.0
+    pitch: 1.2
+  page:
+    sound: "item.book.page_turn"
+    volume: 1.0
+    pitch: 1.0

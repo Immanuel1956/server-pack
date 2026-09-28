@@ -1,0 +1,29 @@
+# Where VexCore keeps player data (homes, toggles, and everything added later).
+#
+#   SQLITE  one file in data/, nothing to set up. Best for a single server.
+#   MYSQL   a MySQL or MariaDB server. Use it to share player data between servers.
+#
+# Server-only data (spawns, the afk area) always stays in data/ as YAML, so a shared
+# database never mixes up the spawns of two servers.
+#
+# Changing this and running /vexcore reload switches over; data is not copied between them.
+type: SQLITE
+
+# Put in front of every table name, e.g. vex_homes. Useful when a database is shared.
+table-prefix: "vex_"
+
+sqlite:
+  file: "data/vexcore.db"
+
+mysql:
+  host: "localhost"
+  port: 3306
+  database: "vexcore"
+  username: "root"
+  password: ""
+  # Extra JDBC connection settings.
+  properties:
+    useSSL: false
+    allowPublicKeyRetrieval: true
+    characterEncoding: "utf8"
+    serverTimezone: "UTC"

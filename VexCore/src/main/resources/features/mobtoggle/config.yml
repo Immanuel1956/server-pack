@@ -1,0 +1,43 @@
+# /mobtoggle: no mobs spawn around a player who turned it on.
+
+prefix: "&#FF7200&lMOBS &7▷ "
+
+# What players start with (true = mobs blocked).
+default: false
+
+# Blocks around the player where nothing spawns.
+radius: 50
+
+# true only blocks hostile mobs, false every creature.
+monsters-only: true
+
+# Which spawn causes the toggle blocks (any spawn reason works, lower case).
+block-reasons:
+  # Mobs spawning by themselves: the main thing the toggle stops.
+  natural: true
+  spawner: false
+  spawner_egg: false
+  reinforcements: false
+  village_invasion: false
+  patrol: false
+
+# These always spawn, even inside the radius.
+whitelist:
+  - VILLAGER
+  - IRON_GOLEM
+
+messages:
+  enabled: "{prefix}&fMobs no longer spawn within &#FF7200%radius% &fblocks of you."
+  disabled: "{prefix}&fMobs spawn around you again."
+
+sounds:
+  enabled:
+    enabled: true
+    sound: "entity.zombie.death"
+    volume: 0.6
+    pitch: 1.4
+  disabled:
+    enabled: true
+    sound: "entity.zombie.ambient"
+    volume: 0.6
+    pitch: 1.2

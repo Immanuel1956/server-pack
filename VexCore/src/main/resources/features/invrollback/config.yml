@@ -1,0 +1,62 @@
+# /invrollback <player> (aliases /rollback, /invrb): inventory backups and restores.
+# Backups are taken automatically (every few minutes), on join, on death and on quit.
+# Left click a backup restores it onto the player (they must be online); right click previews it.
+prefix: "&#FF0000&lROLLBACK &7▷ "
+
+# Needed on top of vexcore.invrollback to restore (viewing only needs the command). "" = none.
+restore-permission: "vexcore.invrollback.restore"
+# Also put back the player's level from the backup.
+restore-level: false
+# Tell the player their inventory was restored.
+tell-player: true
+# Don't save empty inventories.
+skip-empty: true
+
+date-format: "dd.MM.yyyy HH:mm"
+timezone: ""
+ago-format: "%time% ago"
+
+# Each kind: whether it is taken, how many of the newest are kept per player, its colour and
+# the word shown as %trigger%.
+triggers:
+  auto:
+    enabled: true
+    interval-minutes: 5
+    # Don't save again when the inventory is exactly as it was at the last auto backup.
+    skip-unchanged: true
+    keep: 45
+    name: "auto"
+    color: "&#FF0000"
+  joins:
+    enabled: true
+    keep: 45
+    name: "join"
+    color: "&#00BFFF"
+  deaths:
+    enabled: true
+    keep: 45
+    name: "death"
+    color: "&#FF8C00"
+  quits:
+    enabled: true
+    keep: 45
+    name: "quit"
+    color: "&#C8C8C8"
+
+messages:
+  no-backups: "&#FF0000&lERROR &7▷ &fThere are no inventory backups for &#FF3B3B%target%&f."
+  not-online: "&#FF0000&lERROR &7▷ &#FF3B3B%target% &fmust be online to restore their inventory."
+  gone: "&#FF0000&lERROR &7▷ &fThat backup doesn't exist any more."
+  failed: "&#FF0000&lERROR &7▷ &fThe backups could not be read. The console has the details."
+  restored: "{prefix}&fRestored &#FF0000%target%&f's inventory from &#FF0000%date% &7(%trigger%, %items% items)&f."
+  restored-target: "{prefix}&fYour inventory was restored by &#FF0000%staff% &7(%date%)&f."
+
+sounds:
+  restored:
+    sound: "entity.player.levelup"
+    volume: 0.8
+    pitch: 1.2
+  restored-target:
+    sound: "entity.player.levelup"
+    volume: 0.8
+    pitch: 1.2

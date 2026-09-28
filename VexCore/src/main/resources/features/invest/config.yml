@@ -1,0 +1,172 @@
+# Investments: /invest (menu), /invest add <amount|all>, /invest withdraw <amount|all>,
+#              /invest collect, /invest top
+# Admin: /invest limit add <player|all> <amount>, /invest reset <player>,
+#        /invest event <multiplier> <duration> | /invest event stop
+#
+# Money put in pays out every second while its owner is online:
+#   income per second = invested x income.rate-per-second   (times an event multiplier)
+#
+# rate-per-second is what each invested dollar earns per second. Some examples, per hour played:
+#   rate        per second on 1M   per hour on 1M   pays itself back after
+#   0.00001     10                 36,000           ~28 hours online   (the default)
+#   0.000005    5                  18,000           ~56 hours online
+#   0.000002    2                  7,200            ~139 hours online
+#   0.00002     20                 72,000           ~14 hours online
+# On 100M (the cap below) the default pays 1,000/s = 3.6M an hour.
+#
+# The limit is default-limit + what admins added + what prestige levels add, never more
+# than max-limit.
+#
+# Placeholders: %vexcore_invest_invested%, %vexcore_invest_pending%, %vexcore_invest_income%,
+#               %vexcore_invest_limit%, %vexcore_invest_earned%, %vexcore_invest_hourly%
+
+prefix: "&#7CFC00&lINVEST &7▷ "
+
+income:
+  rate-per-second: 0.00001
+  # Older setting, still read when rate-per-second isn't in your file:
+  # income per second = invested / per * per-add. Delete both once you set rate-per-second.
+  # per: 100000
+  # per-add: 1
+
+default-limit: 250000
+# The most anyone can have invested, whatever admins or prestige add. 0 = no cap.
+max-limit: 100000000
+minimum: 1000
+
+# Percent of the investment paid back when it is deleted. 0 = it is gone.
+delete-refund-percent: 50
+
+# /invest withdraw: take part of the investment out. The fee is kept. Keep it at least as high
+# as 100 - delete-refund-percent, or withdrawing everything beats deleting.
+withdraw:
+  enabled: true
+  fee-percent: 50
+  # What stays invested must be 0 or at least minimum.
+  keep-minimum: true
+
+# Income while offline: this percent of the normal rate (events don't count), for at most
+# max-hours, paid when the player comes back. Absences shorter than min-minutes pay nothing.
+offline-income:
+  enabled: true
+  percent: 25
+  max-hours: 12
+  min-minutes: 5
+
+# /invest top
+top:
+  size: 10
+
+# Seconds a player has to type an amount in chat.
+input-seconds: 30
+
+# Shown as %earning% in the menu (IP protection).
+words:
+  earning: "&#7CFC00Yes"
+  not-earning: "&#FB0000No &7(another account on your network)"
+
+# %multiplier% and %time% work in event-start.
+messages:
+  invested: "{prefix}&fYou invested &#7CFC00%amount%&f, now earning &#7CFC00%income%&f/s."
+  deleted: "{prefix}&fYour investment of &#FB0000%amount% &fwas deleted. &7(%refund% paid back)"
+  collected: "{prefix}&fYou collected &#7CFC00%amount%&f."
+  withdrawn: "{prefix}&fYou took out &#FB0000%amount% &fand got &#7CFC00%payout% &7(%fee% fee)&f. Now earning &#7CFC00%income%&f/s."
+  withdraw-prompt: "{prefix}&fType how much to take out, &#00ADFCall &for &#00ADFCcancel&f. Invested: &#00ADFC%invested% &7(%fee% fee)"
+  withdraw-too-much: "&#FF0000&lERROR &7▷ &fYou only have &#7CFC00%invested% &finvested."
+  withdraw-below-minimum: "&#FF0000&lERROR &7▷ &fLeave at least &#7CFC00%amount% &finvested, or take out &#00ADFCall&f."
+  withdraw-disabled: "&#FF0000&lERROR &7▷ &fWithdrawing is turned off; delete the investment instead."
+  offline-earned:
+    - ""
+    - "{prefix}&fWhile you were away &7(%time%)&f your investment made &#7CFC00%amount%&f!"
+    - "&#7CFC00¦ &7Offline income is %percent% of the normal rate. Collect it in &#7CFC00/invest&7."
+    - ""
+  top-header:
+    - ""
+    - "&#7CFC00&lTOP INVESTORS"
+  top-line: "&#7CFC00#%place% &f%player% &7▷ &#7CFC00%invested% &8(&f%income%/s&8, &7earned &f%earned%&8)"
+  top-empty: "&#FF0000&lERROR &7▷ &fNobody has invested yet."
+  auto-on: "{prefix}&fIncome now goes straight to your balance."
+  auto-off: "{prefix}&fIncome piles up until you collect it."
+  invest-prompt: "{prefix}&fType an amount in the chat, &#00ADFCall &for &#00ADFCcancel&f. Room left: &#00ADFC%room%"
+  limit-added: "{prefix}&fRaised &#00ADFC%player%&f's limit by &#7CFC00%amount%&f."
+  limit-all: "{prefix}&fRaised the limit of every player who has invested by &#7CFC00%amount%&f."
+  limit-received: "{prefix}&fYour invest limit grew by &#7CFC00%amount% &fto &#7CFC00%limit%&f."
+  reset: "{prefix}&#00ADFC%player%&f's investment was reset."
+  minimum: "&#FF0000&lERROR &7▷ &fThe smallest investment is &#7CFC00%amount%&f."
+  no-room: "&#FF0000&lERROR &7▷ &fYour limit is &#7CFC00%limit%&f, only &#7CFC00%room% &ffits."
+  nothing: "&#FF0000&lERROR &7▷ &fThere is nothing to take."
+  cannot-collect: "&#FF0000&lERROR &7▷ &fYour income can't be paid out right now."
+  not-ready: "&#FF0000&lERROR &7▷ &fThat player's data is still loading."
+  usage-limit: "{prefix}&fUse /invest limit add <player|all> <amount>"
+  usage-reset: "{prefix}&fUse /invest reset <player>"
+  usage-event: "{prefix}&fUse /invest event <multiplier> <duration> or /invest event stop"
+  event-start:
+    - ""
+    - "&#7CFC00&lINVEST EVENT"
+    - "&fAll investments pay &#7CFC00%multiplier%x &ffor &#7CFC00%time%&f!"
+    - ""
+    - "[title] &#7CFC00&lINVEST EVENT|&f%multiplier%x income for %time%"
+    - "[sound] ui.toast.challenge_complete;0.8;1.2"
+  event-end: "{prefix}&fThe invest event is over."
+  no-event: "&#FF0000&lERROR &7▷ &fNo invest event is running."
+
+sounds:
+  withdrawn:
+    enabled: true
+    sound: "entity.experience_orb.pickup"
+    volume: 1.0
+    pitch: 0.8
+  offline-earned:
+    enabled: true
+    sound: "entity.player.levelup"
+    volume: 0.8
+    pitch: 1.2
+  withdraw-too-much:
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  invested:
+    enabled: true
+    sound: "entity.experience_orb.pickup"
+    volume: 1.0
+    pitch: 1.2
+  deleted:
+    enabled: true
+    sound: "entity.generic.explode"
+    volume: 0.6
+    pitch: 1.0
+  collected:
+    enabled: true
+    sound: "entity.player.levelup"
+    volume: 1.0
+    pitch: 1.4
+  auto-on:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 1.6
+  auto-off:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 0.8
+  limit-received:
+    enabled: true
+    sound: "entity.player.levelup"
+    volume: 0.8
+    pitch: 1.4
+  minimum:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  no-room:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  nothing:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0

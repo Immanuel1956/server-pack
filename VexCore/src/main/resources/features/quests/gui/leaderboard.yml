@@ -1,0 +1,81 @@
+# Everybody who worked on a quest. The filter switches between this board and all time.
+title: "&8%emoji% &8| %filter% [%page%/%pages%]"
+rows: 6
+content-slots: "0-44"
+# active and inactive colour the two lines of the filter item.
+words:
+  board: "This Board"
+  all-time: "All-Time"
+  active: "&#80EE0B"
+  inactive: "&8"
+items:
+  your-rank:
+    slot: 49
+    material: GUSTER_BANNER_PATTERN
+    name: "#CB00FF&lYOUR RANK"
+    lore:
+      - "&7Quest Board"
+      - ""
+      - "#00E1FFInformation:"
+      - "#437CF7⭐ &fPosition: #437CF7#%rank%"
+      - "#FDDD3E⌚ &fProgress: #FDDD3E%value%"
+      - "#FF8800⛨ &fQuest: %quest%"
+  back:
+    slot: 45
+    function: back
+    material: BARREL
+    name: "#80EE0B&lBACK"
+    lore:
+      - "&7Quest Board"
+      - ""
+      - "&fReturn to the"
+      - "&fquest details."
+      - ""
+      - "#FFD900▶ &l&nCLICK#FFD900 To Go Back"
+  close:
+    slot: 46
+    material: LIME_DYE
+    name: "#80EE0B&lCLOSE"
+    close-on-click: true
+  previous-page:
+    slot: 48
+    function: previous-page
+    material: GREEN_STAINED_GLASS_PANE
+    name: "#80EE0B&lPREVIOUS PAGE"
+  next-page:
+    slot: 50
+    function: next-page
+    material: LIME_STAINED_GLASS_PANE
+    name: "#55FF55&lNEXT PAGE"
+  filter:
+    slot: 53
+    function: filter
+    material: CHEST_MINECART
+    name: "#FFD900&lSORTING"
+    lore:
+      - "&7Quest Board"
+      - ""
+      - "#FFD900Information:"
+      - "#FFD900¦ &fClick here to #FFD900sort"
+      - "#FFD900¦ &fthrough the #FFD900list"
+      - ""
+      - "%filter_board%┃ ● This Board"
+      - "%filter_alltime%┃ ● All-Time"
+      - ""
+      - "#FFD900▶ &l&nCLICK#FFD900 To Switch"
+templates:
+  entry:
+    material: PLAYER_HEAD
+    skull: "%name%"
+    name: "#FDDD3E%name%"
+    lore:
+      - "&7Quest Board"
+      - ""
+      - "#80EE0BInformation:"
+      - "#437CF7⭐ &fPosition: #437CF7#%rank%"
+      - "#FDDD3E⌚ &fProgress: #FDDD3E%value%"
+      - "#80EE0B⚑ &fStatus: %status%"
+sounds:
+  open: {sound: "item.book.page_turn", volume: 1.0, pitch: 1.2}
+  click: {sound: "ui.button.click", volume: 1.0, pitch: 1.2}
+  page: {sound: "item.book.page_turn", volume: 1.0, pitch: 1.0}

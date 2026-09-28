@@ -1,0 +1,28 @@
+# /ping [player]. %colour% turns green, yellow or red by the numbers below.
+# %vexcore_ping% gives the number for PlaceholderAPI.
+
+prefix: "&#22AFFB&lPING &7▷ "
+
+good-below: 80
+okay-below: 180
+
+colours:
+  good: "&#16D223"
+  okay: "&#FFD900"
+  bad: "&#FF3B3B"
+
+messages:
+  self: "{prefix}&fYour ping is %colour%%ping%ms&f."
+  other: "{prefix}&#22AFFB%player% &fhas a ping of %colour%%ping%ms&f."
+
+sounds:
+  self:
+    enabled: true
+    sound: "block.note_block.hat"
+    volume: 0.8
+    pitch: 1.4
+  other:
+    enabled: true
+    sound: "block.note_block.hat"
+    volume: 0.8
+    pitch: 1.4

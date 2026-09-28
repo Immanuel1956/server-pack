@@ -1,0 +1,38 @@
+# /playerhide: every other player disappears from YOUR view. Nobody else is affected.
+# vexcore.playerhide.exempt stays visible (staff).
+
+prefix: "&#7B61FF&lHIDE &7▷ "
+
+# What players start with.
+default: false
+
+# Worlds where it works (no case). Empty list = every world.
+worlds:
+  - "spawn"
+  - "afk"
+
+# true forgets the choice when the player leaves those worlds, false pauses it until they
+# come back.
+reset-on-leave: false
+
+messages:
+  enabled: "{prefix}&fThe other players are hidden from you now."
+  disabled: "{prefix}&fYou can see the other players again."
+  wrong-world: "&#FF0000&lERROR &7▷ &fPlayer hide doesn't work in this world."
+
+sounds:
+  enabled:
+    enabled: true
+    sound: "block.amethyst_block.chime"
+    volume: 1.0
+    pitch: 1.2
+  disabled:
+    enabled: true
+    sound: "block.amethyst_block.chime"
+    volume: 1.0
+    pitch: 0.8
+  wrong-world:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0

@@ -1,0 +1,180 @@
+# Every message runs through the checks below, in this order.
+# The first one that blocks ends it. Word lists live in blocked.yml.
+# vexcore.chatfilter.bypass skips the checks (each rule in blocked.yml has its own bypass).
+
+prefix: "&#FF0000&lCHAT &7▷ "
+
+# Where the checks run. A command entry scans everything behind the label,
+# for example "nick" scans /nick something. Team chat is always covered.
+scan:
+  chat: true
+  private-messages: true
+  commands: []
+
+# Your own links: taken out of a message before the rules look, so ADVERTISING and LINKS don't
+# block them. Plain text matches anywhere (any case); start with "regex:" for a pattern.
+allowed:
+  - "yourserver.com"
+  - "store.yourserver.com"
+  - "discord.gg/yourserver"
+
+# New arrivals can't chat for this many seconds after joining (stops join-and-spam bots).
+# 0 = off. vexcore.chatfilter.bypass skips it.
+join-delay-seconds: 3
+
+# Strikes: each rule hit adds the rule's strikes (blocked.yml, default 1, WARN rules 0).
+# Crossing a number below mutes the player's chat, /msg and team chat for that long (kept over
+# relogs, not over restarts) and runs the commands from the console (%player% %uuid% %rule% %strikes%).
+# Strikes are forgotten after forget-minutes without a new one.
+# /chatfilter strikes <player> shows them, /chatfilter clear <player> clears strikes and mute.
+strikes:
+  enabled: true
+  forget-minutes: 30
+  punishments:
+    3:
+      mute: "5m"
+      commands: []
+    5:
+      mute: "30m"
+      commands: []
+    8:
+      mute: "2h"
+      # e.g. "kick %player% Stop breaking the chat rules" or your punishment plugin's mute
+      commands: []
+
+# Pause between two messages from the same player.
+slowmode:
+  enabled: true
+  seconds: 3
+
+# Message size and single character spam like "aaaaaaaa".
+length:
+  enabled: true
+  max-characters: 128
+  max-same-in-a-row: 5
+
+# Blocks a message that is too close to the one the player sent before.
+repeat:
+  enabled: true
+  remember-seconds: 30
+  match-percent: 80
+
+# Messages that are mostly symbols or emoji ("!!!!!!!", "▓▓▓▓▓▓"). Only messages of at least
+# min-length characters are checked.
+symbols:
+  enabled: true
+  min-length: 12
+  max-percent: 60
+
+# LOWERCASE rewrites the message, CANCEL drops it.
+shouting:
+  enabled: true
+  max-uppercase: 8
+  action: LOWERCASE
+
+# The blocked.yml rules (slurs, hate, threats, sexual violence, profanity, sexual words, mild words
+# (off by default), personal info, adverts, links, scams). Masked hits are replaced by this.
+words:
+  enabled: true
+  mask: "***"
+  # A REPLACE hit (a swear): the message still goes out, masked, and the sender gets the
+  # censored message and sound.
+  notify-on-mask: true
+
+# /chatfilter regex <word> adds to this rule in blocked.yml.
+regex-rule: CUSTOM
+
+# Goes to everyone with vexcore.chatfilter.alerts and to the console.
+# checks: true also reports slowmode, length, repeat and shouting.
+alerts:
+  enabled: true
+  checks: false
+  format: "&#FF0000&lFILTER &7▷ &f%player% &7» &f%message% &8(%rule% %action%)"
+
+# What /chathistory reads. rules-only: false also stores the four checks.
+log:
+  enabled: true
+  rules-only: true
+  keep-days: 14
+  time-format: "dd.MM.yyyy HH:mm"
+  wrap: 30
+
+messages:
+  slowmode: "&#FF0000&lCHAT &7▷ &fWait &#FF0000%seconds%s &fbefore your next message."
+  too-long: "&#FF0000&lCHAT &7▷ &fKeep it under &#FF0000%max% &fcharacters."
+  spamming: "&#FF0000&lCHAT &7▷ &fStop repeating the same character."
+  repeating: "&#FF0000&lCHAT &7▷ &fYou just said that."
+  shouting: "&#FF0000&lCHAT &7▷ &fThat is a lot of caps."
+  symbols: "&#FF0000&lCHAT &7▷ &fPlease use words, not just symbols."
+  blocked: "&#FF0000&lCHAT &7▷ &fThat message is not allowed here."
+  censored: "&#FF0000&lCHAT &7▷ &fThat message is not allowed here."
+  join-delay: "&#FF0000&lCHAT &7▷ &fWelcome! You can chat in &#FF0000%seconds%s&f."
+  filter-muted: "&#FF0000&lCHAT &7▷ &fYou are muted for &#FF0000%time% &ffor breaking the chat rules."
+  strike: "[actionbar]&#FF0000&lCHAT &7▷ &fStrike &#FF0000%strikes%&f. Keep it clean or you'll be muted."
+  strike-muted:
+    - ""
+    - "&#FF0000&lCHAT &7▷ &fYou have &#FF0000%strikes% &fstrikes and are muted for &#FF0000%time%&f."
+    - "&#FF0000¦ &7Strikes are forgotten after a while without new ones."
+    - ""
+  strike-alert: "&#FF0000&lFILTER &7▷ &f%player% &7reached &#FF0000%strikes% &7strikes (%rule%), muted &f%time%&7."
+  strikes-info: "&#2BD6FF&lCHAT &7▷ &f%player% &7has &#2BD6FF%strikes% &7strikes, muted for &f%muted%&7."
+  strikes-cleared: "&#97F900&lCHAT &7▷ &fCleared &#97F900%player%&f's strikes and mute."
+  usage-strikes: "&#FF0000&lCHAT &7▷ &fUse &#FF0000/chatfilter strikes|clear <player>&f."
+  usage-remove: "&#FF0000&lCHAT &7▷ &fUse &#FF0000/chatfilter remove <word>&f."
+  removed: "&#97F900&lCHAT &7▷ &fRemoved &#97F900%word% &ffrom the rule &#97F900%rule%&f."
+  remove-unknown: "&#FF0000&lCHAT &7▷ &f%word% was not added with /chatfilter regex."
+  reloaded: "&#97F900&lCHAT &7▷ &fReloaded &#97F900%rules% &frules and the allowed list &7(%problems% problems)&f."
+  history-empty: "&#FF0000&lCHAT &7▷ &fNothing was caught yet."
+  usage-regex: "&#FF0000&lCHAT &7▷ &fUse &#FF0000/chatfilter regex <word>&f."
+  usage-similar: "&#FF0000&lCHAT &7▷ &fUse &#FF0000/chatfilter similar <first> <second>&f."
+  usage-test: "&#FF0000&lCHAT &7▷ &fUse &#FF0000/chatfilter test <message>&f."
+  regex-added: "&#97F900&lCHAT &7▷ &fAdded &#97F900%word% &fto the rule &#97F900%rule%&f."
+  regex-known: "&#FF0000&lCHAT &7▷ &f%word% is already in &#FF0000%rule%&f."
+  regex-invalid: "&#FF0000&lCHAT &7▷ &fUse a word with at least three different letters."
+  similar: "&#2BD6FF&lCHAT &7▷ &f%first% &7and &f%second% &7match &#2BD6FF%percent%%&7."
+  test-clean: "&#97F900&lCHAT &7▷ &fNo rule catches that message."
+  test-hit: "&#FF0000&lCHAT &7▷ &fRule &#FF0000%rule% &8(%action%) &7» &f%result%"
+  help:
+    - "&#2BD6FF&lCHAT FILTER"
+    - "&8▶ &f/chatfilter regex <word> &7▷ &fBlock a word"
+    - "&8▶ &f/chatfilter remove <word> &7▷ &fUnblock a word you added"
+    - "&8▶ &f/chatfilter strikes <player> &7▷ &fStrikes and mute"
+    - "&8▶ &f/chatfilter clear <player> &7▷ &fClear strikes and mute"
+    - "&8▶ &f/chatfilter reload &7▷ &fRe-read blocked.yml and allowed"
+    - "&8▶ &f/chatfilter similar <a> <b> &7▷ &fCompare two words"
+    - "&8▶ &f/chatfilter test <message> &7▷ &fRun the rules on a message"
+    - "&8▶ &f/chathistory [player] &7▷ &fEverything the filter caught"
+
+sounds:
+  strike-muted:
+    sound: "block.anvil.land"
+    volume: 0.6
+    pitch: 0.8
+  strike-alert:
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 0.6
+  filter-muted:
+    sound: "block.note_block.bass"
+    volume: 0.8
+    pitch: 0.8
+  join-delay:
+    sound: "block.note_block.bass"
+    volume: 0.8
+    pitch: 1.0
+  censored:
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  blocked:
+    sound: "block.note_block.bass"
+    volume: 0.8
+    pitch: 0.8
+  slowmode:
+    sound: "block.note_block.bass"
+    volume: 0.8
+    pitch: 0.8
+  repeating:
+    sound: "block.note_block.bass"
+    volume: 0.8
+    pitch: 0.8

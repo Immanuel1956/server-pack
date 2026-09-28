@@ -1,0 +1,134 @@
+# /cf menu: the open games, biggest first.
+#
+# game: someone else's game (click = play, after the confirm menu). own-game: yours (click = close it).
+#   %player% %amount% %amount_short% %age%
+# Everywhere: %wins% %losses% %won% %lost% %profit% %games% %page% %pages%.
+# Functions: create (asks for the bet in chat), delete (only while you have a game open),
+#            refresh, empty (only while there are no games), previous-page, next-page.
+#
+# Every item and template takes: slot / slots, material, name, lore, glow, amount,
+# custom-model-data, item-model, skull, permission, sound ("" = silent), close-on-click, and
+# commands: / left-commands: / right-commands: ([player] [console] [message] [broadcast]
+# [actionbar] [title] [sound] [chat] [refresh] [close]).
+
+title: "&8Coinflip Games &7[%page%/%pages%]"
+rows: 5
+
+content-slots: "10-16, 19-25, 28-34"
+
+items:
+
+  border:
+    slots: "0-9, 17, 18, 26, 27, 35-44"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  stats:
+    slot: 4
+    material: PLAYER_HEAD
+    skull: "%player%"
+    name: "&#FFE925&lYOUR COINFLIPS"
+    lore:
+      - "&8Statistics"
+      - ""
+      - "&#80EE0B✔ &fWins: &#80EE0B%wins%"
+      - "&#FF256E✘ &fLosses: &#FF256E%losses%"
+      - "&#FFE925$ &fProfit: &#FFE925%profit%"
+    sound: ""
+
+  empty:
+    slot: 22
+    function: empty
+    material: MINECART
+    name: "&#FF3B3B&lNO GAMES FOUND"
+    lore:
+      - "&8Description"
+      - ""
+      - "&fNobody has a coinflip open."
+      - "&fStart one with the sunflower below!"
+    sound: ""
+
+  create:
+    slot: 38
+    function: create
+    material: SUNFLOWER
+    name: "&#80EE0B&lCREATE A GAME"
+    lore:
+      - "&8Description"
+      - ""
+      - "&fType your bet in the chat."
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to create"
+
+  previous-page:
+    slot: 39
+    function: previous-page
+    material: RED_STAINED_GLASS_PANE
+    name: "&#FF3B3B&lPREVIOUS PAGE"
+
+  refresh:
+    slot: 40
+    function: refresh
+    material: CLOCK
+    name: "&#FFE925&lREFRESH"
+    lore:
+      - "&7%games% open games"
+
+  next-page:
+    slot: 41
+    function: next-page
+    material: LIME_STAINED_GLASS_PANE
+    name: "&#80EE0B&lNEXT PAGE"
+
+  delete:
+    slot: 42
+    function: delete
+    material: BARRIER
+    name: "&#FF3B3B&lCLOSE YOUR GAME"
+    lore:
+      - "&fYour bet is paid back."
+
+templates:
+
+  game:
+    material: PLAYER_HEAD
+    skull: "%player%"
+    name: "&#FFE925&l%player%'s BET"
+    lore:
+      - "&8Coinflip"
+      - ""
+      - "&#80EE0B$ &fBet: &#80EE0B%amount%"
+      - "&#FFD900⌛ &fOpen for: &#FFD900%age%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to play"
+
+  own-game:
+    material: PLAYER_HEAD
+    skull: "%player%"
+    glow: true
+    name: "&#22AFFB&lYOUR BET"
+    lore:
+      - "&8Coinflip"
+      - ""
+      - "&#80EE0B$ &fBet: &#80EE0B%amount%"
+      - ""
+      - "&#FF3B3B▶ &n&lCLICK&r&#FF3B3B to close it"
+
+# ── Sounds ──────────────────────────────────────────────────────────────────
+sounds:
+  open:
+    enabled: true
+    sound: "block.barrel.open"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2
+  page:
+    enabled: true
+    sound: "item.book.page_turn"
+    volume: 1.0
+    pitch: 1.0

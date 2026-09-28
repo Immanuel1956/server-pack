@@ -1,0 +1,43 @@
+# Your Prizes: left click takes it, right click shows what's inside.
+title: "&8Giveaway | Your Prizes"
+rows: 6
+content-slots: "0-44"
+items:
+  border:
+    slots: "46-47, 51-52"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+  back:
+    slot: 45
+    function: back
+    material: ARROW
+    name: "&#FFB02E&l← BACK"
+  previous:
+    slot: 48
+    function: previous-page
+    material: ARROW
+    name: "&#FFB02E▷ &fPrevious Page"
+  next:
+    slot: 50
+    function: next-page
+    material: ARROW
+    name: "&#FFB02E▷ &fNext Page"
+  empty:
+    slot: 22
+    function: empty
+    material: BARRIER
+    name: "&#FF0000&lNOTHING HERE"
+templates:
+  claim:
+    material: CHEST
+    name: "&#FFB02E&l%prize%"
+    lore:
+      - "&8From %player%'s giveaway"
+      - ""
+      - "&#FFB02E▷ &n&lLEFT CLICK&r&#FFB02E To Take"
+      - "&7▷ Right click to look inside"
+sounds:
+  open: {sound: "block.barrel.open", volume: 0.7, pitch: 1.2}
+  click: {sound: "ui.button.click", volume: 1.0, pitch: 1.2}
+  page: {sound: "item.book.page_turn", volume: 1.0, pitch: 1.0}

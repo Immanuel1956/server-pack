@@ -1,0 +1,27 @@
+# /trash: throw items into the menu (gui/trash.yml). Whatever is left in it when it closes
+# is gone for good.
+
+prefix: "&#FFEE00&lTRASH &7▷ "
+
+# What the clear-inventory button wipes.
+clear:
+  storage: true
+  armor: false
+  offhand: false
+
+messages:
+  emptied: "[actionbar]{prefix}&fThe bin was emptied."
+  inventory-cleared: "{prefix}&fYour inventory was cleared."
+  clear-needs-right-click: "[actionbar]{prefix}&fRight click to clear your inventory."
+
+sounds:
+  emptied:
+    enabled: true
+    sound: "entity.item.pickup"
+    volume: 0.7
+    pitch: 1.2
+  inventory-cleared:
+    enabled: true
+    sound: "block.fire.extinguish"
+    volume: 0.8
+    pitch: 1.0

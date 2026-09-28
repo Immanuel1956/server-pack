@@ -1,0 +1,14 @@
+# /staffchat <message>, /staffchat to switch your chat into it, or start a message with the trigger.
+prefix: "&#00E5FF&lSTAFF &7▷ "
+trigger: "#"
+# Whether [item] and the other chat render triggers work in here.
+render: true
+messages:
+  format: "&#00E5FF&lSTAFF &7▷ &f%player% &8➜ &r%message%"
+  toggle-on: "&#97F900&lSTAFF &7▷ &fStaff chat is now on."
+  toggle-off: "&#FF0000&lSTAFF &7▷ &fStaff chat is now off."
+sounds:
+  format:
+    sound: "entity.item.pickup"
+    volume: 0.6
+    pitch: 1.8

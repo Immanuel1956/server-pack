@@ -1,0 +1,100 @@
+# /invrollback <player>: the four kinds of backup.
+# %target%, and how many are saved: %auto% %joins% %deaths% %quits%. %auto_interval% = minutes.
+# function: auto / joins / deaths / quits opens that kind's list.
+#
+# Every item takes: slot / slots, material, name, lore, glow, amount, custom-model-data,
+# item-model, skull, permission, sound ("" = silent), close-on-click, and commands.
+
+title: "&8⏱ Rollback | %target%"
+rows: 3
+
+items:
+
+  auto:
+    slot: 10
+    function: auto
+    material: CLOCK
+    name: "&#FF0000&lAUTO"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF0000Information:"
+      - "&#FF0000¦ &fHere you can restore the"
+      - "&#FF0000¦ &finv of the &#FF0000players &flast inv"
+      - ""
+      - "&#FF0000Settings"
+      - "&#FF0000¦ &fPeriodic &#FF0000backups"
+      - "&#FF0000¦ &f%auto% saved"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401To Preview"
+
+  joins:
+    slot: 12
+    function: joins
+    material: LIME_DYE
+    name: "&#00BFFF&lJOINS"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#00BFFFInformation:"
+      - "&#00BFFF¦ &fHere you can restore the"
+      - "&#00BFFF¦ &finv of the &#00BFFFplayers &flast join"
+      - ""
+      - "&#00BFFFSettings"
+      - "&#00BFFF¦ &fTaken when they join"
+      - "&#00BFFF¦ &f%joins% saved"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401To Preview"
+
+  deaths:
+    slot: 14
+    function: deaths
+    material: ORANGE_DYE
+    name: "&#FF8C00&lDEATHS"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF8C00Information:"
+      - "&#FF8C00¦ &fHere you can &#FF8C00restore &fthe"
+      - "&#FF8C00¦ &finv of the &#FF8C00players &flast death"
+      - ""
+      - "&#FF8C00Settings"
+      - "&#FF8C00¦ &fTaken on death"
+      - "&#FF8C00¦ &f%deaths% saved"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401To Preview"
+
+  quits:
+    slot: 16
+    function: quits
+    material: SKELETON_SKULL
+    name: "&#C8C8C8&lQUITS"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#C8C8C8Information:"
+      - "&#C8C8C8¦ &fHere you can restore the"
+      - "&#C8C8C8¦ &finv of the &#C8C8C8players &flast quit"
+      - ""
+      - "&#C8C8C8Settings"
+      - "&#C8C8C8¦ &fTaken when they leave"
+      - "&#C8C8C8¦ &f%quits% saved"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401To Preview"
+
+sounds:
+  open:
+    enabled: true
+    sound: "block.chest.open"
+    volume: 0.7
+    pitch: 1.2
+  close:
+    enabled: true
+    sound: "block.chest.close"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2

@@ -1,0 +1,165 @@
+# /home menu.
+#
+# Each page shows as many homes as home-slots lists: on page 1 home 1 uses the first slot of
+# each list, home 2 the second, and so on; page 2 carries on from there. Each home has two
+# buttons: the bed (teleport, or save here when empty) and the dye (delete, or save here).
+# Remove a list to drop that row of buttons. previous-page / next-page only show when there is
+# a page to go to (the border underneath shows otherwise).
+#
+# Right-click a saved home for its dialog: teleport, change its icon (any item, with a search
+# bar), rename it, delete it.
+#
+# Placeholders: %home% %name% %icon% %world% %x% %y% %z% on every home button,
+#               %homes% (set), %allowed%, %max%, %page%, %pages% everywhere, %player%, PlaceholderAPI.
+# Every item and template takes commands: / left-commands: / right-commands: (see the close
+# button), sound: to change its click sound, permission: to hide it.
+
+title: "&8Homes | &7%homes%/%allowed% &8[%page%/%pages%]"
+rows: 6
+
+home-slots: [10, 11, 12, 13, 14, 15, 16, 28, 29, 30, 31, 32, 33, 34]
+delete-slots: [19, 20, 21, 22, 23, 24, 25, 37, 38, 39, 40, 41, 42, 43]
+
+items:
+
+  border:
+    slots: "0-9, 17, 18, 26, 27, 35, 36, 44-48, 50-53"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  info:
+    slot: 4
+    material: PLAYER_HEAD
+    skull: "%player%"
+    name: "&#16D223&lYOUR HOMES"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#16D223Information:"
+      - "&#16D223¦ &fHomes set: &#16D223%homes%&7/&#16D223%allowed%"
+      - "&#16D223¦ &fTop row: &#16D223teleport &f(or save)"
+      - "&#16D223¦ &fRight click a home: &#FFD900edit it"
+      - "&#16D223¦ &fBottom row: &#FF3B3Bdelete &f(or save)"
+    sound: ""
+
+  previous-page:
+    slot: 48
+    function: previous-page
+    material: RED_STAINED_GLASS_PANE
+    name: "&#FF3B3B&lPREVIOUS PAGE"
+    lore:
+      - "&7Page &f%page%&7/&f%pages%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to go to page %previous_page%"
+
+  next-page:
+    slot: 50
+    function: next-page
+    material: LIME_STAINED_GLASS_PANE
+    name: "&#16D223&lNEXT PAGE"
+    lore:
+      - "&7Page &f%page%&7/&f%pages%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to go to page %next_page%"
+
+  close:
+    slot: 49
+    material: BARRIER
+    name: "&#FF3B3B&lCLOSE"
+    lore:
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to close"
+    commands:
+      - "[close]"
+
+templates:
+
+  home-set:
+    # %icon% is the icon picked in the dialog (default-icon in config.yml until then).
+    material: "%icon%"
+    name: "&#16D223&l%name%"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#16D223Information:"
+      - "&#16D223¦ &fWorld: &#16D223%world%"
+      - "&#16D223¦ &fPosition: &#16D223%x%&7, &#16D223%y%&7, &#16D223%z%"
+      - ""
+      - "&#16D223▶ &n&lCLICK&r&#16D223 to teleport"
+      - "&#FFD900▶ &n&lRIGHT CLICK&r&#FFD900 to edit (icon, name)"
+
+  home-empty:
+    material: LIGHT_GRAY_BED
+    name: "&#D1D1D1&lHOME %home% &7(empty)"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#D1D1D1Information:"
+      - "&#D1D1D1¦ &fNothing saved here yet."
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to save your position"
+
+  home-locked:
+    material: RED_BED
+    name: "&#FF3B3B&lLOCKED"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3BInformation:"
+      - "&#FF3B3B¦ &fBuy a higher rank on"
+      - "&#FF3B3B¦ &four store for more homes."
+    sound: ""
+
+  delete-set:
+    material: LIME_DYE
+    name: "&#16D223&l%name%"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#16D223Information:"
+      - "&#16D223¦ &fDelete this home."
+      - ""
+      - "&#FF3B3B▶ &n&lCLICK&r&#FF3B3B to delete"
+
+  delete-empty:
+    material: GRAY_DYE
+    name: "&#D1D1D1&lHOME %home% &7(empty)"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#D1D1D1Information:"
+      - "&#D1D1D1¦ &fNothing saved here yet."
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to save your position"
+
+  delete-locked:
+    material: RED_DYE
+    name: "&#FF3B3B&lLOCKED"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3BInformation:"
+      - "&#FF3B3B¦ &fBuy a higher rank on"
+      - "&#FF3B3B¦ &four store for more homes."
+    sound: ""
+
+# ── Sounds ──────────────────────────────────────────────────────────────────
+# open: when the menu opens. click: every click (an item's own sound: replaces it).
+# Saving, deleting and teleporting play the sounds in features/home/config.yml.
+sounds:
+  open:
+    enabled: true
+    sound: "block.barrel.open"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2
+  page:
+    enabled: true
+    sound: "item.book.page_turn"
+    volume: 1.0
+    pitch: 1.0

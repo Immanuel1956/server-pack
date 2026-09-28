@@ -1,0 +1,164 @@
+# VexCore's own money. It registers itself with Vault, so every plugin that uses Vault
+# (shops, jobs, crates...) sees the same balances.
+#
+# Commands: /bal [player], /pay <player> <amount>, /paytoggle, /baltop, /payhistory [player],
+#           /eco <give|take|set|reset|freeze> <player> [amount]
+# Amounts can be written as 1500, 1.5k, 2m, 3b, 1t, 1q.
+#
+# Placeholders: %vexcore_balance%, %vexcore_balance_formatted%, %vexcore_balance_short%,
+#               %vexcore_baltop_name_<place>%, %vexcore_baltop_balance_<place>%
+
+prefix: "&#80EE0B&lECONOMY &7▷ "
+
+# What a brand-new player starts with.
+start-balance: 1000
+
+decimals: 2
+thousands-separator: ","
+
+# How money is written. %amount% is the number.
+currency-format: "$%amount%"
+currency-singular: "Dollar"
+currency-plural: "Dollars"
+
+# 0 = no limit.
+max-balance: 0
+
+# Changed balances are written this often, and always when a player leaves.
+save-seconds: 3
+
+vault:
+  # Turn off only if another economy plugin should be the Vault economy.
+  register: true
+  # Lowest, Low, Normal, High, Highest
+  priority: Highest
+
+format:
+  # FULL = $1,234,567.89   SHORT = $1.23M (menus always use SHORT)
+  chat: FULL
+  suffixes: [K, M, B, T, Q]
+
+pay:
+  minimum: 1
+  # Percent taken off every payment. 0 = none.
+  tax-percent: 0
+  # No paying while combat tagged (or anything else that blocks teleports).
+  block-when-restricted: true
+  # Whether players receive payments before they change it with /paytoggle.
+  default-toggle: true
+
+# Tell a player when an admin changes their balance.
+notify-target: true
+
+baltop:
+  # How many places the list keeps, and how often it is sorted again.
+  size: 100
+  refresh-seconds: 60
+  empty-name: "-"
+
+history:
+  # Payments older than this are deleted. 0 keeps everything.
+  keep-days: 30
+  time-format: "dd.MM.yyyy HH:mm"
+
+# %amount% is already written with the currency.
+messages:
+  balance-self: "{prefix}&fYou have &#80EE0B%amount%&f."
+  balance-other: "{prefix}&#22AFFB%player% &fhas &#80EE0B%amount%&f."
+  pay-sent: "{prefix}&fYou paid &#22AFFB%player% &#80EE0B%amount%&f."
+  # Used instead when pay.tax-percent took a cut.
+  pay-sent-taxed: "{prefix}&fYou paid &#22AFFB%player% &#80EE0B%amount%&f. &7(They got %received% after tax.)"
+  pay-received: "{prefix}&#22AFFB%player% &fpaid you &#80EE0B%amount%&f."
+  toggle-on: "{prefix}&fYou receive payments again."
+  toggle-off: "{prefix}&fYou no longer receive payments."
+  give: "{prefix}&fGave &#22AFFB%player% &#80EE0B%amount%&f. &7(now %balance%)"
+  take: "{prefix}&fTook &#80EE0B%amount% &ffrom &#22AFFB%player%&f. &7(now %balance%)"
+  set: "{prefix}&#22AFFB%player% &fnow has &#80EE0B%balance%&f."
+  reset: "{prefix}&#22AFFB%player% &fis back to &#80EE0B%balance%&f."
+  give-received: "{prefix}&fYou received &#80EE0B%amount%&f."
+  take-received: "{prefix}&#80EE0B%amount% &fwas taken from you."
+  set-received: "{prefix}&fYour balance was set to &#80EE0B%balance%&f."
+  reset-received: "{prefix}&fYour balance was reset to &#80EE0B%balance%&f."
+  freeze-on: "{prefix}&#22AFFB%player%&f's balance is now frozen."
+  freeze-off: "{prefix}&#22AFFB%player%&f's balance is no longer frozen."
+  frozen-notice: "&#FF0000&lERROR &7▷ &fYour balance was frozen by staff."
+  unfrozen-notice: "{prefix}&fYour balance is free again."
+  frozen-self: "&#FF0000&lERROR &7▷ &fYour balance is frozen."
+  self: "&#FF0000&lERROR &7▷ &fYou can't pay yourself."
+  minimum: "&#FF0000&lERROR &7▷ &fThe smallest payment is &#80EE0B%amount%&f."
+  toggle-blocked: "&#FF0000&lERROR &7▷ &#22AFFB%player% &fdoesn't accept payments."
+  target-refused: "&#FF0000&lERROR &7▷ &#22AFFB%player% &fcan't receive that right now. Your money was given back."
+  restricted: "&#FF0000&lERROR &7▷ &fYou can't pay right now."
+  not-ready: "&#FF0000&lERROR &7▷ &#22AFFB%player%&f's balance is still loading, try again in a moment."
+
+sounds:
+  balance-self:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 1.6
+  balance-other:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 1.6
+  pay-sent:
+    enabled: true
+    sound: "entity.experience_orb.pickup"
+    volume: 1.0
+    pitch: 1.2
+  pay-sent-taxed:
+    enabled: true
+    sound: "entity.experience_orb.pickup"
+    volume: 1.0
+    pitch: 1.2
+  pay-received:
+    enabled: true
+    sound: "entity.player.levelup"
+    volume: 0.8
+    pitch: 1.4
+  toggle-on:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 1.6
+  toggle-off:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 0.8
+  give-received:
+    enabled: true
+    sound: "entity.player.levelup"
+    volume: 0.8
+    pitch: 1.4
+  self:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  minimum:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  toggle-blocked:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  target-refused:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  frozen-self:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  restricted:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0

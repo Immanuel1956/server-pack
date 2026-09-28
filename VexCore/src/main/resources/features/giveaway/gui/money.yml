@@ -1,0 +1,22 @@
+title: "&8Giveaway | Money"
+rows: 3
+items:
+  amount:
+    slot: 11
+    function: amount
+    material: GOLD_INGOT
+    name: "&#FFD900&l%amount%"
+    lore: ["&7Click to change the amount."]
+  start:
+    slot: 15
+    function: start
+    material: LIME_DYE
+    name: "&#97F900&lSTART"
+    lore: ["&fPrize: %amount%", "&fDuration: %duration%", "&7Left click to start.", "&7Right click to change duration."]
+  back:
+    slot: 22
+    function: back
+    material: ARROW
+    name: "&fBack"
+sounds:
+  click: "ui.button.click;1;1.2"

@@ -1,0 +1,627 @@
+name: VexCore
+version: '1.0.0'
+main: com.vexorstudios.vexcore.VexCore
+api-version: '1.21'
+folia-supported: true
+# STARTUP: enabled before every other plugin, so anything they look up while enabling (like
+# the economy) is already there. Worlds load after this; VexCore never needs them at enable.
+load: STARTUP
+author: Vexor
+website: https://vexorstudios.com
+description: All-in-one survival core by VexorStudios.
+softdepend: [Vault, LuckPerms, PlaceholderAPI, packetevents]
+
+# No commands here: they come from commands.yml, so they can be renamed and turned off.
+# VexCore checks permissions itself (see hide-commands-without-permission in config.yml).
+
+permissions:
+  vexcore.ranktrial:
+    description: Grant an allowed temporary LuckPerms rank
+    default: op
+
+  vexcore.admin:
+    description: /vexcore (reload, import, features)
+    default: op
+
+  # ── Economy and rewards ─────────────────────────────────────────────
+  vexcore.balance:
+    description: /bal
+    default: true
+  vexcore.balance.others:
+    description: /bal <player>
+    default: true
+  vexcore.pay:
+    description: /pay and /paytoggle
+    default: true
+  vexcore.baltop:
+    description: /baltop
+    default: true
+  vexcore.payhistory:
+    description: /payhistory
+    default: true
+  vexcore.payhistory.others:
+    description: /payhistory <player>
+    default: op
+  vexcore.economy.admin:
+    description: /eco
+    default: op
+  vexcore.coinflip:
+    description: /cf
+    default: true
+  vexcore.coinflip.create:
+    description: Create coinflips
+    default: true
+  vexcore.coinflip.bypass:
+    description: Skip the coinflip cooldown
+    default: op
+  vexcore.invest:
+    description: /invest
+    default: true
+  vexcore.invest.admin:
+    description: /invest limit, reset, event
+    default: op
+  vexcore.daily:
+    description: /daily
+    default: true
+  vexcore.daily.bypass:
+    description: Skip the daily cooldown
+    default: op
+  vexcore.daily.admin:
+    description: /daily reset
+    default: op
+  vexcore.keyall:
+    description: /keyall
+    default: true
+  vexcore.keyall.admin:
+    description: /keyall force and set
+    default: op
+  vexcore.playtime:
+    description: /playtime
+    default: true
+  vexcore.playtime.admin:
+    description: /playtime reset
+    default: op
+  vexcore.killrewards:
+    description: /killrewards
+    default: true
+  vexcore.killrewards.admin:
+    description: /killrewards reset
+    default: op
+  vexcore.prestige:
+    description: /prestige
+    default: true
+  vexcore.prestige.admin:
+    description: /prestige set
+    default: op
+  vexcore.boosts:
+    description: /boosts
+    default: true
+  vexcore.boosts.bypass:
+    description: Skip the boost cooldown
+    default: op
+
+  # ── Selling and kits ─────────────────────────────────────────────────
+  vexcore.sell:
+    description: /sell (menu, hand, all)
+    default: true
+  vexcore.worth:
+    description: /worth
+    default: true
+  vexcore.sell.multiplier.vip:
+    description: Sell multiplier "vip" from features/sell/config.yml (add your own the same way)
+    default: false
+  vexcore.sell.multiplier.mvp:
+    description: Sell multiplier "mvp"
+    default: false
+  vexcore.sell.multiplier.elite:
+    description: Sell multiplier "elite"
+    default: false
+  vexcore.kit:
+    description: /kit and /kit preview (each kit can ask for its own permission)
+    default: true
+  vexcore.kit.vip:
+    description: The example "vip" kit
+    default: false
+  vexcore.kit.bypass:
+    description: Ignore kit cooldowns
+    default: op
+  vexcore.kit.admin:
+    description: /kit save, delete, give, reset
+    default: op
+
+  # ── Spawn / AFK ──────────────────────────────────────────────────────
+  vexcore.spawn:
+    description: /spawn and /spawns
+    default: true
+  vexcore.spawn.admin:
+    description: /setspawn and /delspawn
+    default: op
+  vexcore.spawn.others:
+    description: /spawn <name> <player>
+    default: op
+  vexcore.spawn.bypass:
+    description: Teleport to spawn without the countdown
+    default: op
+  # ── Warps ────────────────────────────────────────────────────────────
+  vexcore.warp:
+    description: /warp and /warps
+    default: true
+  vexcore.warp.admin:
+    description: /setwarp and /delwarp
+    default: op
+  vexcore.warp.bypass:
+    description: Warp without the countdown
+    default: op
+  vexcore.pwarp:
+    description: /pwarp (browse, visit, buy and manage player warps)
+    default: true
+  vexcore.pwarp.admin:
+    description: Delete or edit anyone's player warp; skip the slot limit and safety check
+    default: op
+  vexcore.pwarp.free:
+    description: Player warps cost nothing
+    default: op
+  vexcore.pwarp.bypass:
+    description: Player warp without the countdown
+    default: op
+  vexcore.afk:
+    description: /afk
+    default: true
+  vexcore.afk.admin:
+    description: /setafk
+    default: op
+  vexcore.afk.bypass:
+    description: Teleport to the afk area without the countdown
+    default: op
+
+  # ── Homes (vexcore.home.<n> = up to n homes, highest wins) ──────────
+  vexcore.home:
+    description: /home, /sethome, /delhome
+    default: true
+  vexcore.home.bypass:
+    description: Teleport home without the countdown
+    default: op
+
+  # ── Teleport requests ───────────────────────────────────────────────
+  vexcore.tpa:
+    description: /tpa, /tpaccept, /tpdeny, /tpacancel, /tpatoggle, /tpauto
+    default: true
+  vexcore.tpahere:
+    description: /tpahere
+    default: true
+  vexcore.tpa.hereall:
+    description: /tpahereall
+    default: op
+  vexcore.tpa.bypass:
+    description: Teleport without the countdown after a request is accepted
+    default: op
+
+  # ── Combat ──────────────────────────────────────────────────────────
+  vexcore.combat.bypass:
+    description: Never get combat tagged
+    default: false
+
+  # ── Toggles ─────────────────────────────────────────────────────────
+  vexcore.settings:
+    description: /settings
+    default: true
+  vexcore.nightvision:
+    description: /nightvision
+    default: true
+  vexcore.playerhide:
+    description: /playerhide
+    default: true
+  vexcore.playerhide.exempt:
+    description: Stay visible to players who use /playerhide
+    default: false
+  vexcore.mobtoggle:
+    description: /mobtoggle
+    default: true
+  vexcore.phantoms:
+    description: /phantoms
+    default: true
+  vexcore.jointoggle:
+    description: /jointoggle
+    default: true
+  vexcore.deathtoggle:
+    description: /deathtoggle
+    default: true
+  vexcore.joinmessages.silent:
+    description: Join and leave without a message
+    default: false
+
+  # ── Links and menus ─────────────────────────────────────────────────
+  vexcore.discord:
+    description: /discord
+    default: true
+  vexcore.store:
+    description: /store
+    default: true
+  vexcore.apply:
+    description: /apply
+    default: true
+  vexcore.live:
+    description: /live <link>
+    default: false
+  vexcore.live.toggle:
+    description: /live toggle
+    default: true
+  vexcore.live.bypass:
+    description: Skip the /live cooldown
+    default: op
+  vexcore.rules:
+    description: /rules
+    default: true
+  vexcore.guide:
+    description: /guide
+    default: true
+  vexcore.media:
+    description: /media
+    default: true
+  vexcore.ranks:
+    description: /ranks
+    default: true
+
+  # ── Utilities ───────────────────────────────────────────────────────
+  vexcore.craft:
+    description: /craft
+    default: op
+  vexcore.anvil:
+    description: /anvil
+    default: op
+  vexcore.grindstone:
+    description: /grindstone
+    default: op
+  vexcore.smithingtable:
+    description: /smithingtable
+    default: op
+  vexcore.loom:
+    description: /loom
+    default: op
+  vexcore.cartographytable:
+    description: /cartographytable
+    default: op
+  vexcore.stonecutter:
+    description: /stonecutter
+    default: op
+  vexcore.echest:
+    description: /echest
+    default: op
+  vexcore.echest.others:
+    description: /echest <player>
+    default: op
+  vexcore.sign:
+    description: /sign
+    default: op
+  vexcore.ping:
+    description: /ping
+    default: true
+  vexcore.ping.others:
+    description: /ping <player>
+    default: op
+  vexcore.trash:
+    description: /trash
+    default: true
+
+  # ── Chat, staff and events ──────────────────────────────────────────
+  vexcore.chatfilter.admin:
+    description: "/chatfilter and /chathistory"
+    default: op
+  vexcore.chatfilter.bypass:
+    description: "Skip the chat filter checks"
+    default: false
+  vexcore.chatfilter.alerts:
+    description: "See what the chat filter blocks"
+    default: op
+  vexcore.chatfilter.bypass.advertising:
+    description: "Post links to other servers"
+    default: false
+  vexcore.chatfilter.bypass.scam:
+    description: "Say things the SCAM rule blocks (free op, selling accounts)"
+    default: false
+  vexcore.chatfilter.bypass.links:
+    description: "Post links"
+    default: false
+  vexcore.chattoggle:
+    description: "/chattoggle"
+    default: true
+  vexcore.mentiontoggle:
+    description: "/mentiontoggle"
+    default: true
+  vexcore.chat.admin:
+    description: "/mutechat, /clearchat"
+    default: op
+  vexcore.chat.bypass:
+    description: "Talk while chat is locked, keep chat on /clearchat"
+    default: op
+  vexcore.chat.color:
+    description: "Colour codes in chat"
+    default: false
+  vexcore.chat.supporter:
+    description: "The supporter lines on the chat hover card"
+    default: false
+  vexcore.chat.item:
+    description: "[item] in chat"
+    default: true
+  vexcore.chat.inventory:
+    description: "[inv] in chat"
+    default: true
+  vexcore.chat.enderchest:
+    description: "[ec] in chat"
+    default: true
+  vexcore.chat.mention:
+    description: "@name mentions"
+    default: true
+  vexcore.msg:
+    description: "/msg, /reply, /msgtoggle"
+    default: true
+  vexcore.msg.color:
+    description: "Colour codes in private messages"
+    default: false
+  vexcore.msg.bypass:
+    description: "Message players who turned messages off or ignore you"
+    default: op
+  vexcore.ignore:
+    description: "/ignore"
+    default: true
+  vexcore.socialspy:
+    description: "/socialspy"
+    default: op
+  vexcore.staffchat:
+    description: "Staff chat"
+    default: op
+  vexcore.commandwhitelist.bypass:
+    description: "Use every command"
+    default: op
+  vexcore.commandwhitelist.staff:
+    description: "The staff command group"
+    default: op
+  vexcore.rename:
+    description: "/rename"
+    default: op
+  vexcore.rename.color:
+    description: "Colours in renames"
+    default: op
+  vexcore.rename.free:
+    description: "Rename without paying"
+    default: op
+  vexcore.team:
+    description: "/team"
+    default: true
+  vexcore.team.bypass:
+    description: "Team home without the countdown"
+    default: op
+  vexcore.vanish:
+    description: "/vanish"
+    default: op
+  vexcore.vanish.others:
+    description: "/vanish <player>"
+    default: op
+  vexcore.vanish.see:
+    description: "See vanished players"
+    default: op
+  vexcore.screenshare:
+    description: "/ss and screenshare alerts"
+    default: op
+  vexcore.screenshare.exempt:
+    description: "Can't be screenshared"
+    default: false
+  vexcore.stafftp:
+    description: "/stp, /stphere, /stpback"
+    default: op
+  vexcore.scoreboard:
+    description: "/scoreboard"
+    default: true
+  vexcore.stats:
+    description: "/stats"
+    default: true
+  vexcore.stats.others:
+    description: "/stats <player>"
+    default: true
+  vexcore.leaderboard:
+    description: "/leaderboard"
+    default: true
+  vexcore.joincounter.admin:
+    description: "/joincounter"
+    default: op
+  vexcore.announce:
+    description: "/announce"
+    default: op
+  vexcore.antilag:
+    description: "/antilag"
+    default: op
+  vexcore.ggwave:
+    description: "/ggwave"
+    default: op
+  vexcore.ipprotection.alts:
+    description: "/alts <player>"
+    default: op
+  vexcore.ipprotection.bypass:
+    description: "Not limited by IP protection (give to trusted households)"
+    default: false
+  vexcore.punish.ban:
+    description: "/ban"
+    default: op
+  vexcore.punish.ipban:
+    description: "/ipban"
+    default: op
+  vexcore.punish.mute:
+    description: "/mute"
+    default: op
+  vexcore.punish.kick:
+    description: "/kick"
+    default: op
+  vexcore.punish.warn:
+    description: "/warn"
+    default: op
+  vexcore.punish.unban:
+    description: "/unban"
+    default: op
+  vexcore.punish.unmute:
+    description: "/unmute"
+    default: op
+  vexcore.punish.unwarn:
+    description: "/unwarn"
+    default: op
+  vexcore.punish.history:
+    description: "/history"
+    default: op
+  vexcore.punish.menu:
+    description: "/punish"
+    default: op
+  vexcore.punish.permanent:
+    description: "Permanent (and over max-temporary) punishments"
+    default: op
+  vexcore.punish.exempt:
+    description: "Can't be punished by players"
+    default: false
+  vexcore.punish.notify:
+    description: "Sees silent punishments"
+    default: op
+  vexcore.punish.lift:
+    description: "Lift punishments from /history"
+    default: op
+  vexcore.staffmode:
+    description: "/staff"
+    default: op
+  vexcore.fly:
+    description: "/fly"
+    default: op
+  vexcore.fly.others:
+    description: "/fly <player>"
+    default: op
+  vexcore.heal:
+    description: "/heal"
+    default: op
+  vexcore.heal.others:
+    description: "/heal <player>"
+    default: op
+  vexcore.feed:
+    description: "/feed"
+    default: op
+  vexcore.feed.others:
+    description: "/feed <player>"
+    default: op
+  vexcore.god:
+    description: "/god"
+    default: op
+  vexcore.god.others:
+    description: "/god <player>"
+    default: op
+  vexcore.speed:
+    description: "/speed"
+    default: op
+  vexcore.speed.others:
+    description: "/speed <n> <kind> <player>"
+    default: op
+  vexcore.gamemode:
+    description: "/gmc /gms /gma /gmsp"
+    default: op
+  vexcore.gmc.others:
+    description: "/gmc <player>"
+    default: op
+  vexcore.gms.others:
+    description: "/gms <player>"
+    default: op
+  vexcore.gma.others:
+    description: "/gma <player>"
+    default: op
+  vexcore.gmsp.others:
+    description: "/gmsp <player>"
+    default: op
+  vexcore.invsee:
+    description: "/invsee"
+    default: op
+  vexcore.clearinventory:
+    description: "/clearinventory"
+    default: op
+  vexcore.clearinventory.others:
+    description: "/clearinventory <player>"
+    default: op
+  vexcore.vote:
+    description: "/vote /votetop /voteparty"
+    default: true
+  vexcore.votes.admin:
+    description: "/fakevote, /voteparty start"
+    default: op
+  vexcore.events:
+    description: "/event"
+    default: true
+  vexcore.events.admin:
+    description: "/event start|stop|koth set"
+    default: op
+  vexcore.events.ignore:
+    description: "Can't capture the KOTH hill"
+    default: false
+  vexcore.report:
+    description: "/report <player>"
+    default: true
+  vexcore.reports:
+    description: "/reports"
+    default: op
+  vexcore.reports.manage:
+    description: "/report resolve <number>"
+    default: op
+  vexcore.reports.notify:
+    description: "Told about new reports"
+    default: op
+  vexcore.reports.exempt:
+    description: "Can't be reported"
+    default: false
+  vexcore.reports.bypasscooldown:
+    description: "No report cooldown"
+    default: op
+  vexcore.invrollback:
+    description: "/invrollback <player>"
+    default: op
+  vexcore.invrollback.restore:
+    description: "Restore inventory backups"
+    default: op
+  vexcore.goal:
+    description: "/goal"
+    default: true
+  vexcore.goal.admin:
+    description: "/goal set|add|reset|refresh"
+    default: op
+  vexcore.tebex.admin:
+    description: "/tebexpurchase"
+    default: op
+  vexcore.giveaway:
+    description: "/giveaway (and /giveaway cancel for your own)"
+    default: true
+  vexcore.giveaway.forcecancel:
+    description: "/giveaway forcecancel <player> [reason]: cancel anyone's giveaway"
+    default: op
+  vexcore.ffa:
+    description: "/ffa (host)"
+    default: true
+  vexcore.ffa.join:
+    description: "/ffaaccept"
+    default: true
+  vexcore.ffa.bypass:
+    description: "No FFA host cooldown"
+    default: op
+  vexcore.duel:
+    description: "/1v1"
+    default: true
+  vexcore.quests:
+    description: "/quests"
+    default: true
+  vexcore.rtp:
+    description: "/rtp"
+    default: true
+  vexcore.rtp.bypass:
+    description: "No RTP countdown or cooldown"
+    default: op
+  vexcore.endlock:
+    description: "/endlock"
+    default: op
+  vexcore.endlock.bypass:
+    description: "RTP and portals to the End while it is locked"
+    default: op
+  vexcore.hide:
+    description: "/hide (needs PacketEvents)"
+    default: op
+  vexcore.nametags.admin:
+    description: "/nametags"
+    default: op

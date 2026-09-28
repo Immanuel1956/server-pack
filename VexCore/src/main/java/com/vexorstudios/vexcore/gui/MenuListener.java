@@ -1,0 +1,117 @@
+package com.vexorstudios.vexcore.gui;
+
+import com.vexorstudios.vexcore.core.Feature;
+import com.vexorstudios.vexcore.core.Scheduler;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * Guards every VexCore menu. Menus are recognised by their holder, never by title, so a renamed
+ * menu or a chest that happens to share its title can't be confused with one. Items can't be
+ * taken out, put in or dragged, except in a menu's editable slots (the trash).
+ */
+public final class MenuListener implements Listener {
+
+    /** Clicks closer together than this are ignored (double clicks, auto clickers). */
+
+    private final Map<UUID, Long> lastClick = new ConcurrentHashMap<>();
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onClick(InventoryClickEvent event) {
+        Inventory top = event.getView().getTopInventory();
+        if (!(top.getHolder(false) instanceof Menu menu)) return;
+        int raw = event.getRawSlot();
+        boolean inMenu = raw >= 0 && raw < top.getSize();
+        if (!inMenu && menu.hasEditable() && event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY) {
+            // Shift-click from the player's own inventory: vanilla would drop it into ANY empty
+            // menu slot, including ones that aren't editable (and would never give it back).
+            event.setCancelled(true);
+            Inventory from = event.getClickedInventory();
+            int slot = event.getSlot();
+            if (!(event.getWhoClicked() instanceof Player player) || from == null || !menu.live()) return;
+            Scheduler.entity(player, () -> {
+                if (player.getOpenInventory().getTopInventory() != top) return;
+                ItemStack item = from.getItem(slot);
+                if (item == null || item.isEmpty()) return;
+                from.setItem(slot, menu.insert(item));
+            });
+            return;
+        }
+        if (menu.hasEditable() && event.getAction() != InventoryAction.COLLECT_TO_CURSOR
+                && (!inMenu || menu.isEditable(raw))) {
+            return; // the player's own inventory or a free slot of an editable menu
+        }
+        event.setCancelled(true);
+        if (!(event.getWhoClicked() instanceof Player player)) return;
+        if (!menu.live()) {
+            Scheduler.entity(player, player::closeInventory);
+            return;
+        }
+        if (!inMenu) return;
+        Menu.Button button = menu.button(raw);
+        if (button == null) return;
+        long now = System.currentTimeMillis();
+        Long last = lastClick.put(player.getUniqueId(), now);
+        if (last != null && now - last < com.vexorstudios.vexcore.VexCore.get().settings().getLong("menu-click-gap-ms", 120)) return;
+        // Next tick: opening or closing inventories inside a click event is unsafe.
+        org.bukkit.event.inventory.ClickType click = event.getClick();
+        Scheduler.entity(player, () -> menu.click(raw, button, click));
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onDrag(InventoryDragEvent event) {
+        Inventory top = event.getView().getTopInventory();
+        if (!(top.getHolder(false) instanceof Menu menu)) return;
+        for (int raw : event.getRawSlots()) {
+            if (raw < top.getSize() && !menu.isEditable(raw)) {
+                event.setCancelled(true);
+                return;
+            }
+        }
+    }
+
+    /** Also fires on disconnect, before the quit event and the final save. */
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onClose(InventoryCloseEvent event) {
+        Inventory closing = event.getInventory();
+        if (closing.getHolder(false) instanceof Menu menu && closing == menu.getInventory()) menu.closed();
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        lastClick.remove(event.getPlayer().getUniqueId());
+    }
+
+    /**
+     * Closes the menus of one feature (or all when null). {@code now} closes on this thread,
+     * for shutdown when nothing can be scheduled any more.
+     */
+    public static void closeAll(Feature feature, boolean now) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (!(player.getOpenInventory().getTopInventory().getHolder(false) instanceof Menu menu)) continue;
+            if (feature != null && menu.feature() != feature) continue;
+            if (now) {
+                try {
+                    player.closeInventory();
+                } catch (RuntimeException ignored) {
+                }
+            } else {
+                Scheduler.entity(player, player::closeInventory);
+            }
+        }
+    }
+}

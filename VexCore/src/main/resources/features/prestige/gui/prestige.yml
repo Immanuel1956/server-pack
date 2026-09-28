@@ -1,0 +1,89 @@
+# /prestige menu. level-slots: one slot per level, in order.
+#
+# Templates: locked, ready (the next level, requirements met), done.
+#   %number% %cost% %kills% %playtime% %kills_have% %playtime_have% %invest_limit%
+#   %material% (the level's own material) %rewards% (its display lines)
+# Everywhere: %level% %total% %next% %kills_have% %playtime_have%.
+#
+# Every item and template takes: slot / slots, material, name, lore, glow, amount,
+# custom-model-data, item-model, skull, permission, sound ("" = silent), close-on-click, and
+# commands: / left-commands: / right-commands: ([player] [console] [message] [broadcast]
+# [actionbar] [title] [sound] [chat] [refresh] [close]).
+
+title: "&8Prestige | Levels"
+rows: 4
+
+level-slots: "11-15, 20-24"
+
+items:
+
+  border:
+    slots: "0-10, 16-19, 25-35"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  info:
+    slot: 4
+    material: PLAYER_HEAD
+    skull: "%player%"
+    name: "&#FF4D6D&lYOUR PRESTIGE"
+    lore:
+      - "&8Statistics"
+      - ""
+      - "&#FF4D6D¦ &fLevel: &#FF4D6D%level%&7/&#FF4D6D%total%"
+      - "&#FF4D6D¦ &fNext: &#FF4D6D%next%"
+      - "&#FF4D6D¦ &fKills: &#FF4D6D%kills_have%"
+      - "&#FF4D6D¦ &fHours played: &#FF4D6D%playtime_have%"
+    sound: ""
+
+templates:
+
+  locked:
+    material: "%material%"
+    name: "&#FF3B3B&lPRESTIGE %number%"
+    lore:
+      - "&8Requirements"
+      - ""
+      - "&#FF3B3B¦ &fCost: &#FF3B3B%cost%"
+      - "&#FF3B3B¦ &fKills: &#FF3B3B%kills_have%&7/&#FF3B3B%kills%"
+      - "&#FF3B3B¦ &fHours: &#FF3B3B%playtime_have%&7/&#FF3B3B%playtime%"
+      - ""
+      - "&fRewards:"
+      - "%rewards%"
+
+  ready:
+    material: "%material%"
+    glow: true
+    name: "&#FFEE00&lPRESTIGE %number%"
+    lore:
+      - "&8Requirements"
+      - ""
+      - "&#80EE0B¦ &fCost: &#80EE0B%cost%"
+      - "&#80EE0B¦ &fKills: &#80EE0B%kills_have%&7/&#80EE0B%kills%"
+      - "&#80EE0B¦ &fHours: &#80EE0B%playtime_have%&7/&#80EE0B%playtime%"
+      - ""
+      - "&fRewards:"
+      - "%rewards%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to prestige"
+
+  done:
+    material: LIME_CANDLE
+    name: "&#80EE0B&lPRESTIGE %number% &7(done)"
+    lore:
+      - "&fRewards:"
+      - "%rewards%"
+
+# ── Sounds ──────────────────────────────────────────────────────────────────
+sounds:
+  open:
+    enabled: true
+    sound: "block.chest.open"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2

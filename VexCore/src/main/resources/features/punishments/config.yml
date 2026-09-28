@@ -1,0 +1,222 @@
+# Punishments.
+#   /ban /ipban /mute <player> [duration] [reason] [-s]   no duration = permanent (1h, 7d, 30d...)
+#   /kick /warn <player> [reason] [-s]                     -s = silent: only staff see it
+#   /unban /unmute /unwarn <player> [-s]                   /unwarn lifts the newest warning
+#   /history <player>   every punishment; right click an active one to lift it
+#   /punish <player>    a menu of the reasons below
+# IP bans ban the player's network (all accounts on it) and need features.ipprotection.
+# Active bans and mutes are re-read every sync-seconds, so servers sharing a MySQL database
+# see each other's.
+prefix: "&#FF3B3B&lPUNISH &7▷ "
+
+server-name: "survival"
+default-reason: "Breaking the rules"
+console-name: "Console"
+# Shown on ban screens as %appeal%.
+appeal: "discord.gg/yourserver"
+date-format: "dd.MM.yyyy HH:mm"
+sync-seconds: 60
+
+# Staff without permissions.permanent can't give permanent bans/mutes, nor temporary ones
+# longer than this. "" = no limit.
+max-temporary: "30d"
+
+permissions:
+  permanent: "vexcore.punish.permanent"
+  exempt: "vexcore.punish.exempt"
+  notify: "vexcore.punish.notify"
+  lift: "vexcore.punish.lift"
+
+# What a muted player can't use (chat is always blocked).
+muted-commands: [msg, m, tell, w, whisper, pm, r, reply, t, tc, teamchat, me, say, mail]
+
+warnings:
+  # Warnings stop counting after this many days. 0 = never.
+  expire-days: 30
+  # With this many active warnings, run these console commands.
+  actions:
+    3:
+      - "mute %player% 1h Reached 3 warnings -s"
+    5:
+      - "ban %player% 1d Reached 5 warnings"
+
+# /punish <player>: one button per reason. durations climb with every earlier punishment
+# for the same reason (the last one repeats); "perm" = permanent. type: BAN IPBAN MUTE KICK WARN.
+# Left click punishes, right click punishes silently.
+reasons:
+  spam:
+    reason: "Spamming"
+    type: MUTE
+    material: PAPER
+    durations: ["15m", "1h", "6h", "1d", "7d"]
+  toxicity:
+    reason: "Toxicity"
+    type: MUTE
+    material: BLAZE_POWDER
+    durations: ["1h", "6h", "1d", "7d", "perm"]
+  advertising:
+    reason: "Advertising"
+    type: MUTE
+    material: OAK_SIGN
+    durations: ["1d", "7d", "perm"]
+  inappropriate:
+    reason: "Inappropriate behaviour"
+    type: WARN
+    material: WRITABLE_BOOK
+    durations: []
+  griefing:
+    reason: "Griefing"
+    type: BAN
+    material: TNT
+    durations: ["3d", "14d", "perm"]
+  exploiting:
+    reason: "Exploiting bugs"
+    type: BAN
+    material: COMMAND_BLOCK
+    durations: ["7d", "30d", "perm"]
+  hacking:
+    reason: "Unfair advantage (hacking)"
+    type: BAN
+    material: DIAMOND_SWORD
+    durations: ["30d", "perm"]
+  alting:
+    reason: "Ban evasion"
+    type: IPBAN
+    material: ENDER_EYE
+    durations: ["perm"]
+
+words:
+  ban: "Ban"
+  ipban: "IP Ban"
+  mute: "Mute"
+  kick: "Kick"
+  warn: "Warning"
+  permanent: "Permanent"
+  active: "&#FF3B3BActive"
+  expired: "&7Expired"
+  lifted: "&#97F900Lifted by %by%"
+  done: "&7Done"
+  "no": "&#97F900No"
+  until: "&#FF3B3BYes &7(%left%)"
+
+silent-tag: "&7[Silent] "
+
+# What banned and kicked players see. %reason% %staff% %date% %expires% %left% %id% %appeal%
+screens:
+  ban:
+    - "&#FF3B3B&lYOU ARE BANNED"
+    - ""
+    - "&fReason: &#FF3B3B%reason%"
+    - "&fBanned by: &7%staff%"
+    - "&fDuration: &#FF3B3BPermanent"
+    - ""
+    - "&7Appeal: &f%appeal% &8(#%id%)"
+  tempban:
+    - "&#FF3B3B&lYOU ARE BANNED"
+    - ""
+    - "&fReason: &#FF3B3B%reason%"
+    - "&fBanned by: &7%staff%"
+    - "&fTime left: &#FF3B3B%left%"
+    - ""
+    - "&7Appeal: &f%appeal% &8(#%id%)"
+  kick:
+    - "&#FF3B3B&lYOU WERE KICKED"
+    - ""
+    - "&fReason: &#FF3B3B%reason%"
+    - "&fBy: &7%staff%"
+
+# ── Discord ─────────────────────────────────────────────────────────────────
+# %id% %type% %player% %staff% %reason% %duration% %expires% %server%
+webhook:
+  enabled: false
+  url: ""
+  username: "Punishments"
+  avatar: ""
+  content: ""
+  ping-roles: []
+  embed:
+    title: "%type% #%id%"
+    color: "#FF3B3B"
+    thumbnail: "https://mc-heads.net/avatar/%player%/64"
+    description: "**%player%** was punished by **%staff%**"
+    footer: "%server%"
+    timestamp: true
+    fields:
+      - {name: "Reason", value: "%reason%", inline: false}
+      - {name: "Duration", value: "%duration%", inline: true}
+      - {name: "Expires", value: "%expires%", inline: true}
+# %type% %player% %staff%
+webhook-lifted:
+  enabled: false
+  url: ""
+  username: "Punishments"
+  avatar: ""
+  content: ""
+  ping-roles: []
+  embed:
+    title: "%type% lifted"
+    color: "#97F900"
+    description: "**%player%**'s %type% was lifted by **%staff%**"
+    timestamp: true
+
+messages:
+  loading: "&#FF0000&lERROR &7▷ &fPunishments are still loading, try again in a moment."
+  failed: "&#FF0000&lERROR &7▷ &fThat could not be saved. The console has the details."
+  no-permanent: "&#FF0000&lERROR &7▷ &fYou can't give permanent punishments; add a duration."
+  too-long: "&#FF0000&lERROR &7▷ &fThe longest you can give is &#FF3B3B%max%&f."
+  exempt: "&#FF0000&lERROR &7▷ &#FF3B3B%player% &fcan't be punished."
+  already-banned: "&#FF0000&lERROR &7▷ &#FF3B3B%player% &fis already banned. Unban first."
+  already-muted: "&#FF0000&lERROR &7▷ &#FF3B3B%player% &fis already muted. Unmute first."
+  not-banned: "&#FF0000&lERROR &7▷ &#FF3B3B%player% &fis not banned."
+  not-muted: "&#FF0000&lERROR &7▷ &#FF3B3B%player% &fis not muted."
+  no-warnings: "&#FF0000&lERROR &7▷ &#FF3B3B%player% &fhas no active warnings."
+  ipban-needs-ipprotection: "&#FF0000&lERROR &7▷ &fIP bans need &#FF3B3Bfeatures.ipprotection&f."
+  ipban-no-network: "&#FF0000&lERROR &7▷ &fThe network of &#FF3B3B%player% &fis not known yet (they must join once with IP protection on)."
+  done: "{prefix}&f%type% &#FF3B3B#%id% &fgiven to &#FF3B3B%player% &7(%duration%)&f."
+  lifted: "{prefix}&fLifted for &#97F900%player%&f."
+  lifted-one: "{prefix}&fLifted %type% &#97F900#%id% &fof &#97F900%player%&f."
+  you-muted:
+    - ""
+    - "&#FF3B3B&lMUTED &7▷ &fYou were muted by &#FF3B3B%staff%&f."
+    - "&#FF3B3B¦ &fReason: &#FF3B3B%reason%"
+    - "&#FF3B3B¦ &fDuration: &#FF3B3B%duration%"
+    - ""
+  you-are-muted: "&#FF3B3B&lMUTED &7▷ &fYou are muted &7(%left% left)&f: &#FF3B3B%reason%"
+  you-unmuted: "{prefix}&fYou are no longer muted."
+  mute-expired: "{prefix}&fYour mute has ended. Please follow the rules."
+  you-warned:
+    - ""
+    - "&#FFD900&lWARNING &7▷ &fYou were warned by &#FFD900%staff%&f."
+    - "&#FFD900¦ &fReason: &#FFD900%reason%"
+    - ""
+    - "[title] &#FFD900&lWARNING|&f%reason%"
+  announce:
+    ban: "%silent%{prefix}&#FF3B3B%player% &fwas banned by &7%staff%&f: &#FF3B3B%reason%"
+    ban-temp: "%silent%{prefix}&#FF3B3B%player% &fwas banned for &#FF3B3B%duration% &fby &7%staff%&f: &#FF3B3B%reason%"
+    ipban: "%silent%{prefix}&#FF3B3B%player% &fwas IP banned by &7%staff%&f: &#FF3B3B%reason%"
+    ipban-temp: "%silent%{prefix}&#FF3B3B%player% &fwas IP banned for &#FF3B3B%duration% &fby &7%staff%&f: &#FF3B3B%reason%"
+    mute: "%silent%{prefix}&#FF3B3B%player% &fwas muted by &7%staff%&f: &#FF3B3B%reason%"
+    mute-temp: "%silent%{prefix}&#FF3B3B%player% &fwas muted for &#FF3B3B%duration% &fby &7%staff%&f: &#FF3B3B%reason%"
+    kick: "%silent%{prefix}&#FF3B3B%player% &fwas kicked by &7%staff%&f: &#FF3B3B%reason%"
+    warn: "%silent%{prefix}&#FFD900%player% &fwas warned by &7%staff%&f: &#FFD900%reason%"
+    unban: "%silent%{prefix}&#97F900%player% &fwas unbanned by &7%staff%&f."
+    unmute: "%silent%{prefix}&#97F900%player% &fwas unmuted by &7%staff%&f."
+    unwarn: "%silent%{prefix}&7A warning of &f%player% &7was lifted by &f%staff%&7."
+
+sounds:
+  you-muted:
+    sound: "block.anvil.land"
+    volume: 0.6
+    pitch: 0.8
+  you-warned:
+    sound: "block.note_block.bass"
+    volume: 1.0
+    pitch: 0.6
+  you-are-muted:
+    sound: "block.note_block.bass"
+    volume: 0.8
+    pitch: 0.8
+  done:
+    sound: "entity.experience_orb.pickup"
+    volume: 0.8
+    pitch: 1.0

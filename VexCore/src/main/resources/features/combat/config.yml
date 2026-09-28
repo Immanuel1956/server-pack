@@ -1,0 +1,79 @@
+# Combat tag: hitting a player (or getting hit by one) tags both of you.
+# vexcore.combat.bypass is never tagged.
+
+prefix: "&#FF3B3B&lCOMBAT &7▷ "
+
+duration-seconds: 20
+
+# Kill players who log out while tagged (they drop their items).
+logout-kill: true
+
+# Nobody gets tagged in these worlds.
+disabled-worlds: []
+
+# Commands that don't work while tagged. Use the command's id from commands.yml, its current
+# name or any alias; other plugins' commands work too. Teleports are always blocked.
+blocked-commands:
+  - spawn
+  - afk
+  - home
+  - sethome
+  - delhome
+  - tpa
+  - tpahere
+  - tpahereall
+  - tpaccept
+  - tpauto
+  - tpatoggle
+  - settings
+  - trash
+  - echest
+  - craft
+  - anvil
+  - grindstone
+  - smithingtable
+  - loom
+  - cartographytable
+  - stonecutter
+  - rtp
+  - shop
+  - daily
+  - kit
+  - vault
+  - 1v1
+  - ffaaccept
+
+# %vexcore_combat% shows one of these. %vexcore_combat_seconds% shows the seconds left.
+placeholder:
+  tagged: "&#FF3B3BIn combat"
+  untagged: "&#16D223Safe"
+
+messages:
+  tagged: "{prefix}&fYou are in combat with &#FF3B3B%player%&f. Don't log out!"
+  status: "[actionbar]{prefix}&fIn combat for &#FF3B3B%seconds%s"
+  untagged: "[actionbar]{prefix}&#16D223You are out of combat."
+  command-blocked: "{prefix}&fYou can't use &#FF3B3B/%command% &fin combat."
+  teleport-blocked: "{prefix}&fYou can't teleport in combat."
+  logged-out: "{prefix}&#FF3B3B%player% &flogged out in combat."
+
+sounds:
+  tagged:
+    enabled: true
+    sound: "entity.player.hurt"
+    volume: 0.8
+    pitch: 0.8
+  untagged:
+    enabled: true
+    sound: "entity.experience_orb.pickup"
+    volume: 0.8
+    pitch: 1.4
+  command-blocked:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  teleport-blocked:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0

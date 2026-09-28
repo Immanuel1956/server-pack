@@ -1,0 +1,21 @@
+# /announce <message>. %message% is everything typed after it.
+title: "&#FF0000&lANNOUNCEMENT"
+subtitle: "&f%message%"
+# In ticks. 20 ticks = 1 second.
+fade-in: 10
+stay: 70
+fade-out: 20
+chat:
+  enabled: true
+  lines:
+    - ""
+    - "&#FF0000&lANNOUNCEMENT"
+    - "&f%message%"
+    - ""
+sound:
+  enabled: true
+  sound: "entity.experience_orb.pickup"
+  volume: 1.0
+  pitch: 1.0
+messages:
+  usage: "&#FF0000&lANNOUNCEMENT &7▷ &fUse /announce <message>"

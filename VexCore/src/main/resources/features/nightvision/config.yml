@@ -1,0 +1,28 @@
+# /nightvision: night vision until you turn it off. Kept through milk, death, relogs and
+# restarts. A night vision potion you drank yourself is never taken away.
+
+prefix: "&#B6EAFF&lNIGHTVISION &7▷ "
+
+# What players start with.
+default: false
+
+# Show the effect icon in the inventory and top right.
+show-icon: false
+# Show the effect's swirling particles around the player.
+show-particles: false
+
+messages:
+  enabled: "{prefix}&fNight vision is now &#16D223on&f."
+  disabled: "{prefix}&fNight vision is now &#FF3B3Boff&f."
+
+sounds:
+  enabled:
+    enabled: true
+    sound: "block.beacon.activate"
+    volume: 0.6
+    pitch: 1.6
+  disabled:
+    enabled: true
+    sound: "block.beacon.deactivate"
+    volume: 0.6
+    pitch: 1.6

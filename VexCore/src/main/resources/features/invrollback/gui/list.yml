@@ -1,0 +1,109 @@
+# One kind of backup, newest first. Left click restores, right click previews.
+#
+# backup template: %date% %ago% %items% %level% %trigger% %color% %world% %x% %y% %z% %note%
+# (%note% is the death message for deaths).   Everywhere: %target% %trigger% %color% %count% %page% %pages%.
+#
+# Every item and template takes: slot / slots, material, name, lore, glow, amount,
+# custom-model-data, item-model, skull, permission, sound ("" = silent), close-on-click, and commands.
+
+title: "&8⏱ Inventory Rollback | %target%"
+rows: 6
+
+content-slots: "0-44"
+
+items:
+
+  bottom:
+    slots: "45-47, 51-53"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  empty:
+    slot: 22
+    function: empty
+    material: BARRIER
+    name: "%color%&lNOTHING SAVED"
+    lore:
+      - "&7No %trigger% backups yet."
+    sound: ""
+
+  back:
+    slot: 45
+    function: back
+    material: ARROW
+    name: "%color%&lBACK"
+    lore:
+      - "&7Every kind of backup."
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401To Go Back"
+
+  previous-page:
+    slot: 48
+    function: previous-page
+    material: RED_STAINED_GLASS_PANE
+    name: "&#FF3B3B&lPREVIOUS PAGE"
+    lore:
+      - "&7Page &f%page%&7/&f%pages%"
+
+  info:
+    slot: 49
+    material: BOOK
+    name: "%color%&l%target%"
+    lore:
+      - "&8Description"
+      - ""
+      - "%color%Information:"
+      - "%color%¦ &f%count% %trigger% backups"
+      - "%color%¦ &fPage %page%/%pages%"
+    sound: ""
+
+  next-page:
+    slot: 50
+    function: next-page
+    material: LIME_STAINED_GLASS_PANE
+    name: "&#97F900&lNEXT PAGE"
+    lore:
+      - "&7Page &f%page%&7/&f%pages%"
+
+templates:
+
+  backup:
+    material: CHEST
+    name: "%color%%date%"
+    lore:
+      - "&8Description"
+      - ""
+      - "%color%Information:"
+      - "%color%¦ &fHere you can %color%view &fthe date"
+      - "%color%¦ &fand restore the %color%players &finv!"
+      - ""
+      - "%color%Settings"
+      - "%color%¦ &fItem &7¦ &f%items%"
+      - "%color%¦ &fTrigger &7¦ &f%trigger%"
+      - "%color%¦ &f%ago%"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401To Restore"
+      - "&#FBE401▶ &l&nRIGHT-CLICK&r &#FBE401To Preview"
+
+sounds:
+  open:
+    enabled: true
+    sound: "block.chest.open"
+    volume: 0.7
+    pitch: 1.2
+  close:
+    enabled: true
+    sound: "block.chest.close"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2
+  page:
+    enabled: true
+    sound: "item.book.page_turn"
+    volume: 1.0
+    pitch: 1.0

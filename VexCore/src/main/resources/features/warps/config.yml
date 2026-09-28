@@ -1,0 +1,35 @@
+# Server warps: /warp <name>, /warp or /warps (menu), /setwarp <name> [description],
+# /delwarp <name>. Warps are saved in data/warps.yml (per server, even with a shared MySQL).
+# /setwarp takes the item in your hand as the warp's icon (default-icon when your hand is empty).
+
+prefix: "&#3BC8FF&lWARPS &7▷ "
+
+# true: each warp needs vexcore.warp.<name> (vexcore.warp.* for all). Locked warps show as locked.
+per-warp-permission: false
+default-icon: "ENDER_PEARL"
+# Shown in the menu for warps without a description (/setwarp <name> <description> sets one).
+default-description: "A server warp."
+
+# The countdown before a warp teleports. vexcore.warp.bypass skips it.
+teleport:
+  delay-seconds: 3
+  cancel-on-move: true
+  cancel-on-damage: true
+
+messages:
+  teleport-countdown: "[actionbar]{prefix}&fWarping to &#3BC8FF%name% &fin &#3BC8FF%seconds%s"
+  teleport-success: "[actionbar]{prefix}&fWelcome to &#3BC8FF%name%&f."
+  teleport-cancelled: "{prefix}&fWarp cancelled, you moved."
+  teleport-cancelled-damage: "{prefix}&fWarp cancelled, you took damage."
+  not-found: "&#FF0000&lERROR &7▷ &fThere is no warp called &#3BC8FF%name%&f."
+  locked: "&#FF0000&lERROR &7▷ &fYou can't use the &#3BC8FF%name% &fwarp."
+  invalid-name: "&#FF0000&lERROR &7▷ &fWarp names may only use letters, numbers, - and _ (up to 32), and not admin or bypass."
+  set: "{prefix}&fWarp &#3BC8FF%name% &fwas set here. &7(icon %icon%)"
+  moved: "{prefix}&fWarp &#3BC8FF%name% &fwas moved here. &7(icon %icon%)"
+  deleted: "{prefix}&fWarp &#3BC8FF%name% &fwas deleted."
+
+sounds:
+  teleport-countdown: {sound: "block.note_block.pling", volume: 0.7, pitch: 1.0}
+  teleport-success: {sound: "entity.enderman.teleport", volume: 1.0, pitch: 1.0}
+  teleport-cancelled: {sound: "entity.villager.no", volume: 1.0, pitch: 1.0}
+  set: {sound: "entity.player.levelup", volume: 1.0, pitch: 1.2}

@@ -1,0 +1,6 @@
+# Covers /pl, /plugins and their namespaced forms, even for operators.
+messages:
+  plugins: "&fPlugins (0):"
+  guide-unavailable: "&#FF0000&lERROR &7▷ &fThe guide is currently unavailable."
+sounds:
+  plugins: {sound: "ui.button.click", volume: 0.7, pitch: 1.0}

@@ -1,0 +1,64 @@
+# /trash menu.
+#
+#   bin-slots   where players can put items. Everything left there is deleted on close.
+#   function: empty            empties the bin
+#   function: clear-inventory  wipes the player's inventory on a right click (what exactly:
+#                              config.yml)
+# Every item also takes commands: / left-commands: / right-commands:, permission:, sound:.
+# Keep buttons out of the bin slots.
+
+title: "&8Trashbin | Dashboard"
+rows: 6
+
+bin-slots: "9-44"
+
+items:
+
+  border:
+    slots: "0-3, 5-8, 45-48, 50-53"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  empty:
+    slot: 4
+    function: empty
+    material: OAK_SIGN
+    name: "&#FFEE00&lTRASHBIN"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FFEE00Information:"
+      - "&#FFEE00¦ &fDrag items into the"
+      - "&#FFEE00¦ &fmenu to &#FFEE00delete &fthem."
+      - ""
+      - "&#FFEE00▶ &n&lCLICK&r&#FFEE00 to empty the bin"
+
+  clear-inventory:
+    slot: 49
+    function: clear-inventory
+    material: BARRIER
+    name: "&#FF3B3B&lCLEAR INVENTORY"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3BInformation:"
+      - "&#FF3B3B¦ &fDeletes everything in"
+      - "&#FF3B3B¦ &fyour own inventory."
+      - ""
+      - "&#FF3B3B⚠ &fThis can't be undone!"
+      - ""
+      - "&#FF3B3B▶ &n&lRIGHT CLICK&r&#FF3B3B to clear"
+
+# ── Sounds ──────────────────────────────────────────────────────────────────
+sounds:
+  open:
+    enabled: true
+    sound: "block.barrel.open"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2

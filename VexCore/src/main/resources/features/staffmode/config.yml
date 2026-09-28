@@ -1,0 +1,145 @@
+# /staff: staff mode. Your inventory, game mode, flight, level and invulnerability are saved
+# (in the database too, so a crash can't lose them) and you get the tools below.
+# Leaving, logging out and /vexcore reload give everything back.
+prefix: "&#00E5FF&lSTAFF &7▷ "
+
+# SURVIVAL (flying) is the usual choice: you see the world as players do. CREATIVE or SPECTATOR work too.
+gamemode: SURVIVAL
+vanish-on-enter: true
+# What staff in staff mode may do.
+can-build: false
+can-hit: false
+# Whether an inspected player's inventory can be changed (true needs care).
+inspect-can-edit: false
+random-tp-skips-staff: true
+
+# Hotbar tools. slot 0-8 (hotbar) or 9-35. Each takes the usual item keys (material, name, lore,
+# glow, skull...), permission: to hide it, and an action:
+#   vanish      toggle vanish (the "visible" look shows while you are visible)
+#   random-tp   teleport to a random player
+#   online      the online players menu
+#   leave       leave staff mode
+#   freeze / inspect / punish / history / rollback    right click a player
+#   command:<command>   runs it (for right-clicking a player, %target% is their name)
+tools:
+  vanish:
+    slot: 0
+    action: vanish
+    material: LIME_DYE
+    name: "&#97F900&lVANISHED &7(click to show)"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#97F900¦ &fPlayers can't see you."
+    visible:
+      material: GRAY_DYE
+      name: "&#FF3B3B&lVISIBLE &7(click to vanish)"
+      lore:
+        - "&8Description"
+        - ""
+        - "&#FF3B3B¦ &fPlayers can see you."
+  random-tp:
+    slot: 1
+    action: random-tp
+    material: COMPASS
+    name: "&#00E5FF&lRANDOM TELEPORT"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#00E5FF¦ &fTeleport to a random player."
+  freeze:
+    slot: 2
+    action: freeze
+    material: PACKED_ICE
+    name: "&#8FD3FF&lFREEZE"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#8FD3FF¦ &fRight click a player to freeze"
+      - "&#8FD3FF¦ &fthem for a screenshare."
+  inspect:
+    slot: 3
+    action: inspect
+    material: BOOK
+    name: "&#FFD900&lINSPECT"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FFD900¦ &fRight click a player to see"
+      - "&#FFD900¦ &ftheir inventory."
+  punish:
+    slot: 4
+    action: punish
+    permission: "vexcore.punish.menu"
+    material: IRON_AXE
+    name: "&#FF3B3B&lPUNISH"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3B¦ &fRight click a player to"
+      - "&#FF3B3B¦ &fopen the punish menu."
+  rollback:
+    slot: 5
+    action: rollback
+    permission: "vexcore.invrollback"
+    material: CLOCK
+    name: "&#FF8C00&lROLLBACK"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF8C00¦ &fRight click a player for"
+      - "&#FF8C00¦ &ftheir inventory backups."
+  reports:
+    slot: 6
+    action: "command:reports"
+    permission: "vexcore.reports"
+    material: WRITABLE_BOOK
+    name: "&#FF3B3B&lREPORTS"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3B¦ &fOpen the pending reports."
+  online:
+    slot: 7
+    action: online
+    material: PLAYER_HEAD
+    skull: "%player%"
+    name: "&#00E5FF&lONLINE PLAYERS"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#00E5FF¦ &fEveryone online: teleport,"
+      - "&#00E5FF¦ &fpunish or inspect."
+  leave:
+    slot: 8
+    action: leave
+    material: BARRIER
+    name: "&#FF3B3B&lLEAVE STAFF MODE"
+
+words:
+  "yes": "&#97F900Yes"
+  "no": "&7No"
+
+messages:
+  entered: "{prefix}&fStaff mode &#97F900on&f. Your things are saved."
+  left: "{prefix}&fStaff mode &#FF3B3Boff&f. Your things are back."
+  recovered: "{prefix}&fThe server stopped while you were in staff mode; your things are back."
+  staff-entered: "{prefix}&7%player% entered staff mode."
+  staff-left: "{prefix}&7%player% left staff mode."
+  use-on-player: "[actionbar]{prefix}&fRight click a player with this."
+  nobody: "&#FF0000&lERROR &7▷ &fNobody to teleport to."
+  teleported: "[actionbar]{prefix}&fTeleported to &#00E5FF%player%"
+
+sounds:
+  entered:
+    sound: "block.beacon.activate"
+    volume: 0.6
+    pitch: 1.4
+  left:
+    sound: "block.beacon.deactivate"
+    volume: 0.6
+    pitch: 1.4
+  teleported:
+    sound: "entity.enderman.teleport"
+    volume: 0.6
+    pitch: 1.2

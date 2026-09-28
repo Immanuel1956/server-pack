@@ -1,0 +1,15 @@
+# /hide: a shared name and skin for whoever runs it (tab list, above the head, chat).
+# Needs the PacketEvents plugin; without it /hide says it is disabled due to a missing dependency.
+# Up to 16 characters, codes counted: "&7&k12345678&f" fits, one &#hex code doesn't work here.
+name: "&7&k12345678&f"
+
+# Empty = the vanilla default skin. A player name is fetched from Mojang; a value needs its signature.
+skin:
+  player: "Notch"
+  value: ""
+  signature: ""
+
+messages:
+  hidden: "&#7B61FF&lHIDE &7▷ &fYou are hidden now."
+  shown: "&#7B61FF&lHIDE &7▷ &fYou look like yourself again."
+  missing-dependency: "&#FF0000&lERROR &7▷ &f/hide is disabled due to a missing dependency &7(PacketEvents)&f."

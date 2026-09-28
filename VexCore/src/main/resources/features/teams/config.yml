@@ -1,0 +1,127 @@
+# /team create|invite|join|leave|kick|promote|demote|transfer|rename|disband|info|list|pvp|
+#       sethome|home|chat, and /teamchat (/tc). Start a chat line with "!" to talk in team chat.
+# Placeholders: %vexcore_team%, %vexcore_team_tag%, %vexcore_team_role%, %vexcore_team_members%,
+#               %vexcore_team_online%
+
+prefix: "&#FF00F8&lTEAM &7▷ "
+
+name:
+  min-length: 3
+  max-length: 16
+  # Letters, numbers and underscores only.
+  pattern: "^[A-Za-z0-9_]+$"
+  # Checked on top of the pattern and the chat filter rules. A name containing one is refused.
+  blocked:
+    - "admin"
+    - "staff"
+    - "owner"
+    - "mod"
+    - "helper"
+    - "console"
+    - "server"
+
+max-members: 8
+invite-seconds: 60
+create-cost: 0
+broadcast-create: false
+chat-trigger: "!"
+# What %vexcore_team_tag% (and {team} in the chat format) shows for players in a team.
+chat-tag: "&7[&#FF00F8%team%&7] "
+no-team: ""
+online-color: "&a"
+offline-color: "&7"
+pvp-on-text: "&aon"
+pvp-off-text: "&coff"
+date-format: "dd.MM.yyyy"
+# Between the names in /team info.
+members-separator: "&7, "
+# How many teams /team list shows.
+list-size: 10
+# How long a leader has to type /team disband again to confirm.
+disband-confirm-seconds: 10
+# Rights a new member gets. The owner changes them per member in the member menu.
+# manage-teammates, pvp, visit-home, edit-home, team-chat
+default-permissions: [visit-home, team-chat]
+# Seconds to type a name in chat (create, invite, search).
+input-seconds: 30
+# %home% in the team menu when there is no team home.
+no-home-text: "none"
+roles:
+  leader: "Leader"
+  officer: "Officer"
+  member: "Member"
+
+teleport:
+  delay-seconds: 5
+
+messages:
+  help:
+    - "&#FF00F8&lTEAMS &7(/team opens the menu)"
+    - "&8▶ &f/team create <name> &7▷ &fStart a team"
+    - "&8▶ &f/team invite <player> &7▷ &fInvite someone"
+    - "&8▶ &f/team join <team> &7▷ &fAccept an invite"
+    - "&8▶ &f/team leave &7▷ &fLeave your team"
+    - "&8▶ &f/team kick|promote|demote|transfer <player>"
+    - "&8▶ &f/team info [team] &7▷ &fTeam details"
+    - "&8▶ &f/team list &7▷ &fThe biggest teams"
+    - "&8▶ &f/team pvp &7▷ &fFriendly fire on or off"
+    - "&8▶ &f/team sethome | delhome | home &7▷ &fThe team home"
+    - "&8▶ &f/team chat [message] &7▷ &fTeam chat (or start with !)"
+    - "&8▶ &f/team rename <name> | disband"
+  created: "{prefix}&fYou created &#FF00F8%team%&f."
+  created-broadcast: "{prefix}&#FF00F8%player% &fcreated the team &#FF00F8%team%&f."
+  already-in-team: "&#FF0000&lERROR &7▷ &fYou are already in a team."
+  no-team: "&#FF0000&lERROR &7▷ &fYou are not in a team."
+  not-officer: "&#FF0000&lERROR &7▷ &fOnly officers and the leader can do that."
+  not-leader: "&#FF0000&lERROR &7▷ &fOnly the leader can do that."
+  name-length: "&#FF0000&lERROR &7▷ &fA team name is &#FF0000%min% &fto &#FF0000%max% &fcharacters."
+  name-characters: "&#FF0000&lERROR &7▷ &fLetters, numbers and underscores only."
+  name-reserved: "&#FF0000&lERROR &7▷ &fThat team name is not allowed."
+  name-filtered: "&#FF0000&lERROR &7▷ &fThat team name is not allowed."
+  name-taken: "&#FF0000&lERROR &7▷ &fA team with that name exists."
+  target-in-team: "&#FF0000&lERROR &7▷ &#FF00F8%player% &fis already in a team."
+  team-full: "&#FF0000&lERROR &7▷ &fA team has at most &#FF00F8%max% &fmembers."
+  invited: "{prefix}&fYou invited &#FF00F8%player%&f."
+  invite-received:
+    - "{prefix}&#FF00F8%player% &finvited you to &#FF00F8%team%&f."
+    - "<click:run_command:'%command%'><hover:show_text:'&aClick to join'>&#97F900&l[JOIN]</hover></click> &7or type &f%command%"
+  no-invite: "&#FF0000&lERROR &7▷ &fYou have no invite from &#FF00F8%team%&f."
+  joined: "{prefix}&#FF00F8%player% &fjoined the team."
+  leader-leave: "&#FF0000&lERROR &7▷ &fHand the team over first: /team transfer <player>."
+  left: "{prefix}&fYou left &#FF00F8%team%&f."
+  member-left: "{prefix}&#FF00F8%player% &fleft the team."
+  not-member: "&#FF0000&lERROR &7▷ &#FF00F8%player% &fis not in your team."
+  cant-kick: "&#FF0000&lERROR &7▷ &fYou can't kick them."
+  kicked: "{prefix}&#FF00F8%player% &fwas kicked by &#FF00F8%by%&f."
+  you-were-kicked: "{prefix}&fYou were kicked from &#FF00F8%team%&f."
+  promoted: "{prefix}&#FF00F8%player% &fis now &#FF00F8%role%&f."
+  demoted: "{prefix}&#FF00F8%player% &fis now &#FF00F8%role%&f."
+  transferred: "{prefix}&#FF00F8%player% &fleads the team now."
+  renamed: "{prefix}&fThe team is now called &#FF00F8%team%&f."
+  disband-confirm: "{prefix}&fType the command again within 10 seconds to disband the team."
+  disbanded: "{prefix}&fThe team &#FF00F8%team% &fwas disbanded."
+  pvp-on: "{prefix}&#FF00F8%player% &fturned friendly fire &aon&f."
+  pvp-off: "{prefix}&#FF00F8%player% &fturned friendly fire &coff&f."
+  home-set: "{prefix}&#FF00F8%player% &fset the team home."
+  home-deleted: "{prefix}&#FF00F8%player% &fremoved the team home."
+  not-allowed: "&#FF0000&lERROR &7▷ &fYour team owner hasn't given you that right."
+  cannot-manage-self: "&#FF0000&lERROR &7▷ &fYou can't manage yourself."
+  cannot-edit-owner: "&#FF0000&lERROR &7▷ &fThe owner always has every right."
+  permission-changed: "{prefix}&fChanged what &#FF00F8%player% &fmay do."
+  search-prompt: "{prefix}&fType a name in the chat, or &#FF00F8cancel&f."
+  invite-prompt: "{prefix}&fType the player to invite in the chat, or &#FF00F8cancel&f."
+  create-prompt: "{prefix}&fType your team name in the chat (&#FF00F8%min%&f-&#FF00F8%max% &fcharacters), or &#FF00F8cancel&f."
+  no-home: "&#FF0000&lERROR &7▷ &fYour team has no home yet."
+  unknown-team: "&#FF0000&lERROR &7▷ &fThere is no team called &#FF00F8%team%&f."
+  list-header: "{prefix}&fThere are &#FF00F8%count% &fteams:"
+  list-line: "&8 %place%. &#FF00F8%team% &7(%online%/%members% online)"
+  info:
+    - "&#FF00F8&l%team%"
+    - "&8▶ &fLeader: &#FF00F8%leader%"
+    - "&8▶ &fMembers (%count%/%max%): %members%"
+    - "&8▶ &fFriendly fire: %pvp%"
+    - "&8▶ &fCreated: &7%created%"
+  chat-on: "{prefix}&fYour chat goes to your team now."
+  chat-off: "{prefix}&fYour chat goes to everyone again."
+  chat-format: "&#FF00F8&lTEAM &7▷ &f%player% &8➜ &r%message%"
+  teleport-countdown: "[actionbar]{prefix}&fTeleporting to the team home in &#FF00F8%seconds%s"

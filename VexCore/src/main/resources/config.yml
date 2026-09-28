@@ -1,0 +1,143 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#   VexCore by VexorStudios
+# ─────────────────────────────────────────────────────────────────────────────
+#
+#   config.yml           this file: saving, and which features are on
+#   database.yml         SQLite or MySQL
+#   commands.yml         rename, alias, re-permission or turn off any command
+#   globalmessages.yml   messages every feature shares (prefix, errors, teleports)
+#   features/<name>/     one folder per feature: its config.yml, and a gui/ folder
+#                        with one file per menu
+#   data/                server data: spawns, afk area, the SQLite database
+#
+#   Text works everywhere with &-codes, &#RRGGBB, #RRGGBB and MiniMessage
+#   (<gradient:#ff0000:#0000ff>, <click:run_command:/spawn>, <hover:show_text:'hi'>),
+#   and PlaceholderAPI placeholders when it is installed.
+#
+#   /vexcore reload re-reads every file and restarts every feature.
+#   Files that are missing are put back with their defaults on start and reload.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# true: players don't see commands they have no permission for (not in /help, not in tab, and
+# using one says "Unknown command"). false: they see them and get the no-permission message.
+hide-commands-without-permission: true
+
+# Milliseconds between two menu clicks that count (stops auto-clickers and double clicks).
+menu-click-gap-ms: 120
+# Shown in menus for an item whose material doesn't exist (a typo, a placeholder gone wrong).
+invalid-material: "BARRIER"
+
+# Minutes between saves of online players' data. Homes, toggles and other important changes
+# are written the moment they happen; this only covers the rest.
+autosave-minutes: 5
+
+# The console block VexCore prints when it has started:
+#   FANCY   block letters and symbols in colour
+#   SIMPLE  plain ASCII, for consoles that show ? or boxes instead of symbols
+#   OFF     only the ready line (and any problems)
+startup-banner: FANCY
+
+# false turns a feature off completely: its commands disappear from the server, its menus
+# close, and its listeners, timers and placeholders stop. Takes effect on /vexcore reload.
+features:
+
+  # Economy (VexCore's own money, registered with Vault) and everything built on it.
+  # Turning economy off makes the others use any other Vault economy instead.
+  economy: true
+  # Alt accounts can't multiply invest, keyall, GG, giveaway, kill/playtime/daily rewards.
+  ipprotection: true
+  coinflip: true
+  invest: true
+  daily: true
+  keyall: true
+  playtime: true
+  killrewards: true
+  prestige: true
+  boosts: true
+
+  # Selling items and kits
+  sell: true
+  kits: true
+
+  # Chat
+  chatfilter: true
+  chat: true
+  msg: true
+  staffchat: true
+  commandwhitelist: true
+  commandroutes: true
+  rename: true
+  ranktrial: true
+  teams: true
+
+  # Staff
+  vanish: true
+  screenshare: true
+  stafftp: true
+  punishments: true
+  staffmode: true
+  staffessentials: true
+  reports: true
+  invrollback: true
+  # Needs the PacketEvents plugin.
+  hide: true
+
+  # Display (Paper only, Folia has no scoreboards)
+  nametags: true
+  scoreboard: true
+
+  # Events and progress
+  stats: true
+  leaderboard: true
+  joincounter: true
+  announce: true
+  antilag: true
+  ggwave: true
+  # Store goals, goal boss bar and purchase GG waves (needs your Tebex secret key).
+  tebex: true
+  # Vote rewards and vote party (needs NuVotifier).
+  votes: true
+  # Chat games, competitions and KOTH.
+  events: true
+  giveaway: true
+  ffa: true
+  duel: true
+  quests: true
+  rtp: true
+
+  # Teleports
+  spawn: true
+  # Server warps (/warp, /warps) set by staff.
+  warps: true
+  # Player warps (/pwarp): players buy public warps; ranks get more slots.
+  pwarps: true
+  afk: true
+  home: true
+  tpa: true
+  combat: true
+
+  # Player toggles
+  settings: true
+  nightvision: true
+  playerhide: true
+  mobtoggle: true
+  phantoms: true
+  joinmessages: true
+  deathmessages: true
+
+  # Links and menus
+  discord: true
+  store: true
+  apply: true
+  live: true
+  rules: true
+  guide: true
+  media: true
+  ranks: true
+
+  # Utilities
+  dropfix: true
+  workstations: true
+  sign: true
+  ping: true
+  trash: true

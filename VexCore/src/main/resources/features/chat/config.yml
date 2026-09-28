@@ -1,0 +1,121 @@
+# Public chat, handled like LifestealCore.
+# /chattoggle hides the chat for yourself.
+# /mutechat locks it for everyone, /mutechat 5m for a while. It survives a restart.
+# /clearchat wipes the chat for everyone without vexcore.chat.bypass.
+# Colour codes in chat need vexcore.chat.color. Tags players type are never run.
+
+prefix: "&#2BD6FF&lCHAT &7▷ "
+
+# {prefix} {suffix} {name} {message} {team} are replaced.
+# Every %placeholder% goes through PlaceholderAPI (and VexCore's own %vexcore_...%).
+format: "{team}{prefix}{name} &7▷ &r{message}"
+
+# What {prefix} and {suffix} stand for.
+prefix-placeholder: "%luckperms_prefix%"
+suffix-placeholder: "%luckperms_suffix%"
+
+# The profile card on the chat line. %player% is the sender.
+hover:
+  enabled: true
+  # WHOLE-LINE covers the message too, NAME only the prefix and the name.
+  apply-to: WHOLE-LINE
+  # Seconds a player's card is reused before its placeholders are read again.
+  cache-seconds: 5
+  # Drops a line whose placeholder found no plugin instead of showing it raw.
+  hide-unresolved: true
+  lines:
+    - "&#0AACE6%player%'s Profile"
+    - "&#FF7200⛨ &fRank: %luckperms_prefix%"
+    - "&#80ee0b&l$ &fMoney: &#80ee0b%vexcore_balance_formatted%"
+    - "&#FF0000🗡 &fKills: &#FF0000%vexcore_stats_kills%"
+    - "&#FB7B0B☠ &fDeaths: &#FB7B0B%vexcore_stats_deaths%"
+    - "&#F47714⚑ &fTeam: &#F47714%vexcore_team%"
+    - "&#FFF300⌛ &fPlaytime: &#FFF300%vexcore_playtime%"
+  # Shown for players with this permission (give it to your bought ranks).
+  supporter:
+    enabled: true
+    permission: "vexcore.chat.supporter"
+    lines:
+      - ""
+      - "&#22AFFBServer Supporter"
+  # Run by the player who clicks the line.
+  click:
+    enabled: true
+    command: "stats %player%"
+
+# Whether [item], [inv] and [ec] also work in /msg and /reply.
+private-messages: true
+
+# A trigger typed in chat turns into the real thing.
+tokens:
+  item:
+    enabled: true
+    trigger: "[item]"
+    permission: "vexcore.chat.item"
+    # %item% is the item with its full tooltip on hover.
+    display: "&#2BD6FF[%item%&#2BD6FF]"
+    empty: "&7Air"
+    show-amount: true
+    amount-format: " &7x%amount%"
+  inventory:
+    enabled: true
+    trigger: "[inv]"
+    permission: "vexcore.chat.inventory"
+    display: "&#2BD6FF[&fInventory of &#2BD6FF%player%&#2BD6FF]"
+    hover:
+      - "&#2BD6FFArmour and offhand are"
+      - "&#2BD6FFin there too."
+      - ""
+      - "&#2BD6FF▷ &n&lCLICK&r&#2BD6FF To Open"
+  enderchest:
+    enabled: true
+    trigger: "[ec]"
+    permission: "vexcore.chat.enderchest"
+    display: "&#2BD6FF[&fEnderchest of &#2BD6FF%player%&#2BD6FF]"
+    hover:
+      - "&#2BD6FFA snapshot of what"
+      - "&#2BD6FFwas in there."
+      - ""
+      - "&#2BD6FF▷ &n&lCLICK&r&#2BD6FF To Open"
+
+titles:
+  inventory: "Inventory of %player%"
+  enderchest: "Enderchest of %player%"
+
+# @Name lights up and pings that player.
+mentions:
+  enabled: true
+  permission: "vexcore.chat.mention"
+  # The colour of a mentioned name (everyone sees it), used as %color% in format.
+  color: "&#FFD900"
+  format: "%color%@%player%&r"
+  # %prefix% in the action bar the mentioned player sees.
+  prefix: "&#FFD900&lMENTION &7▷ "
+  notify:
+    actionbar: "%prefix%&#FFD900%player% &fmentioned you!"
+    sound:
+      enabled: true
+      sound: "entity.experience_orb.pickup"
+      volume: 1.0
+      pitch: 1.6
+
+# A shared inventory is a copy, nothing can be taken out of it.
+snapshots:
+  keep-seconds: 300
+  max: 200
+
+clear:
+  lines: 100
+
+messages:
+  hidden: "&#FF0000&lCHAT &7▷ &fChat messages are now hidden."
+  shown: "&#97F900&lCHAT &7▷ &fChat messages are now shown."
+  mentions-on: "&#97F900&lCHAT &7▷ &fMentions are on."
+  mentions-off: "&#FF0000&lCHAT &7▷ &fMentions are off."
+  muted: "&#FF0000&lCHAT &7▷ &fThe chat was locked by &#FF0000%player%&f."
+  muted-timed: "&#FF0000&lCHAT &7▷ &fThe chat was locked for &#FF0000%time% &fby &#FF0000%player%&f."
+  unmuted: "&#97F900&lCHAT &7▷ &fThe chat is open again."
+  muted-blocked: "&#FF0000&lERROR &7▷ &fThe chat is currently locked."
+  cleared: "&#2BD6FF&lCHAT &7▷ &fThe chat was cleared by &#2BD6FF%player%&f."
+  usage-mute: "&#FF0000&lCHAT &7▷ &fUse &#FF0000/mutechat [30s|5m|1h]&f."
+  expired: "&#FF0000&lCHAT &7▷ &fThat inventory is not shared anymore."

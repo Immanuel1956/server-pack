@@ -1,0 +1,42 @@
+# /quests. quest-slots: where the board's quests go, in order. Every slot gets a different quest.
+# One column free on each side, and the whole sixth row stays empty.
+# The quest item's material, name and lore come from quests.yml (%material%, %name%, %lore%).
+title: "&8Quest | Board"
+rows: 6
+quest-slots: "10-16, 19-25, 28-34, 37-43"
+items:
+  filler:
+    slots: "0-3, 5-9, 17-18, 26-27, 35-36, 44-53"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+  info:
+    slot: 4
+    material: WRITABLE_BOOK
+    name: "#FF7200✎ &lQUEST BOARD"
+    lore:
+      - "&8Description"
+      - ""
+      - "#FF7200Information:"
+      - "&fComplete quests before"
+      - "&fanybody else does."
+      - ""
+      - "#FF7200⚑ &fDone: &f%done%&8/&f%active%"
+      - "#FF7200⭐ &fEarned: &#80EE0B$%earned%"
+      - "#FF7200⌛ &fNew board in: &f%reset%"
+templates:
+  quest:
+    material: "%material%"
+    name: "%name%"
+    lore:
+      - "%lore%"
+  completed:
+    material: LIME_STAINED_GLASS_PANE
+    name: "#16D223⭐ &lCOMPLETED"
+    lore:
+      - "%name%"
+      - ""
+      - "#FFD900▶ &l&nCLICK#FFD900 To Open"
+sounds:
+  open: {sound: "item.book.page_turn", volume: 1.0, pitch: 1.2}
+  click: {sound: "ui.button.click", volume: 1.0, pitch: 1.2}

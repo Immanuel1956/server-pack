@@ -1,0 +1,115 @@
+# Player warps: public warps that players buy and share.
+#   /pwarp                     browse every warp (sort by visits, newest or A-Z; show all or yours)
+#   /pwarp <name>              warp there
+#   /pwarp set <name>          make a warp where you stand (or move one of yours here)
+#   /pwarp delete <name>       delete one of yours (staff with vexcore.pwarp.admin: anyone's)
+#   /pwarp icon <name>         the item in your hand becomes its icon
+#   /pwarp desc <name> [text]  its description (empty clears it)
+#   /pwarp list [player]       whose warps are called what
+#   /pwarp cost                your slots and what the next warp costs
+# Warps are saved in the database, so servers sharing MySQL share them.
+
+prefix: "&#B06CFF&lPWARPS &7▷ "
+
+# What a new warp costs. For a player who already owns N warps:
+#   (base + increase-per-warp * N) * multiplier-per-warp ^ N
+# Defaults: 1st 100k, 2nd 200k, 3rd 300k... Set multiplier-per-warp to e.g. 1.5 for a steeper climb.
+# vexcore.pwarp.free makes every warp free.
+cost:
+  base: 100000
+  increase-per-warp: 100000
+  multiplier-per-warp: 1.0
+  # Moving one of your warps to where you stand. 0 = free.
+  move: 0
+
+# Money given back when a warp is deleted, as a percentage of what was paid for it.
+refund-percent: 0
+
+# How many warps a player may own: default-slots, or the highest vexcore.pwarps.<n> they have
+# (e.g. vexcore.pwarps.5 for a paid rank), never more than max-slots.
+default-slots: 3
+max-slots: 54
+# More ways to give slots: permission node -> slots.
+permission-slots:
+  # "group.vip": 5
+  # "group.mvp": 8
+
+name:
+  min-length: 3
+  max-length: 16
+description-max-length: 64
+# Names and descriptions also go through the chat filter when it is on.
+
+# Icon of a new warp: the item in your hand, else default-icon.
+icon-from-hand: true
+default-icon: "ENDER_EYE"
+
+# Warps can't be made in these worlds.
+blocked-worlds: []
+# Refuses warps over lava, fire, cactus, inside blocks or above a drop of more than 3 blocks.
+# Checked again when someone warps there (Paper, when that spot is loaded), so a trap built later
+# makes the warp fail instead of killing the visitor. Staff (vexcore.pwarp.admin) skip it.
+safety-check: true
+# Tell everyone when a new warp opens.
+announce-new: true
+
+# The countdown before warping. vexcore.pwarp.bypass skips it.
+teleport:
+  delay-seconds: 3
+  cancel-on-move: true
+  cancel-on-damage: true
+
+words:
+  sort-visits: "Most visited"
+  sort-newest: "Newest"
+  sort-name: "A-Z"
+  filter-all: "Everyone's"
+  filter-mine: "Only mine"
+  no-description: "No description yet"
+
+messages:
+  help:
+    - "{prefix}&fPlayer warps:"
+    - "&#B06CFF/%command% &7browse &8· &#B06CFF/%command% <name> &7warp"
+    - "&#B06CFF/%command% set <name> &7make one here (or move yours)"
+    - "&#B06CFF/%command% delete|icon|desc <name> &7manage yours"
+    - "&#B06CFF/%command% list [player] &8· &#B06CFF/%command% cost"
+  usage-set: "{prefix}&fUse &#B06CFF/%command% set <name>"
+  usage-delete: "{prefix}&fUse &#B06CFF/%command% delete <name>"
+  usage-icon: "{prefix}&fUse &#B06CFF/%command% icon <name> &fwith the icon in your hand"
+  usage-desc: "{prefix}&fUse &#B06CFF/%command% desc <name> [text]"
+  teleport-countdown: "[actionbar]{prefix}&fWarping to &#B06CFF%name% &fin &#B06CFF%seconds%s"
+  teleport-success: "[actionbar]{prefix}&fWelcome to &#B06CFF%owner%&f's warp &#B06CFF%name%&f."
+  teleport-failed: "&#FF0000&lERROR &7▷ &fThe warp &#B06CFF%name% &fcan't be reached right now. It may be unsafe or its world isn't loaded."
+  teleport-cancelled: "{prefix}&fWarp cancelled, you moved."
+  teleport-cancelled-damage: "{prefix}&fWarp cancelled, you took damage."
+  created:
+    - "{prefix}&fYour warp &#B06CFF%name% &fis open! &7(paid %cost%, %owned%/%max% slots)"
+    - "[title]&#B06CFF&lWARP CREATED|&f/pwarp %name%"
+  announce: "{prefix}&#B06CFF%player% &fopened a new warp: &#B06CFF/pwarp %name%"
+  moved: "{prefix}&fYour warp &#B06CFF%name% &fnow points here. &7(paid %cost%)"
+  deleted: "{prefix}&fWarp &#B06CFF%name% &fwas deleted. &7(refund %refund%)"
+  deleted-by-staff: "{prefix}&fStaff deleted your warp &#B06CFF%name%&f. &7(refund %refund%)"
+  not-found: "&#FF0000&lERROR &7▷ &fThere is no player warp called &#B06CFF%name%&f."
+  not-yours: "&#FF0000&lERROR &7▷ &#B06CFF%name% &fisn't your warp."
+  name-taken: "&#FF0000&lERROR &7▷ &fThe name &#B06CFF%name% &fis already taken."
+  name-blocked: "&#FF0000&lERROR &7▷ &fThat name or text isn't allowed."
+  invalid-name: "&#FF0000&lERROR &7▷ &fWarp names are %min%-%max% letters, numbers, - or _."
+  limit: "&#FF0000&lERROR &7▷ &fYou already own &#B06CFF%max% &fwarps. Ranks can give you more slots."
+  blocked-world: "&#FF0000&lERROR &7▷ &fWarps can't be made in &#B06CFF%world%&f."
+  unsafe: "&#FF0000&lERROR &7▷ &fIt isn't safe here. Stand on solid ground, away from lava, fire and big drops."
+  failed: "&#FF0000&lERROR &7▷ &fThe warp &#B06CFF%name% &fcouldn't be saved. You were refunded."
+  icon-empty-hand: "&#FF0000&lERROR &7▷ &fHold the item you want as the icon."
+  icon-set: "{prefix}&fThe icon of &#B06CFF%name% &fis now &#B06CFF%icon%&f."
+  description-too-long: "&#FF0000&lERROR &7▷ &fDescriptions are at most &#B06CFF%max% &fcharacters."
+  description-set: "{prefix}&fDescription of &#B06CFF%name% &fsaved."
+  description-cleared: "{prefix}&fDescription of &#B06CFF%name% &fcleared."
+  list: "{prefix}&#B06CFF%player% &fowns &#B06CFF%amount% &fwarp(s): &#B06CFF%warps%"
+  list-none: "{prefix}&#B06CFF%player% &fhas no warps."
+  cost: "{prefix}&fYou own &#B06CFF%owned%&7/&#B06CFF%max% &fwarps. Next warp: &#B06CFF%cost%"
+
+sounds:
+  created: {sound: "ui.toast.challenge_complete", volume: 0.8, pitch: 1.2}
+  teleport-countdown: {sound: "block.note_block.pling", volume: 0.7, pitch: 1.0}
+  teleport-success: {sound: "entity.enderman.teleport", volume: 1.0, pitch: 1.0}
+  teleport-cancelled: {sound: "entity.villager.no", volume: 1.0, pitch: 1.0}

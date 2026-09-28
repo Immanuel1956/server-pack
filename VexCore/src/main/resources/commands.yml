@@ -1,0 +1,1007 @@
+# Every command VexCore adds. The key (vexcore, spawn, ...) never changes; everything under
+# it can:
+#
+#   enabled      false removes the command from the server
+#   name         what players type. Rename freely: name: core turns /vexcore into /core
+#   aliases      more names for the same command
+#   permission   needed to use it; '' lets everyone use it
+#   description  shown in /help
+#   usage        sent when the command is used wrong; %command% is its current name
+#
+# A command also disappears when its feature is turned off in config.yml.
+# If another plugin already has a name, VexCore takes it and gives it back when removed.
+# Changes take effect on /vexcore reload.
+
+commands:
+  ranktrial:
+    name: ranktrial
+    permission: "vexcore.ranktrial"
+    usage: "/%command% <player> <rank> <duration>"
+  plugins:
+    name: plugins
+    aliases: [pl]
+    permission: ""
+  help:
+    name: help
+    permission: ""
+  tutorial:
+    name: tutorial
+    permission: ""
+
+  # ── Core ────────────────────────────────────────────────────────
+  vexcore:
+    enabled: true
+    name: vexcore
+    aliases: [vcore, vc]
+    permission: "vexcore.admin"
+    description: "VexCore admin: reload, import, features, version"
+    usage: "/%command% <reload|features|version|import setupcore>"
+
+  # ── Economy ─────────────────────────────────────────────────────
+  balance:
+    enabled: true
+    name: balance
+    aliases: [bal, money]
+    permission: "vexcore.balance"
+    description: "Your balance, or another player's"
+    usage: "/%command% [player]"
+  pay:
+    enabled: true
+    name: pay
+    aliases: []
+    permission: "vexcore.pay"
+    description: "Pay a player"
+    usage: "/%command% <player> <amount>"
+  paytoggle:
+    enabled: true
+    name: paytoggle
+    aliases: []
+    permission: "vexcore.pay"
+    description: "Turn receiving payments on or off"
+    usage: "/%command%"
+  baltop:
+    enabled: true
+    name: baltop
+    aliases: [balancetop, moneytop]
+    permission: "vexcore.baltop"
+    description: "The richest players"
+    usage: "/%command%"
+  payhistory:
+    enabled: true
+    name: payhistory
+    aliases: [payments]
+    permission: "vexcore.payhistory"
+    description: "Your latest payments"
+    usage: "/%command% [player]"
+  eco:
+    enabled: true
+    name: eco
+    aliases: [economy]
+    permission: "vexcore.economy.admin"
+    description: "Change balances"
+    usage: "/%command% <give|take|set|reset|freeze> <player> [amount]"
+  coinflip:
+    enabled: true
+    name: coinflip
+    aliases: [cf]
+    permission: "vexcore.coinflip"
+    description: "Bet money on a coin flip"
+    usage: "/%command% [create <amount>|delete|toggle|history]"
+  invest:
+    enabled: true
+    name: invest
+    aliases: []
+    permission: "vexcore.invest"
+    description: "Invest money that pays out while you play"
+    usage: "/%command% [add|withdraw <amount|all>|collect|top]"
+
+  # ── Rewards ─────────────────────────────────────────────────────
+  daily:
+    enabled: true
+    name: daily
+    aliases: []
+    permission: "vexcore.daily"
+    description: "Your daily reward"
+    usage: "/%command%"
+  keyall:
+    enabled: true
+    name: keyall
+    aliases: []
+    permission: "vexcore.keyall"
+    description: "Time until the next key-all"
+    usage: "/%command%"
+  playtime:
+    enabled: true
+    name: playtime
+    aliases: [playtimerewards]
+    permission: "vexcore.playtime"
+    description: "Rewards for time played"
+    usage: "/%command%"
+  killrewards:
+    enabled: true
+    name: killrewards
+    aliases: []
+    permission: "vexcore.killrewards"
+    description: "Rewards for player kills"
+    usage: "/%command%"
+  prestige:
+    enabled: true
+    name: prestige
+    aliases: []
+    permission: "vexcore.prestige"
+    description: "Prestige levels"
+    usage: "/%command%"
+  boosts:
+    enabled: true
+    name: boosts
+    aliases: [boost, booster]
+    permission: "vexcore.boosts"
+    description: "Short potion boosts"
+    usage: "/%command%"
+
+  # ── Selling and kits ────────────────────────────────────────────
+  sell:
+    enabled: true
+    name: sell
+    aliases: []
+    permission: "vexcore.sell"
+    description: "Sell items for money"
+    usage: "/%command% [hand|all]"
+  worth:
+    enabled: true
+    name: worth
+    aliases: [price]
+    permission: "vexcore.worth"
+    description: "What an item sells for"
+    usage: "/%command% [item]"
+  kit:
+    enabled: true
+    name: kit
+    aliases: [kits]
+    permission: "vexcore.kit"
+    description: "Claim a kit"
+    usage: "/%command% [kit|preview <kit>|save <kit>|delete <kit>|give <kit> <player>|reset <player> [kit]]"
+
+  # ── Chat, staff and events ──────────────────────────────────────
+  chatfilter:
+    enabled: true
+    name: chatfilter
+    aliases: [cf-rules]
+    permission: "vexcore.chatfilter.admin"
+    description: "Chat filter tools"
+    usage: "/%command% <regex|remove|similar|test|strikes|clear|reload>"
+  chathistory:
+    enabled: true
+    name: chathistory
+    aliases: [chatlog]
+    permission: "vexcore.chatfilter.admin"
+    description: "Everything the chat filter caught"
+    usage: "/%command% [player]"
+  chattoggle:
+    enabled: true
+    name: chattoggle
+    aliases: [togglechat]
+    permission: "vexcore.chattoggle"
+    description: "Hide or show chat for yourself"
+    usage: "/%command%"
+  mentiontoggle:
+    enabled: true
+    name: mentiontoggle
+    aliases: [togglementions, mentions]
+    permission: "vexcore.mentiontoggle"
+    description: "Turn @mention pings on or off"
+    usage: "/%command%"
+  mutechat:
+    enabled: true
+    name: mutechat
+    aliases: [lockchat]
+    permission: "vexcore.chat.admin"
+    description: "Lock the chat for everyone"
+    usage: "/%command% [30s|5m|1h]"
+  clearchat:
+    enabled: true
+    name: clearchat
+    aliases: [cc]
+    permission: "vexcore.chat.admin"
+    description: "Clear the chat"
+    usage: "/%command%"
+  chatview:
+    enabled: true
+    name: chatview
+    aliases: []
+    permission: ""
+    description: "Open a shared inventory"
+    usage: "/%command% <id>"
+  msg:
+    enabled: true
+    name: msg
+    aliases: [tell, w, whisper, m, pm]
+    permission: "vexcore.msg"
+    description: "Send a private message"
+    usage: "/%command% <player> <message>"
+  reply:
+    enabled: true
+    name: reply
+    aliases: [r]
+    permission: "vexcore.msg"
+    description: "Answer the last private message"
+    usage: "/%command% <message>"
+  msgtoggle:
+    enabled: true
+    name: msgtoggle
+    aliases: [togglemsg, togglepm]
+    permission: "vexcore.msg"
+    description: "Turn private messages on or off"
+    usage: "/%command%"
+  ignore:
+    enabled: true
+    name: ignore
+    aliases: []
+    permission: "vexcore.ignore"
+    description: "Ignore a player (or list who you ignore)"
+    usage: "/%command% [player|list]"
+  socialspy:
+    enabled: true
+    name: socialspy
+    aliases: [spy]
+    permission: "vexcore.socialspy"
+    description: "See private messages"
+    usage: "/%command%"
+  staffchat:
+    enabled: true
+    name: staffchat
+    aliases: [sc]
+    permission: "vexcore.staffchat"
+    description: "Staff chat"
+    usage: "/%command% [message]"
+  rename:
+    enabled: true
+    name: rename
+    aliases: []
+    permission: "vexcore.rename"
+    description: "Rename the item in your hand"
+    usage: "/%command% <name|reset>"
+  team:
+    enabled: true
+    name: team
+    aliases: [t, teams]
+    permission: "vexcore.team"
+    description: "Teams"
+    usage: "/%command% <create|invite|join|leave|kick|promote|demote|transfer|rename|disband|info|list|pvp|sethome|home|chat>"
+  teamchat:
+    enabled: true
+    name: teamchat
+    aliases: [tc]
+    permission: "vexcore.team"
+    description: "Team chat"
+    usage: "/%command% [message]"
+  vanish:
+    enabled: true
+    name: vanish
+    aliases: [v]
+    permission: "vexcore.vanish"
+    description: "Vanish"
+    usage: "/%command% [player]"
+  screenshare:
+    enabled: true
+    name: screenshare
+    aliases: [ss]
+    permission: "vexcore.screenshare"
+    description: "Freeze a player for a screenshare"
+    usage: "/%command% <player> | end <player> | setroom"
+  stp:
+    enabled: true
+    name: stp
+    aliases: []
+    permission: "vexcore.stafftp"
+    description: "Staff teleport"
+    usage: "/%command% <player> [target]"
+  stphere:
+    enabled: true
+    name: stphere
+    aliases: []
+    permission: "vexcore.stafftp"
+    description: "Bring a player to you"
+    usage: "/%command% <player>"
+  stpback:
+    enabled: true
+    name: stpback
+    aliases: []
+    permission: "vexcore.stafftp"
+    description: "Back to where you were before a staff teleport"
+    usage: "/%command%"
+  hide:
+    enabled: true
+    name: hide
+    aliases: [disguise]
+    permission: "vexcore.hide"
+    description: "A shared name and skin (needs PacketEvents)"
+    usage: "/%command%"
+  nametags:
+    enabled: true
+    name: nametags
+    aliases: []
+    permission: "vexcore.nametags.admin"
+    description: "Name tag settings, /nametags reload rebuilds them"
+    usage: "/%command% [reload]"
+  scoreboard:
+    enabled: true
+    name: scoreboard
+    aliases: [sb]
+    permission: "vexcore.scoreboard"
+    description: "Show or hide the scoreboard"
+    usage: "/%command%"
+  stats:
+    enabled: true
+    name: stats
+    aliases: [stat]
+    permission: "vexcore.stats"
+    description: "Player stats"
+    usage: "/%command% [player]"
+  leaderboard:
+    enabled: true
+    name: leaderboard
+    aliases: [lb, top]
+    permission: "vexcore.leaderboard"
+    description: "Leaderboards"
+    usage: "/%command% [category]"
+  joincounter:
+    enabled: true
+    name: joincounter
+    aliases: []
+    permission: "vexcore.joincounter.admin"
+    description: "The first-join counter"
+    usage: "/%command% [reset|clear|set <number>]"
+  announce:
+    enabled: true
+    name: announce
+    aliases: [broadcast, bc]
+    permission: "vexcore.announce"
+    description: "Announce something to everyone"
+    usage: "/%command% <message>"
+  antilag:
+    enabled: true
+    name: antilag
+    aliases: [clearlag, lagg]
+    permission: "vexcore.antilag"
+    description: "Clear ground items now"
+    usage: "/%command%"
+  ggwave:
+    enabled: true
+    name: ggwave
+    aliases: [gg]
+    permission: "vexcore.ggwave"
+    description: "Start a GG wave"
+    usage: "/%command% [time]"
+  giveaway:
+    enabled: true
+    name: giveaway
+    aliases: [gws, giveaways]
+    permission: "vexcore.giveaway"
+    description: "Giveaways: /%command% cancel [number], staff: /%command% forcecancel <player> [reason]"
+    usage: "/%command% [cancel [number] | forcecancel <player> [reason]]"
+  ffa:
+    enabled: true
+    name: ffa
+    aliases: []
+    permission: "vexcore.ffa"
+    description: "Host an FFA event"
+    usage: "/%command%"
+  ffaaccept:
+    enabled: true
+    name: ffaaccept
+    aliases: []
+    permission: "vexcore.ffa.join"
+    description: "Join the FFA event"
+    usage: "/%command%"
+  duel:
+    enabled: true
+    name: 1v1
+    aliases: [duel]
+    permission: "vexcore.duel"
+    description: "Challenge a player to a 1v1"
+    usage: "/%command% <player> [wager] [world] | accept | deny"
+  quests:
+    enabled: true
+    name: quests
+    aliases: [quest, questboard]
+    permission: "vexcore.quests"
+    description: "The quest board"
+    usage: "/%command%"
+  rtp:
+    enabled: true
+    name: rtp
+    aliases: [randomtp, wild]
+    permission: "vexcore.rtp"
+    description: "Random teleport"
+    usage: "/%command% [world]"
+  endlock:
+    enabled: true
+    name: endlock
+    aliases: [lockend]
+    permission: "vexcore.endlock"
+    description: "Lock or unlock the End (RTP and portals)"
+    usage: "/%command% [on|off]"
+
+  # ── Spawn and AFK ───────────────────────────────────────────────
+  warp:
+    enabled: true
+    name: warp
+    aliases: []
+    permission: "vexcore.warp"
+    description: "Warp to a server warp, or open the warp menu"
+    usage: "/%command% [name]"
+  warps:
+    enabled: true
+    name: warps
+    aliases: []
+    permission: "vexcore.warp"
+    description: "The server warp menu"
+    usage: "/%command%"
+  setwarp:
+    enabled: true
+    name: setwarp
+    aliases: []
+    permission: "vexcore.warp.admin"
+    description: "Set a server warp where you stand (icon: the item in your hand)"
+    usage: "/%command% <name> [description]"
+  delwarp:
+    enabled: true
+    name: delwarp
+    aliases: []
+    permission: "vexcore.warp.admin"
+    description: "Delete a server warp"
+    usage: "/%command% <name>"
+  pwarp:
+    enabled: true
+    name: pwarp
+    aliases: [pwarps, pw, playerwarp, playerwarps]
+    permission: "vexcore.pwarp"
+    description: "Player warps: browse, visit, buy and manage"
+    usage: "/%command% [name|set|delete|icon|desc|list|cost|help]"
+  spawn:
+    enabled: true
+    name: spawn
+    aliases: []
+    permission: "vexcore.spawn"
+    description: "Teleport to a spawn"
+    usage: "/%command% [name] [player]"
+  setspawn:
+    enabled: true
+    name: setspawn
+    aliases: []
+    permission: "vexcore.spawn.admin"
+    description: "Set a spawn where you stand"
+    usage: "/%command% [name]"
+  delspawn:
+    enabled: true
+    name: delspawn
+    aliases: []
+    permission: "vexcore.spawn.admin"
+    description: "Delete a spawn"
+    usage: "/%command% <name>"
+  spawns:
+    enabled: true
+    name: spawns
+    aliases: []
+    permission: "vexcore.spawn"
+    description: "List the spawns"
+    usage: "/%command%"
+  afk:
+    enabled: true
+    name: afk
+    aliases: []
+    permission: "vexcore.afk"
+    description: "Teleport to the afk area"
+    usage: "/%command%"
+  setafk:
+    enabled: true
+    name: setafk
+    aliases: []
+    permission: "vexcore.afk.admin"
+    description: "Set the afk area where you stand"
+    usage: "/%command%"
+
+  # ── Homes ───────────────────────────────────────────────────────
+  home:
+    enabled: true
+    name: home
+    aliases: [homes]
+    permission: "vexcore.home"
+    description: "Open your homes or teleport to one"
+    usage: "/%command% [number]"
+  sethome:
+    enabled: true
+    name: sethome
+    aliases: []
+    permission: "vexcore.home"
+    description: "Save a home where you stand"
+    usage: "/%command% [number]"
+  delhome:
+    enabled: true
+    name: delhome
+    aliases: []
+    permission: "vexcore.home"
+    description: "Delete a home"
+    usage: "/%command% <number>"
+
+  # ── Teleport requests ───────────────────────────────────────────
+  tpa:
+    enabled: true
+    name: tpa
+    aliases: [tpask]
+    permission: "vexcore.tpa"
+    description: "Ask to teleport to a player"
+    usage: "/%command% <player>"
+  tpahere:
+    enabled: true
+    name: tpahere
+    aliases: []
+    permission: "vexcore.tpahere"
+    description: "Ask a player to teleport to you"
+    usage: "/%command% <player>"
+  tpahereall:
+    enabled: true
+    name: tpahereall
+    aliases: []
+    permission: "vexcore.tpa.hereall"
+    description: "Ask everyone to teleport to you"
+    usage: "/%command%"
+  tpaccept:
+    enabled: true
+    name: tpaccept
+    aliases: [tpyes]
+    permission: "vexcore.tpa"
+    description: "Accept a teleport request"
+    usage: "/%command% [player]"
+  tpdeny:
+    enabled: true
+    name: tpdeny
+    aliases: [tpno]
+    permission: "vexcore.tpa"
+    description: "Deny a teleport request"
+    usage: "/%command% [player]"
+  tpacancel:
+    enabled: true
+    name: tpacancel
+    aliases: [tpcancel]
+    permission: "vexcore.tpa"
+    description: "Cancel your own requests"
+    usage: "/%command% [player]"
+  tpatoggle:
+    enabled: true
+    name: tpatoggle
+    aliases: [tptoggle]
+    permission: "vexcore.tpa"
+    description: "Turn incoming requests on or off"
+    usage: "/%command% [tpa|tpahere]"
+  tpauto:
+    enabled: true
+    name: tpauto
+    aliases: []
+    permission: "vexcore.tpa"
+    description: "Accept requests automatically"
+    usage: "/%command%"
+
+  # ── Toggles ─────────────────────────────────────────────────────
+  settings:
+    enabled: true
+    name: settings
+    aliases: [options, prefs]
+    permission: "vexcore.settings"
+    description: "Open your settings"
+    usage: "/%command%"
+  nightvision:
+    enabled: true
+    name: nightvision
+    aliases: [nv]
+    permission: "vexcore.nightvision"
+    description: "Toggle permanent night vision"
+    usage: "/%command%"
+  playerhide:
+    enabled: true
+    name: playerhide
+    aliases: [ph]
+    permission: "vexcore.playerhide"
+    description: "Hide the other players from your view"
+    usage: "/%command%"
+  mobtoggle:
+    enabled: true
+    name: mobtoggle
+    aliases: []
+    permission: "vexcore.mobtoggle"
+    description: "Stop mobs spawning around you"
+    usage: "/%command%"
+  phantoms:
+    enabled: true
+    name: phantoms
+    aliases: [phantomtoggle, togglephantoms]
+    permission: "vexcore.phantoms"
+    description: "Despawn phantoms around you"
+    usage: "/%command%"
+  jointoggle:
+    enabled: true
+    name: jointoggle
+    aliases: []
+    permission: "vexcore.jointoggle"
+    description: "Show or hide join and leave messages"
+    usage: "/%command%"
+  deathtoggle:
+    enabled: true
+    name: deathtoggle
+    aliases: []
+    permission: "vexcore.deathtoggle"
+    description: "Show or hide death messages"
+    usage: "/%command%"
+
+  # ── Links and menus ─────────────────────────────────────────────
+  discord:
+    enabled: true
+    name: discord
+    aliases: [dc]
+    permission: "vexcore.discord"
+    description: "The Discord invite"
+    usage: "/%command%"
+  store:
+    enabled: true
+    name: store
+    aliases: [webstore]
+    permission: "vexcore.store"
+    description: "The webstore link"
+    usage: "/%command%"
+  apply:
+    enabled: true
+    name: apply
+    aliases: []
+    permission: "vexcore.apply"
+    description: "How to apply for staff"
+    usage: "/%command%"
+  live:
+    enabled: true
+    name: live
+    aliases: [stream]
+    permission: "vexcore.live.toggle"
+    description: "Announce your stream, or hide announcements"
+    usage: "/%command% <link|toggle>"
+  rules:
+    enabled: true
+    name: rules
+    aliases: []
+    permission: "vexcore.rules"
+    description: "The server rules"
+    usage: "/%command%"
+  guide:
+    enabled: true
+    name: guide
+    aliases: [tutorial]
+    permission: "vexcore.guide"
+    description: "The server guide"
+    usage: "/%command%"
+  media:
+    enabled: true
+    name: media
+    aliases: [creator]
+    permission: "vexcore.media"
+    description: "Apply for the media rank"
+    usage: "/%command%"
+  ranks:
+    enabled: true
+    name: ranks
+    aliases: [rank]
+    permission: "vexcore.ranks"
+    description: "The server ranks"
+    usage: "/%command%"
+
+  # ── Utilities ───────────────────────────────────────────────────
+  craft:
+    enabled: true
+    name: craft
+    aliases: [workbench, wb]
+    permission: "vexcore.craft"
+    description: "Open a crafting table"
+    usage: "/%command%"
+  anvil:
+    enabled: true
+    name: anvil
+    aliases: []
+    permission: "vexcore.anvil"
+    description: "Open an anvil"
+    usage: "/%command%"
+  grindstone:
+    enabled: true
+    name: grindstone
+    aliases: []
+    permission: "vexcore.grindstone"
+    description: "Open a grindstone"
+    usage: "/%command%"
+  smithingtable:
+    enabled: true
+    name: smithingtable
+    aliases: [smithing]
+    permission: "vexcore.smithingtable"
+    description: "Open a smithing table"
+    usage: "/%command%"
+  loom:
+    enabled: true
+    name: loom
+    aliases: []
+    permission: "vexcore.loom"
+    description: "Open a loom"
+    usage: "/%command%"
+  cartographytable:
+    enabled: true
+    name: cartographytable
+    aliases: [cartography]
+    permission: "vexcore.cartographytable"
+    description: "Open a cartography table"
+    usage: "/%command%"
+  stonecutter:
+    enabled: true
+    name: stonecutter
+    aliases: []
+    permission: "vexcore.stonecutter"
+    description: "Open a stonecutter"
+    usage: "/%command%"
+  echest:
+    enabled: true
+    name: echest
+    aliases: [enderchest, ec]
+    permission: "vexcore.echest"
+    description: "Open your ender chest"
+    usage: "/%command% [player]"
+  sign:
+    enabled: true
+    name: sign
+    aliases: []
+    permission: "vexcore.sign"
+    description: "Sign the item in your hand"
+    usage: "/%command%"
+  ping:
+    enabled: true
+    name: ping
+    aliases: []
+    permission: "vexcore.ping"
+    description: "Show your ping"
+    usage: "/%command% [player]"
+  trash:
+    enabled: true
+    name: trash
+    aliases: [disposal]
+    permission: "vexcore.trash"
+    description: "Open the trash bin"
+    usage: "/%command%"
+  alts:
+    enabled: true
+    name: alts
+    aliases: [altcheck, dupeip]
+    permission: "vexcore.ipprotection.alts"
+    description: "Accounts that played from the same network"
+    usage: "/%command% <player>"
+  ban:
+    enabled: true
+    name: ban
+    aliases: [tempban]
+    permission: "vexcore.punish.ban"
+    description: "Ban a player (add a duration for a temporary ban)"
+    usage: "/%command% <player> [duration] [reason] [-s]"
+  ipban:
+    enabled: true
+    name: ipban
+    aliases: [banip, tempipban]
+    permission: "vexcore.punish.ipban"
+    description: "Ban a player's network"
+    usage: "/%command% <player> [duration] [reason] [-s]"
+  mute:
+    enabled: true
+    name: mute
+    aliases: [tempmute]
+    permission: "vexcore.punish.mute"
+    description: "Mute a player"
+    usage: "/%command% <player> [duration] [reason] [-s]"
+  kick:
+    enabled: true
+    name: kick
+    aliases: []
+    permission: "vexcore.punish.kick"
+    description: "Kick a player"
+    usage: "/%command% <player> [reason] [-s]"
+  warn:
+    enabled: true
+    name: warn
+    aliases: []
+    permission: "vexcore.punish.warn"
+    description: "Warn a player"
+    usage: "/%command% <player> [reason] [-s]"
+  unban:
+    enabled: true
+    name: unban
+    aliases: [pardon, unipban]
+    permission: "vexcore.punish.unban"
+    description: "Lift a ban"
+    usage: "/%command% <player> [-s]"
+  unmute:
+    enabled: true
+    name: unmute
+    aliases: []
+    permission: "vexcore.punish.unmute"
+    description: "Lift a mute"
+    usage: "/%command% <player> [-s]"
+  unwarn:
+    enabled: true
+    name: unwarn
+    aliases: [delwarn]
+    permission: "vexcore.punish.unwarn"
+    description: "Lift the newest warning"
+    usage: "/%command% <player> [-s]"
+  history:
+    enabled: true
+    name: history
+    aliases: [punishments, checkpunish]
+    permission: "vexcore.punish.history"
+    description: "A player's punishments"
+    usage: "/%command% <player>"
+  punish:
+    enabled: true
+    name: punish
+    aliases: [p]
+    permission: "vexcore.punish.menu"
+    description: "The punish menu"
+    usage: "/%command% <player>"
+  staff:
+    enabled: true
+    name: staff
+    aliases: [staffmode, mod]
+    permission: "vexcore.staffmode"
+    description: "Staff mode"
+    usage: "/%command%"
+  fly:
+    enabled: true
+    name: fly
+    aliases: []
+    permission: "vexcore.fly"
+    description: "Toggle flying"
+    usage: "/%command% [player]"
+  heal:
+    enabled: true
+    name: heal
+    aliases: []
+    permission: "vexcore.heal"
+    description: "Heal"
+    usage: "/%command% [player]"
+  feed:
+    enabled: true
+    name: feed
+    aliases: [eat]
+    permission: "vexcore.feed"
+    description: "Feed"
+    usage: "/%command% [player]"
+  god:
+    enabled: true
+    name: god
+    aliases: [godmode]
+    permission: "vexcore.god"
+    description: "God mode"
+    usage: "/%command% [player]"
+  speed:
+    enabled: true
+    name: speed
+    aliases: []
+    permission: "vexcore.speed"
+    description: "Walk or fly speed"
+    usage: "/%command% <1-10> [walk|fly] [player]"
+  gmc:
+    enabled: true
+    name: gmc
+    aliases: []
+    permission: "vexcore.gamemode"
+    description: "Creative"
+    usage: "/%command% [player]"
+  gms:
+    enabled: true
+    name: gms
+    aliases: []
+    permission: "vexcore.gamemode"
+    description: "Survival"
+    usage: "/%command% [player]"
+  gma:
+    enabled: true
+    name: gma
+    aliases: []
+    permission: "vexcore.gamemode"
+    description: "Adventure"
+    usage: "/%command% [player]"
+  gmsp:
+    enabled: true
+    name: gmsp
+    aliases: []
+    permission: "vexcore.gamemode"
+    description: "Spectator"
+    usage: "/%command% [player]"
+  invsee:
+    enabled: true
+    name: invsee
+    aliases: [inv]
+    permission: "vexcore.invsee"
+    description: "See a player's inventory"
+    usage: "/%command% <player>"
+  clearinventory:
+    enabled: true
+    name: clearinventory
+    aliases: [ci, clear]
+    permission: "vexcore.clearinventory"
+    description: "Clear an inventory"
+    usage: "/%command% [player]"
+  vote:
+    enabled: true
+    name: vote
+    aliases: [votes]
+    permission: "vexcore.vote"
+    description: "Vote for the server"
+    usage: "/%command%"
+  votetop:
+    enabled: true
+    name: votetop
+    aliases: [topvoters]
+    permission: "vexcore.vote"
+    description: "This month's top voters"
+    usage: "/%command%"
+  voteparty:
+    enabled: true
+    name: voteparty
+    aliases: [vp]
+    permission: "vexcore.vote"
+    description: "Vote party progress"
+    usage: "/%command%"
+  fakevote:
+    enabled: true
+    name: fakevote
+    aliases: []
+    permission: "vexcore.votes.admin"
+    description: "Send a test vote"
+    usage: "/%command% <player> [site]"
+  event:
+    enabled: true
+    name: event
+    aliases: [events]
+    permission: "vexcore.events"
+    description: "Server events"
+    usage: "/%command% [start <type>|stop|koth set [radius]]"
+  report:
+    enabled: true
+    name: report
+    aliases: []
+    permission: "vexcore.report"
+    description: "Report a player"
+    usage: "/%command% <player> [reason]"
+  reports:
+    enabled: true
+    name: reports
+    aliases: []
+    permission: "vexcore.reports"
+    description: "Pending player reports"
+    usage: "/%command% [number]"
+  invrollback:
+    enabled: true
+    name: invrollback
+    aliases: [rollback, invrb, restoreinv]
+    permission: "vexcore.invrollback"
+    description: "Inventory backups and restores"
+    usage: "/%command% <player>"
+  goal:
+    enabled: true
+    name: goal
+    aliases: [goals, storegoal]
+    permission: "vexcore.goal"
+    description: "The store goal"
+    usage: "/%command%"
+  tebexpurchase:
+    enabled: true
+    name: tebexpurchase
+    aliases: []
+    permission: "vexcore.tebex.admin"
+    description: "Announce a store purchase (for Tebex package commands)"
+    usage: "/%command% <player> <amount> [package]"
+
+# New names that run another command with fixed arguments. Anything typed after the shortcut
+# is added to the end. Example: "hub: spawn hub" makes /hub run /spawn hub.
+shortcuts: {}

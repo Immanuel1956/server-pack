@@ -1,0 +1,147 @@
+# Kits: /kit (menu: left click claims, right click previews), /kit <name>, /kit preview <name>
+# Admin (vexcore.kit.admin):
+#   /kit save <name>            saves your inventory, armour and offhand as the kit's items
+#   /kit delete <name>          deletes the saved items
+#   /kit give <name> <player>   gives a kit, ignoring cooldowns (not recorded)
+#   /kit reset <player> [kit]   lets a player claim again
+# vexcore.kit.bypass ignores cooldowns.
+#
+# The items are saved in game with /kit save and kept in data/kits.yml, so any item works
+# exactly as it was (enchantments, custom names, items from other plugins). Below is everything
+# else about a kit. A kit that only has saved items and no settings here can only be used with
+# vexcore.kit.<name>.
+#
+# Placeholder: %vexcore_kit_<name>% (Ready, the time left, Claimed or Locked)
+
+prefix: "&#22AFFB&lKITS &7▷ "
+
+# When a kit doesn't fit: REFUSE (nothing is given; make room and try again) or DROP (what
+# doesn't fit drops at the player's feet).
+full-inventory: REFUSE
+
+# Master switch. Each kit also accepts cooldown-enabled: false. One-time claims stay one-time.
+cooldowns-enabled: true
+
+# Armour goes straight into empty armour slots.
+auto-equip: true
+
+# Close the menu after a kit was claimed from it.
+close-on-claim: true
+# Leave kits the player has no permission for out of the menu.
+hide-locked: false
+# Let players preview kits they can't use yet.
+preview-locked: true
+
+status:
+  ready: "&#80EE0BReady"
+  claimed: "&7Claimed"
+  locked: "&#FF3B3BLocked"
+no-cooldown: "none"
+all-kits: "all kits"
+
+# Each kit:
+#   name         shown in the menu and in messages
+#   icon         the menu item
+#   description  lines under %description% in the menu
+#   permission   needed to claim it ("" = everybody)
+#   cooldown     time between two claims (1d, 12h, 30m; 0 = none)
+#   one-time     can only ever be claimed once
+#   first-join   given automatically on a player's very first join (counts as their claim)
+#   money        paid with the kit
+#   commands     run on claim: [console] ..., [message] ... (%player% %kit%)
+kits:
+  starter:
+    name: "&#80EE0BStarter"
+    icon: STONE_SWORD
+    description:
+      - "&fStone tools and some food"
+      - "&fto get you going."
+    permission: ""
+    cooldown-enabled: true
+    cooldown: "0"
+    one-time: true
+    first-join: true
+    money: 0
+    commands: []
+  daily:
+    name: "&#FFD900Daily"
+    icon: BREAD
+    description:
+      - "&fFood and torches, every day."
+    permission: ""
+    cooldown-enabled: true
+    cooldown: "1d"
+    one-time: false
+    first-join: false
+    money: 0
+    commands: []
+  vip:
+    name: "&#FF4D6DVIP"
+    icon: DIAMOND_CHESTPLATE
+    description:
+      - "&fA full diamond set."
+    permission: "vexcore.kit.vip"
+    cooldown-enabled: true
+    cooldown: "3d"
+    one-time: false
+    first-join: false
+    money: 0
+    commands: []
+
+# %kit% = the kit's name, %time% = time left, %cooldown%, %items% (how many items)
+messages:
+  claimed: "{prefix}&fYou claimed the %kit% &fkit!"
+  given: "{prefix}&fYou were given the %kit% &fkit."
+  gave: "{prefix}&fGave the %kit% &fkit to &#22AFFB%player%&f."
+  cooldown: "&#FF0000&lERROR &7▷ &fYou can claim %kit% &fagain in &#22AFFB%time%&f."
+  already-claimed: "&#FF0000&lERROR &7▷ &fYou already claimed %kit%&f. It can only be claimed once."
+  locked: "&#FF0000&lERROR &7▷ &fYou can't use the %kit% &fkit."
+  no-space: "&#FF0000&lERROR &7▷ &fMake room in your inventory for the %kit% &fkit &7(%items% items)&f."
+  unknown-kit: "&#FF0000&lERROR &7▷ &fThere is no kit called &#22AFFB%kit%&f."
+  economy-missing: "&#FF0000&lERROR &7▷ &fThe money of this kit couldn't be paid out. Please tell staff."
+  saved: "{prefix}&fSaved &#22AFFB%items% &fitems as the &#22AFFB%kit% &fkit."
+  saved-new:
+    - "{prefix}&fSaved &#22AFFB%items% &fitems as the new &#22AFFB%kit% &fkit."
+    - "&7Only players with vexcore.kit.%kit% can use it until you add kits.%kit% to"
+    - "&7features/kits/config.yml and run /vexcore reload."
+  save-empty: "&#FF0000&lERROR &7▷ &fYour inventory is empty. Hold the kit's items first."
+  usage-save: "{prefix}&fUse /kit save <name> &7(letters, numbers, - and _)"
+  deleted: "{prefix}&fDeleted the items of the &#22AFFB%kit% &fkit."
+  reset: "{prefix}&fReset %kit% &ffor &#22AFFB%player%&f."
+
+sounds:
+  claimed:
+    enabled: true
+    sound: "entity.player.levelup"
+    volume: 1.0
+    pitch: 1.2
+  given:
+    enabled: true
+    sound: "entity.player.levelup"
+    volume: 1.0
+    pitch: 1.2
+  cooldown:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  already-claimed:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  locked:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  no-space:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  saved:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 1.2

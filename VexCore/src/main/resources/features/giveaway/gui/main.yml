@@ -1,0 +1,83 @@
+# /giveaway: running giveaways. Left click enters, right click shows the prize.
+title: "&8Giveaways [%page%/%pages%]"
+rows: 6
+content-slots: "10-16, 19-25, 28-34"
+items:
+  border:
+    slots: "0-9, 17-18, 26-27, 35-36, 44-47, 51-53"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+  previous:
+    slot: 48
+    function: previous-page
+    material: ARROW
+    name: "&#FFB02E▷ &fPrevious Page"
+  create:
+    slot: 49
+    function: create
+    material: CHEST
+    name: "&#FFB02E&lCREATE"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FFB02EInformation:"
+      - "&#FFB02E¦ &fGive money or items away to"
+      - "&#FFB02E¦ &fa random player."
+      - ""
+      - "&#FFB02E▷ &n&lCLICK&r&#FFB02E To Create"
+  next:
+    slot: 50
+    function: next-page
+    material: ARROW
+    name: "&#FFB02E▷ &fNext Page"
+  claims:
+    slot: 40
+    function: claims
+    material: ENDER_CHEST
+    name: "&#FFB02E&lYOUR PRIZES"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FFB02E¦ &fWins and giveaways nobody"
+      - "&#FFB02E¦ &fentered wait here: &#FFB02E%claims%"
+      - ""
+      - "&#FFB02E▷ &n&lCLICK&r&#FFB02E To Open"
+  empty:
+    slot: 22
+    function: empty
+    material: BARRIER
+    name: "&#FF0000&lNO GIVEAWAYS"
+    lore: ["&7Nobody is giving anything away right now."]
+templates:
+  giveaway:
+    material: PLAYER_HEAD
+    skull: "%player%"
+    name: "&#FFB02E&l%player%'s Giveaway"
+    lore:
+      - "&8Giveaway"
+      - ""
+      - "&#FFB02E¦ &fPrize: &#FFB02E%prize%"
+      - "&#FFB02E¦ &fEntries: &#FFB02E%entries%"
+      - "&#FFB02E¦ &fEnds in: &#FFB02E%time%"
+      - ""
+      - "&#FFB02E▷ &n&lLEFT CLICK&r&#FFB02E To Enter"
+      - "&7▷ Right click to see the prize"
+  entered:
+    material: PLAYER_HEAD
+    skull: "%player%"
+    glow: true
+    name: "&#97F900&l%player%'s Giveaway"
+    lore:
+      - "&8Giveaway"
+      - ""
+      - "&#97F900¦ &fYou are in!"
+      - "&#FFB02E¦ &fPrize: &#FFB02E%prize%"
+      - "&#FFB02E¦ &fEntries: &#FFB02E%entries%"
+      - "&#FFB02E¦ &fEnds in: &#FFB02E%time%"
+      - ""
+      - "&7▷ Right click to see the prize"
+sounds:
+  open: {sound: "block.barrel.open", volume: 0.7, pitch: 1.2}
+  click: {sound: "ui.button.click", volume: 1.0, pitch: 1.2}
+  page: {sound: "item.book.page_turn", volume: 1.0, pitch: 1.0}

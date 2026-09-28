@@ -1,0 +1,36 @@
+# /ss <player> freezes a player for a screenshare. /ss end <player> lets them go.
+# /ss setroom sets the screenshare room where they (and the staff member) are taken.
+prefix: "&#FF0000&lSS &7▷ "
+teleport-staff: true
+return-after: true
+reminder-seconds: 5
+# Their chat only reaches staff with vexcore.screenshare.
+private-chat: true
+allowed-commands: [msg, r, reply, tell]
+# Run by the console when a frozen player leaves. %player% %staff%
+logout-commands:
+  - "ban %player% 30d Logged out during a screenshare"
+# Whether being kicked counts as logging out (runs logout-commands). Off: a kick is usually the
+# staff's own verdict (bans kick too).
+kick-counts-as-logout: false
+# Teleports that can't move a frozen player (staff teleports and /ss itself are PLUGIN/COMMAND).
+blocked-teleport-causes: [ENDER_PEARL, CONSUMABLE_EFFECT, NETHER_PORTAL, END_PORTAL, END_GATEWAY, SPECTATE]
+messages:
+  frozen:
+    - ""
+    - "&#FF0000&lYOU ARE BEING SCREENSHARED"
+    - "&fDon't log out. Join our Discord and wait for &#FF0000%staff%&f."
+    - ""
+  reminder:
+    - "[title] &#FF0000&lFROZEN|&fJoin our Discord for the screenshare"
+  released: "{prefix}&fThe screenshare is over, you can move again."
+  started: "{prefix}&#FF0000%staff% &ffroze &#FF0000%player%&f."
+  ended: "{prefix}&#FF0000%staff% &freleased &#FF0000%player%&f."
+  logged-out: "{prefix}&#FF0000%player% &flogged out while frozen!"
+  chat: "&#FF0000&lSS &7▷ &f%player% &8➜ &r%message%"
+  no-commands: "&#FF0000&lERROR &7▷ &fYou can't use commands while frozen."
+  restricted: "&#FF0000&lERROR &7▷ &fYou are frozen."
+  room-set: "{prefix}&fThe screenshare room is set here."
+  not-frozen: "&#FF0000&lERROR &7▷ &#FF0000%player% &fis not frozen."
+  already-frozen: "&#FF0000&lERROR &7▷ &#FF0000%player% &fis already frozen."
+  exempt: "&#FF0000&lERROR &7▷ &#FF0000%player% &fcan't be screenshared."

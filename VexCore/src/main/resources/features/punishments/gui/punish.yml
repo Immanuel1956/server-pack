@@ -1,0 +1,99 @@
+# /punish <player>: one button per reason in config.yml (template "reason"). Left click
+# punishes, right click punishes silently.
+# reason template: %reason% %type% %offences% (earlier ones for this reason) %next% (duration) %material%
+# Everywhere: %target% %total% %warnings% %banned% %muted% %page% %pages%.
+
+title: "&8⚖ Punish | %target%"
+rows: 6
+
+content-slots: "19-25, 28-34"
+
+items:
+
+  border:
+    slots: "0-3, 5-18, 26, 27, 35-47, 51-53"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  target:
+    slot: 4
+    material: PLAYER_HEAD
+    skull: "%target%"
+    name: "&#FF3B3B&l%target%"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3BInformation:"
+      - "&#FF3B3B¦ &fBanned &7¦ %banned%"
+      - "&#FF3B3B¦ &fMuted &7¦ %muted%"
+      - "&#FF3B3B¦ &fActive warnings &7¦ &f%warnings%"
+      - "&#FF3B3B¦ &fPunishments &7¦ &f%total%"
+    sound: ""
+
+  previous-page:
+    slot: 48
+    function: previous-page
+    material: RED_STAINED_GLASS_PANE
+    name: "&#FF3B3B&lPREVIOUS PAGE"
+    lore:
+      - "&7Page &f%page%&7/&f%pages%"
+
+  history:
+    slot: 49
+    function: history
+    material: CLOCK
+    name: "&#FFD900&lHISTORY"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FFD900¦ &fEvery punishment of %target%."
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401To View"
+
+  next-page:
+    slot: 50
+    function: next-page
+    material: LIME_STAINED_GLASS_PANE
+    name: "&#97F900&lNEXT PAGE"
+    lore:
+      - "&7Page &f%page%&7/&f%pages%"
+
+templates:
+  reason:
+    material: "%material%"
+    name: "&#FF3B3B&l%reason%"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3BInformation:"
+      - "&#FF3B3B¦ &fType &7¦ &f%type%"
+      - "&#FF3B3B¦ &fEarlier offences &7¦ &f%offences%"
+      - ""
+      - "&#FF3B3BSettings"
+      - "&#FF3B3B¦ &fThis time &7¦ &#FF3B3B%next%"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401To Punish"
+      - "&#FBE401▶ &l&nRIGHT-CLICK&r &#FBE401To Punish Silently"
+
+sounds:
+  open:
+    enabled: true
+    sound: "block.anvil.place"
+    volume: 0.5
+    pitch: 1.4
+  close:
+    enabled: true
+    sound: "block.barrel.close"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2
+  page:
+    enabled: true
+    sound: "item.book.page_turn"
+    volume: 1.0
+    pitch: 1.0

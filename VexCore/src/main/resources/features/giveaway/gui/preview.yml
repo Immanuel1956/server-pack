@@ -1,0 +1,17 @@
+# What a giveaway holds. Look only. A money prize shows the money template in money-slot.
+title: "&8Giveaway | Prize"
+rows: 5
+money-slot: 22
+items:
+  back:
+    slot: 40
+    function: back
+    material: ARROW
+    name: "&#FFB02E&l← BACK"
+templates:
+  money:
+    material: GOLD_INGOT
+    name: "&#FFD900&l%prize%"
+    lore: ["&7Paid to the winner's balance."]
+sounds:
+  open: {sound: "block.chest.open", volume: 0.7, pitch: 1.2}

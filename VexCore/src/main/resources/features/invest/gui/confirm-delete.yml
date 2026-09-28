@@ -1,0 +1,57 @@
+# Asked before an investment is deleted. function: confirm, function: cancel.
+# %invested% %refund%
+#
+# Every item and template takes: slot / slots, material, name, lore, glow, amount,
+# custom-model-data, item-model, skull, permission, sound ("" = silent), close-on-click, and
+# commands: / left-commands: / right-commands: ([player] [console] [message] [broadcast]
+# [actionbar] [title] [sound] [chat] [refresh] [close]).
+
+title: "&8ᴅᴇʟᴇᴛᴇ ɪɴᴠᴇsᴛ?"
+rows: 3
+
+items:
+
+  border:
+    slots: "0-10, 12, 14, 16-26"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  cancel:
+    slot: 11
+    function: cancel
+    material: RED_STAINED_GLASS_PANE
+    name: "&#FB0000&lCANCEL"
+
+  info:
+    slot: 13
+    material: PAPER
+    name: "&#7CFC00Are you sure?"
+    lore:
+      - "&fInvested: &#7CFC00%invested%"
+      - "&fYou get back: &#7CFC00%refund%"
+    sound: ""
+
+  confirm:
+    slot: 15
+    function: confirm
+    material: LIME_STAINED_GLASS_PANE
+    name: "&#7CFC00&lDELETE"
+
+# ── Sounds ──────────────────────────────────────────────────────────────────
+sounds:
+  open:
+    enabled: true
+    sound: "block.barrel.open"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2
+  page:
+    enabled: true
+    sound: "item.book.page_turn"
+    volume: 1.0
+    pitch: 1.0

@@ -1,0 +1,74 @@
+# Opened by clicking a quest on the board. %accent% is the colour of that quest and %emoji% is
+# its symbol.
+title: "&8%emoji% &8| Progress"
+rows: 5
+items:
+  filler:
+    slots: "0-12, 14-28, 30, 32, 34-44"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+  quest:
+    slot: 13
+    material: "%material%"
+    name: "%name%"
+    lore:
+      - "&8Description"
+      - ""
+      - "%accent%Information:"
+      - "&fWhat you have done on"
+      - "&fthis quest so far."
+      - ""
+      - "%accent%⌚ &fProgress: &f%progress%&8/&f%target% &8(%accent%%percent%&8)"
+      - "%accent%⭐ &fPosition: %accent%#%rank% &8of &f%players%"
+      - "%accent%⚡ &fStep: %accent%%step%"
+      - "%accent%⌛ &fStarted: &f%started% ago"
+      - "%accent%⚑ &fStatus: %status%"
+      - ""
+      - "%accent%🧪 &fReward: &#80EE0B$%money%"
+      - "%accent%☄ &fFirst place: &#80EE0B$%first_bonus%"
+  leaderboard:
+    slot: 31
+    function: leaderboard
+    material: PLAYER_HEAD
+    name: "#437CF7⭐ &lLEADERBOARD"
+    lore:
+      - "&8Quest Board"
+      - ""
+      - "#437CF7Information:"
+      - "&fEverybody who worked on"
+      - "&fthis quest, in order."
+      - ""
+      - "#437CF7⭐ &fYour position: #437CF7#%rank%"
+      - "#437CF7⌚ &fPlayers: #437CF7%players%"
+      - ""
+      - "#FFD900▶ &l&nCLICK#FFD900 To Open"
+  track:
+    slot: 29
+    function: track
+    material: COMPASS
+    name: "#FFD900⚐ &lTRACK"
+    lore:
+      - "&8Quest Board"
+      - ""
+      - "#FFD900Information:"
+      - "#FFD900¦ &fClick here, to follow"
+      - "#FFD900¦ &fthis #FFD900quest &fin your action bar."
+      - ""
+      - "#FFD900▶ &l&nCLICK#FFD900 To Track"
+  back:
+    slot: 33
+    function: back
+    material: BARREL
+    name: "#80EE0B&lBACK"
+    lore:
+      - "&8Quest Board"
+      - ""
+      - "#00E1FFInformation:"
+      - "&fReturn to the"
+      - "&fquest board."
+      - ""
+      - "#FFD900▶ &l&nCLICK#FFD900 To Go Back"
+sounds:
+  open: {sound: "item.book.page_turn", volume: 1.0, pitch: 1.2}
+  click: {sound: "ui.button.click", volume: 1.0, pitch: 1.2}

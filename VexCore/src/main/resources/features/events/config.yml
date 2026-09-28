@@ -1,0 +1,146 @@
+# Server events, one at a time. /event shows the current one.
+# Admin (vexcore.events.admin): /event start <chatgame|mining|mobs|fishing|pvp|koth>, /event stop,
+# /event koth set [radius] (stand on the hill). vexcore.events.ignore can't capture the hill.
+# Placeholders: %vexcore_event_name%, %vexcore_event_time%, %vexcore_event_next%
+prefix: "&#C77DFF&lEVENT &7▷ "
+
+auto:
+  enabled: true
+  interval: "45m"
+  minimum-players: 3
+  # Picked at random. koth only when a hill is set.
+  types: [chatgame, mining, mobs, fishing, pvp, koth]
+
+# How many places win in competitions (mining, mobs, fishing, pvp).
+places: 3
+result-line: "&#C77DFF#%place% &f%player% &7▷ &#C77DFF%score%"
+
+# Shared rewards by place. A type can have its own under types.<type>.rewards.
+# commands run for online winners; console-if-offline runs when the winner left.
+rewards:
+  1:
+    money: 50000
+    commands:
+      - "[console] crate key give %player% rare 1"
+  2:
+    money: 25000
+    commands: []
+  3:
+    money: 10000
+    commands: []
+
+types:
+  chatgame:
+    name: "Chat Game"
+    duration: "60s"
+    # unscramble, math, type (copy a random code). One is picked at random.
+    games: [unscramble, math, type]
+    words: [diamond, creeper, netherite, enchant, villager, redstone, obsidian, elytra, beacon, trident, spawner, emerald, lantern, warden, axolotl]
+    questions:
+      unscramble: "Unscramble &#C77DFF&l%word%"
+      math-plus: "What is &#C77DFF&l%a% + %b%&f?"
+      math-times: "What is &#C77DFF&l%a% x %b%&f?"
+      type: "Type &#C77DFF&l%code%"
+    rewards:
+      1:
+        money: 15000
+        commands: []
+  mining:
+    name: "Mining Competition"
+    duration: "10m"
+    # Only these blocks count ([] = every block). Blocks placed during the event never count.
+    blocks: [STONE, DEEPSLATE, COAL_ORE, DEEPSLATE_COAL_ORE, IRON_ORE, DEEPSLATE_IRON_ORE, GOLD_ORE, DEEPSLATE_GOLD_ORE,
+             DIAMOND_ORE, DEEPSLATE_DIAMOND_ORE, EMERALD_ORE, DEEPSLATE_EMERALD_ORE, REDSTONE_ORE, DEEPSLATE_REDSTONE_ORE,
+             LAPIS_ORE, DEEPSLATE_LAPIS_ORE, COPPER_ORE, DEEPSLATE_COPPER_ORE, NETHERRACK, NETHER_QUARTZ_ORE, NETHER_GOLD_ORE, ANCIENT_DEBRIS]
+  mobs:
+    name: "Mob Hunt"
+    duration: "10m"
+    count-spawner-mobs: false
+  fishing:
+    name: "Fishing Contest"
+    duration: "10m"
+  pvp:
+    name: "PvP Frenzy"
+    duration: "10m"
+  koth:
+    name: "King of the Hill"
+    duration: "15m"
+    # Stand alone on the hill this long (two or more on it pauses the clock).
+    capture: "60s"
+    rewards:
+      1:
+        money: 100000
+        commands:
+          - "[console] crate key give %player% legendary 1"
+
+bossbar:
+  enabled: true
+  color: PURPLE
+  # %event% %time% %leader% %score%; koth also %capturer% %progress% (percent)
+  titles:
+    default: "&#C77DFF&l%event% &7▷ &fLeader: &#C77DFF%leader% &7(%score%) &8| &f%time%"
+    chatgame: "&#C77DFF&l%event% &7▷ &fFirst to answer in chat wins! &8| &f%time%"
+    koth: "&#C77DFF&l%event% &7▷ &f%capturer% &7(%progress%%) &8| &f%time%"
+
+words:
+  none: "None"
+  nobody: "nobody"
+
+messages:
+  start-chatgame:
+    - ""
+    - "&#C77DFF&lCHAT GAME &7▷ &f%question%"
+    - "&#C77DFF¦ &7First to answer in chat wins! (%time%)"
+    - ""
+  start-mining:
+    - ""
+    - "&#C77DFF&lMINING COMPETITION &7▷ &fMine the most blocks in &#C77DFF%time%&f!"
+    - ""
+  start-mobs:
+    - ""
+    - "&#C77DFF&lMOB HUNT &7▷ &fKill the most mobs in &#C77DFF%time%&f!"
+    - ""
+  start-fishing:
+    - ""
+    - "&#C77DFF&lFISHING CONTEST &7▷ &fCatch the most fish in &#C77DFF%time%&f!"
+    - ""
+  start-pvp:
+    - ""
+    - "&#C77DFF&lPVP FRENZY &7▷ &fGet the most kills in &#C77DFF%time%&f!"
+    - ""
+  start-koth:
+    - ""
+    - "&#C77DFF&lKING OF THE HILL &7▷ &fHold the hill for &#C77DFF%capture%&f!"
+    - "&#C77DFF¦ &7%world% %x%, %y%, %z% (%time%)"
+    - ""
+  chatgame-won: "{prefix}&#C77DFF%player% &fanswered &#C77DFF%answer% &fin &#C77DFF%seconds%s &fand wins!"
+  koth-capturing: "[actionbar]{prefix}&#C77DFF%player% &fis capturing the hill!"
+  koth-won: "{prefix}&#C77DFF%player% &fcaptured the hill!"
+  results:
+    - ""
+    - "&#C77DFF&l%event% &7▷ &fResults"
+    - "%results%"
+    - ""
+  no-winner: "{prefix}&f%event% ended without a winner. &7(%answer%)"
+  you-won: "{prefix}&fYou came &#C77DFF#%place% &fin %event%! &7(+%money%)"
+  stopped: "{prefix}&f%event% was stopped."
+  started: "{prefix}&fStarted %event%."
+  already-running: "&#FF0000&lERROR &7▷ &f%event% is already running."
+  no-hill: "&#FF0000&lERROR &7▷ &fNo hill yet: stand on it and use &#C77DFF/event koth set [radius]&f."
+  hill-set: "{prefix}&fThe hill is here, radius &#C77DFF%radius%&f."
+  unknown-type: "&#FF0000&lERROR &7▷ &fTypes: chatgame, mining, mobs, fishing, pvp, koth."
+  none-running: "&#FF0000&lERROR &7▷ &fNo event is running."
+  status: "{prefix}&#C77DFF%event% &7▷ &f%time% left &7(your score: %score%)"
+  status-none: "{prefix}&fNo event right now. Next one in &#C77DFF%next%&f."
+
+sounds:
+  start-chatgame:
+    sound: "block.note_block.chime"
+    volume: 1.0
+    pitch: 1.2
+  start-mining: {sound: "ui.toast.challenge_complete", volume: 0.8, pitch: 1.2}
+  start-mobs: {sound: "ui.toast.challenge_complete", volume: 0.8, pitch: 1.2}
+  start-fishing: {sound: "ui.toast.challenge_complete", volume: 0.8, pitch: 1.2}
+  start-pvp: {sound: "ui.toast.challenge_complete", volume: 0.8, pitch: 1.2}
+  start-koth: {sound: "ui.toast.challenge_complete", volume: 0.8, pitch: 1.2}
+  you-won: {sound: "entity.player.levelup", volume: 1.0, pitch: 1.2}

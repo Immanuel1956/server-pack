@@ -1,0 +1,62 @@
+# /sell menu.
+#
+#   sell-slots       where players put the items to sell
+#   function: sell   sells everything sellable in the slots now (the rest stays)
+# What is left in the slots when the menu closes is sold (sell-on-close in config.yml) or
+# given back. Nothing is ever lost. Keep buttons out of the sell slots.
+# %multiplier% works in every item.
+
+title: "&8Sell | Items"
+rows: 6
+
+sell-slots: "0-44"
+
+items:
+
+  border:
+    slots: "45-46, 48, 50-53"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  info:
+    slot: 47
+    material: BOOK
+    name: "&#80EE0B&lHOW IT WORKS"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#80EE0BInformation:"
+      - "&#80EE0B¦ &fPut items in the slots above"
+      - "&#80EE0B¦ &fand close the menu to sell them."
+      - "&#80EE0B¦ &fYour multiplier: &#80EE0B%multiplier%x"
+      - ""
+      - "&7Items that can't be sold are given back."
+
+  sell:
+    slot: 49
+    function: sell
+    material: EMERALD
+    glow: true
+    name: "&#80EE0B&lSELL"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#80EE0BInformation:"
+      - "&#80EE0B¦ &fSells everything that can"
+      - "&#80EE0B¦ &fbe sold right now."
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to sell"
+
+# ── Sounds ──────────────────────────────────────────────────────────────────
+sounds:
+  open:
+    enabled: true
+    sound: "block.chest.open"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2

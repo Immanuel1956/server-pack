@@ -1,0 +1,104 @@
+# /reports: every pending report, oldest first. Click one to open it.
+#
+# report template: %id% %reporter% %target% %reason_short% %reason_lines% %date% %ago% %server%
+# %status% %reporter_online% %target_online% %report_command%.   Everywhere: %count% %page% %pages%.
+#
+# Every item and template takes: slot / slots, material, name, lore, glow, amount,
+# custom-model-data, item-model, skull, permission, sound ("" = silent), close-on-click, and
+# commands: / left-commands: / right-commands: ([player] [console] [message] [broadcast]
+# [actionbar] [title] [sound] [chat] [refresh] [close]).
+
+title: "&8⚑ Reports &7(%count%) &8[%page%/%pages%]"
+rows: 6
+
+content-slots: "10-16, 19-25, 28-34, 37-43"
+
+items:
+
+  border:
+    slots: "0-9, 17, 18, 26, 27, 35, 36, 44-53"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  empty:
+    slot: 22
+    function: empty
+    material: LIME_DYE
+    name: "&#97F900&lNO REPORTS"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#97F900Information:"
+      - "&#97F900¦ &fThere are no pending"
+      - "&#97F900¦ &freports right now."
+    sound: ""
+
+  previous-page:
+    slot: 48
+    function: previous-page
+    material: RED_STAINED_GLASS_PANE
+    name: "&#FF3B3B&lPREVIOUS PAGE"
+    lore:
+      - "&7Page &f%page%&7/&f%pages%"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401To Go Back"
+
+  close:
+    slot: 49
+    material: BARRIER
+    name: "&#FF3B3B&lCLOSE"
+    commands:
+      - "[close]"
+
+  next-page:
+    slot: 50
+    function: next-page
+    material: LIME_STAINED_GLASS_PANE
+    name: "&#97F900&lNEXT PAGE"
+    lore:
+      - "&7Page &f%page%&7/&f%pages%"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401To Go On"
+
+templates:
+
+  report:
+    material: PAPER
+    name: "&#FF3B3B&lREPORT #%id%"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3BInformation:"
+      - "&#FF3B3B¦ &fReporter &7¦ &f%reporter%"
+      - "&#FF3B3B¦ &fOffender &7¦ &#FF3B3B%target%"
+      - "&#FF3B3B¦ &fReason &7¦ &f%reason_short%"
+      - ""
+      - "&#FF3B3BSettings"
+      - "&#FF3B3B¦ &fStatus &7¦ %status%"
+      - "&#FF3B3B¦ &fServer &7¦ &f%server%"
+      - "&#FF3B3B¦ &f%ago%"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401To View"
+
+sounds:
+  open:
+    enabled: true
+    sound: "block.barrel.open"
+    volume: 0.7
+    pitch: 1.2
+  close:
+    enabled: true
+    sound: "block.barrel.close"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2
+  page:
+    enabled: true
+    sound: "item.book.page_turn"
+    volume: 1.0
+    pitch: 1.0

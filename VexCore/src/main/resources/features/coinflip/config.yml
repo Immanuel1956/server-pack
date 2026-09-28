@@ -1,0 +1,131 @@
+# Coinflip: /cf (menu), /cf create <amount> (or /cf <amount>), /cf delete, /cf toggle, /cf history
+#
+# The bet is taken when a game is created and paid back on /cf delete. Open games are stored,
+# so they survive a restart. A flip is paid out the moment it is joined; the animation only
+# shows what already happened. Money that can't be paid right away (frozen balance) is kept
+# and paid on the next login.
+#
+# Placeholders: %vexcore_coinflip_games%, %vexcore_coinflip_wins%, %vexcore_coinflip_losses%
+
+prefix: "&#FFE925&lCOINFLIP &7▷ "
+
+minimum: 100
+# 0 = no upper limit.
+maximum: 0
+# Percent of the pot kept by the server. 0 = none.
+tax-percent: 0
+decimals: 2
+
+# No playing while combat tagged (or anything else that blocks teleports).
+block-when-restricted: true
+
+# Seconds between two creates/deletes of one player (stops macros). vexcore.coinflip.bypass skips.
+cooldown-seconds: 3
+
+# Only flips of at least this much are announced to everybody.
+broadcast-minimum: 0
+
+# Whether players see coinflip announcements before they change it with /cf toggle.
+default-toggle: true
+
+# Seconds a player has to type the amount in chat after clicking "create".
+input-seconds: 30
+
+animation:
+  enabled: true
+  # Also play it for the creator, if they are not in another menu at the time.
+  show-creator: true
+  # Ticks after the animation before the result is paid out anyway (a closed menu, a lag spike).
+  reveal-buffer-ticks: 40
+
+history:
+  keep-days: 30
+  time-format: "dd.MM.yyyy HH:mm"
+
+# %amount% = the bet, %pot% = what the winner gets, %winner% %loser% %player%
+messages:
+  created: "{prefix}&#22AFFB%player% &fcreated a coinflip of &#80EE0B%amount%&f. &7/cf"
+  created-self: "{prefix}&fYour coinflip of &#80EE0B%amount% &fis open."
+  deleted: "{prefix}&fYour coinflip was closed, &#80EE0B%amount% &fis back."
+  won: "{prefix}&fYou &#80EE0Bwon &fthe coinflip against &#FF256E%loser% &fand got &#80EE0B%pot%&f!"
+  lost: "{prefix}&fYou &#FF256Elost &fthe coinflip against &#80EE0B%winner%&f."
+  won-broadcast: "{prefix}&#80EE0B%winner% &fbeat &#FF256E%loser% &fin a coinflip worth &#80EE0B%amount%&f."
+  gone: "&#FF0000&lERROR &7▷ &fThis game is no longer available."
+  toggle-on: "{prefix}&fYou see coinflip messages again."
+  toggle-off: "{prefix}&fYou no longer see coinflip messages."
+  create-prompt: "{prefix}&fType your bet in the chat, or &#FFE925cancel&f."
+  payout-delivered: "{prefix}&fYou received &#80EE0B%amount% &ffrom coinflips while you were away."
+  self: "&#FF0000&lERROR &7▷ &fYou can't play your own game."
+  already-open: "&#FF0000&lERROR &7▷ &fYou already have a coinflip open."
+  no-game: "&#FF0000&lERROR &7▷ &fYou have no coinflip open."
+  minimum: "&#FF0000&lERROR &7▷ &fThe smallest bet is &#80EE0B%amount%&f."
+  maximum: "&#FF0000&lERROR &7▷ &fThe biggest bet is &#80EE0B%amount%&f."
+  restricted: "&#FF0000&lERROR &7▷ &fYou can't play right now."
+  too-fast: "&#FF0000&lERROR &7▷ &fSlow down a moment."
+
+sounds:
+  created-self:
+    enabled: true
+    sound: "entity.experience_orb.pickup"
+    volume: 1.0
+    pitch: 1.2
+  deleted:
+    enabled: true
+    sound: "block.note_block.bass"
+    volume: 1.0
+    pitch: 0.8
+  won:
+    enabled: true
+    sound: "entity.player.levelup"
+    volume: 1.0
+    pitch: 1.0
+  lost:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  payout-delivered:
+    enabled: true
+    sound: "entity.player.levelup"
+    volume: 1.0
+    pitch: 1.2
+  toggle-on:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 1.6
+  toggle-off:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 0.8
+  gone:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  self:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  already-open:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  minimum:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  maximum:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  too-fast:
+    enabled: true
+    sound: "block.note_block.bass"
+    volume: 0.8
+    pitch: 0.8

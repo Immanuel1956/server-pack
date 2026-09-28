@@ -1,0 +1,13 @@
+# Death drops land in one pile instead of flying everywhere. Only what the death really drops
+# is touched, so keep-inventory, soulbound and grave plugins keep working.
+
+# Items players drop when they die.
+players: true
+# Loot of killed mobs.
+mobs: true
+
+# Drop on the middle of the block instead of the exact death spot.
+center-on-block: true
+
+# Put identical items into full stacks first, so fewer items lie around.
+merge-stacks: true

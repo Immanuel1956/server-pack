@@ -1,0 +1,29 @@
+# /ffa opens an FFA event: everyone who clicks the broadcast (or types /ffaaccept) within
+# request-seconds is teleported to the host.
+prefix: "&#FF256E&lFFA &7▷ "
+# Seconds the host has to wait before starting the next event.
+cooldown-seconds: 300
+# Seconds the request stays open.
+request-seconds: 60
+# The last non-empty line runs /ffaaccept when clicked.
+broadcast:
+  - ""
+  - "&#FF256E🗡 &lFFA EVENT&r &#FF256E🗡"
+  - "&7[ɪɴғᴏʀᴍᴀᴛɪᴏɴ]"
+  - ""
+  - "&#FF256E¦ &#FF256E%player% &fopened an &#FF256EFFA&f,"
+  - "&#FF256E¦ &feveryone is welcome to fight!"
+  - ""
+  - "&#FF256E▷ &n&lCLICK&r&#FF256E to join"
+messages:
+  broadcast-sound: ""
+  joined: "&#FF256E&lFFA &7▷ &fYou joined the event."
+  already-joined: "&#FF0000&lERROR &7▷ &fYou already joined this FFA."
+  already-active: "&#FF0000&lERROR &7▷ &fAn FFA event is already running."
+  no-request: "&#FF0000&lERROR &7▷ &fThere is no FFA event right now."
+  self: "&#FF0000&lERROR &7▷ &fYou are hosting this event."
+  restricted: "&#FF0000&lERROR &7▷ &fYou cannot join right now."
+  cooldown: "&#FF0000&lERROR &7▷ &fWait &#FF256E%seconds%s &fbefore hosting again."
+sounds:
+  broadcast-sound: {sound: "entity.wither.spawn", volume: 0.6, pitch: 1.0}
+  joined: {sound: "entity.enderman.teleport", volume: 1.0, pitch: 1.0}

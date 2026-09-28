@@ -1,0 +1,124 @@
+# /kit menu. One entry per kit, laid out over content-slots (paged when there are more).
+#
+# Templates (how a kit looks): ready, cooldown, claimed (one-time kits already taken), locked
+# (no permission). Left click claims, right click previews.
+#   %kit% %key% %icon% %description% %cooldown% %time% (left) %items% %money% %status%
+# function: empty shows when there are no kits; previous-page / next-page when there are pages.
+
+title: "&8Kits | %page%/%pages%"
+rows: 4
+
+content-slots: "10-16, 19-25"
+
+items:
+
+  border:
+    slots: "0-9, 17-18, 26-27, 29-30, 32-35"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  previous:
+    slot: 28
+    function: previous-page
+    material: ARROW
+    name: "&#22AFFB&l← PREVIOUS"
+
+  info:
+    slot: 31
+    material: BOOK
+    name: "&#22AFFB&lKITS"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#22AFFBInformation:"
+      - "&#22AFFB¦ &fLeft click a kit to claim it."
+      - "&#22AFFB¦ &fRight click to see what's inside."
+
+  next:
+    slot: 34
+    function: next-page
+    material: ARROW
+    name: "&#22AFFB&lNEXT →"
+
+  empty:
+    slot: 13
+    function: empty
+    material: BARRIER
+    name: "&#FF3B3B&lNO KITS"
+    lore:
+      - "&7There are no kits yet."
+
+templates:
+
+  ready:
+    material: "%icon%"
+    glow: true
+    name: "%kit%"
+    lore:
+      - "&8Kit"
+      - ""
+      - "%description%"
+      - ""
+      - "&#22AFFBInformation:"
+      - "&#22AFFB¦ &fItems: &#22AFFB%items%"
+      - "&#22AFFB¦ &fCooldown: &#22AFFB%cooldown%"
+      - ""
+      - "&#FFD900▶ &n&lLEFT CLICK&r&#FFD900 to claim"
+      - "&7▶ Right click to preview"
+
+  cooldown:
+    material: "%icon%"
+    name: "%kit%"
+    lore:
+      - "&8Kit"
+      - ""
+      - "%description%"
+      - ""
+      - "&#22AFFBInformation:"
+      - "&#22AFFB¦ &fItems: &#22AFFB%items%"
+      - "&#22AFFB¦ &fReady in: &#FF3B3B%time%"
+      - ""
+      - "&7▶ Right click to preview"
+
+  claimed:
+    material: "%icon%"
+    name: "%kit%"
+    lore:
+      - "&8Kit"
+      - ""
+      - "%description%"
+      - ""
+      - "&7You already claimed this kit."
+      - ""
+      - "&7▶ Right click to preview"
+
+  locked:
+    material: GRAY_DYE
+    name: "%kit% &7(locked)"
+    lore:
+      - "&8Kit"
+      - ""
+      - "%description%"
+      - ""
+      - "&#FF3B3BYou can't use this kit."
+      - ""
+      - "&7▶ Right click to preview"
+
+# ── Sounds ──────────────────────────────────────────────────────────────────
+sounds:
+  open:
+    enabled: true
+    sound: "block.chest.open"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2
+  page:
+    enabled: true
+    sound: "item.book.page_turn"
+    volume: 1.0
+    pitch: 1.0

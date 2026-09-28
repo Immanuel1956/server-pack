@@ -1,0 +1,186 @@
+# Selling items: /sell (menu), /sell hand, /sell all, /worth [item]
+#
+# Items are only taken once the money is paid. If paying fails (no economy, frozen balance,
+# maximum balance) everything stays or goes back where it was. Shulker boxes, bundles and other
+# containers that still hold items are never sold.
+#
+# Placeholder: %vexcore_sell_multiplier%
+
+prefix: "&#80EE0B&lSELL &7▷ "
+
+decimals: 2
+
+# Closing the sell menu sells what's in it. false = only the SELL button sells; whatever is left
+# when the menu closes always goes back to the player.
+sell-on-close: true
+
+sell-all:
+  # /sell all also sells the hotbar. Armour and the offhand are never sold by /sell all.
+  hotbar: true
+
+# Items with a custom name, lore, custom model data or item model are usually special
+# (crate rewards, custom weapons). false = they can't be sold at all.
+sell-custom-items: false
+# false = enchanted items can't be sold.
+sell-enchanted: true
+# Damaged tools and armour: FULL (full price), SCALE (price times the durability left), NONE (not sold)
+damaged: SCALE
+
+# The highest multiplier a player has the permission for is used. Without any it is 1.
+multipliers:
+  vip:
+    permission: "vexcore.sell.multiplier.vip"
+    value: 1.25
+  mvp:
+    permission: "vexcore.sell.multiplier.mvp"
+    value: 1.5
+  elite:
+    permission: "vexcore.sell.multiplier.elite"
+    value: 2.0
+
+# The price of ONE item. Items that aren't listed can't be sold.
+prices:
+  # Farming
+  WHEAT: 4
+  CARROT: 3
+  POTATO: 3
+  BEETROOT: 4
+  MELON_SLICE: 1
+  PUMPKIN: 8
+  SUGAR_CANE: 3
+  CACTUS: 3
+  BAMBOO: 1
+  KELP: 1
+  COCOA_BEANS: 3
+  NETHER_WART: 5
+  SWEET_BERRIES: 2
+  GLOW_BERRIES: 3
+  APPLE: 5
+  CHORUS_FRUIT: 6
+  BROWN_MUSHROOM: 4
+  RED_MUSHROOM: 4
+  EGG: 2
+  # Mob drops
+  ROTTEN_FLESH: 1
+  BONE: 3
+  STRING: 3
+  SPIDER_EYE: 4
+  GUNPOWDER: 6
+  ENDER_PEARL: 20
+  BLAZE_ROD: 25
+  GHAST_TEAR: 40
+  SLIME_BALL: 8
+  MAGMA_CREAM: 10
+  PHANTOM_MEMBRANE: 15
+  LEATHER: 5
+  FEATHER: 2
+  RABBIT_HIDE: 3
+  INK_SAC: 3
+  GLOW_INK_SAC: 6
+  PRISMARINE_SHARD: 5
+  PRISMARINE_CRYSTALS: 6
+  SHULKER_SHELL: 60
+  # Meat and fish
+  BEEF: 4
+  PORKCHOP: 4
+  CHICKEN: 3
+  MUTTON: 3
+  RABBIT: 3
+  COD: 3
+  SALMON: 4
+  # Ores and minerals
+  COAL: 4
+  RAW_IRON: 8
+  IRON_INGOT: 10
+  RAW_COPPER: 3
+  COPPER_INGOT: 4
+  RAW_GOLD: 12
+  GOLD_INGOT: 15
+  REDSTONE: 3
+  LAPIS_LAZULI: 4
+  QUARTZ: 5
+  AMETHYST_SHARD: 6
+  DIAMOND: 100
+  EMERALD: 60
+  NETHERITE_SCRAP: 400
+  NETHERITE_INGOT: 1800
+  # Blocks
+  COBBLESTONE: 0.5
+  STONE: 1
+  DEEPSLATE: 0.5
+  COBBLED_DEEPSLATE: 0.5
+  DIRT: 0.25
+  SAND: 0.5
+  GRAVEL: 0.5
+  NETHERRACK: 0.25
+  END_STONE: 1
+  OBSIDIAN: 15
+  # Wood
+  OAK_LOG: 2
+  SPRUCE_LOG: 2
+  BIRCH_LOG: 2
+  JUNGLE_LOG: 2
+  ACACIA_LOG: 2
+  DARK_OAK_LOG: 2
+  MANGROVE_LOG: 2
+  CHERRY_LOG: 2
+  PALE_OAK_LOG: 2
+  CRIMSON_STEM: 2
+  WARPED_STEM: 2
+
+# How the reasons in not-sellable are written.
+reasons:
+  no-price: "it has no price"
+  custom: "it is a special item"
+  enchanted: "it is enchanted"
+  damaged: "it is damaged"
+  has-contents: "it still holds items"
+  worthless: "it is worth nothing"
+
+# %amount% = items sold, %money% = what they paid, %multiplier%
+messages:
+  sold: "{prefix}&fSold &#80EE0B%amount% &fitems for &#80EE0B%money% &7(%multiplier%x)"
+  nothing: "&#FF0000&lERROR &7▷ &fThere is nothing here that can be sold."
+  returned: "[actionbar]{prefix}&fWhat wasn't sold went back to your inventory."
+  payment-failed: "&#FF0000&lERROR &7▷ &fThe money couldn't be paid, so nothing was sold."
+  hand-empty: "&#FF0000&lERROR &7▷ &fHold the item you want to sell."
+  not-sellable: "&#FF0000&lERROR &7▷ &#80EE0B%item% &fcan't be sold: %reason%."
+  unknown-item: "&#FF0000&lERROR &7▷ &#80EE0B%item% &fis not an item."
+  worth: "{prefix}&#80EE0B%item% &7x%count% &fis worth &#80EE0B%total% &7(%each% each, %multiplier%x)"
+
+sounds:
+  sold:
+    enabled: true
+    sound: "entity.experience_orb.pickup"
+    volume: 1.0
+    pitch: 1.0
+  nothing:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  payment-failed:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  hand-empty:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  not-sellable:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  unknown-item:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  worth:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 1.2

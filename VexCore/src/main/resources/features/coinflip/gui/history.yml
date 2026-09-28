@@ -1,0 +1,90 @@
+# /cf history: your latest flips, newest first.
+# won / lost: %opponent% %amount% %time%. The empty item only shows when there are none.
+#
+# Every item and template takes: slot / slots, material, name, lore, glow, amount,
+# custom-model-data, item-model, skull, permission, sound ("" = silent), close-on-click, and
+# commands: / left-commands: / right-commands: ([player] [console] [message] [broadcast]
+# [actionbar] [title] [sound] [chat] [refresh] [close]).
+
+title: "&8Coinflip History &7[%page%/%pages%]"
+rows: 6
+
+content-slots: "10-16, 19-25, 28-34, 37-43"
+
+items:
+
+  border:
+    slots: "0-9, 17, 18, 26, 27, 35, 36, 44-53"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  empty:
+    slot: 22
+    function: empty
+    material: MINECART
+    name: "&#FF3B3B&lNO FLIPS YET"
+    sound: ""
+
+  previous-page:
+    slot: 48
+    function: previous-page
+    material: RED_STAINED_GLASS_PANE
+    name: "&#FF3B3B&lPREVIOUS PAGE"
+    lore:
+      - "&7Page &f%page%&7/&f%pages%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to go back"
+
+  next-page:
+    slot: 50
+    function: next-page
+    material: LIME_STAINED_GLASS_PANE
+    name: "&#16D223&lNEXT PAGE"
+    lore:
+      - "&7Page &f%page%&7/&f%pages%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to go on"
+
+  close:
+    slot: 49
+    material: BARRIER
+    name: "&#FF3B3B&lCLOSE"
+    commands:
+      - "[close]"
+
+templates:
+
+  won:
+    material: LIME_DYE
+    name: "&#80EE0B&lWON %amount%"
+    lore:
+      - ""
+      - "&#22AFFBℹ &fAgainst: &#22AFFB%opponent%"
+      - "&#FFD900⌛ &fWhen: &#FFD900%time%"
+
+  lost:
+    material: RED_DYE
+    name: "&#FF256E&lLOST %amount%"
+    lore:
+      - ""
+      - "&#22AFFBℹ &fAgainst: &#22AFFB%opponent%"
+      - "&#FFD900⌛ &fWhen: &#FFD900%time%"
+
+# ── Sounds ──────────────────────────────────────────────────────────────────
+sounds:
+  open:
+    enabled: true
+    sound: "block.barrel.open"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2
+  page:
+    enabled: true
+    sound: "item.book.page_turn"
+    volume: 1.0
+    pitch: 1.0

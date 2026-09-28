@@ -1,0 +1,115 @@
+# /boosts menu. function: boost-<name> activates that boost from config.yml,
+# function: reset-cooldown (only while on cooldown) buys the cooldown away.
+# %cooldown% (ready or time left) and %reset_cost% work everywhere.
+#
+# Every item and template takes: slot / slots, material, name, lore, glow, amount,
+# custom-model-data, item-model, skull, permission, sound ("" = silent), close-on-click, and
+# commands: / left-commands: / right-commands: ([player] [console] [message] [broadcast]
+# [actionbar] [title] [sound] [chat] [refresh] [close]).
+
+title: "&8🔥 Booster Menu"
+rows: 4
+
+items:
+
+  border:
+    slots: "0-10, 16-35" # 31 is covered by reset-cooldown while it shows
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  speed:
+    slot: 11
+    function: boost-speed
+    material: IRON_BOOTS
+    glow: true
+    name: "&#019BEE&l⚡ SPEED BOOST"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#019BEE¦ &fSpeed III for 3m"
+      - "&#019BEE¦ &fCooldown: %cooldown%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to activate"
+
+  strength:
+    slot: 12
+    function: boost-strength
+    material: DIAMOND_SWORD
+    glow: true
+    name: "&#FB7B0B&l🗡 STRENGTH BOOST"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FB7B0B¦ &fStrength II for 3m"
+      - "&#FB7B0B¦ &fCooldown: %cooldown%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to activate"
+
+  regeneration:
+    slot: 13
+    function: boost-regeneration
+    material: GLISTERING_MELON_SLICE
+    glow: true
+    name: "&#FF3B3B&l❤ REGENERATION BOOST"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3B¦ &fRegeneration II for 90s"
+      - "&#FF3B3B¦ &fCooldown: %cooldown%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to activate"
+
+  haste:
+    slot: 14
+    function: boost-haste
+    material: GOLDEN_PICKAXE
+    glow: true
+    name: "&#FFF300&l⛏ HASTE BOOST"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FFF300¦ &fHaste III for 5m"
+      - "&#FFF300¦ &fCooldown: %cooldown%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to activate"
+
+  jump:
+    slot: 15
+    function: boost-jump
+    material: RABBIT_FOOT
+    glow: true
+    name: "&#B0B0B0&l↑ JUMP BOOST"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#B0B0B0¦ &fJump Boost III for 3m"
+      - "&#B0B0B0¦ &fCooldown: %cooldown%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to activate"
+
+  reset-cooldown:
+    slot: 31
+    function: reset-cooldown
+    material: LIME_DYE
+    name: "&#80EE0B&lRESET COOLDOWN"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#80EE0B¦ &fCooldown left: %cooldown%"
+      - "&#80EE0B¦ &fCost: &#80EE0B%reset_cost%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to reset"
+
+# ── Sounds ──────────────────────────────────────────────────────────────────
+sounds:
+  open:
+    enabled: true
+    sound: "block.beacon.activate"
+    volume: 0.6
+    pitch: 1.4
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2

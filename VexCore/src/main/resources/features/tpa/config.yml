@@ -1,0 +1,167 @@
+# Teleport requests: /tpa, /tpahere, /tpahereall, /tpaccept, /tpdeny, /tpacancel,
+# /tpatoggle [tpa|tpahere], /tpauto
+
+prefix: "&#22AFFB&lTELEPORT &7▷ "
+
+# Seconds before an unanswered request runs out.
+expire-seconds: 60
+
+# What players start with before they change it (in /settings or with the commands).
+defaults:
+  tpa: true        # receive /tpa requests
+  tpahere: true    # receive /tpahere requests
+  tpauto: false    # accept every request automatically
+
+# The countdown of whoever teleports after a request is accepted. vexcore.tpa.bypass skips it.
+teleport:
+  delay-seconds: 5
+  cancel-on-move: true
+  cancel-on-damage: true
+
+# %player% = the other player. %tpaccept% / %tpdeny% = those commands' current names, so
+# the buttons keep working when they are renamed in commands.yml.
+messages:
+  sent: "{prefix}&fRequest sent to &#22AFFB%player%&f."
+  sent-here: "{prefix}&fYou asked &#22AFFB%player% &fto come to you."
+  received:
+    - "{prefix}&#22AFFB%player% &fwants to teleport to you."
+    - "<click:run_command:'/%tpaccept% %player%'><hover:show_text:'&aAccept the request'>&#16D223&l[ACCEPT]</hover></click> <click:run_command:'/%tpdeny% %player%'><hover:show_text:'&cDeny the request'>&#FF3B3B&l[DENY]</hover></click>"
+  received-here:
+    - "{prefix}&#22AFFB%player% &fwants you to teleport to them."
+    - "<click:run_command:'/%tpaccept% %player%'><hover:show_text:'&aAccept the request'>&#16D223&l[ACCEPT]</hover></click> <click:run_command:'/%tpdeny% %player%'><hover:show_text:'&cDeny the request'>&#FF3B3B&l[DENY]</hover></click>"
+  hereall: "{prefix}&fRequest sent to &#22AFFB%amount% &fplayers."
+  accepted-sender: "{prefix}&#22AFFB%player% &faccepted your request."
+  accepted-target: "{prefix}&fYou accepted the request from &#22AFFB%player%&f."
+  denied-sender: "{prefix}&#22AFFB%player% &fdenied your request."
+  denied-target: "{prefix}&fYou denied the request from &#22AFFB%player%&f."
+  cancelled: "{prefix}&fYour request was cancelled."
+  cancelled-target: "{prefix}&#22AFFB%player% &fcancelled their request."
+  expired-sender: "{prefix}&fYour request to &#22AFFB%player% &fran out."
+  expired-target: "{prefix}&fThe request from &#22AFFB%player% &fran out."
+  auto-sender: "{prefix}&#22AFFB%player% &faccepts requests automatically."
+  auto-target: "{prefix}&fAccepted the request from &#22AFFB%player% &fautomatically."
+  teleport-countdown: "[actionbar]{prefix}&fTeleporting to &#22AFFB%player% &fin &#22AFFB%seconds%s"
+  teleport-success: "[actionbar]{prefix}&fYou arrived at &#22AFFB%player%&f."
+  teleport-cancelled: "{prefix}&fTeleport cancelled, you moved."
+  teleport-failed: "&#FF0000&lERROR &7▷ &#22AFFB%player% &fcan't be reached right now."
+  toggle-on: "{prefix}&fYou receive requests again."
+  toggle-off: "{prefix}&fYou no longer receive any requests."
+  tpa-toggle-on: "{prefix}&fYou receive &#22AFFB/tpa &frequests again."
+  tpa-toggle-off: "{prefix}&fYou no longer receive &#22AFFB/tpa &frequests."
+  tpahere-toggle-on: "{prefix}&fYou receive &#22AFFB/tpahere &frequests again."
+  tpahere-toggle-off: "{prefix}&fYou no longer receive &#22AFFB/tpahere &frequests."
+  auto-on: "{prefix}&fRequests are now accepted automatically."
+  auto-off: "{prefix}&fRequests are no longer accepted automatically."
+  target-restricted: "&#FF0000&lERROR &7▷ &#22AFFB%player% &fcan't teleport right now."
+  self: "&#FF0000&lERROR &7▷ &fYou can't send a request to yourself."
+  already-sent: "&#FF0000&lERROR &7▷ &fYou already have a request open with &#22AFFB%player%&f."
+  target-blocked: "&#FF0000&lERROR &7▷ &#22AFFB%player% &fdoesn't take requests."
+  player-offline: "&#FF0000&lERROR &7▷ &#22AFFB%player% &fis not online any more."
+  no-request: "&#FF0000&lERROR &7▷ &fYou have no open request."
+
+sounds:
+  sent:
+    enabled: true
+    sound: "block.tripwire.click_on"
+    volume: 1.0
+    pitch: 1.0
+  sent-here:
+    enabled: true
+    sound: "block.tripwire.click_on"
+    volume: 1.0
+    pitch: 1.0
+  received:
+    enabled: true
+    sound: "block.note_block.chime"
+    volume: 1.0
+    pitch: 1.2
+  received-here:
+    enabled: true
+    sound: "block.note_block.chime"
+    volume: 1.0
+    pitch: 1.2
+  accepted-sender:
+    enabled: true
+    sound: "entity.experience_orb.pickup"
+    volume: 0.8
+    pitch: 1.2
+  accepted-target:
+    enabled: true
+    sound: "entity.experience_orb.pickup"
+    volume: 0.8
+    pitch: 1.2
+  denied-sender:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  teleport-countdown:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.7
+    pitch: 1.0
+  teleport-success:
+    enabled: true
+    sound: "entity.enderman.teleport"
+    volume: 1.0
+    pitch: 1.0
+  toggle-on:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 1.6
+  toggle-off:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 0.8
+  tpa-toggle-on:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 1.6
+  tpa-toggle-off:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 0.8
+  tpahere-toggle-on:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 1.6
+  tpahere-toggle-off:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 0.8
+  auto-on:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 1.6
+  auto-off:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 0.8
+  self:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  already-sent:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  target-blocked:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  no-request:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0

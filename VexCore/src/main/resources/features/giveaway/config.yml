@@ -1,0 +1,86 @@
+# Player giveaways. A player chooses money (taken from their balance) or items (put into a menu).
+# The prize goes straight into the database and the winner picks it up from Your Prizes. Nothing
+# is ever held in memory only. Right click on START walks through the durations.
+prefix: "&#FFB02E&lGIVEAWAY &7▷ "
+money:
+  min: 1
+  max: 1000000000
+durations: ["1h", "6h", "12h", "24h"]
+rules:
+  min-items: 1
+  max-items: 36
+  # The shortest a giveaway can run; shorter durations are raised to this.
+  min-duration-seconds: 60
+  # How many giveaways one player may have running at the same time.
+  max-running: 1
+  # Wait between two giveaways from the same player. 0 turns it off.
+  cooldown-seconds: 0
+  owner-can-enter: false
+  # /giveaway cancel: owners may call off their own giveaway (the prize comes back to them).
+  owner-can-cancel: true
+  # false: only while nobody has entered yet (stops bait-and-cancel).
+  owner-cancel-with-entries: false
+  blocked-materials: []
+# /giveaway forcecancel <player> [reason] needs this permission.
+staff-permission: "vexcore.giveaway.forcecancel"
+# Winners who were offline get a title when they next join (after this many ticks).
+join-notice-delay-ticks: 60
+# How often the timer looks for giveaways that ended.
+tick-seconds: 10
+# The chat warning goes out this long before the end. 0 turns it off.
+warn-seconds: 300
+words:
+  no-reason: "No reason given"
+  console: "Console"
+messages:
+  won-title: "[title]&#FFB02E&lCONGRATS!|&fYou have won &#FFB02E%player%'s &fgiveaway, enjoy!"
+  won-while-away: "&#FFB02E&lGIVEAWAY &7▷ &fWhile you were away you won &#FFB02E%prize% &ffrom %player%'s giveaway! Take it from &#FFB02EYour Prizes &fin /gws."
+  returned-while-away: "&#FFB02E&lGIVEAWAY &7▷ &fNobody entered your giveaway while you were away. Your &#FFB02E%prize% &fwaits in &#FFB02EYour Prizes&f."
+  cancelled-while-away: "&#FFB02E&lGIVEAWAY &7▷ &fStaff cancelled your giveaway while you were away. Your &#FFB02E%prize% &fwaits in &#FFB02EYour Prizes&f."
+  cancel-done: "&#FFB02E&lGIVEAWAY &7▷ &fYour giveaway was cancelled. Your &#FFB02E%prize% &fis back in &#FFB02EYour Prizes&f."
+  cancelled: "&#FFB02E&lGIVEAWAY &7▷ &f%player% cancelled their giveaway of &#FFB02E%prize%&f."
+  cancelled-by-staff: "&#FFB02E&lGIVEAWAY &7▷ &f%player%'s giveaway of &#FFB02E%prize% &fwas cancelled by staff. &7(%reason%)"
+  your-cancelled-by-staff: "&#FF0000&lGIVEAWAY &7▷ &f%staff% cancelled your giveaway: &7%reason%&f. Your &#FFB02E%prize% &fis back in &#FFB02EYour Prizes&f."
+  forcecancel-done: "&#FFB02E&lGIVEAWAY &7▷ &fCancelled %player%'s giveaway of &#FFB02E%prize%&f. The prize went back to them."
+  forcecancel-usage: "&#FFB02E&lGIVEAWAY &7▷ &fUse &#FFB02E/%command% forcecancel <player> [reason]"
+  forcecancel-none: "&#FF0000&lERROR &7▷ &#FFB02E%player% &fhas no running giveaway."
+  cancel-none: "&#FF0000&lERROR &7▷ &fYou have no running giveaway."
+  cancel-disabled: "&#FF0000&lERROR &7▷ &fGiveaways can't be cancelled by their owner here."
+  cancel-has-entries: "&#FF0000&lERROR &7▷ &fYour giveaway already has &#FFB02E%entries% &fentries, so it can't be cancelled."
+  cancel-failed: "&#FF0000&lERROR &7▷ &fThe giveaway couldn't be cancelled, so it keeps running."
+  cancel-which: "&#FFB02E&lGIVEAWAY &7▷ &fYou have several giveaways. Use &#FFB02E/%command% cancel <number>&f:"
+  cancel-which-line: "&#FFB02E%number%. &f%prize% &7(%entries% entries, ends in %time%)"
+  money-prompt: "&#FFB02E&lGIVEAWAY &7▷ &fType the amount in chat (e.g. 1000 or 2.5k), or cancel."
+  claim-failed: "&#FF0000&lERROR &7▷ &fYour prize could not be delivered. It has been kept for another attempt."
+  started: "&#FFB02E&lGIVEAWAY &7▷ &f%player% is giving away &#FFB02E%prize% &ffor &#FFB02E%time%&f. &#FFB02E/gws &fto enter."
+  ending: "&#FFB02E&lGIVEAWAY &7▷ &f%player%'s giveaway ends in &#FFB02E%time%&f."
+  winner: "&#FFB02E&lGIVEAWAY &7▷ &#FFB02E%winner% &fwon &#FFB02E%prize% &ffrom %player%'s giveaway. &7(%entries% entries)"
+  you-won: "&#FFB02E&lGIVEAWAY &7▷ &fYou won &#FFB02E%prize% &ffrom %player%'s giveaway! Take it from &#FFB02EYour Prizes &fin /gws."
+  no-entries: "&#FFB02E&lGIVEAWAY &7▷ &fNobody entered your giveaway. Your &#FFB02E%prize% &fwaits in &#FFB02EYour Prizes&f."
+  entered: "&#FFB02E&lGIVEAWAY &7▷ &fYou entered %player%'s giveaway. Good luck!"
+  already-entered: "&#FF0000&lERROR &7▷ &fYou already entered this giveaway."
+  ended: "&#FF0000&lERROR &7▷ &fThat giveaway just ended."
+  own-giveaway: "&#FF0000&lERROR &7▷ &fYou can't enter your own giveaway."
+  max-running: "&#FF0000&lERROR &7▷ &fYou can run &#FFB02E%max% &fgiveaway(s) at a time."
+  blocked-item: "&#FF0000&lERROR &7▷ &fOne of those items can't be given away."
+  item-count: "&#FF0000&lERROR &7▷ &fPut in &#FFB02E%min% &fto &#FFB02E%max% &fitems."
+  cooldown: "&#FF0000&lERROR &7▷ &fWait &#FFB02E%time% &fbefore the next giveaway."
+  claimed: "&#FFB02E&lGIVEAWAY &7▷ &fYou took &#FFB02E%prize%."
+  failed: "&#FF0000&lERROR &7▷ &fThe giveaway couldn't be saved, so it was called off. Your prize will be returned through Your Prizes."
+sounds:
+  won-title:
+    sound: "ui.toast.challenge_complete"
+    volume: 1.0
+    pitch: 1.0
+  started:
+    sound: "ui.toast.challenge_complete"
+    volume: 0.8
+    pitch: 1.0
+  entered:
+    sound: "entity.experience_orb.pickup"
+    volume: 1.0
+    pitch: 1.4
+  claimed:
+    sound: "entity.player.levelup"
+    volume: 1.0
+    pitch: 1.4

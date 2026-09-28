@@ -1,0 +1,65 @@
+# /live <link>: tells everyone you are streaming (needs vexcore.live).
+# /live toggle: hide these announcements for yourself.
+
+prefix: "&#FF256E&lLIVE &7▷ "
+
+# What players start with (true = announcements shown).
+default: true
+
+# Seconds between two announcements by the same player. vexcore.live.bypass skips it.
+cooldown-seconds: 600
+
+# Only links to these sites are accepted (subdomains included).
+platforms:
+  - twitch.tv
+  - youtube.com
+  - youtu.be
+  - tiktok.com
+  - kick.com
+  - rumble.com
+
+# The announcement. %player% = streamer, %link% = the clickable link.
+message:
+  - ""
+  - "&#FF256E🎥 &lLIVESTREAM&r &#FF256E🎥"
+  - "&7[ɪɴғᴏʀᴍᴀᴛɪᴏɴ]"
+  - ""
+  - "&#FF256E¦ &#FF256E%player% &fis streaming right now!"
+  - "&#FF256E¦ &fClick the link to watch."
+  - ""
+  - "&#FF256E▷ &fWatch: &#FF256E&n%link%"
+  - "[sound] block.note_block.bell;1;1.2"
+
+messages:
+  posted: "{prefix}&fYour stream was announced."
+  invalid-platform: "&#FF0000&lERROR &7▷ &fThat link isn't from an allowed platform."
+  cooldown: "&#FF0000&lERROR &7▷ &fWait &#FF256E%seconds%s &fbefore announcing again."
+  toggle-on: "{prefix}&fStream announcements are now &#16D223shown&f."
+  toggle-off: "{prefix}&fStream announcements are now &#FF3B3Bhidden&f."
+
+sounds:
+  posted:
+    enabled: true
+    sound: "entity.player.levelup"
+    volume: 0.8
+    pitch: 1.4
+  invalid-platform:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  cooldown:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  toggle-on:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 1.6
+  toggle-off:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 0.8

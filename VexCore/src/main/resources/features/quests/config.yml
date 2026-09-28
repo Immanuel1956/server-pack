@@ -1,0 +1,75 @@
+# The quest board, ported from LifestealCore. The quests themselves are in quests.yml.
+# /quests opens the board; click a quest for its progress, leaderboard and tracking.
+# Placeholder: %vexcore_quests_done%
+
+prefix: "&#FF7200&lQUESTS &7▷ "
+
+# STEPS never wipes anything. Clearing the amount a quest asks for pays out and puts a bigger one
+# in its place, so the same quest is still worth something tomorrow. RESET is the classic board:
+# a quest is done for the day and every progress goes with it when the next board rolls.
+# The board still swaps its quests around on the reset timer either way.
+mode: STEPS
+
+# Only read in STEPS mode. Each cleared amount multiplies the next one, and the payout with it.
+# max is where a quest stops growing and counts as finished for good.
+steps:
+  target-multiplier: 1.6
+  reward-multiplier: 1.4
+  max: 25
+
+# How many quests are up at once. The board grows with the player count between min and max and
+# never past the quest-slots in gui/board.yml. min and max the same means a board that is always full.
+board:
+  min: 28
+  max: 28
+  per-player: 0.5
+
+reset:
+  hours: 24
+  announce: true
+  # How many old boards stay in the database for the all-time rankings' history.
+  keep-cycles: 7
+
+# Ticks between two writes of everybody's progress (and a ranking refresh), and how deep the
+# cached rankings for %top_<n>_name% go.
+write-interval: 600
+leaderboard-cache: 10
+
+# Minutes before killing the same player counts again. 0 turns the check off and makes alt
+# accounts a quest.
+kill-cooldown-minutes: 60
+
+# Game modes that make no quest progress (creative and spectator can make anything).
+ignored-gamemodes: [CREATIVE, SPECTATOR]
+# PLAYTIME only counts players who moved in the last this many minutes. 0 counts AFK players too.
+playtime-afk-minutes: 5
+# How often (seconds) the plugin checks whether the board resets.
+roll-check-seconds: 30
+
+empty-name: "---"
+empty-value: "0"
+empty-rank: "-"
+
+status:
+  open: "&#FFD900Open"
+  done: "&#16D223Done"
+
+# The action bar of a tracked quest.
+track:
+  # Ticks between two updates of the action bar.
+  interval-ticks: 20
+  format: "%accent%%emoji% &fTracking %quest% &8▷ &f%progress%&8/&f%target% &8(step %step%)"
+
+# %quest% already brings the quest's own colour and bold with it in chat, so do not colour it here.
+# %step% only says anything in STEPS mode. In RESET mode it is always 1 and can be taken out.
+messages:
+  completed: "&#FF7200&lQUESTS &7▷ &fYou cleared step &#FF7200%step% &fof %quest% &fand earned &#80EE0B$%money%&f."
+  first: "&#FF7200&lQUESTS &7▷ &#FF7200%player% &fwas first to clear step &#FF7200%step% &fof %quest%&f. &7(+&#80EE0B$%bonus%&7)"
+  reset: "&#FF7200&lQUESTS &7▷ &fA new board is up with &#FF7200%amount% &fquests."
+  track-on: "&#FF7200&lQUESTS &7▷ &fNow tracking %quest%&f."
+  track-off: "&#FF7200&lQUESTS &7▷ &fStopped tracking %quest%&f."
+
+sounds:
+  completed: {sound: "ui.toast.challenge_complete", volume: 1.0, pitch: 1.0}
+  first: {sound: "entity.player.levelup", volume: 0.8, pitch: 1.4}
+  track-on: {sound: "ui.button.click", volume: 1.0, pitch: 1.2}

@@ -1,0 +1,82 @@
+# The flip animation. The result is already decided and paid; this only shows it.
+#
+#   slot         where the heads jump
+#   steps        how many times it switches, interval-ticks apart
+#   hold-ticks   how long the winner is shown before the menu closes
+#   frames       every step fills the menu with the next of these (template frame)
+# Templates: head (while flipping, %player%), winner (at the end, %player%),
+#            frame (%material% = the current frame), reveal (fills the menu at the end).
+# Sounds: flip (every step), win / lose (at the end, for the viewer).
+
+title: "&8Flipping for %amount%..."
+rows: 3
+
+slot: 13
+steps: 12
+interval-ticks: 6
+hold-ticks: 30
+
+frames:
+  - YELLOW_STAINED_GLASS_PANE
+  - ORANGE_STAINED_GLASS_PANE
+  - RED_STAINED_GLASS_PANE
+  - PINK_STAINED_GLASS_PANE
+  - PURPLE_STAINED_GLASS_PANE
+  - BLUE_STAINED_GLASS_PANE
+  - LIGHT_BLUE_STAINED_GLASS_PANE
+  - LIME_STAINED_GLASS_PANE
+
+items: {}
+
+templates:
+
+  head:
+    material: PLAYER_HEAD
+    skull: "%player%"
+    name: "&#FFE925&l%player%"
+    sound: ""
+
+  winner:
+    material: PLAYER_HEAD
+    skull: "%player%"
+    glow: true
+    name: "&#80EE0B&l%player% WINS!"
+    sound: ""
+
+  frame:
+    material: "%material%"
+    name: " "
+    sound: ""
+
+  reveal:
+    material: LIME_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+# ── Sounds ──────────────────────────────────────────────────────────────────
+sounds:
+  open:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 1.0
+    pitch: 1.2
+  click:
+    enabled: false
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2
+  flip:
+    enabled: true
+    sound: "block.wooden_button.click_on"
+    volume: 1.0
+    pitch: 1.4
+  win:
+    enabled: true
+    sound: "ui.toast.challenge_complete"
+    volume: 0.8
+    pitch: 1.0
+  lose:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0

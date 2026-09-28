@@ -1,0 +1,96 @@
+# /pwarp: every player warp. Left click warps you there.
+# On a warp: %name% %owner% %icon% %description% %visits% %world% %created%.
+# Everywhere: %warps% (shown) %owned% %max% %next_cost% %sort% %filter% %page% %pages% %player%.
+title: "&8Player Warps [%page%/%pages%]"
+rows: 6
+content-slots: "10-16, 19-25, 28-34"
+items:
+  border:
+    slots: "0-3, 5-9, 17-18, 26-27, 35-36, 44-45, 47, 51, 53"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+  info:
+    slot: 4
+    function: info
+    material: PLAYER_HEAD
+    skull: "%player%"
+    name: "&#B06CFF&lYOUR WARPS"
+    lore:
+      - "&8Player Warps"
+      - ""
+      - "&#B06CFF¦ &fOwned: &#B06CFF%owned%&7/&#B06CFF%max%"
+      - "&#B06CFF¦ &fNext warp costs: &#B06CFF%next_cost%"
+      - ""
+      - "&7Make one: &#B06CFF/pwarp set <name>"
+  sort:
+    slot: 46
+    function: sort
+    material: HOPPER
+    name: "&#B06CFF&lSORT"
+    lore:
+      - "&#B06CFF¦ &f%sort%"
+      - ""
+      - "&#B06CFF▷ &n&lCLICK&r&#B06CFF To Change"
+  previous:
+    slot: 48
+    function: previous-page
+    material: ARROW
+    name: "&#B06CFF▷ &fPrevious Page"
+  close:
+    slot: 49
+    material: BARRIER
+    name: "&#FF3B3B&lCLOSE"
+    commands: ["[close]"]
+  next:
+    slot: 50
+    function: next-page
+    material: ARROW
+    name: "&#B06CFF▷ &fNext Page"
+  filter:
+    slot: 52
+    function: filter
+    material: COMPASS
+    name: "&#B06CFF&lSHOWING"
+    lore:
+      - "&#B06CFF¦ &f%filter%"
+      - ""
+      - "&#B06CFF▷ &n&lCLICK&r&#B06CFF To Switch"
+  empty:
+    slot: 22
+    function: empty
+    material: BARRIER
+    name: "&#FF0000&lNO WARPS YET"
+    lore: ["&7Be the first: &#B06CFF/pwarp set <name>"]
+templates:
+  warp:
+    material: "%icon%"
+    name: "&#B06CFF&l%name%"
+    lore:
+      - "&8By %owner%"
+      - ""
+      - "&f%description%"
+      - ""
+      - "&#B06CFF¦ &fVisits: &#B06CFF%visits%"
+      - "&#B06CFF¦ &fWorld: &#B06CFF%world%"
+      - "&#B06CFF¦ &fOpened: &#B06CFF%created% ago"
+      - ""
+      - "&#B06CFF▷ &n&lCLICK&r&#B06CFF To Warp"
+  own-warp:
+    material: "%icon%"
+    glow: true
+    name: "&#97F900&l%name% &7(yours)"
+    lore:
+      - "&8By you"
+      - ""
+      - "&f%description%"
+      - ""
+      - "&#97F900¦ &fVisits: &#97F900%visits%"
+      - "&#97F900¦ &fWorld: &#97F900%world%"
+      - ""
+      - "&#97F900▷ &n&lCLICK&r&#97F900 To Warp"
+      - "&7/pwarp icon|desc|delete %name%"
+sounds:
+  open: {sound: "block.ender_chest.open", volume: 0.6, pitch: 1.3}
+  click: {sound: "ui.button.click", volume: 1.0, pitch: 1.2}
+  page: {sound: "item.book.page_turn", volume: 1.0, pitch: 1.0}

@@ -1,0 +1,38 @@
+# /afk teleports to the afk area, /setafk sets it. Saved in data/afk.yml.
+
+prefix: "&#F90EC2&lAFK ARENA &7▷ "
+
+# The countdown before /afk teleports. vexcore.afk.bypass skips it.
+teleport:
+  delay-seconds: 3
+  cancel-on-move: true
+  cancel-on-damage: true
+
+messages:
+  teleport-countdown: "[actionbar]{prefix}&fTeleport in &#F90EC2%seconds%s"
+  teleport-success: "[actionbar]{prefix}&fYou arrived at the afk area."
+  teleport-cancelled: "{prefix}&fTeleport cancelled, you moved."
+  not-set: "&#FF0000&lERROR &7▷ &fNo afk area has been set yet."
+  set: "{prefix}&fThe afk area was set to your position."
+
+sounds:
+  teleport-countdown:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.7
+    pitch: 1.0
+  teleport-success:
+    enabled: true
+    sound: "entity.enderman.teleport"
+    volume: 1.0
+    pitch: 1.0
+  not-set:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  set:
+    enabled: true
+    sound: "entity.player.levelup"
+    volume: 0.8
+    pitch: 1.4

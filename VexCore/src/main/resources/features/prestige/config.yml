@@ -1,0 +1,144 @@
+# Prestige: /prestige opens the menu; a level is taken by clicking it once it is ready.
+# Levels are taken one after another. Admin: /prestige set <player> <level>
+# Placeholders: %vexcore_prestige% (level), %vexcore_prestige_max%
+#
+# Every level (in file order) can ask for:
+#   cost             money, TAKEN when the level is reached
+#   kills            player kills in total (not taken)
+#   playtime-hours   hours played in total (not taken)
+# and gives:
+#   invest-limit     added to the /invest limit for good
+#   commands         command lines, e.g. "[console] lp user %player% parent add prestige1".
+#                    %player% %level%
+#   display          what the menu shows under Rewards (%rewards%)
+
+prefix: "&#FF4D6D&lPRESTIGE &7▷ "
+
+# Tell everybody when someone prestiges.
+broadcast: true
+
+no-next: "-"
+no-rewards: "&f- &7none"
+
+levels:
+  "1":
+    material: COAL
+    cost: 250000
+    kills: 0
+    playtime-hours: 2
+    invest-limit: 25000
+    commands: []
+    display:
+      - "&f- &#7CFC00+$25,000 &finvest limit"
+  "2":
+    material: IRON_INGOT
+    cost: 500000
+    kills: 10
+    playtime-hours: 5
+    invest-limit: 25000
+    commands: []
+    display:
+      - "&f- &#7CFC00+$25,000 &finvest limit"
+  "3":
+    material: GOLD_INGOT
+    cost: 1000000
+    kills: 25
+    playtime-hours: 10
+    invest-limit: 25000
+    commands: []
+    display:
+      - "&f- &#7CFC00+$25,000 &finvest limit"
+  "4":
+    material: REDSTONE
+    cost: 2500000
+    kills: 50
+    playtime-hours: 20
+    invest-limit: 25000
+    commands: []
+    display:
+      - "&f- &#7CFC00+$25,000 &finvest limit"
+  "5":
+    material: LAPIS_LAZULI
+    cost: 5000000
+    kills: 100
+    playtime-hours: 35
+    invest-limit: 25000
+    commands: []
+    display:
+      - "&f- &#7CFC00+$25,000 &finvest limit"
+  "6":
+    material: EMERALD
+    cost: 10000000
+    kills: 150
+    playtime-hours: 50
+    invest-limit: 25000
+    commands: []
+    display:
+      - "&f- &#7CFC00+$25,000 &finvest limit"
+  "7":
+    material: DIAMOND
+    cost: 25000000
+    kills: 250
+    playtime-hours: 75
+    invest-limit: 25000
+    commands: []
+    display:
+      - "&f- &#7CFC00+$25,000 &finvest limit"
+  "8":
+    material: AMETHYST_SHARD
+    cost: 50000000
+    kills: 400
+    playtime-hours: 100
+    invest-limit: 25000
+    commands: []
+    display:
+      - "&f- &#7CFC00+$25,000 &finvest limit"
+  "9":
+    material: NETHERITE_SCRAP
+    cost: 100000000
+    kills: 600
+    playtime-hours: 150
+    invest-limit: 25000
+    commands: []
+    display:
+      - "&f- &#7CFC00+$25,000 &finvest limit"
+  "10":
+    material: NETHER_STAR
+    cost: 250000000
+    kills: 1000
+    playtime-hours: 250
+    invest-limit: 25000
+    commands: []
+    display:
+      - "&f- &#7CFC00+$25,000 &finvest limit"
+
+messages:
+  prestiged: "{prefix}&fYou reached &#FF4D6D&lPrestige %level%&f!"
+  broadcast: "{prefix}&#FF4D6D%player% &freached &#FF4D6D&lPrestige %level%&f!"
+  not-ready: "&#FF0000&lERROR &7▷ &fPrestige %number% needs &#FF4D6D%cost%&f, &#FF4D6D%kills% &fkills and &#FF4D6D%playtime%h &fplayed."
+  not-next: "&#FF0000&lERROR &7▷ &fReach the levels before this one first."
+  max: "{prefix}&fYou already reached the highest prestige."
+  set: "{prefix}&#FF4D6D%player% &fis now prestige &#FF4D6D%level%&f."
+  usage-set: "{prefix}&fUse /prestige set <player> <level>"
+
+sounds:
+  prestiged:
+    enabled: true
+    sound: "ui.toast.challenge_complete"
+    volume: 1.0
+    pitch: 1.0
+  not-ready:
+    enabled: true
+    sound: "block.note_block.bass"
+    volume: 1.0
+    pitch: 0.8
+  not-next:
+    enabled: true
+    sound: "block.note_block.bass"
+    volume: 1.0
+    pitch: 0.8
+  max:
+    enabled: true
+    sound: "block.note_block.bass"
+    volume: 1.0
+    pitch: 0.8

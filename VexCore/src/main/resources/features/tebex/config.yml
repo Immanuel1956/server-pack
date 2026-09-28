@@ -1,0 +1,116 @@
+# Store goals, a goal boss bar and purchase announcements from Tebex.
+#
+# 1. Put your server's secret key below (Tebex panel > Integrations > Game Servers > your server).
+#    VexCore then checks the store for new payments every poll-seconds.
+# 2. A new payment: the buyer's head is drawn in chat, the goal boss bar moves, and a GG wave
+#    starts: everyone who says gg gets gg-wave.money.
+# 3. Instant instead of every poll-seconds: add a command to your Tebex packages,
+#       tebexpurchase {username} {price} {packageName}
+#    (check Tebex's variable list for your store) and set poll-payments: false, so purchases
+#    aren't announced twice.
+# /goal shows the goal. Admins (vexcore.goal.admin): /goal set|add <amount>, /goal reset, /goal refresh.
+prefix: "&#97F900&lSTORE &7▷ "
+
+secret: ""
+poll-seconds: 30
+poll-payments: true
+payments-per-check: 25
+# The first check only learns which payments already exist. true announces and counts those too.
+count-existing-on-first-run: false
+currency-symbol: "$"
+admin-permission: "vexcore.goal.admin"
+
+goals:
+  # own: VexCore counts the money of every payment it sees and works through the list below.
+  # community: the progress of a Tebex community goal (Tebex panel > Engagement > Community Goals).
+  source: own
+  # own goals, reached in order of target. commands run from the console once, when reached.
+  # %goal% %target%
+  list:
+    first:
+      name: "Keyall"
+      target: 100
+      commands:
+        - "keyall"
+    second:
+      name: "Double Money Weekend"
+      target: 250
+      commands: []
+    third:
+      name: "Mega Giveaway"
+      target: 500
+      commands: []
+  # reset: after the last goal, start over from the leftover money. stay: stay full.
+  when-all-reached: reset
+  none-name: "Store Goal"
+  # community only: the goal's id, or "" for the first one that isn't disabled.
+  community-goal-id: ""
+  # community only: run when Tebex says the goal was reached again.
+  community-commands: []
+
+bossbar:
+  enabled: true
+  # PINK BLUE RED GREEN YELLOW PURPLE WHITE / PROGRESS NOTCHED_6 NOTCHED_10 NOTCHED_12 NOTCHED_20
+  color: GREEN
+  overlay: NOTCHED_10
+  # %goal% %current% %target% %percent%
+  title: "&#97F900&l%goal% &7▷ &f%current% &7/ &f%target% &8(&#97F900%percent%%&8) &7▷ &#97F900/store"
+  # Shown while a GG wave is running.
+  gg-title: "&#FFD900&lGG WAVE &7▷ &fType &#FFD900gg &ffor money! &8(&f%current% &7/ &f%target%&8)"
+  # Shown for a few seconds right after a purchase.
+  purchase-title: "&#97F900&lTHANK YOU! &7▷ &f%current% &7/ &f%target% &8(&#97F900%percent%%&8)"
+  purchase-flash-seconds: 6
+
+# The purchase announcement. Each line is shown to the right of one row of the buyer's head.
+# %player% %amount% %package% %money% %money_short% %time% %goal_current% %goal_target% %goal_percent%
+purchase:
+  enabled: true
+  show-head: true
+  pixel: "█"
+  blank-lines: true
+  unknown-package: "something"
+  lines:
+    - ""
+    - "&#97F900&lSTORE PURCHASE"
+    - "&f%player% &7just bought &#97F900%package%&7!"
+    - ""
+    - "&fSay &#FFD900&lGG &fin chat for"
+    - "&#97F900&l%money_short% &fmoney! &7(%time%)"
+    - ""
+    - "&7Goal: &#97F900%goal_current% &7/ &f%goal_target%"
+  sound:
+    sound: "ui.toast.challenge_complete"
+    volume: 0.8
+    pitch: 1.2
+  # Console commands on every purchase. %player% %amount% %package%
+  commands: []
+  gg-wave:
+    enabled: true
+    duration: "30s"
+    money: 50000
+    # Extra commands for each player's first gg in a purchase wave.
+    rewards: []
+
+messages:
+  goal:
+    - ""
+    - "{prefix}&f%goal%"
+    - "&#97F900¦ &f%current% &7/ &f%target% &8(&#97F900%percent%%&8)"
+    - "&#97F900¦ &7Help us get there: <click:run_command:'/store'>&#97F900&n/store</click>"
+    - ""
+  goal-reached:
+    - ""
+    - "&#97F900&lGOAL REACHED &7▷ &f%goal% &8(&f%target%&8)"
+    - "&#97F900¦ &fThank you to everyone who supported the server!"
+    - ""
+  goal-changed: "{prefix}&fThe goal now stands at &#97F900%current%&f."
+  goal-usage: "{prefix}&fUse &#97F900/%command% [set|add <amount>|reset|refresh]"
+  community-only: "&#FF0000&lERROR &7▷ &fThe goal comes from Tebex (goals.source: community); change it there."
+  refreshed: "{prefix}&fAsking Tebex for news..."
+  purchase-sent: "{prefix}&fAnnounced a purchase by &#97F900%player%&f."
+
+sounds:
+  goal-reached:
+    sound: "ui.toast.challenge_complete"
+    volume: 1.0
+    pitch: 1.0

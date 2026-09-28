@@ -1,0 +1,72 @@
+# Spawns: /spawn [name] [player], /setspawn [name], /delspawn <name>, /spawns
+# Spawns are saved in data/spawns.yml (per server, even with a shared MySQL database).
+
+prefix: "&#16D223&lSPAWN &7▷ "
+
+# Used by /spawn and /setspawn when no name is typed.
+default-spawn: "spawn"
+
+# The countdown before /spawn teleports. vexcore.spawn.bypass skips it.
+teleport:
+  delay-seconds: 3
+  cancel-on-move: true
+  cancel-on-damage: true
+
+# Where players are placed. spawn: "" = the default spawn, "random" = any spawn, or a name.
+# The first join is placed before the world is sent, so it never flickers.
+first-join:
+  enabled: true
+  spawn: ""
+join:
+  enabled: false
+  spawn: ""
+respawn:
+  enabled: true
+  spawn: ""
+  # true = always respawn at spawn, even with a bed or respawn anchor set.
+  override-bed: false
+
+messages:
+  teleport-countdown: "[actionbar]{prefix}&fTeleporting to &#16D223%name% &fin &#16D223%seconds%s"
+  teleport-success: "[actionbar]{prefix}&fYou arrived at &#16D223%name%&f."
+  teleport-cancelled: "{prefix}&fTeleport cancelled, you moved."
+  teleport-cancelled-damage: "{prefix}&fTeleport cancelled, you took damage."
+  no-spawns: "&#FF0000&lERROR &7▷ &fNo spawn has been set yet."
+  spawn-not-found: "&#FF0000&lERROR &7▷ &fThere is no spawn called &#16D223%name%&f."
+  list: "{prefix}&fSpawns (&#16D223%amount%&f): &#16D223%spawns%"
+  set: "{prefix}&fSpawn &#16D223%name% &fwas set to your position."
+  invalid-name: "&#FF0000&lERROR &7▷ &fSpawn names may only use letters, numbers, - and _."
+  deleted: "{prefix}&fSpawn &#16D223%name% &fwas deleted."
+  sent-other: "{prefix}&fSent &#16D223%player% &fto &#16D223%name%&f."
+
+sounds:
+  teleport-countdown:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.7
+    pitch: 1.0
+  teleport-success:
+    enabled: true
+    sound: "entity.enderman.teleport"
+    volume: 1.0
+    pitch: 1.0
+  teleport-cancelled:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  set:
+    enabled: true
+    sound: "entity.player.levelup"
+    volume: 0.8
+    pitch: 1.4
+  deleted:
+    enabled: true
+    sound: "entity.item.break"
+    volume: 0.8
+    pitch: 1.0
+  spawn-not-found:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0

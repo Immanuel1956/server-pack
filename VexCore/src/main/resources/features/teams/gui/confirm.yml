@@ -1,0 +1,64 @@
+# Asks before kicking, leaving, disbanding or handing the team over.
+# %action% is the text under actions for what is being confirmed; %player% %team% where known.
+#
+# Every item and template takes: slot / slots, material, name, lore, glow, amount,
+# custom-model-data, item-model, skull, permission, sound ("" = silent), close-on-click, and
+# commands: / left-commands: / right-commands: ([player] [console] [message] [broadcast]
+# [actionbar] [title] [sound] [chat] [refresh] [close]).
+
+title: "&8ᴄᴏɴꜰɪʀᴍ %action%"
+rows: 3
+
+actions:
+  kick: "ᴋɪᴄᴋɪɴɢ %player%"
+  leave: "ʟᴇᴀᴠɪɴɢ %team%"
+  disband: "ᴅɪsʙᴀɴᴅɪɴɢ %team%"
+  transfer: "ɢɪᴠɪɴɢ %player% ᴛʜᴇ ᴛᴇᴀᴍ"
+
+items:
+
+  filler:
+    slots: "0-10, 12-14, 16-26"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  cancel:
+    slot: 11
+    function: cancel
+    material: RED_STAINED_GLASS_PANE
+    name: "&#FF0000&lCANCEL"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF0000Information"
+      - "&#FF0000¦ &fClick here to go back"
+      - "&#FF0000¦ &fwithout changing anything."
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401to Cancel"
+
+  confirm:
+    slot: 15
+    function: confirm
+    material: LIME_STAINED_GLASS_PANE
+    name: "&#34eb9b&lCONFIRM"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#34eb9bInformation"
+      - "&#34eb9b¦ &fClick here to confirm"
+      - "&#34eb9b¦ &f%action%&f."
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401to Confirm"
+
+sounds:
+  open:
+    enabled: true
+    sound: "block.note_block.bass"
+    volume: 1.0
+    pitch: 1.0
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 1.0
+    pitch: 1.2

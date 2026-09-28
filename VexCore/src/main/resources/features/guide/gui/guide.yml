@@ -1,0 +1,180 @@
+# /guide menu: a starting point for new players. Every button runs a command.
+#
+# Every item:  slot / slots, material, name, lore, glow, custom-model-data, item-model,
+#              skull, amount, permission (hidden without it), sound (its own click sound,
+#              "" = silent), close-on-click, and
+#              commands: / left-commands: / right-commands: - lines like
+#                [player] spawn          [console] give %player% dirt
+#                [message] &aHi          [broadcast] &e%player% did a thing
+#                [actionbar] text        [title] Title|Subtitle
+#                [sound] name;vol;pitch  [chat] hello   [refresh]   [close]
+#              A line without [type] is run by the player.
+
+title: "&8☀ Server | Guide"
+rows: 4
+
+items:
+
+  border:
+    slots: "0-9, 17, 18, 26-35"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  spawn:
+    slot: 10
+    material: COMPASS
+    name: "&#16D223&lSPAWN"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#16D223Information:"
+      - "&#16D223¦ &fGo back to spawn"
+      - "&#16D223¦ &fat any time."
+      - ""
+      - "&#16D223☀ &fCommand: &#16D223/spawn"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to open"
+    commands:
+      - "[close]"
+      - "[player] spawn"
+
+  homes:
+    slot: 11
+    material: RED_BED
+    name: "&#16D223&lHOMES"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#16D223Information:"
+      - "&#16D223¦ &fSave places and"
+      - "&#16D223¦ &fteleport back to them."
+      - ""
+      - "&#16D223☀ &fCommand: &#16D223/home"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to open"
+    commands:
+      - "[close]"
+      - "[player] home"
+
+  teleport:
+    slot: 12
+    material: ENDER_PEARL
+    name: "&#22AFFB&lTELEPORT"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#22AFFBInformation:"
+      - "&#22AFFB¦ &fAsk a friend to teleport:"
+      - "&#22AFFB¦ &f/tpa <player>"
+      - ""
+      - "&#22AFFB☀ &fCommand: &#22AFFB/tpa"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 for help"
+    commands:
+      - "[close]"
+      - "[message] {prefix}&fUse &#22AFFB/tpa <player> &fto ask, &#22AFFB/tpaccept &fto accept."
+
+  settings:
+    slot: 13
+    material: COMPARATOR
+    name: "&#D66BFC&lSETTINGS"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#D66BFCInformation:"
+      - "&#D66BFC¦ &fTurn messages, requests"
+      - "&#D66BFC¦ &fand more on or off."
+      - ""
+      - "&#D66BFC☀ &fCommand: &#D66BFC/settings"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to open"
+    commands:
+      - "[close]"
+      - "[player] settings"
+
+  rules:
+    slot: 14
+    material: BOOK
+    name: "&#FF8A00&lRULES"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF8A00Information:"
+      - "&#FF8A00¦ &fRead them before"
+      - "&#FF8A00¦ &fyou start playing."
+      - ""
+      - "&#FF8A00☀ &fCommand: &#FF8A00/rules"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to open"
+    commands:
+      - "[close]"
+      - "[player] rules"
+
+  ranks:
+    slot: 15
+    material: NETHER_STAR
+    name: "&#FFD900&lRANKS"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FFD900Information:"
+      - "&#FFD900¦ &fSee what every rank"
+      - "&#FFD900¦ &fgives you."
+      - ""
+      - "&#FFD900☀ &fCommand: &#FFD900/ranks"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to open"
+    commands:
+      - "[close]"
+      - "[player] ranks"
+
+  discord:
+    slot: 16
+    material: LIGHT_BLUE_DYE
+    name: "&#00BDF9&lDISCORD"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#00BDF9Information:"
+      - "&#00BDF9¦ &fNews, giveaways"
+      - "&#00BDF9¦ &fand support."
+      - ""
+      - "&#00BDF9☀ &fCommand: &#00BDF9/discord"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to open"
+    commands:
+      - "[close]"
+      - "[player] discord"
+
+  store:
+    slot: 22
+    material: EMERALD
+    name: "&#97F900&lSTORE"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#97F900Information:"
+      - "&#97F900¦ &fSupport the server"
+      - "&#97F900¦ &fand get perks."
+      - ""
+      - "&#97F900☀ &fCommand: &#97F900/store"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to open"
+    commands:
+      - "[close]"
+      - "[player] store"
+
+
+# ── Sounds ──────────────────────────────────────────────────────────────────
+sounds:
+  open:
+    enabled: true
+    sound: "block.note_block.harp"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2

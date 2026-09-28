@@ -1,0 +1,178 @@
+# /history <player>: every punishment, newest first. Right click an active one to lift it
+# (vexcore.punish.lift). Templates per type: ban ipban mute kick warn.
+# %id% %type% %reason% %staff% %date% %duration% %expires% %left% %status%.
+# Everywhere: %target% %count% %page% %pages%.
+
+title: "&8⚖ History | %target% &7[%page%/%pages%]"
+rows: 6
+
+content-slots: "10-16, 19-25, 28-34, 37-43"
+
+items:
+
+  border:
+    slots: "0-9, 17, 18, 26, 27, 35, 36, 44-53"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  info:
+    slot: 4
+    material: PLAYER_HEAD
+    skull: "%target%"
+    name: "&#FF3B3B&l%target%"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3BInformation:"
+      - "&#FF3B3B¦ &fPunishments: &#FF3B3B%count%"
+      - "&#FF3B3B¦ &fRight click an active one to lift it."
+    sound: ""
+
+  empty:
+    slot: 22
+    function: empty
+    material: LIME_DYE
+    name: "&#97F900&lCLEAN RECORD"
+    lore:
+      - "&7%target% was never punished."
+    sound: ""
+
+  previous-page:
+    slot: 48
+    function: previous-page
+    material: RED_STAINED_GLASS_PANE
+    name: "&#FF3B3B&lPREVIOUS PAGE"
+    lore:
+      - "&7Page &f%page%&7/&f%pages%"
+
+  punish:
+    slot: 49
+    function: punish
+    permission: "vexcore.punish.menu"
+    material: IRON_AXE
+    name: "&#FF3B3B&lPUNISH"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3B¦ &fOpen the punish menu"
+      - "&#FF3B3B¦ &ffor %target%."
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401To Punish"
+
+  next-page:
+    slot: 50
+    function: next-page
+    material: LIME_STAINED_GLASS_PANE
+    name: "&#97F900&lNEXT PAGE"
+    lore:
+      - "&7Page &f%page%&7/&f%pages%"
+
+templates:
+  ban:
+    material: BARRIER
+    name: "&#FF3B3B&l%type% #%id%"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3BInformation:"
+      - "&#FF3B3B¦ &fReason &7¦ &f%reason%"
+      - "&#FF3B3B¦ &fBy &7¦ &f%staff%"
+      - "&#FF3B3B¦ &fDate &7¦ &f%date%"
+      - ""
+      - "&#FF3B3BSettings"
+      - "&#FF3B3B¦ &fDuration &7¦ &f%duration%"
+      - "&#FF3B3B¦ &fExpires &7¦ &f%expires%"
+      - "&#FF3B3B¦ &fStatus &7¦ %status%"
+      - ""
+      - "&#FBE401▶ &l&nRIGHT-CLICK&r &#FBE401To Lift (if active)"
+  ipban:
+    material: STRUCTURE_VOID
+    name: "&#FF3B3B&l%type% #%id%"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3BInformation:"
+      - "&#FF3B3B¦ &fReason &7¦ &f%reason%"
+      - "&#FF3B3B¦ &fBy &7¦ &f%staff%"
+      - "&#FF3B3B¦ &fDate &7¦ &f%date%"
+      - ""
+      - "&#FF3B3BSettings"
+      - "&#FF3B3B¦ &fDuration &7¦ &f%duration%"
+      - "&#FF3B3B¦ &fExpires &7¦ &f%expires%"
+      - "&#FF3B3B¦ &fStatus &7¦ %status%"
+      - ""
+      - "&#FBE401▶ &l&nRIGHT-CLICK&r &#FBE401To Lift (if active)"
+  mute:
+    material: BOOK
+    name: "&#FF3B3B&l%type% #%id%"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3BInformation:"
+      - "&#FF3B3B¦ &fReason &7¦ &f%reason%"
+      - "&#FF3B3B¦ &fBy &7¦ &f%staff%"
+      - "&#FF3B3B¦ &fDate &7¦ &f%date%"
+      - ""
+      - "&#FF3B3BSettings"
+      - "&#FF3B3B¦ &fDuration &7¦ &f%duration%"
+      - "&#FF3B3B¦ &fExpires &7¦ &f%expires%"
+      - "&#FF3B3B¦ &fStatus &7¦ %status%"
+      - ""
+      - "&#FBE401▶ &l&nRIGHT-CLICK&r &#FBE401To Lift (if active)"
+  kick:
+    material: LEATHER_BOOTS
+    name: "&#FF3B3B&l%type% #%id%"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3BInformation:"
+      - "&#FF3B3B¦ &fReason &7¦ &f%reason%"
+      - "&#FF3B3B¦ &fBy &7¦ &f%staff%"
+      - "&#FF3B3B¦ &fDate &7¦ &f%date%"
+      - ""
+      - "&#FF3B3BSettings"
+      - "&#FF3B3B¦ &fDuration &7¦ &f%duration%"
+      - "&#FF3B3B¦ &fExpires &7¦ &f%expires%"
+      - "&#FF3B3B¦ &fStatus &7¦ %status%"
+      - ""
+      - "&#FBE401▶ &l&nRIGHT-CLICK&r &#FBE401To Lift (if active)"
+  warn:
+    material: PAPER
+    name: "&#FF3B3B&l%type% #%id%"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3BInformation:"
+      - "&#FF3B3B¦ &fReason &7¦ &f%reason%"
+      - "&#FF3B3B¦ &fBy &7¦ &f%staff%"
+      - "&#FF3B3B¦ &fDate &7¦ &f%date%"
+      - ""
+      - "&#FF3B3BSettings"
+      - "&#FF3B3B¦ &fDuration &7¦ &f%duration%"
+      - "&#FF3B3B¦ &fExpires &7¦ &f%expires%"
+      - "&#FF3B3B¦ &fStatus &7¦ %status%"
+      - ""
+      - "&#FBE401▶ &l&nRIGHT-CLICK&r &#FBE401To Lift (if active)"
+
+sounds:
+  open:
+    enabled: true
+    sound: "item.book.page_turn"
+    volume: 1.0
+    pitch: 1.0
+  close:
+    enabled: true
+    sound: "block.barrel.close"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2
+  page:
+    enabled: true
+    sound: "item.book.page_turn"
+    volume: 1.0
+    pitch: 1.0

@@ -1,0 +1,43 @@
+# Staff essentials: /fly /heal /feed /god [player], /speed <1-10> [walk|fly] [player],
+# /gmc /gms /gma /gmsp [player], /invsee <player>, /clearinventory [player].
+# Using one on someone else needs the command's permission + ".others" (vexcore.heal.others...).
+prefix: "&#00E5FF&lSTAFF &7▷ "
+
+heal-clears-effects: true
+god-survives-relog: false
+
+words:
+  walk: "walk"
+  fly: "fly"
+
+messages:
+  fly-on: "{prefix}&fFlying &#97F900on&f."
+  fly-off: "{prefix}&fFlying &#FF3B3Boff&f."
+  fly-on-other: "{prefix}&fFlying &#97F900on &ffor &#00E5FF%player%&f."
+  fly-off-other: "{prefix}&fFlying &#FF3B3Boff &ffor &#00E5FF%player%&f."
+  healed: "{prefix}&fYou were healed."
+  healed-other: "{prefix}&fHealed &#00E5FF%player%&f."
+  fed: "{prefix}&fYou were fed."
+  fed-other: "{prefix}&fFed &#00E5FF%player%&f."
+  god-on: "{prefix}&fGod mode &#97F900on&f."
+  god-off: "{prefix}&fGod mode &#FF3B3Boff&f."
+  god-on-other: "{prefix}&fGod mode &#97F900on &ffor &#00E5FF%player%&f."
+  god-off-other: "{prefix}&fGod mode &#FF3B3Boff &ffor &#00E5FF%player%&f."
+  gamemode: "{prefix}&fGame mode: &#00E5FF%gamemode%&f."
+  gamemode-other: "{prefix}&f%player%'s game mode: &#00E5FF%gamemode%&f."
+  cleared: "{prefix}&fYour inventory was cleared."
+  cleared-other: "{prefix}&fCleared &#00E5FF%player%&f's inventory."
+  speed: "{prefix}&fYour %kind% speed is now &#00E5FF%speed%&f."
+  speed-other: "{prefix}&f%player%'s %kind% speed is now &#00E5FF%speed%&f."
+  speed-range: "&#FF0000&lERROR &7▷ &fSpeed goes from &#00E5FF1 &fto &#00E5FF10&f."
+  invsee: "{prefix}&fViewing &#00E5FF%player%&f's inventory."
+
+sounds:
+  healed:
+    sound: "entity.player.levelup"
+    volume: 0.6
+    pitch: 1.6
+  fed:
+    sound: "entity.generic.eat"
+    volume: 0.8
+    pitch: 1.0

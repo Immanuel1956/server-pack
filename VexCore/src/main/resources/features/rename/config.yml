@@ -1,0 +1,19 @@
+# /rename <name> renames the held item, /rename reset takes the name off.
+# The name goes through the chat filter rules. Colours need vexcore.rename.color.
+prefix: "&#FFD900&lRENAME &7▷ "
+max-length: 32
+# Money per rename. vexcore.rename.free skips it.
+cost: 0
+blocked-items: []
+messages:
+  renamed: "{prefix}&fRenamed to %name%&f."
+  reset: "{prefix}&fThe name was taken off."
+  hand-empty: "&#FF0000&lERROR &7▷ &fHold the item you want to rename."
+  blocked-item: "&#FF0000&lERROR &7▷ &fThat item can't be renamed."
+  too-long: "&#FF0000&lERROR &7▷ &fA name is at most &#FFD900%max% &fcharacters."
+  blocked-name: "&#FF0000&lERROR &7▷ &fThat name is not allowed."
+sounds:
+  renamed:
+    sound: "block.anvil.use"
+    volume: 0.6
+    pitch: 1.4

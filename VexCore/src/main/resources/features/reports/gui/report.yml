@@ -1,0 +1,128 @@
+# One report: the reporter's head on the left, the report in the middle, the offender's head on
+# the right. Click a head to teleport to that player.
+#
+# %id% %reporter% %target% %reason% %reason_lines% %date% %ago% %server% %status%
+# %reporter_location% %target_location% %reporter_online% %target_online%
+# %resolved_by% %resolved_date% %report_command% %reports_command%
+#
+# Every item takes: slot / slots, material, name, lore, glow, amount, custom-model-data,
+# item-model, skull, permission, sound ("" = silent), close-on-click, and commands.
+
+title: "&8⚑ Report #%id%"
+rows: 3
+
+items:
+
+  filler:
+    slots: "0-10, 12, 14, 16-21, 23-26"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  reporter:
+    slot: 11
+    function: reporter
+    material: PLAYER_HEAD
+    skull: "%reporter%"
+    name: "&#00E5FF&lREPORTER"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#00E5FFInformation:"
+      - "&#00E5FF¦ &fName &7¦ &#00E5FF%reporter%"
+      - "&#00E5FF¦ &fStatus &7¦ %reporter_online%"
+      - ""
+      - "&#00E5FFSettings"
+      - "&#00E5FF¦ &fReported from"
+      - "&#00E5FF¦ &f%reporter_location%"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401To Teleport"
+
+  report:
+    slot: 13
+    material: PAPER
+    name: "&#FF3B3B&lREPORT #%id%"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3BInformation:"
+      - "&#FF3B3B¦ &fNumber &7¦ &#FF3B3B#%id%"
+      - "&#FF3B3B¦ &fStatus &7¦ %status%"
+      - "&#FF3B3B¦ &fReporter &7¦ &f%reporter%"
+      - "&#FF3B3B¦ &fOffender &7¦ &#FF3B3B%target%"
+      - "&#FF3B3B¦ &fServer &7¦ &f%server%"
+      - "&#FF3B3B¦ &fDate &7¦ &f%date%"
+      - "&#FF3B3B¦ &f%ago%"
+      - ""
+      - "&#FF3B3BReason"
+      - "%reason_lines%"
+      - ""
+      - "&#FF3B3BLocations"
+      - "&#FF3B3B¦ &fReporter &7¦ &f%reporter_location%"
+      - "&#FF3B3B¦ &fOffender &7¦ &f%target_location%"
+      - ""
+      - "&#FF3B3BSettings"
+      - "&#FF3B3B¦ &fResolved by &7¦ &f%resolved_by%"
+      - "&#FF3B3B¦ &fOnce handled, resolve it with"
+      - "&#FF3B3B¦ &#FBE401/%report_command% resolve %id%"
+
+  offender:
+    slot: 15
+    function: offender
+    material: PLAYER_HEAD
+    skull: "%target%"
+    name: "&#FF3B3B&lOFFENDER"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3BInformation:"
+      - "&#FF3B3B¦ &fName &7¦ &#FF3B3B%target%"
+      - "&#FF3B3B¦ &fStatus &7¦ %target_online%"
+      - ""
+      - "&#FF3B3BSettings"
+      - "&#FF3B3B¦ &fWas at, when reported"
+      - "&#FF3B3B¦ &f%target_location%"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401To Teleport"
+
+  punish:
+    slot: 26
+    permission: "vexcore.punish.menu"
+    material: IRON_AXE
+    name: "&#FF3B3B&lPUNISH %target%"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3B¦ &fOpen the punish menu"
+      - "&#FF3B3B¦ &ffor the offender."
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401To Punish"
+    commands:
+      - "[player] punish %target%"
+
+  back:
+    slot: 22
+    function: back
+    material: ARROW
+    name: "&#FF3B3B&lBACK"
+    lore:
+      - "&7Every pending report."
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401To Go Back"
+
+sounds:
+  open:
+    enabled: true
+    sound: "item.book.page_turn"
+    volume: 1.0
+    pitch: 1.0
+  close:
+    enabled: true
+    sound: "block.barrel.close"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2

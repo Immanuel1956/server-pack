@@ -1,0 +1,28 @@
+# The sidebar. Up to 15 lines; every VexCore and PlaceholderAPI placeholder works, plus
+# %player% %online% %world% %ping%. The title can be a list: it then animates, one line per update.
+# Players hide it with /scoreboard. Paper only: Folia has no scoreboard API.
+update-ticks: 20
+disabled-worlds: []
+# Hide the red score numbers on the right.
+hide-numbers: true
+# Ticks after joining before the board shows (other plugins set things up on join).
+join-delay-ticks: 20
+title:
+  - "&#A66CFF&lVEXCORE"
+  - "&#B98CFF&lVEXCORE"
+lines:
+  - "&7"
+  - "&#A66CFF&lPLAYER"
+  - "&8▶ &fName: &#A66CFF%player%"
+  - "&8▶ &fMoney: &#80EE0B%vexcore_balance_short%"
+  - "&8▶ &fKills: &#FF3B3B%vexcore_stats_kills%"
+  - "&8▶ &fTeam: &#FF00F8%vexcore_team%"
+  - "&7 "
+  - "&#A66CFF&lSERVER"
+  - "&8▶ &fOnline: &#A66CFF%online%"
+  - "&8▶ &fPing: &#A66CFF%ping%ms"
+  - "&7  "
+  - "&#A66CFFyourserver.net"
+messages:
+  toggle-on: "&#A66CFF&lSCOREBOARD &7▷ &fThe scoreboard is shown."
+  toggle-off: "&#A66CFF&lSCOREBOARD &7▷ &fThe scoreboard is hidden."

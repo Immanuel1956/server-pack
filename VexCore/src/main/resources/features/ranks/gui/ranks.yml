@@ -1,0 +1,131 @@
+# /ranks menu: what every rank gives. Add, remove and restyle ranks freely.
+#
+# Every item:  slot / slots, material, name, lore, glow, custom-model-data, item-model,
+#              skull, amount, permission (hidden without it), sound (its own click sound,
+#              "" = silent), close-on-click, and
+#              commands: / left-commands: / right-commands: - lines like
+#                [player] spawn          [console] give %player% dirt
+#                [message] &aHi          [broadcast] &e%player% did a thing
+#                [actionbar] text        [title] Title|Subtitle
+#                [sound] name;vol;pitch  [chat] hello   [refresh]   [close]
+#              A line without [type] is run by the player.
+
+title: "&8Ranks | Overview"
+rows: 4
+
+items:
+
+  border:
+    slots: "0-9, 17, 18, 26-35"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  vip:
+    slot: 11
+    material: BEE_SPAWN_EGG
+    name: "&#FFF300&lVIP &7(Lifetime)"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FFF300Perks:"
+      - "&#FFF300● &f5 homes"
+      - "&#FFF300● &f/craft"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to buy"
+    commands:
+      - "[close]"
+      - "[player] store"
+
+  mvp:
+    slot: 12
+    material: BLAZE_SPAWN_EGG
+    name: "&#FB7B0B&lMVP &7(Lifetime)"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FB7B0BPerks:"
+      - "&#FB7B0B● &f7 homes"
+      - "&#FB7B0B● &f/craft, /anvil"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to buy"
+    commands:
+      - "[close]"
+      - "[player] store"
+
+  champion:
+    slot: 13
+    material: SLIME_SPAWN_EGG
+    name: "&#45FF17&lCHAMPION &7(Lifetime)"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#45FF17Perks:"
+      - "&#45FF17● &f9 homes"
+      - "&#45FF17● &fEvery workstation"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to buy"
+    commands:
+      - "[close]"
+      - "[player] store"
+
+  elite:
+    slot: 14
+    material: MOOSHROOM_SPAWN_EGG
+    name: "&#FF3B3B&lELITE &7(Lifetime)"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3BPerks:"
+      - "&#FF3B3B● &f11 homes"
+      - "&#FF3B3B● &f/echest"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to buy"
+    commands:
+      - "[close]"
+      - "[player] store"
+
+  legend:
+    slot: 15
+    material: ENDER_DRAGON_SPAWN_EGG
+    name: "&#A66CFF&lLEGEND &7(Lifetime)"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#A66CFFPerks:"
+      - "&#A66CFF● &f14 homes"
+      - "&#A66CFF● &fEverything above"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to buy"
+    commands:
+      - "[close]"
+      - "[player] store"
+
+  media:
+    slot: 22
+    material: AXOLOTL_SPAWN_EGG
+    name: "&#F90EC2&lMEDIA &7(30 days)"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#F90EC2Perks:"
+      - "&#F90EC2● &f/live"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to apply"
+    commands:
+      - "[close]"
+      - "[player] media"
+
+
+# ── Sounds ──────────────────────────────────────────────────────────────────
+sounds:
+  open:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2

@@ -1,0 +1,196 @@
+# /team: your team, laid out like LifestealCore's. Member heads fill the top five rows.
+# Click a head to manage that member (needs the "manage teammates" right).
+#
+# Everywhere: %team% %owner% %members% %limit% %online% %pvp_status% %home% %search%
+# %sort_1%..%sort_4% (the sort options, the chosen one marked), %page% %pages%.
+# member: %name% %rank% %status% %joined%.
+#
+# Every item and template takes: slot / slots, material, name, lore, glow, amount,
+# custom-model-data, item-model, skull, permission, sound ("" = silent), close-on-click, and
+# commands: / left-commands: / right-commands: ([player] [console] [message] [broadcast]
+# [actionbar] [title] [sound] [chat] [refresh] [close]).
+
+title: "&8ᴛᴇᴀᴍ %team% (Page %page%)"
+rows: 6
+
+content-slots: "0-44"
+
+# The text of the sort options, and how the chosen one is marked.
+sort-selected-prefix: "&#FF0072▷ "
+sort-unselected-prefix: "&f▷ "
+sort-options:
+  ONLINE_MEMBERS: "Online Members"
+  PERMISSIONS: "Permissions"
+  JOIN_DATE: "Join Date"
+  ALPHABETICALLY: "Alphabetically"
+status:
+  online: "&#34eb9b&lONLINE"
+  offline: "&#FF0000&lOFFLINE"
+pvp-status:
+  enabled: "&#34eb9b&lON"
+  disabled: "&#FF0000&lOFF"
+no-search: "none"
+
+items:
+
+  search:
+    slot: 45
+    function: search
+    material: OAK_SIGN
+    name: "&#FBE401&lSEARCH"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FBE401Information"
+      - "&#FBE401¦ &fClick here to search"
+      - "&#FBE401¦ &fup your team members!"
+      - "&#FBE401¦ &fSearching: &#FBE401%search%"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401to Search"
+
+  sort:
+    slot: 46
+    function: sort
+    material: HOPPER
+    name: "&#FF0072&lTEAM SORT"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF0072Information"
+      - "&#FF0072¦ &fClick here to change"
+      - "&#FF0072¦ &fhow the list is sorted!"
+      - ""
+      - "%sort_1%"
+      - "%sort_2%"
+      - "%sort_3%"
+      - "%sort_4%"
+      - ""
+      - "&#FBE401▶ &l&nLEFT/RIGHT CLICK&r &#FBE401to change"
+
+  invite:
+    slot: 47
+    function: invite
+    material: WRITABLE_BOOK
+    name: "&#A900FF&lINVITE"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#A900FFInformation"
+      - "&#A900FF¦ &fClick here and type"
+      - "&#A900FF¦ &fa name in the chat!"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401to Invite"
+
+  previous-page:
+    slot: 48
+    function: previous-page
+    material: RED_STAINED_GLASS_PANE
+    name: "&#FF0000&lPREVIOUS PAGE"
+    lore:
+      - "&7Page &f%page%&7/&f%pages%"
+
+  team-info:
+    slot: 49
+    function: team-info
+    material: SPYGLASS
+    name: "&#FF9100&lTEAM INFO"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF9100Information"
+      - "&#FF9100¦ &fClick here to refresh"
+      - "&#FF9100¦ &fand clear the search!"
+      - ""
+      - "&#FF9100ℹ &fTeam: &#FF9100%team%"
+      - "&#FF9100ℹ &fOwner: &#FF9100%owner%"
+      - "&#FF9100ℹ &fMembers: &#FF9100%members%&f/&#FF9100%limit% &7(%online% online)"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401to Refresh"
+
+  next-page:
+    slot: 50
+    function: next-page
+    material: LIME_STAINED_GLASS_PANE
+    name: "&#34eb9b&lNEXT PAGE"
+    lore:
+      - "&7Page &f%page%&7/&f%pages%"
+
+  leave:
+    slot: 51
+    function: leave
+    material: IRON_DOOR
+    name: "&#FF0000&lLEAVE TEAM"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF0000Information"
+      - "&#FF0000¦ &fLeave the team. The owner"
+      - "&#FF0000¦ &fdisbands it from here."
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401to Leave"
+
+  team-home:
+    slot: 52
+    function: team-home
+    material: LIGHT_BLUE_BED
+    name: "&#00EAFF&lTEAM HOME"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#00EAFFInformation"
+      - "&#00EAFF¦ &fClick here to teleport"
+      - "&#00EAFF¦ &fto your team home!"
+      - "&#00EAFF¦ &fHome: &#00EAFF%home%"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401to teleport"
+      - "&#FBE401▶ &l&nRIGHT CLICK&r &#FBE401to set it here"
+      - "&#FBE401▶ &l&nSHIFT RIGHT CLICK&r &#FBE401to remove it"
+
+  pvp:
+    slot: 53
+    function: pvp
+    material: MACE
+    name: "&#FF0000&lTEAM PVP"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF0000Information"
+      - "&#FF0000¦ &fClick here to toggle"
+      - "&#FF0000¦ &fdamage inside your team!"
+      - ""
+      - "&#FF0000ℹ &fPVP Status: %pvp_status%"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401to toggle"
+
+templates:
+
+  member:
+    material: PLAYER_HEAD
+    skull: "%name%"
+    name: "&#FF00F8&l%name%"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF00F8Information"
+      - "&#FF00F8¦ &fRank: &#FF00F8%rank%"
+      - "&#FF00F8¦ &fStatus: %status%"
+      - "&#FF00F8¦ &fJoined: &#FF00F8%joined%"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401to manage"
+
+sounds:
+  open:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 1.0
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 1.0
+    pitch: 1.2
+  page:
+    enabled: true
+    sound: "item.book.page_turn"
+    volume: 1.0
+    pitch: 1.0

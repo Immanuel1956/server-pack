@@ -1,0 +1,11 @@
+# Existing LuckPerms groups staff may grant with /ranktrial. No VexCore expiry timer.
+allowed-ranks: [vip, vip+, mvp, mvp+, legend]
+max-duration: "30d"
+# deny refuses a duplicate temporary node; replace keeps the longest; accumulate adds time.
+temporary-modifier: deny
+messages:
+  missing: "&#FF0000&lERROR &7▷ &fLuckPerms is not installed or enabled."
+  rank-not-allowed: "&#FF0000&lERROR &7▷ &fAllowed trial ranks: %ranks%"
+  invalid-duration: "&#FF0000&lERROR &7▷ &fUse a positive duration within the configured maximum (e.g. 1h, 7d)."
+  submitted: "&#97F900&lTRIAL &7▷ &fSent %player%'s %rank% trial (%duration%) to LuckPerms. Check its console response for the result."
+  failed: "&#FF0000&lERROR &7▷ &fCould not dispatch the LuckPerms command."

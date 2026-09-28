@@ -1,0 +1,20 @@
+# Broadcast once, the first time a player ever joins. Placeholder %vexcore_joincount%.
+# /joincounter, /joincounter reset, /joincounter clear, /joincounter set <number>
+message: "&#FF256E🗡  &fWelcome &#FF256E%player% &fto &#FF256E&lOUR SERVER&f! &7[&f#%counter%&7]"
+# 6822 or 6,822
+format-number: true
+thousands-separator: ","
+sound:
+  enabled: false
+  # true = play it for everyone, false = only for the new player
+  everyone: false
+  sound: "entity.player.levelup"
+  volume: 1.0
+  pitch: 1.0
+messages:
+  current: "&#FF256E&lJOINS &7▷ &fThe counter is at &#FF256E%counter%&f."
+  reset: "&#FF256E&lJOINS &7▷ &fThe counter was reset to &#FF256E0&f."
+  clear: "&#FF256E&lJOINS &7▷ &fThe counter was cleared."
+  set: "&#FF256E&lJOINS &7▷ &fThe counter was set to &#FF256E%counter%&f."
+  invalid-number: "&#FF0000&lERROR &7▷ &fThat is not a valid number."
+  usage: "&#FF256E&lJOINS &7▷ &f/joincounter [reset | clear | set <number>]"

@@ -1,0 +1,12 @@
+# /stats [player]. Placeholders %vexcore_stats_<stat>% (kills, deaths, streak, best_streak,
+# mob_kills, blocks_broken, blocks_placed, duel_wins, duel_losses) and %vexcore_stats_kdr%.
+save-seconds: 30
+messages:
+  stats:
+    - "&#FF3B3B&l%player%'s STATS"
+    - "&8▶ &fKills: &#FF3B3B%kills% &7(KDR %kdr%)"
+    - "&8▶ &fDeaths: &#FB7B0B%deaths%"
+    - "&8▶ &fKill streak: &#FFD900%streak% &7(best %best_streak%)"
+    - "&8▶ &fMob kills: &#16D223%mob_kills%"
+    - "&8▶ &fBlocks broken / placed: &#22AFFB%blocks_broken% &7/ &#22AFFB%blocks_placed%"
+    - "&8▶ &f1v1 won / lost: &#97F900%duel_wins% &7/ &#FF0000%duel_losses%"

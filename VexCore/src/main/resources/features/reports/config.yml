@@ -1,0 +1,164 @@
+# /report <player>: a dialog opens to type the reason in (or /report <player> <reason>).
+# Reports are numbered #0001, #0002 ... and go to online staff (vexcore.reports.notify, clickable)
+# and to the Discord webhook below.
+# /reports: every pending report. Click one for the report menu (reporter head, report, offender
+# head; click a head to teleport). /report resolve <number> closes a report (vexcore.reports.manage).
+prefix: "&#FF3B3B&lREPORTS &7▷ "
+
+# Shown in the report and on Discord (handy with several servers behind a proxy).
+server-name: "survival"
+# The number the very first report gets. After that: the highest number + 1.
+first-number: 1
+cooldown-seconds: 60
+allow-self-report: false
+tell-reporter-when-resolved: true
+
+# How dates are written (Java SimpleDateFormat). timezone "" = the server's own.
+date-format: "dd.MM.yyyy HH:mm"
+timezone: ""
+ago-format: "%time% ago"
+
+reason:
+  min-length: 3
+  max-length: 256
+  # The reason is wrapped into lines this wide in the menus, each starting with line.
+  line-width: 30
+  line: "&#FF3B3B¦ &f"
+
+permissions:
+  manage: "vexcore.reports.manage"
+  notify: "vexcore.reports.notify"
+  # Players with this can't be reported (staff). Give it to nobody to allow everyone.
+  exempt: "vexcore.reports.exempt"
+  bypass-cooldown: "vexcore.reports.bypasscooldown"
+
+words:
+  pending: "&#FFD900Pending"
+  resolved: "&#97F900Resolved"
+  online: "&#97F900Online"
+  offline: "&#FF3B3BOffline"
+
+# The dialog (Paper 1.21.7+). MiniMessage or & colours; %target% %min% %max%.
+dialog:
+  title: "<#FF3B3B><b>REPORT</b> <white>%target%"
+  show-head: true
+  body:
+    - "<gray>Tell staff what <#FF3B3B>%target%</#FF3B3B> did."
+    - "<gray>Be specific: what, where and when."
+    - "<dark_gray>False reports can be punished."
+  input:
+    label: "<white>Reason <dark_gray>(%min%-%max% characters)"
+    lines: 4
+    width: 300
+  button-width: 150
+  buttons:
+    submit: "<#FF3B3B><b>Submit Report</b>"
+    cancel: "<gray>Cancel"
+
+# ── Discord ─────────────────────────────────────────────────────────────────
+# Placeholders: %id% %reporter% %target% %reason% %date% %server% %status%
+# %reporter_location% %target_location% %reporter_online% %target_online% %resolved_by%
+webhook:
+  enabled: false
+  url: ""
+  username: "Reports"
+  avatar: ""
+  # "<@&123456789012345678>" pings a role; that id must also be in ping-roles.
+  content: ""
+  ping-roles: []
+  embed:
+    title: "New report #%id%"
+    color: "#FF3B3B"
+    thumbnail: "https://mc-heads.net/avatar/%target%/64"
+    description: "**%reporter%** reported **%target%**"
+    footer: "%server% • /report resolve %id%"
+    timestamp: true
+    fields:
+      - {name: "Reporter", value: "%reporter% (%reporter_online%)", inline: true}
+      - {name: "Offender", value: "%target% (%target_online%)", inline: true}
+      - {name: "Server", value: "%server%", inline: true}
+      - {name: "Reason", value: "%reason%", inline: false}
+      - {name: "Reporter location", value: "%reporter_location%", inline: true}
+      - {name: "Offender location", value: "%target_location%", inline: true}
+
+# Sent when a report is resolved. Same placeholders.
+webhook-resolved:
+  enabled: false
+  url: ""
+  username: "Reports"
+  avatar: ""
+  content: ""
+  ping-roles: []
+  embed:
+    title: "Report #%id% resolved"
+    color: "#97F900"
+    description: "Resolved by **%resolved_by%**"
+    footer: "%server%"
+    timestamp: true
+    fields:
+      - {name: "Reporter", value: "%reporter%", inline: true}
+      - {name: "Offender", value: "%target%", inline: true}
+      - {name: "Reason", value: "%reason%", inline: false}
+
+messages:
+  loading: "&#FF0000&lERROR &7▷ &fReports are still loading, try again in a moment."
+  self: "&#FF0000&lERROR &7▷ &fYou can't report yourself."
+  exempt: "&#FF0000&lERROR &7▷ &#FF3B3B%target% &fcan't be reported."
+  cooldown: "&#FF0000&lERROR &7▷ &fYou can report again in &#FF3B3B%time%&f."
+  reason-too-short: "&#FF0000&lERROR &7▷ &fPlease write at least &#FF3B3B%min% &fcharacters."
+  no-dialog: "{prefix}&fUse &#FF3B3B/%command% %target% <reason>"
+  cancelled: "{prefix}&7Report cancelled."
+  failed: "&#FF0000&lERROR &7▷ &fYour report could not be saved. Please tell a staff member."
+  submitted:
+    - ""
+    - "{prefix}&fReport &#FF3B3B#%id% &fsent!"
+    - "&#FF3B3B¦ &fOffender: &#FF3B3B%target%"
+    - "&#FF3B3B¦ &fStaff have been told. Thank you!"
+    - ""
+  staff-alert:
+    - ""
+    - "&#FF3B3B&lNEW REPORT &7▷ &f#%id%"
+    - "&#FF3B3B¦ &f%reporter% &7reported &#FF3B3B%target%"
+    - "&#FF3B3B¦ &7Reason: &f%reason%"
+    - "<click:run_command:'/%reports_command% %id%'><hover:show_text:'&7Click to open report &f#%id%'>&#FBE401▶ &l&nCLICK&r &#FBE401To View</hover></click>"
+    - ""
+  staff-resolved: "{prefix}&f%resolved_by% &7resolved report &#97F900#%id% &7(%target%)."
+  resolved: "{prefix}&fReport &#97F900#%id% &fis now resolved."
+  your-report-resolved: "{prefix}&fYour report &#97F900#%id% &fagainst &#FF3B3B%target% &fwas handled by staff. Thank you!"
+  already-resolved: "&#FF0000&lERROR &7▷ &fReport &#FF3B3B#%id% &fis already resolved."
+  not-found: "&#FF0000&lERROR &7▷ &fThere is no pending report &#FF3B3B#%id%&f."
+  resolve-usage: "{prefix}&fUse &#FF3B3B/%command% resolve <number>"
+  not-online: "&#FF0000&lERROR &7▷ &#FF3B3B%player% &fis not online."
+  teleported: "{prefix}&fTeleported to &#FF3B3B%player%&f."
+
+sounds:
+  dialog-open:
+    enabled: true
+    sound: "block.chest.open"
+    volume: 0.8
+    pitch: 1.2
+  dialog-close:
+    enabled: true
+    sound: "block.chest.close"
+    volume: 0.8
+    pitch: 1.2
+  submitted:
+    sound: "entity.experience_orb.pickup"
+    volume: 1.0
+    pitch: 1.0
+  staff-alert:
+    sound: "block.note_block.pling"
+    volume: 1.0
+    pitch: 0.8
+  resolved:
+    sound: "entity.player.levelup"
+    volume: 0.7
+    pitch: 1.4
+  your-report-resolved:
+    sound: "entity.player.levelup"
+    volume: 0.7
+    pitch: 1.4
+  teleported:
+    sound: "entity.enderman.teleport"
+    volume: 0.8
+    pitch: 1.0

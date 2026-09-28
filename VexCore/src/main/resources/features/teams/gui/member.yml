@@ -1,0 +1,150 @@
+# The member menu: the owner hands out rights here, anyone who may manage teammates can kick.
+# Everywhere: %name% %team% and %manage_status% %pvp_status% %visit_status% %edit_status%
+# %chat_status% (on-status / off-status below).
+#
+# Every item and template takes: slot / slots, material, name, lore, glow, amount,
+# custom-model-data, item-model, skull, permission, sound ("" = silent), close-on-click, and
+# commands: / left-commands: / right-commands: ([player] [console] [message] [broadcast]
+# [actionbar] [title] [sound] [chat] [refresh] [close]).
+
+title: "&8ᴇᴅɪᴛ %name%"
+rows: 4
+
+on-status: "&#8AFF00&lON"
+off-status: "&#FF0000&lOFF"
+
+items:
+
+  manage-teammates:
+    slot: 12
+    function: manage-teammates
+    material: GUSTER_BANNER_PATTERN
+    name: "&#A900FF&lMANAGE TEAMMATES"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#A900FFInformation"
+      - "&#A900FF¦ &fLet &#A900FF%name% &finvite"
+      - "&#A900FF¦ &fand kick teammates!"
+      - ""
+      - "&#A900FF¦ &#A900FF▶ &fCurrently: %manage_status%"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401to Toggle"
+
+  pvp:
+    slot: 13
+    function: pvp
+    material: SHIELD
+    name: "&#A900FF&lEDIT PVP"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#A900FFInformation"
+      - "&#A900FF¦ &fLet &#A900FF%name% &fturn on"
+      - "&#A900FF¦ &fand off team pvp!"
+      - ""
+      - "&#A900FF¦ &#A900FF▶ &fCurrently: %pvp_status%"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401to Toggle"
+
+  visit-home:
+    slot: 14
+    function: visit-home
+    material: ENDER_PEARL
+    name: "&#A900FF&lVISIT TEAM HOME"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#A900FFInformation"
+      - "&#A900FF¦ &fLet &#A900FF%name% &fgo"
+      - "&#A900FF¦ &fto the team home!"
+      - ""
+      - "&#A900FF¦ &#A900FF▶ &fCurrently: %visit_status%"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401to Toggle"
+
+  kick:
+    slot: 21
+    function: kick
+    material: MACE
+    name: "&#A900FF&lTEAM KICK"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#A900FFInformation"
+      - "&#A900FF¦ &fClick here to kick"
+      - "&#A900FF¦ &#A900FF%name% &ffrom your team"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401to Kick %name%"
+
+  edit-home:
+    slot: 22
+    function: edit-home
+    material: LIGHT_BLUE_BED
+    name: "&#A900FF&lEDIT TEAM HOME"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#A900FFInformation"
+      - "&#A900FF¦ &fLet &#A900FF%name% &fset and"
+      - "&#A900FF¦ &fremove the team home!"
+      - ""
+      - "&#A900FF¦ &#A900FF▶ &fCurrently: %edit_status%"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401to Toggle"
+
+  team-chat:
+    slot: 23
+    function: team-chat
+    material: WRITTEN_BOOK
+    name: "&#A900FF&lTEAM CHAT"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#A900FFInformation"
+      - "&#A900FF¦ &fLet &#A900FF%name% &fwrite"
+      - "&#A900FF¦ &fin the team chat!"
+      - ""
+      - "&#A900FF¦ &#A900FF▶ &fCurrently: %chat_status%"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401to Toggle"
+
+  back:
+    slot: 27
+    function: back
+    material: RED_DYE
+    name: "&#FF0000&lBACK"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF0000Information"
+      - "&#FF0000¦ &fClick here to return"
+      - "&#FF0000¦ &fback to the main page!"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401to go Back"
+
+  transfer:
+    slot: 31
+    function: transfer
+    material: GOLDEN_HELMET
+    name: "&#FFD900&lMAKE OWNER"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FFD900Information"
+      - "&#FFD900¦ &fHand the team over"
+      - "&#FFD900¦ &fto &#FFD900%name%&f. Owner only."
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401to Transfer"
+
+sounds:
+  open:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 1.0
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 1.0
+    pitch: 1.2

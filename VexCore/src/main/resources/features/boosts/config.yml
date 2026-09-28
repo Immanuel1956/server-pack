@@ -1,0 +1,85 @@
+# /boosts: short potion boosts. Using any boost starts ONE shared cooldown; reset-cost buys it
+# away. vexcore.boosts.bypass ignores the cooldown.
+# Every boost below becomes a menu function "boost-<name>" (see gui/boosts.yml).
+#   effect      a potion effect key: speed, strength, haste, jump_boost, regeneration, ...
+#   amplifier   0 = level I, 1 = level II, ...
+#   duration    how long it lasts (3m, 90s, ...)
+#   permission  optional, needed to use this boost
+#   name        used in messages
+# Placeholder: %vexcore_boosts_cooldown%
+
+prefix: "&#FF3B3B&lBOOSTS &7▷ "
+
+cooldown: "30m"
+
+# Money that resets the cooldown. 0 = free.
+reset-cost: 5000
+
+# What %cooldown% shows in the menu. %time% = time left.
+status:
+  ready: "&#80EE0BReady!"
+  active: "&#FF3B3B%time%"
+
+# Effect particles around the player, and the effect icon in the inventory and top right.
+show-particles: true
+show-icon: true
+
+boosts:
+  speed:
+    name: "&#019BEESpeed"
+    effect: speed
+    amplifier: 2
+    duration: "3m"
+    permission: ""
+  strength:
+    name: "&#FB7B0BStrength"
+    effect: strength
+    amplifier: 1
+    duration: "3m"
+    permission: ""
+  regeneration:
+    name: "&#FF3B3BRegeneration"
+    effect: regeneration
+    amplifier: 1
+    duration: "90s"
+    permission: ""
+  haste:
+    name: "&#FFF300Haste"
+    effect: haste
+    amplifier: 2
+    duration: "5m"
+    permission: ""
+  jump:
+    name: "&#B0B0B0Jump Boost"
+    effect: jump_boost
+    amplifier: 2
+    duration: "3m"
+    permission: ""
+
+messages:
+  activated: "{prefix}&fYou activated the %boost% &fboost for &#FF3B3B%time%&f!"
+  on-cooldown: "&#FF0000&lERROR &7▷ &fYou are on cooldown for &#FF3B3B%time%&f."
+  no-cooldown: "&#FF0000&lERROR &7▷ &fYou have no cooldown to reset."
+  reset: "{prefix}&fYour cooldown was reset for &#80EE0B%amount%&f."
+
+sounds:
+  activated:
+    enabled: true
+    sound: "block.beacon.power_select"
+    volume: 1.0
+    pitch: 1.2
+  on-cooldown:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  no-cooldown:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  reset:
+    enabled: true
+    sound: "entity.player.levelup"
+    volume: 1.0
+    pitch: 1.2

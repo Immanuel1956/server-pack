@@ -1,0 +1,35 @@
+# /sign stamps the item in your hand with a signature, once per item.
+
+prefix: "&#16D223&lSIGN &7▷ "
+
+# Java date format for %date%.
+date-format: "dd.MM.yyyy"
+
+# Put an empty line between the item's own lore and the signature.
+blank-line: true
+
+# The signature. One line or a list. %player% and %date%.
+lore:
+  - "&7Signed by &#16D223%player% &7on &#16D223%date%"
+
+messages:
+  signed: "{prefix}&fYou signed this item."
+  no-item: "&#FF0000&lERROR &7▷ &fHold an item in your hand first."
+  already-signed: "&#FF0000&lERROR &7▷ &fThis item is already signed."
+
+sounds:
+  signed:
+    enabled: true
+    sound: "entity.villager.work_cartographer"
+    volume: 1.0
+    pitch: 1.0
+  no-item:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  already-signed:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0

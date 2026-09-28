@@ -1,0 +1,20 @@
+# /vanish [player]. Vanished staff are hidden from everyone without vexcore.vanish.see (also in the
+# tab list and %vexcore_online%), join and leave without a message, and stay vanished across
+# relogs and restarts.
+prefix: "&#7B61FF&lVANISH &7▷ "
+# Fake join/leave messages when you vanish or appear.
+fake-messages: true
+pickup-items: false
+invulnerable: true
+# Ticks between two "you are vanished" action bars.
+actionbar-interval-ticks: 40
+messages:
+  vanished: "{prefix}&fYou are vanished."
+  visible: "{prefix}&fYou are visible again."
+  on-other: "{prefix}&#7B61FF%player% &fis vanished."
+  off-other: "{prefix}&#7B61FF%player% &fis visible again."
+  staff-on: "{prefix}&#7B61FF%player% &fvanished."
+  staff-off: "{prefix}&#7B61FF%player% &fappeared."
+  actionbar: "[actionbar]&#7B61FF&lVANISHED &7▷ &fNobody can see you."
+  fake-join: "&#16D223+ &f%player%"
+  fake-leave: "&#FF3B3B- &f%player%"

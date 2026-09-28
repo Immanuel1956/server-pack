@@ -1,0 +1,71 @@
+# /vote. One button per site in config.yml: template site-ready or site-waiting.
+# Site: %site% %url% %status% %material%.  Everywhere: %total% %month% %party% %party_needed%.
+
+title: "&8Vote | Rewards"
+rows: 3
+
+content-slots: "11-15"
+
+items:
+
+  border:
+    slots: "0-10, 16-21, 23-26"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  info:
+    slot: 22
+    material: PLAYER_HEAD
+    skull: "%player%"
+    name: "&#FFD900&lYOUR VOTES"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FFD900Information:"
+      - "&#FFD900¦ &fThis month &7¦ &#FFD900%month%"
+      - "&#FFD900¦ &fAll time &7¦ &#FFD900%total%"
+      - ""
+      - "&#FFD900Settings"
+      - "&#FFD900¦ &fVote party &7¦ &#FFD900%party%&f/&#FFD900%party_needed%"
+    sound: ""
+
+templates:
+  site-ready:
+    material: "%material%"
+    glow: true
+    name: "&#97F900&l%site%"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#97F900Information:"
+      - "&#97F900¦ &f%status%"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401To Vote"
+  site-waiting:
+    material: "%material%"
+    name: "&#FF3B3B&l%site%"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3BInformation:"
+      - "&#FF3B3B¦ &f%status%"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401For The Link"
+
+sounds:
+  open:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 1.4
+  close:
+    enabled: true
+    sound: "block.barrel.close"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2

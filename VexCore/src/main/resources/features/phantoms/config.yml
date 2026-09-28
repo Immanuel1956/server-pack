@@ -1,0 +1,25 @@
+# /phantoms (and /settings): no phantoms within radius blocks of a player who turned it on.
+# New phantoms don't spawn near them and any that fly in are despawned.
+prefix: "&#6B7BFF&lPHANTOMS &7▷ "
+
+# What players start with (true = phantoms despawned).
+default: false
+radius: 50
+# How often phantoms around those players are cleared.
+check-seconds: 2
+# A puff of smoke where a phantom is despawned.
+particles: true
+
+messages:
+  enabled: "{prefix}&fPhantoms within &#6B7BFF%radius% &fblocks of you are now despawned."
+  disabled: "{prefix}&fPhantoms can find you again."
+
+sounds:
+  enabled:
+    sound: "entity.phantom.death"
+    volume: 0.6
+    pitch: 1.4
+  disabled:
+    sound: "entity.phantom.ambient"
+    volume: 0.6
+    pitch: 1.2

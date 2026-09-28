@@ -1,0 +1,111 @@
+# /media menu: how creators apply for the media rank. Add a block per platform.
+#
+# Every item:  slot / slots, material, name, lore, glow, custom-model-data, item-model,
+#              skull, amount, permission (hidden without it), sound (its own click sound,
+#              "" = silent), close-on-click, and
+#              commands: / left-commands: / right-commands: - lines like
+#                [player] spawn          [console] give %player% dirt
+#                [message] &aHi          [broadcast] &e%player% did a thing
+#                [actionbar] text        [title] Title|Subtitle
+#                [sound] name;vol;pitch  [chat] hello   [refresh]   [close]
+#              A line without [type] is run by the player.
+
+title: "&8Media | Applications"
+rows: 3
+
+items:
+
+  border:
+    slots: "0-10, 12, 14, 16-26"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  youtube:
+    slot: 11
+    material: RED_DYE
+    name: "&#FF3B30&lYOUTUBE"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B30Information:"
+      - "&#FF3B30¦ &fApply for the &#F64B92☀ &lMEDIA&r &frank"
+      - "&#FF3B30¦ &fwith your Youtube channel"
+      - ""
+      - "&#FF3B30⚑ &fRequirements"
+      - "&#FF3B30¦ &f1,000 views per video"
+      - "&#FF3B30¦ &f250 subscribers"
+      - ""
+      - "&#FF3B30⭐ &fRewards"
+      - "&#FF3B30¦ &fThe &#F64B92☀ &lMEDIA&r &frank"
+      - "&#FF3B30¦ &fAccess to &#FF3B30/live"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to apply"
+    commands:
+      - "[close]"
+      - "[message] &#F64B92☀ &lMEDIA &7▷ &fApply with your &#FF3B30Youtube &fchannel on our Discord:"
+      - "[message] &#F64B92▷ &f&nhttps://discord.gg/yourserver"
+
+  twitch:
+    slot: 13
+    material: PURPLE_DYE
+    name: "&#9146FF&lTWITCH"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#9146FFInformation:"
+      - "&#9146FF¦ &fApply for the &#F64B92☀ &lMEDIA&r &frank"
+      - "&#9146FF¦ &fwith your Twitch channel"
+      - ""
+      - "&#9146FF⚑ &fRequirements"
+      - "&#9146FF¦ &f15 average viewers"
+      - "&#9146FF¦ &f2 hour streams"
+      - ""
+      - "&#9146FF⭐ &fRewards"
+      - "&#9146FF¦ &fThe &#F64B92☀ &lMEDIA&r &frank"
+      - "&#9146FF¦ &fAccess to &#9146FF/live"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to apply"
+    commands:
+      - "[close]"
+      - "[message] &#F64B92☀ &lMEDIA &7▷ &fApply with your &#9146FFTwitch &fchannel on our Discord:"
+      - "[message] &#F64B92▷ &f&nhttps://discord.gg/yourserver"
+
+  tiktok:
+    slot: 15
+    material: PINK_DYE
+    name: "&#FF44AA&lTIKTOK"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF44AAInformation:"
+      - "&#FF44AA¦ &fApply for the &#F64B92☀ &lMEDIA&r &frank"
+      - "&#FF44AA¦ &fwith your Tiktok channel"
+      - ""
+      - "&#FF44AA⚑ &fRequirements"
+      - "&#FF44AA¦ &f5,000 views per clip"
+      - "&#FF44AA¦ &f500 followers"
+      - ""
+      - "&#FF44AA⭐ &fRewards"
+      - "&#FF44AA¦ &fThe &#F64B92☀ &lMEDIA&r &frank"
+      - "&#FF44AA¦ &fAccess to &#FF44AA/live"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to apply"
+    commands:
+      - "[close]"
+      - "[message] &#F64B92☀ &lMEDIA &7▷ &fApply with your &#FF44AATiktok &fchannel on our Discord:"
+      - "[message] &#F64B92▷ &f&nhttps://discord.gg/yourserver"
+
+
+# ── Sounds ──────────────────────────────────────────────────────────────────
+sounds:
+  open:
+    enabled: true
+    sound: "block.barrel.open"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2

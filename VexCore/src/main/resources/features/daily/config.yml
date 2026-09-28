@@ -1,0 +1,102 @@
+# /daily: pick a few of the hidden slots once per cooldown. Every pick rolls one reward below.
+# vexcore.daily.bypass ignores the cooldown. Admin: /daily reset <player>
+# Placeholders: %vexcore_daily% (time left, or placeholder-ready), %vexcore_daily_streak%
+
+prefix: "&#FFD900&lDAILY &7▷ "
+
+cooldown-hours: 24
+
+# How many slots a player picks per claim (gui/daily.yml has the slots).
+picks: 3
+
+placeholder-ready: "Ready"
+
+# Login streak: claiming again within cooldown-hours + grace-hours of the last claim adds a day,
+# missing it starts over at day 1. Every day of a streak makes the money prizes bigger:
+#   multiplier = 1 + (day - 1) x bonus-per-day, never above max-multiplier
+# With the defaults: day 1 = 1.0x, day 2 = 1.1x, day 7 = 1.6x, day 21+ = 3.0x.
+# Every extra-pick-every-days days of a streak also gives one more pick (up to max-extra-picks,
+# and never more than the menu's pick-slots).
+streak:
+  enabled: true
+  grace-hours: 24
+  bonus-per-day: 0.10
+  max-multiplier: 3.0
+  extra-pick-every-days: 7
+  max-extra-picks: 2
+  # Extra rewards on exact days of a streak. commands take [console] [player] [message]...,
+  # %player% %streak%. broadcast "" = none.
+  milestones:
+    7:
+      commands:
+        - "[message] {prefix}&fOne week in a row! Here's a bonus."
+      broadcast: "{prefix}&#FFD900%player% &fhas claimed their daily reward &#FFD9007 &fdays in a row!"
+    30:
+      commands:
+        - "[message] {prefix}&fA whole month in a row!"
+      broadcast: "{prefix}&#FFD900%player% &fhas claimed their daily reward &#FFD90030 &fdays in a row!"
+
+# chance = weight (they don't have to add up to 100). Each reward can pay money (a random
+# amount between min and max) and/or run command lines ([console] give %player% diamond 1).
+# %player% %reward% (its name) %amount% ("$1,234") and %amount_raw% ("1234", for commands like eco give) work in the commands.
+rewards:
+  small:
+    name: "&7Small pile"
+    chance: 55
+    money:
+      min: 100
+      max: 400
+  medium:
+    name: "&aMedium pile"
+    chance: 30
+    money:
+      min: 400
+      max: 900
+  large:
+    name: "&bLarge pile"
+    chance: 12
+    money:
+      min: 900
+      max: 2000
+  jackpot:
+    name: "&6&lJACKPOT"
+    chance: 3
+    money:
+      min: 2000
+      max: 5000
+    commands:
+      - "[broadcast] &#FFD900&lDAILY &7▷ &f%player% hit the &6&lJACKPOT&f!"
+
+messages:
+  rolled: "{prefix}&f%reward% &7(%amount%)"
+  received: "{prefix}&fYou received &#FFD900%amount% &fin total &7(%multiplier%)&f. See you tomorrow!"
+  streak-start: "{prefix}&fDay &#FFD9001 &fof your streak! Come back tomorrow for &#FFD900%tomorrow% &fprizes."
+  streak: "{prefix}&#FFD900%streak% &fdays in a row! Prizes are &#FFD900%multiplier% &fbigger &7(tomorrow %tomorrow%)&f."
+  streak-lost: "{prefix}&fYour &#FF3B3B%lost% &fday streak ran out. Starting again!"
+  cooldown: "{prefix}&fYour next reward is ready in &#FFD900%time%&f."
+  need-more: "{prefix}&fPick &#FFD900%missing% &fmore slot(s) first."
+  already-picked: "{prefix}&fYou can only pick &#FFD900%max% &fslots."
+  economy-missing: "&#FF0000&lERROR &7▷ &fThe money couldn't be paid out right now."
+  reset: "{prefix}&fReset the daily cooldown of &#FFD900%player%&f."
+
+sounds:
+  received:
+    enabled: true
+    sound: "entity.player.levelup"
+    volume: 1.0
+    pitch: 1.2
+  cooldown:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  need-more:
+    enabled: true
+    sound: "block.note_block.bass"
+    volume: 0.8
+    pitch: 0.8
+  already-picked:
+    enabled: true
+    sound: "block.note_block.bass"
+    volume: 0.8
+    pitch: 0.8

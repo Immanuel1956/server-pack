@@ -1,0 +1,104 @@
+# /rtp opens the world menu (gui/rtp.yml: function world-<key>), /rtp <world> goes straight there.
+# RTP is free. Safe spots are found in the background, existing chunks first (pre-generate with
+# Chunky and a teleport never has to create terrain). The cooldown starts on arrival.
+prefix: "&#97F900&lRTP &7▷ "
+cooldown-seconds: 10
+generated-attempts: 20
+# Safe spots kept ready per world, so /rtp starts its countdown at once. Each is checked again
+# right before use. 0 searches only when someone runs /rtp.
+ready-spots: 3
+# A ready spot older than this is thrown away and found again (the land may have changed).
+ready-max-age-seconds: 300
+# How often (ticks) the ready spots are topped up after a failed search.
+ready-refill-ticks: 200
+# The search for a spot: tries at once, and how long before it gives up ("not found").
+search:
+  parallel: 4
+  timeout-seconds: 60
+# After landing, for safe-landing-seconds: an effect ("" = none), no damage taken, and no hitting
+# others (so it can't be used to attack while safe).
+safe-landing-seconds: 5
+safe-landing-effect: "slow_falling"
+safe-landing-block-damage: true
+safe-landing-block-attacking: true
+teleport:
+  delay-seconds: 5
+blocked-biomes: [ocean, deep_ocean, cold_ocean, deep_cold_ocean, frozen_ocean, deep_frozen_ocean,
+                 lukewarm_ocean, deep_lukewarm_ocean, warm_ocean, river, frozen_river]
+# /endlock [on|off]: while locked, RTP to the End is refused, and (block-portals) End portals
+# don't work either. vexcore.endlock.bypass ignores the lock. The lock survives restarts.
+endlock:
+  block-portals: true
+  broadcast: true
+  # %end_status% in the RTP menu.
+  locked-text: "&#FF0000&lLOCKED"
+  open-text: "&#34eb9b&lOPEN"
+worlds:
+  overworld:
+    display: "Overworld"
+    # Empty picks the first world of that kind: environment (NORMAL, NETHER, THE_END), or
+    # guessed from the key's name when environment is empty.
+    world: ""
+    environment: "NORMAL"
+    permission: ""
+    radius: 50000
+    center-x: 0
+    center-z: 0
+    min-y: 50
+    # Nether only: the search starts here, under the roof, and works down.
+    max-y: 120
+    attempts: 30
+  nether:
+    display: "The Nether"
+    world: ""
+    environment: "NETHER"
+    permission: ""
+    radius: 10000
+    center-x: 0
+    center-z: 0
+    min-y: 32
+    max-y: 110
+    attempts: 40
+  end:
+    display: "The End"
+    world: ""
+    environment: "THE_END"
+    permission: ""
+    radius: 5000
+    center-x: 0
+    center-z: 0
+    min-y: 40
+    max-y: 120
+    attempts: 40
+messages:
+  searching: "[actionbar]{prefix}&fLooking for a safe spot..."
+  not-found: "&#FF0000&lERROR &7▷ &fNo safe spot was found, try again."
+  teleported: "{prefix}&fWelcome to a random spot in the &#97F900%world%&f."
+  cooldown: "&#FF0000&lERROR &7▷ &fWait &#97F900%time% &fbefore the next random teleport."
+  unknown-world: "&#FF0000&lERROR &7▷ &fThere is no RTP world called &#97F900%world%&f."
+  world-missing: "&#FF0000&lERROR &7▷ &fThat world does not exist on this server."
+  end-locked: "&#FF0000&lERROR &7▷ &fThe End is locked right now."
+  end-locked-broadcast: "{prefix}&#D66BFCThe End &fwas &#FF0000locked &fby &#D66BFC%player%&f."
+  end-unlocked-broadcast: "{prefix}&#D66BFCThe End &fwas &#34eb9bunlocked &fby &#D66BFC%player%&f."
+  teleport-countdown: "[actionbar]{prefix}&fTeleporting in &#97F900%seconds%s&f, don't move."
+sounds:
+  end-locked:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  end-locked-broadcast:
+    enabled: true
+    sound: "block.end_portal_frame.fill"
+    volume: 1.0
+    pitch: 0.8
+  end-unlocked-broadcast:
+    enabled: true
+    sound: "block.end_portal.spawn"
+    volume: 0.6
+    pitch: 1.2
+  teleported:
+    enabled: true
+    sound: "entity.enderman.teleport"
+    volume: 1.0
+    pitch: 1.0

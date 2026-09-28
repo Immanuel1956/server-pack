@@ -1,0 +1,148 @@
+# Death messages by cause, in three groups. Players can hide them with /deathtoggle.
+#
+# %player% = who died, %killer% = the player or mob, %weapon% = the killer's item (by-player),
+# %symbol% = the group's symbol below. A cause that is missing uses its group's default;
+# an empty line ("") sends no message for that cause. Delete a whole group to keep
+# Minecraft's own message for it.
+
+prefix: "&#FF256E&lDEATH &7▷ "
+
+# What players start with (true = messages shown).
+default: true
+
+symbols:
+  by-player: "🗡"
+  by-mob: "🏹"
+  environment: "☠"
+
+# %weapon% when the killer had nothing in hand.
+fists: "their fists"
+# Shown as %killer% when the killer is vanished.
+hidden-killer: "Someone"
+
+messages:
+  shown: "{prefix}&fDeath messages are now &#16D223shown&f."
+  hidden: "{prefix}&fDeath messages are now &#FF3B3Bhidden&f."
+
+sounds:
+  shown:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 1.6
+  hidden:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 0.8
+
+# Killed by a player. %weapon% = what the killer held.
+by-player:
+  entity-attack: "&#FF256E%symbol% &#FF256E%player% &fwas slain by &#FF256E%killer%&f &7using %weapon%"
+  entity-sweep-attack: "&#FF256E%symbol% &#FF256E%player% &fwas cut down by &#FF256E%killer%&f &7using %weapon%"
+  projectile: "&#FF256E%symbol% &#FF256E%player% &fwas shot by &#FF256E%killer%&f &7using %weapon%"
+  fall: "&#FF256E%symbol% &#FF256E%player% &fwas knocked off a ledge by &#FF256E%killer%&f"
+  void: "&#FF256E%symbol% &#FF256E%player% &fwas knocked into the void by &#FF256E%killer%&f"
+  drowning: "&#FF256E%symbol% &#FF256E%player% &fdrowned fighting &#FF256E%killer%&f"
+  lava: "&#FF256E%symbol% &#FF256E%player% &fwas pushed into lava by &#FF256E%killer%&f"
+  fire: "&#FF256E%symbol% &#FF256E%player% &fwas set on fire by &#FF256E%killer%&f"
+  fire-tick: "&#FF256E%symbol% &#FF256E%player% &fburned to death fighting &#FF256E%killer%&f"
+  block-explosion: "&#FF256E%symbol% &#FF256E%player% &fwas blown up by &#FF256E%killer%&f"
+  entity-explosion: "&#FF256E%symbol% &#FF256E%player% &fwas blown up by &#FF256E%killer%&f"
+  magic: "&#FF256E%symbol% &#FF256E%player% &fwas killed with magic by &#FF256E%killer%&f"
+  poison: "&#FF256E%symbol% &#FF256E%player% &fwas poisoned by &#FF256E%killer%&f"
+  wither: "&#FF256E%symbol% &#FF256E%player% &fwithered away fighting &#FF256E%killer%&f"
+  thorns: "&#FF256E%symbol% &#FF256E%player% &fwas killed trying to hurt &#FF256E%killer%&f"
+  dragon-breath: "&#FF256E%symbol% &#FF256E%player% &fwas roasted in dragon breath by &#FF256E%killer%&f"
+  lightning: "&#FF256E%symbol% &#FF256E%player% &fwas struck by lightning fighting &#FF256E%killer%&f"
+  suffocation: "&#FF256E%symbol% &#FF256E%player% &fsuffocated in a wall fighting &#FF256E%killer%&f"
+  falling-block: "&#FF256E%symbol% &#FF256E%player% &fwas squashed fighting &#FF256E%killer%&f"
+  fly-into-wall: "&#FF256E%symbol% &#FF256E%player% &fflew into a wall running from &#FF256E%killer%&f"
+  hot-floor: "&#FF256E%symbol% &#FF256E%player% &fwalked into danger fighting &#FF256E%killer%&f"
+  campfire: "&#FF256E%symbol% &#FF256E%player% &fwas pushed onto a campfire by &#FF256E%killer%&f"
+  contact: "&#FF256E%symbol% &#FF256E%player% &fwas pushed into a cactus by &#FF256E%killer%&f"
+  freeze: "&#FF256E%symbol% &#FF256E%player% &ffroze to death fighting &#FF256E%killer%&f"
+  cramming: "&#FF256E%symbol% &#FF256E%player% &fwas squished fighting &#FF256E%killer%&f"
+  sonic-boom: "&#FF256E%symbol% &#FF256E%player% &fwas obliterated fighting &#FF256E%killer%&f"
+  starvation: "&#FF256E%symbol% &#FF256E%player% &fstarved fighting &#FF256E%killer%&f"
+  dryout: "&#FF256E%symbol% &#FF256E%player% &fdried out fighting &#FF256E%killer%&f"
+  melting: "&#FF256E%symbol% &#FF256E%player% &fmelted fighting &#FF256E%killer%&f"
+  world-border: "&#FF256E%symbol% &#FF256E%player% &fwas pushed past the border by &#FF256E%killer%&f"
+  suicide: "&#FF256E%symbol% &#FF256E%player% &fgave up fighting &#FF256E%killer%&f"
+  kill: "&#FF256E%symbol% &#FF256E%player% &fwas killed by &#FF256E%killer%&f"
+  custom: "&#FF256E%symbol% &#FF256E%player% &fwas killed by &#FF256E%killer%&f"
+  default: "&#FF256E%symbol% &#FF256E%player% &fwas killed by &#FF256E%killer%&f"
+
+# Killed by a mob.
+by-mob:
+  entity-attack: "&#22AFFB%symbol% &#22AFFB%player% &fwas slain by &#22AFFB%killer%&f"
+  entity-sweep-attack: "&#22AFFB%symbol% &#22AFFB%player% &fwas cut down by &#22AFFB%killer%&f"
+  projectile: "&#22AFFB%symbol% &#22AFFB%player% &fwas shot by &#22AFFB%killer%&f"
+  fall: "&#22AFFB%symbol% &#22AFFB%player% &ffell while running from &#22AFFB%killer%&f"
+  void: "&#22AFFB%symbol% &#22AFFB%player% &ffell out of the world running from &#22AFFB%killer%&f"
+  drowning: "&#22AFFB%symbol% &#22AFFB%player% &fdrowned running from &#22AFFB%killer%&f"
+  lava: "&#22AFFB%symbol% &#22AFFB%player% &fswam in lava running from &#22AFFB%killer%&f"
+  fire: "&#22AFFB%symbol% &#22AFFB%player% &fburned fighting &#22AFFB%killer%&f"
+  fire-tick: "&#22AFFB%symbol% &#22AFFB%player% &fburned to death fighting &#22AFFB%killer%&f"
+  block-explosion: "&#22AFFB%symbol% &#22AFFB%player% &fwas blown up by &#22AFFB%killer%&f"
+  entity-explosion: "&#22AFFB%symbol% &#22AFFB%player% &fwas blown up by &#22AFFB%killer%&f"
+  magic: "&#22AFFB%symbol% &#22AFFB%player% &fwas killed with magic by &#22AFFB%killer%&f"
+  poison: "&#22AFFB%symbol% &#22AFFB%player% &fwas poisoned by &#22AFFB%killer%&f"
+  wither: "&#22AFFB%symbol% &#22AFFB%player% &fwithered away fighting &#22AFFB%killer%&f"
+  thorns: "&#22AFFB%symbol% &#22AFFB%player% &fwas killed trying to hurt &#22AFFB%killer%&f"
+  dragon-breath: "&#22AFFB%symbol% &#22AFFB%player% &fwas roasted in dragon breath"
+  lightning: "&#22AFFB%symbol% &#22AFFB%player% &fwas struck by lightning fighting &#22AFFB%killer%&f"
+  suffocation: "&#22AFFB%symbol% &#22AFFB%player% &fsuffocated in a wall fighting &#22AFFB%killer%&f"
+  falling-block: "&#22AFFB%symbol% &#22AFFB%player% &fwas squashed fighting &#22AFFB%killer%&f"
+  fly-into-wall: "&#22AFFB%symbol% &#22AFFB%player% &fflew into a wall running from &#22AFFB%killer%&f"
+  hot-floor: "&#22AFFB%symbol% &#22AFFB%player% &fwalked into danger fighting &#22AFFB%killer%&f"
+  campfire: "&#22AFFB%symbol% &#22AFFB%player% &fburned on a campfire fighting &#22AFFB%killer%&f"
+  contact: "&#22AFFB%symbol% &#22AFFB%player% &fwas pricked to death running from &#22AFFB%killer%&f"
+  freeze: "&#22AFFB%symbol% &#22AFFB%player% &ffroze to death running from &#22AFFB%killer%&f"
+  cramming: "&#22AFFB%symbol% &#22AFFB%player% &fwas squished by &#22AFFB%killer%&f"
+  sonic-boom: "&#22AFFB%symbol% &#22AFFB%player% &fwas obliterated by &#22AFFB%killer%&f"
+  starvation: "&#22AFFB%symbol% &#22AFFB%player% &fstarved fighting &#22AFFB%killer%&f"
+  dryout: "&#22AFFB%symbol% &#22AFFB%player% &fdried out fighting &#22AFFB%killer%&f"
+  melting: "&#22AFFB%symbol% &#22AFFB%player% &fmelted fighting &#22AFFB%killer%&f"
+  world-border: "&#22AFFB%symbol% &#22AFFB%player% &fleft the world border fighting &#22AFFB%killer%&f"
+  suicide: "&#22AFFB%symbol% &#22AFFB%player% &fgave up fighting &#22AFFB%killer%&f"
+  kill: "&#22AFFB%symbol% &#22AFFB%player% &fwas killed by &#22AFFB%killer%&f"
+  custom: "&#22AFFB%symbol% &#22AFFB%player% &fwas killed by &#22AFFB%killer%&f"
+  default: "&#22AFFB%symbol% &#22AFFB%player% &fwas killed by &#22AFFB%killer%&f"
+
+# Killed by the world.
+environment:
+  entity-attack: "&#FFB23B%symbol% &#FFB23B%player% &fwas slain"
+  entity-sweep-attack: "&#FFB23B%symbol% &#FFB23B%player% &fwas cut down"
+  projectile: "&#FFB23B%symbol% &#FFB23B%player% &fwas shot"
+  fall: "&#FFB23B%symbol% &#FFB23B%player% &fhit the ground too hard"
+  void: "&#FFB23B%symbol% &#FFB23B%player% &ffell out of the world"
+  drowning: "&#FFB23B%symbol% &#FFB23B%player% &fdrowned"
+  lava: "&#FFB23B%symbol% &#FFB23B%player% &ftried to swim in lava"
+  fire: "&#FFB23B%symbol% &#FFB23B%player% &fwent up in flames"
+  fire-tick: "&#FFB23B%symbol% &#FFB23B%player% &fburned to death"
+  block-explosion: "&#FFB23B%symbol% &#FFB23B%player% &fblew up"
+  entity-explosion: "&#FFB23B%symbol% &#FFB23B%player% &fblew up"
+  magic: "&#FFB23B%symbol% &#FFB23B%player% &fwas killed by magic"
+  poison: "&#FFB23B%symbol% &#FFB23B%player% &fwas poisoned"
+  wither: "&#FFB23B%symbol% &#FFB23B%player% &fwithered away"
+  thorns: "&#FFB23B%symbol% &#FFB23B%player% &fwas pricked by thorns"
+  dragon-breath: "&#FFB23B%symbol% &#FFB23B%player% &fwas roasted in dragon breath"
+  lightning: "&#FFB23B%symbol% &#FFB23B%player% &fwas struck by lightning"
+  suffocation: "&#FFB23B%symbol% &#FFB23B%player% &fsuffocated in a wall"
+  falling-block: "&#FFB23B%symbol% &#FFB23B%player% &fwas squashed by a falling block"
+  fly-into-wall: "&#FFB23B%symbol% &#FFB23B%player% &fexperienced kinetic energy"
+  hot-floor: "&#FFB23B%symbol% &#FFB23B%player% &fdiscovered the floor was lava"
+  campfire: "&#FFB23B%symbol% &#FFB23B%player% &fburned on a campfire"
+  contact: "&#FFB23B%symbol% &#FFB23B%player% &fwas pricked to death"
+  freeze: "&#FFB23B%symbol% &#FFB23B%player% &ffroze to death"
+  cramming: "&#FFB23B%symbol% &#FFB23B%player% &fwas squished too much"
+  sonic-boom: "&#FFB23B%symbol% &#FFB23B%player% &fwas obliterated by a sonic boom"
+  starvation: "&#FFB23B%symbol% &#FFB23B%player% &fstarved to death"
+  dryout: "&#FFB23B%symbol% &#FFB23B%player% &fdried out"
+  melting: "&#FFB23B%symbol% &#FFB23B%player% &fmelted"
+  world-border: "&#FFB23B%symbol% &#FFB23B%player% &fleft the world border"
+  suicide: "&#FFB23B%symbol% &#FFB23B%player% &fgave up"
+  kill: "&#FFB23B%symbol% &#FFB23B%player% &fwas killed"
+  custom: "&#FFB23B%symbol% &#FFB23B%player% &fdied"
+  default: "&#FFB23B%symbol% &#FFB23B%player% &fdied"

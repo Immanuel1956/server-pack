@@ -1,0 +1,40 @@
+# Join, first-join and leave messages. Players can hide them with /jointoggle.
+# vexcore.joinmessages.silent joins and leaves without one.
+# %player% = name, %displayname% = display name, %online% = players online.
+# A message may be a list, and use [actionbar] / [title] / [sound] lines.
+
+prefix: "&#FF810A&lJOIN &7▷ "
+
+# What players start with (true = messages shown).
+default: true
+
+join:
+  enabled: true
+  message: "&#97F900+ &f%player%"
+
+first-join:
+  enabled: true
+  message:
+    - ""
+    - "&#FFD900✦ &fWelcome &#FFD900%player% &fto the server! &7(%online% online)"
+    - ""
+
+leave:
+  enabled: true
+  message: "&#FF3B3B- &f%player%"
+
+messages:
+  shown: "{prefix}&fJoin and leave messages are now &#16D223shown&f."
+  hidden: "{prefix}&fJoin and leave messages are now &#FF3B3Bhidden&f."
+
+sounds:
+  shown:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 1.6
+  hidden:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 0.8

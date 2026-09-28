@@ -1,0 +1,22 @@
+title: "&8Giveaway | Choose Prize"
+rows: 3
+items:
+  items:
+    slot: 11
+    function: items
+    material: CHEST
+    name: "&#FFB02E&lITEMS"
+    lore: ["&7Give away items from your inventory."]
+  money:
+    slot: 15
+    function: money
+    material: GOLD_INGOT
+    name: "&#FFD900&lMONEY"
+    lore: ["&7Choose an amount from your balance."]
+  back:
+    slot: 22
+    function: back
+    material: ARROW
+    name: "&fBack"
+sounds:
+  click: "ui.button.click;1;1.2"

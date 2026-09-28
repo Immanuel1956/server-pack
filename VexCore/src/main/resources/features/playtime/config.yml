@@ -1,0 +1,105 @@
+# /playtime: rewards for time played. Uses the server's own statistic, so earlier playtime counts.
+# Placeholder: %vexcore_playtime%
+# Admin: /playtime reset <player> (lets them claim everything again).
+#
+# Each reward is claimed once. The KEY of a reward is what gets recorded, so never rename a
+# key that is in use, or it can be claimed a second time.
+#   playtime  what is needed (1d, 5h, 30m or 1d5h)
+#   money      paid out (optional)
+#   commands   command lines ([console] ..., [message] ...). %player% %reward% %required%
+#   display    what the menu shows under Rewards (%rewards%)
+
+prefix: "&#FFEE00&lPLAYTIME &7▷ "
+
+# How time is written. units = how many parts are shown ("1d 4h" with 2).
+time-format:
+  days: "d"
+  hours: "h"
+  minutes: "m"
+  seconds: "s"
+  units: 2
+
+# Shown for %next% once everything is unlocked.
+no-next: "-"
+# Shown for %rewards% when a reward has no display lines.
+no-rewards: "&f- &7none"
+
+# Tells players when a new reward is waiting (checked every interval-seconds).
+notify:
+  enabled: true
+  interval-seconds: 60
+
+rewards:
+  "1h":
+    playtime: "1h"
+    money: 1000
+    display:
+      - "&f- &#80EE0B$1,000"
+  "3h":
+    playtime: "3h"
+    money: 2500
+    display:
+      - "&f- &#80EE0B$2,500"
+  "6h":
+    playtime: "6h"
+    money: 5000
+    display:
+      - "&f- &#80EE0B$5,000"
+  "12h":
+    playtime: "12h"
+    money: 10000
+    display:
+      - "&f- &#80EE0B$10,000"
+  "1d":
+    playtime: "1d"
+    money: 25000
+    display:
+      - "&f- &#80EE0B$25,000"
+  "2d":
+    playtime: "2d"
+    money: 50000
+    display:
+      - "&f- &#80EE0B$50,000"
+  "5d":
+    playtime: "5d"
+    money: 100000
+    display:
+      - "&f- &#80EE0B$100,000"
+  "7d":
+    playtime: "7d"
+    money: 250000
+    commands:
+      - "[broadcast] &#FFEE00&lPLAYTIME &7▷ &f%player% played for a whole week!"
+    display:
+      - "&f- &#80EE0B$250,000"
+      - "&f- &7A shout-out"
+
+messages:
+  claimed: "{prefix}&fYou claimed the &#FFEE00%required% &freward!"
+  notify: "{prefix}&fYou have &#FFEE00%ready% &freward(s) waiting. &7/playtime"
+  locked: "&#FF0000&lERROR &7▷ &fThis reward unlocks in &#FFEE00%left%&f."
+  already-claimed: "&#FF0000&lERROR &7▷ &fYou already claimed this reward."
+  economy-missing: "&#FF0000&lERROR &7▷ &fThe money of this reward couldn't be paid out. Please tell staff."
+  reset: "{prefix}&fReset the rewards of &#FFEE00%player%&f."
+
+sounds:
+  claimed:
+    enabled: true
+    sound: "entity.player.levelup"
+    volume: 1.0
+    pitch: 1.4
+  notify:
+    enabled: true
+    sound: "entity.experience_orb.pickup"
+    volume: 1.0
+    pitch: 1.2
+  locked:
+    enabled: true
+    sound: "block.note_block.bass"
+    volume: 1.0
+    pitch: 0.8
+  already-claimed:
+    enabled: true
+    sound: "block.note_block.bass"
+    volume: 1.0
+    pitch: 0.8

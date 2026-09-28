@@ -1,0 +1,4 @@
+# /ranks opens gui/ranks.yml. The whole menu is made in that file: add, move, restyle or remove
+# items, and give any item commands to run (see the comments at the top of the file).
+
+prefix: "&#A66CFF&lRANKS &7▷ "

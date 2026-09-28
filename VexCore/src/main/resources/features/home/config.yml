@@ -1,0 +1,163 @@
+# Homes: /home (menu), /home <number>, /sethome [number], /delhome <number>
+#
+# How many homes a player may own: the highest of default-homes, any vexcore.home.<number>
+# permission they have (vexcore.home.5 = five homes) and the permission-homes list below.
+# Never more than max-homes.
+#
+# The menu (gui/homes.yml) shows as many homes per page as it lists home-slots; more homes
+# get more pages (previous/next buttons). Change the slot lists to change the page size.
+
+prefix: "&#16D223&lHOMES &7▷ "
+
+# Up to this many homes exist at all (any number; pages are added as needed).
+max-homes: 28
+default-homes: 3
+
+# Your own permissions (for example one per rank) and the homes each gives.
+# The highest one a player has counts.
+permission-homes:
+  vexcore.homes.vip: 5
+  vexcore.homes.mvp: 10
+  vexcore.homes.elite: 20
+
+# true: every home up to max-homes shows, locked ones as "locked" (players see what ranks offer).
+# false: only the homes the player may own show, so the pages end there.
+show-locked-homes: true
+
+# Ask before deleting a home from the menu (gui/confirm-delete.yml).
+confirm-delete: true
+
+# A home's name and icon until the player changes them in the dialog (right-click a home).
+default-name: "Home %home%"
+default-icon: "LIME_BED"
+
+# The home dialogs (Paper 1.21.7+). MiniMessage or & colours. %home% %name% %icon% work.
+dialog:
+  button-width: 150
+  name-max-length: 24
+  rename-title: "Rename"
+  rename-label: "New Name"
+  delete-title: "Delete %name%?"
+  delete-text: "<gray>This home is gone for good."
+  icons-title: "Choose Icon"
+  search-label: "Search"
+  buttons:
+    teleport: "Teleport"
+    change-icon: "Change Icon"
+    rename: "Rename"
+    delete: "<red>Delete"
+    confirm-delete: "<red>Delete"
+    back: "Back"
+    save: "Save"
+    cancel: "Cancel"
+    search: "Search"
+    default: "Default"
+    previous: "◀ Previous Page"
+    next: "Next Page ▶"
+  icons:
+    # Every item in the game can be picked; this many per page, in this many columns.
+    per-page: 120
+    columns: 4
+    button-width: 150
+    # The item's picture in front of its name.
+    show-pictures: true
+    page: "<gray>Page %page%/%pages% (%found% items)"
+    nothing-found: "<red>Nothing found, try another search."
+
+# Homes can't be set in these worlds.
+disabled-worlds:
+  - "spawn"
+
+# The countdown before teleporting home. vexcore.home.bypass skips it.
+teleport:
+  delay-seconds: 5
+  cancel-on-move: true
+  cancel-on-damage: true
+
+# %home% = number, %world% %x% %y% %z% = where it is.
+messages:
+  teleport-countdown: "[actionbar]{prefix}&fTeleporting to home &#16D223%home% &fin &#16D223%seconds%s"
+  teleport-success: "[actionbar]{prefix}&fWelcome home &7(#%home%)"
+  teleport-cancelled: "{prefix}&fTeleport cancelled, you moved."
+  teleport-failed: "&#FF0000&lERROR &7▷ &fHome &#16D223%home% &fcan't be reached right now."
+  set: "{prefix}&fHome &#16D223%home% &fwas set."
+  updated: "{prefix}&fHome &#16D223%home% &fwas moved to your position."
+  deleted: "{prefix}&fHome &#16D223%home% &fwas deleted."
+  not-set: "&#FF0000&lERROR &7▷ &fYou have no home &#16D223%home%&f."
+  locked: "&#FF0000&lERROR &7▷ &fYou can own &#16D223%allowed% &fhomes. Buy a higher rank for more."
+  limit-reached: "&#FF0000&lERROR &7▷ &fAll your &#16D223%allowed% &fhomes are set. Delete one first."
+  invalid-home: "&#FF0000&lERROR &7▷ &#16D223%home% &fis not a home number &7(1-%max%)&f."
+  disabled-world: "&#FF0000&lERROR &7▷ &fYou can't set homes in &#16D223%world%&f."
+  none: "{prefix}&fYou have no homes yet. Use &#16D223/sethome&f."
+  renamed: "{prefix}&fYour home is now called &#16D223%name%&f."
+  icon-changed: "{prefix}&fThe icon of &#16D223%name% &fwas changed."
+  name-empty: "&#FF0000&lERROR &7▷ &fType a name first."
+  name-not-allowed: "&#FF0000&lERROR &7▷ &fThat name is not allowed."
+  list: "{prefix}&fYour homes (&#16D223%amount%&f/&#16D223%allowed%&f): &#16D223%homes%"
+
+sounds:
+  dialog-click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 1.0
+    pitch: 1.2
+  renamed:
+    enabled: true
+    sound: "entity.experience_orb.pickup"
+    volume: 1.0
+    pitch: 1.2
+  icon-changed:
+    enabled: true
+    sound: "entity.item.pickup"
+    volume: 1.0
+    pitch: 1.0
+  teleport-countdown:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.7
+    pitch: 1.0
+  teleport-success:
+    enabled: true
+    sound: "entity.enderman.teleport"
+    volume: 1.0
+    pitch: 1.0
+  teleport-cancelled:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  set:
+    enabled: true
+    sound: "entity.player.levelup"
+    volume: 0.8
+    pitch: 1.4
+  updated:
+    enabled: true
+    sound: "entity.player.levelup"
+    volume: 0.8
+    pitch: 1.4
+  deleted:
+    enabled: true
+    sound: "entity.item.break"
+    volume: 0.8
+    pitch: 1.0
+  locked:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  limit-reached:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  disabled-world:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0
+  not-set:
+    enabled: true
+    sound: "entity.villager.no"
+    volume: 1.0
+    pitch: 1.0

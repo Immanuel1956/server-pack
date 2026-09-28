@@ -1,0 +1,86 @@
+# /rules menu. Items only show their text; give one commands: to make it do something.
+#
+# Every item:  slot / slots, material, name, lore, glow, custom-model-data, item-model,
+#              skull, amount, permission (hidden without it), sound (its own click sound,
+#              "" = silent), close-on-click, and
+#              commands: / left-commands: / right-commands: - lines like
+#                [player] spawn          [console] give %player% dirt
+#                [message] &aHi          [broadcast] &e%player% read the rules
+#                [actionbar] text        [title] Title|Subtitle
+#                [sound] name;vol;pitch  [chat] hello   [refresh]   [close]
+
+title: "&8Rules | Dashboard"
+rows: 3
+
+items:
+
+  border:
+    slots: "0-10, 12, 14, 16-26"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  client:
+    slot: 11
+    material: LIME_BUNDLE
+    name: "&#97F900&lCLIENT RULES"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#97F900Information:"
+      - "&#97F900¦ &fBreaking these gets you"
+      - "&#97F900¦ &#97F900punished&f."
+      - ""
+      - "&#97F900• &fNo hacked or modified clients"
+      - "&#97F900• &fNo x-ray, freecam or ESP"
+      - "&#97F900• &fNo auto clickers or macros"
+      - "&#97F900• &fNo reach or hitbox mods"
+      - "&#97F900• &fFullbright is allowed"
+
+  general:
+    slot: 13
+    material: ORANGE_BUNDLE
+    name: "&#FF8A00&lGENERAL RULES"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF8A00Information:"
+      - "&#FF8A00¦ &fBreaking these gets you"
+      - "&#FF8A00¦ &#FF8A00punished&f."
+      - ""
+      - "&#FF8A00• &fNo exploiting bugs or dupes"
+      - "&#FF8A00• &fNo real money trading"
+      - "&#FF8A00• &fNo lagging the server"
+      - "&#FF8A00• &fOne account per player"
+      - "&#FF8A00• &fNo scamming other players"
+      - "&#FF8A00• &fReport bugs on our Discord"
+
+  chat:
+    slot: 15
+    material: RED_BUNDLE
+    name: "&#FF256E&lCHAT RULES"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF256EInformation:"
+      - "&#FF256E¦ &fBreaking these gets you"
+      - "&#FF256E¦ &#FF256Epunished&f."
+      - ""
+      - "&#FF256E• &fNo advertising"
+      - "&#FF256E• &fNo hate speech or threats"
+      - "&#FF256E• &fNo spam or flooding"
+      - "&#FF256E• &fNo sharing personal information"
+      - "&#FF256E• &fNo impersonating staff"
+
+# ── Sounds ──────────────────────────────────────────────────────────────────
+sounds:
+  open:
+    enabled: true
+    sound: "block.barrel.open"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2

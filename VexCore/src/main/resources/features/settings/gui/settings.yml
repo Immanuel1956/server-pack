@@ -1,0 +1,340 @@
+# /settings menu.
+#
+# Every template below is one button, in this order, filling content-slots page by page.
+#   permission: <node>  (optional) the button only shows for players with it, like its command.
+#   toggle: <id>   shows %status% and flips that VexCore toggle when clicked. The button is
+#                  hidden while the feature that owns the toggle is off (or not installed yet).
+#   no toggle      the button only runs its commands - use it for other plugins' toggles.
+# Add, remove, reorder and restyle freely. Every button takes commands:, left-commands:,
+# right-commands:, permission: and sound:.
+# Items are placed top to bottom, so a later item covers an earlier one in the same slot
+# (the page arrows sit on top of the border and uncover it when hidden).
+#
+# Toggle ids: tpa, tpahere, tpauto, nightvision, playerhide, mobtoggle, phantoms, joinmessages,
+#             deathmessages, live, chat, msg, mentions, pay, coinflip
+
+title: "&8Settings | Dashboard &7[%page%/%pages%]"
+rows: 4
+
+content-slots: "10-16, 19-25"
+
+# What %status% shows.
+status-on: "&#16D223&lON"
+status-off: "&#FF3B3B&lOFF"
+
+items:
+
+  border:
+    slots: "0-9, 17, 18, 26-30, 32-35"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  previous-page:
+    slot: 27
+    function: previous-page
+    material: RED_STAINED_GLASS_PANE
+    name: "&#FF3B3B&lPREVIOUS PAGE"
+    lore:
+      - "&7Page &f%page%&7/&f%pages%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to go back"
+
+  close:
+    slot: 31
+    material: BARRIER
+    name: "&#FF3B3B&lCLOSE"
+    commands:
+      - "[close]"
+
+  next-page:
+    slot: 35
+    function: next-page
+    material: LIME_STAINED_GLASS_PANE
+    name: "&#16D223&lNEXT PAGE"
+    lore:
+      - "&7Page &f%page%&7/&f%pages%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to go on"
+
+templates:
+
+  tpa:
+    toggle: tpa
+    material: ENDER_PEARL
+    name: "&#0AFF9C&lTPA REQUESTS"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#0AFF9CInformation:"
+      - "&#0AFF9C¦ &fReceive /tpa requests"
+      - ""
+      - "&#0AFF9Cℹ &fCommand: &#0AFF9C/tpatoggle tpa"
+      - "&#0AFF9C⚠ &fCurrently: %status%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to toggle"
+
+  tpahere:
+    toggle: tpahere
+    material: ENDER_EYE
+    name: "&#17FF0A&lTPAHERE REQUESTS"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#17FF0AInformation:"
+      - "&#17FF0A¦ &fReceive /tpahere requests"
+      - ""
+      - "&#17FF0Aℹ &fCommand: &#17FF0A/tpatoggle tpahere"
+      - "&#17FF0A⚠ &fCurrently: %status%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to toggle"
+
+  tpauto:
+    toggle: tpauto
+    material: CHORUS_FRUIT
+    name: "&#746EB0&lAUTO ACCEPT"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#746EB0Information:"
+      - "&#746EB0¦ &fAccept every teleport"
+      - "&#746EB0¦ &frequest automatically"
+      - ""
+      - "&#746EB0ℹ &fCommand: &#746EB0/tpauto"
+      - "&#746EB0⚠ &fCurrently: %status%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to toggle"
+
+  nightvision:
+    toggle: nightvision
+    permission: "vexcore.nightvision"
+    material: SOUL_LANTERN
+    name: "&#B6EAFF&lNIGHT VISION"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#B6EAFFInformation:"
+      - "&#B6EAFF¦ &fPermanent night vision"
+      - ""
+      - "&#B6EAFFℹ &fCommand: &#B6EAFF/nightvision"
+      - "&#B6EAFF⚠ &fCurrently: %status%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to toggle"
+
+  playerhide:
+    toggle: playerhide
+    permission: "vexcore.playerhide"
+    material: TINTED_GLASS
+    name: "&#7B61FF&lPLAYER HIDE"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#7B61FFInformation:"
+      - "&#7B61FF¦ &fHide the other players"
+      - "&#7B61FF¦ &ffrom your view"
+      - ""
+      - "&#7B61FFℹ &fCommand: &#7B61FF/playerhide"
+      - "&#7B61FF⚠ &fCurrently: %status%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to toggle"
+
+  mobtoggle:
+    toggle: mobtoggle
+    permission: "vexcore.mobtoggle"
+    material: ZOMBIE_HEAD
+    name: "&#FF7200&lBLOCK MOB SPAWNING"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF7200Information:"
+      - "&#FF7200¦ &fStop mobs spawning"
+      - "&#FF7200¦ &faround you"
+      - ""
+      - "&#FF7200ℹ &fCommand: &#FF7200/mobtoggle"
+      - "&#FF7200⚠ &fCurrently: %status%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to toggle"
+
+  phantoms:
+    toggle: phantoms
+    permission: "vexcore.phantoms"
+    material: PHANTOM_MEMBRANE
+    name: "&#6B7BFF&lDESPAWN PHANTOMS"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#6B7BFFInformation:"
+      - "&#6B7BFF¦ &fDespawn phantoms within"
+      - "&#6B7BFF¦ &f50 blocks of you"
+      - ""
+      - "&#6B7BFFℹ &fCommand: &#6B7BFF/phantoms"
+      - "&#6B7BFF⚠ &fCurrently: %status%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to toggle"
+
+  joinmessages:
+    toggle: joinmessages
+    material: OAK_DOOR
+    name: "&#FF810A&lJOIN MESSAGES"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF810AInformation:"
+      - "&#FF810A¦ &fShow join and leave"
+      - "&#FF810A¦ &fmessages"
+      - ""
+      - "&#FF810Aℹ &fCommand: &#FF810A/jointoggle"
+      - "&#FF810A⚠ &fCurrently: %status%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to toggle"
+
+  deathmessages:
+    toggle: deathmessages
+    material: SKELETON_SKULL
+    name: "&#ABABAB&lDEATH MESSAGES"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#ABABABInformation:"
+      - "&#ABABAB¦ &fShow death messages"
+      - ""
+      - "&#ABABABℹ &fCommand: &#ABABAB/deathtoggle"
+      - "&#ABABAB⚠ &fCurrently: %status%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to toggle"
+
+  live:
+    toggle: live
+    material: CRIMSON_SIGN
+    name: "&#E80AFF&lLIVE ALERTS"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#E80AFFInformation:"
+      - "&#E80AFF¦ &fShow stream announcements"
+      - ""
+      - "&#E80AFFℹ &fCommand: &#E80AFF/live toggle"
+      - "&#E80AFF⚠ &fCurrently: %status%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to toggle"
+
+  chat:
+    toggle: chat
+    material: OAK_SIGN
+    name: "&#0AB0FF&lPUBLIC CHAT"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#0AB0FFInformation:"
+      - "&#0AB0FF¦ &fSee the public chat"
+      - ""
+      - "&#0AB0FFℹ &fCommand: &#0AB0FF/chattoggle"
+      - "&#0AB0FF⚠ &fCurrently: %status%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to toggle"
+
+  msg:
+    toggle: msg
+    material: MANGROVE_SIGN
+    name: "&#FF0A59&lPRIVATE MESSAGES"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF0A59Information:"
+      - "&#FF0A59¦ &fReceive private messages"
+      - ""
+      - "&#FF0A59ℹ &fCommand: &#FF0A59/msgtoggle"
+      - "&#FF0A59⚠ &fCurrently: %status%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to toggle"
+
+  mentions:
+    toggle: mentions
+    material: NAME_TAG
+    name: "&#FFD900&lMENTIONS"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FFD900Information:"
+      - "&#FFD900¦ &fGet pinged when somebody"
+      - "&#FFD900¦ &fwrites your name"
+      - ""
+      - "&#FFD900ℹ &fCommand: &#FFD900/mentiontoggle"
+      - "&#FFD900⚠ &fCurrently: %status%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to toggle"
+
+  pay:
+    toggle: pay
+    material: EMERALD
+    name: "&#9FFF00&lPAYMENTS"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#9FFF00Information:"
+      - "&#9FFF00¦ &fReceive payments"
+      - ""
+      - "&#9FFF00ℹ &fCommand: &#9FFF00/paytoggle"
+      - "&#9FFF00⚠ &fCurrently: %status%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to toggle"
+
+  coinflip:
+    toggle: coinflip
+    material: BELL
+    name: "&#FFF800&lCOINFLIP ALERTS"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FFF800Information:"
+      - "&#FFF800¦ &fCoinflip messages in chat"
+      - ""
+      - "&#FFF800ℹ &fCommand: &#FFF800/cf toggle"
+      - "&#FFF800⚠ &fCurrently: %status%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to toggle"
+
+  scoreboard:
+    toggle: scoreboard
+    permission: "vexcore.scoreboard"
+    material: PAINTING
+    name: "&#A66CFF&lSCOREBOARD"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#A66CFFInformation:"
+      - "&#A66CFF¦ &fShow the sidebar"
+      - ""
+      - "&#A66CFFℹ &fCommand: &#A66CFF/scoreboard"
+      - "&#A66CFF⚠ &fCurrently: %status%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to toggle"
+
+  # A button for another plugin's toggle (no toggle: line, so it has no status):
+  # scoreboard:
+  #   material: WARPED_HANGING_SIGN
+  #   name: "&#B385FF&lSCOREBOARD"
+  #   lore:
+  #     - "&7Show or hide the scoreboard"
+  #   commands:
+  #     - "[player] tab scoreboard toggle"
+
+# ── Sounds ──────────────────────────────────────────────────────────────────
+# open: menu opens. click: every click. page: turning a page.
+# Each toggle also plays the sound of its own message (see the toggle's feature config).
+sounds:
+  open:
+    enabled: true
+    sound: "block.barrel.open"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2
+  page:
+    enabled: true
+    sound: "item.book.page_turn"
+    volume: 1.0
+    pitch: 1.0

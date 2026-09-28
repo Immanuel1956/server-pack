@@ -1,0 +1,36 @@
+# /msg, /reply, /msgtoggle, /ignore [player|list], /socialspy
+# Private messages go through the chat filter (scan.private-messages there).
+# Colour codes need vexcore.msg.color; staff with vexcore.msg.bypass reach everyone.
+
+prefix: "&#FF00F8&lMSG &7▷ "
+
+# The console sees every private message too.
+spy-console: false
+
+messages:
+  sent: "&#FF00F8&lMSG &7▷ &fYou &8➜ &#FF00F8%receiver% &7» &f%message%"
+  received: "&#FF00F8&lMSG &7▷ &#FF00F8%sender% &8➜ &fYou &7» &f%message%"
+  spy: "&#7B61FF&lSPY &7▷ &#7B61FF%sender% &8➜ &#7B61FF%receiver% &7» &f%message%"
+  no-reply: "&#FF0000&lERROR &7▷ &fThere is nobody to reply to."
+  self: "&#FF0000&lERROR &7▷ &fYou can't message yourself."
+  disabled: "&#FF0000&lERROR &7▷ &#FF00F8%player% &fdoesn't accept messages."
+  ignored-by: "&#FF0000&lERROR &7▷ &#FF00F8%player% &fdoesn't accept messages from you."
+  you-ignore: "&#FF0000&lERROR &7▷ &fYou ignore &#FF00F8%player%&f. /ignore %player% to stop."
+  toggle-on: "&#97F900&lMSG &7▷ &fPrivate messages are on."
+  toggle-off: "&#FF0000&lMSG &7▷ &fPrivate messages are off."
+  ignore-on: "&#FF00F8&lMSG &7▷ &fYou ignore &#FF00F8%player% &fnow."
+  ignore-off: "&#FF00F8&lMSG &7▷ &fYou no longer ignore &#FF00F8%player%&f."
+  ignore-list: "&#FF00F8&lMSG &7▷ &fYou ignore: &7%players%"
+  ignore-none: "&#FF00F8&lMSG &7▷ &fYou don't ignore anybody."
+  spy-on: "&#7B61FF&lSPY &7▷ &fSocial spy is on."
+  spy-off: "&#7B61FF&lSPY &7▷ &fSocial spy is off."
+
+sounds:
+  sent:
+    sound: "entity.experience_orb.pickup"
+    volume: 0.8
+    pitch: 1.2
+  received:
+    sound: "entity.experience_orb.pickup"
+    volume: 0.8
+    pitch: 1.6

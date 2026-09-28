@@ -1,0 +1,105 @@
+# /1v1 <player> [wager] [world] sends a challenge; /1v1 accept | deny.
+# Both are dropped at a random safe spot and fight. The wagers are taken on accept and the
+# first death pays both to the winner. Leaving counts as losing (before the start: nobody wins
+# and both get their wager back).
+prefix: "&#22AFFB&l1V1 &7▷ "
+expire-seconds: 60
+default-world: "overworld"
+no-wager: "&7none"
+generated-attempts: 20
+# Biomes a fight never starts in (ocean, river...). Empty = anywhere.
+blocked-biomes: []
+# The search for a start spot: tries at once, and how long before it gives up.
+search:
+  parallel: 4
+  timeout-seconds: 60
+# A fight ends after this long with nobody winning (both wagers back). 0 = no limit.
+max-seconds: 600
+worlds:
+  overworld:
+    display: "Overworld"
+    # NORMAL, NETHER or THE_END: which kind of world to pick when world is empty.
+    environment: "NORMAL"
+    # Empty picks the first matching world on the server.
+    world: ""
+    radius: 3000
+    center-x: 0
+    center-z: 0
+    attempts: 20
+    min-y: 50
+    # Nether only: the search starts here, under the roof, and works down.
+    max-y: 120
+  end:
+    display: "The End"
+    environment: "THE_END"
+    world: ""
+    radius: 800
+    center-x: 0
+    center-z: 0
+    attempts: 30
+    # Most of the end is void, so a spot below this is never accepted.
+    min-y: 40
+    max-y: 120
+    # Used when nothing safe was found. The game always builds the obsidian platform here.
+    fallback-x: 100.5
+    fallback-y: 50
+    fallback-z: 0.5
+start:
+  spawn-height: 5
+  distance: 20
+  # Never closer than this, even when the line has no solid ground.
+  min-distance: 6
+  countdown-seconds: 5
+  freeze-movement: true
+  countdown-sound: {sound: "block.note_block.hat", volume: 1.0, pitch: 1.2}
+  go-sound: {sound: "entity.player.levelup", volume: 1.0, pitch: 1.4}
+  slow-falling: true
+  # Slow falling lasts the countdown plus this many seconds.
+  slow-falling-extra-seconds: 3
+  block-pearls: true
+  block-elytra: true
+  block-damage: true
+  title: "&#FFD900&l%seconds%"
+  subtitle: "&fGet ready"
+  go-title: "&#97F900&lFIGHT"
+  go-subtitle: "&fGood luck"
+  # Countdown title timing in ticks (each second shows a new number, so keep stay short).
+  title-times:
+    fade-in: 0
+    stay: 25
+    fade-out: 5
+  allowed-commands: []
+messages:
+  usage: "&#22AFFB&l1V1 &7▷ &fUse /1v1 <player> [wager] [world]"
+  self: "&#FF0000&lERROR &7▷ &fYou cannot fight yourself."
+  target-offline: "&#FF0000&lERROR &7▷ &fThat player is not online."
+  already-fighting: "&#FF0000&lERROR &7▷ &fOne of you is already in a fight."
+  restricted: "&#FF0000&lERROR &7▷ &fYou cannot do that right now."
+  target-restricted: "&#FF0000&lERROR &7▷ &#22AFFB%player% &fcannot fight right now."
+  no-economy: "&#FF0000&lERROR &7▷ &fWagers need an economy."
+  cannot-afford: "&#FF0000&lERROR &7▷ &fOne of you cannot cover &#FFD900%amount%&f."
+  world-missing: "&#FF0000&lERROR &7▷ &fThat world does not exist on this server."
+  wager-invalid: "&#FF0000&lERROR &7▷ &fThat is not a valid amount."
+  sent: "{prefix}&fChallenge sent to &#22AFFB%player%&f."
+  received:
+    - "{prefix}&#22AFFB%player% &fchallenges you! &7(wager %wager%&7, %world%)"
+    - "<click:run_command:'%command%'><hover:show_text:'&aClick to accept'>&#97F900&l[ACCEPT]</hover></click>"
+  denied: "{prefix}&fYou turned the challenge down."
+  denied-by: "{prefix}&#22AFFB%player% &fturned your challenge down."
+  expired: "{prefix}&fThe challenge ran out."
+  no-challenge: "&#FF0000&lERROR &7▷ &fYou have no open challenge."
+  accepted: "{prefix}&#97F900&lDuel Accepted!"
+  searching: "{prefix}&fLooking for a safe spot..."
+  not-found: "&#FF0000&lERROR &7▷ &fNo safe spot was found. Wagers were given back."
+  started: "{prefix}&fFight against &#22AFFB%player%&f. Good luck!"
+  won: "&#97F900&l1V1 &7▷ &fYou won the fight!"
+  won-wager: "&#97F900&l1V1 &7▷ &fYou won the fight and &#FFD900%amount%&f!"
+  lost: "&#FF0000&l1V1 &7▷ &fYou lost the fight."
+  start-blocked: "&#FF0000&lERROR &7▷ &fNot before the fight starts."
+  timed-out: "{prefix}&fThe fight ran out of time. Nobody won; wagers were given back."
+  cancelled: "{prefix}&fThe fight was called off. Wagers were given back."
+sounds:
+  accepted: {sound: "entity.experience_orb.pickup", volume: 1.0, pitch: 1.4}
+  received: {sound: "entity.experience_orb.pickup", volume: 1.0, pitch: 1.2}
+  won: {sound: "ui.toast.challenge_complete", volume: 1.0, pitch: 1.0}
+  won-wager: {sound: "ui.toast.challenge_complete", volume: 1.0, pitch: 1.0}

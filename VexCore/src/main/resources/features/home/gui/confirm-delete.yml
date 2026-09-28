@@ -1,0 +1,56 @@
+# Asked before a home is deleted from the menu (turn off with confirm-delete in config.yml).
+# Buttons: function: confirm deletes, function: cancel goes back. Move, restyle or add items
+# freely. Placeholders: %home% %world% %x% %y% %z%.
+
+title: "&8Delete home %home%?"
+rows: 3
+
+items:
+
+  border:
+    slots: "0-10, 12, 14, 16-26"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  confirm:
+    slot: 11
+    material: LIME_CONCRETE
+    function: confirm
+    name: "&#16D223&lDELETE"
+    lore:
+      - ""
+      - "&#16D223▶ &n&lCLICK&r&#16D223 to delete home %home%"
+
+  home:
+    slot: 13
+    material: RED_BED
+    name: "&#FF3B3B&lHOME %home%"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FF3B3B¦ &fWorld: &#FF3B3B%world%"
+      - "&#FF3B3B¦ &fPosition: &#FF3B3B%x%&7, &#FF3B3B%y%&7, &#FF3B3B%z%"
+    sound: ""
+
+  cancel:
+    slot: 15
+    material: RED_CONCRETE
+    function: cancel
+    name: "&#FF3B3B&lCANCEL"
+    lore:
+      - ""
+      - "&#FF3B3B▶ &n&lCLICK&r&#FF3B3B to go back"
+
+# ── Sounds ──────────────────────────────────────────────────────────────────
+sounds:
+  open:
+    enabled: true
+    sound: "block.note_block.bass"
+    volume: 0.8
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2

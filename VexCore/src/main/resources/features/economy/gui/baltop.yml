@@ -1,0 +1,99 @@
+# /baltop menu, laid out like LifestealCore's. The list is sorted again every
+# baltop.refresh-seconds (config.yml).
+#
+# entry: one head per place. %place% %name% %amount% (short) %amount_full%.
+# Everywhere: %balance% (the viewer's), %page% %pages% %next_page% %previous_page%, %player%.
+#
+# Every item and template takes: slot / slots, material, name, lore, glow, amount,
+# custom-model-data, item-model, skull, permission, sound ("" = silent), close-on-click, and
+# commands: / left-commands: / right-commands: ([player] [console] [message] [broadcast]
+# [actionbar] [title] [sound] [chat] [refresh] [close]).
+
+title: "&8🔥 Balance Top [%page%/%pages%]"
+rows: 6
+
+content-slots: "0-44"
+
+items:
+
+  bottom:
+    slots: "45-47, 51-53"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  previous-page:
+    slot: 48
+    function: previous-page
+    material: RED_STAINED_GLASS_PANE
+    name: "&#FF0000&lPREVIOUS PAGE"
+    lore:
+      - "&7[ʙᴀʟᴀɴᴄᴇ ᴛᴏᴘ]"
+      - ""
+      - "&#FF0000Description:"
+      - "&#FF0000¦ &fClick to navigate"
+      - "&#FF0000¦ &fto page &#FF0000%previous_page%&f!"
+      - ""
+      - "&#FF0000▷ &n&lCLICK&r&#FF0000 To Navigate"
+
+  current:
+    slot: 49
+    material: SPYGLASS
+    name: "&#FFD900&lCURRENT PAGE"
+    lore:
+      - "&7[ʙᴀʟᴀɴᴄᴇ ᴛᴏᴘ]"
+      - ""
+      - "&#FFD900Description:"
+      - "&#FFD900¦ &fYou are currently"
+      - "&#FFD900¦ &fon the page &#FFD900%page%&f!"
+      - ""
+      - "&#80ee0b&l$&r &fYour balance: &#80ee0b%balance%"
+    sound: ""
+
+  next-page:
+    slot: 50
+    function: next-page
+    material: LIME_STAINED_GLASS_PANE
+    name: "&#80ee0b&lNEXT PAGE"
+    lore:
+      - "&7[ʙᴀʟᴀɴᴄᴇ ᴛᴏᴘ]"
+      - ""
+      - "&#80ee0bDescription:"
+      - "&#80ee0b¦ &fClick to navigate"
+      - "&#80ee0b¦ &fto page &#80ee0b%next_page%&f!"
+      - ""
+      - "&#80ee0b▷ &n&lCLICK&r&#80ee0b To Navigate"
+
+templates:
+
+  entry:
+    material: PLAYER_HEAD
+    skull: "%name%"
+    name: "&#80ee0b&l%name%'s BALANCE"
+    lore:
+      - "&7[ʙᴀʟᴀɴᴄᴇ ᴛᴏᴘ]"
+      - ""
+      - "&#80ee0bDescription:"
+      - "&#80ee0b¦ &fOnly the top balance"
+      - "&#80ee0b¦ &fplayers are displayed!"
+      - ""
+      - "&#80ee0b&l$&r &fBalance: &#80ee0b%amount%"
+      - "&#FFD900ℹ &fPlace: &#FFD900#%place%"
+
+# ── Sounds ──────────────────────────────────────────────────────────────────
+sounds:
+  open:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 1.0
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2
+  page:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 1.0
+    pitch: 1.2

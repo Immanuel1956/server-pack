@@ -1,0 +1,85 @@
+# /daily menu. pick-slots are the hidden slots to choose from.
+# Templates: hidden (not picked), selected (picked). %selected% and %max% work everywhere, and
+# the login streak this claim makes: %streak% %multiplier% %tomorrow% %extra_picks%.
+# function: confirm claims once enough slots are picked.
+# Sounds: select / deselect play when a slot is picked or unpicked.
+#
+# Every item and template takes: slot / slots, material, name, lore, glow, amount,
+# custom-model-data, item-model, skull, permission, sound ("" = silent), close-on-click, and
+# commands: / left-commands: / right-commands: ([player] [console] [message] [broadcast]
+# [actionbar] [title] [sound] [chat] [refresh] [close]).
+
+title: "&8Daily | Rewards"
+rows: 3
+
+pick-slots: "10-16"
+
+items:
+
+  border:
+    slots: "0-9, 17-21, 23-26"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  confirm:
+    slot: 22
+    function: confirm
+    material: LIME_SHULKER_BOX
+    name: "&#16D223&lCONFIRM"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#16D223¦ &fClaim your rewards."
+      - "&#16D223ⓘ &fSelected: &#16D223%selected%&f/&#16D223%max%"
+      - ""
+      - "&#FFD900Streak"
+      - "&#FFD900¦ &fDay &#FFD900%streak% &fin a row"
+      - "&#FFD900¦ &fPrizes: &#FFD900%multiplier% &7(tomorrow %tomorrow%)"
+      - "&#FFD900¦ &fBonus picks: &#FFD900%extra_picks%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to confirm"
+
+templates:
+
+  hidden:
+    material: GRAY_STAINED_GLASS_PANE
+    name: "&#B0B0B0&l???"
+    lore:
+      - "&#FFD900¦ &fPick this slot."
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to select"
+    sound: ""
+
+  selected:
+    material: LIME_STAINED_GLASS_PANE
+    glow: true
+    name: "&#16D223&lSELECTED"
+    lore:
+      - "&#16D223¦ &fThis slot is picked."
+      - ""
+      - "&#FF3B3B▶ &n&lCLICK&r&#FF3B3B to remove"
+    sound: ""
+
+# ── Sounds ──────────────────────────────────────────────────────────────────
+sounds:
+  open:
+    enabled: true
+    sound: "block.chest.open"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2
+  select:
+    enabled: true
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 1.6
+  deselect:
+    enabled: true
+    sound: "block.note_block.hat"
+    volume: 0.8
+    pitch: 1.0

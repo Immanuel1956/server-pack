@@ -1,0 +1,18 @@
+# Portable workstations: /craft /anvil /grindstone /smithingtable /loom /cartographytable
+# /stonecutter /echest [player]. Turn single commands off (or rename them) in commands.yml.
+
+prefix: "&#FFB23B&lSTATIONS &7▷ "
+
+# %station% = the command id, %player% = whose ender chest. "" sends nothing.
+messages:
+  opened: ""
+  opened-other: "{prefix}&fOpened the ender chest of &#FFB23B%player%&f."
+  # Folia only: the player is in another part of the world, where their items can't be edited from here.
+  too-far: "{prefix}&c%player% is too far away to open their ender chest. Teleport closer first."
+
+sounds:
+  opened:
+    enabled: true
+    sound: "block.barrel.open"
+    volume: 0.6
+    pitch: 1.2

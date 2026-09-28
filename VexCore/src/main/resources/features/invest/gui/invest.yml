@@ -1,0 +1,149 @@
+# /invest menu. It redraws itself every second while open.
+#
+# Placeholders: %invested% %pending% %income% (per second) %limit% %room% %multiplier% %refund%
+#               %earning% (IP protection) %earned% (all time) %rate% (per second, in percent)
+#               %hourly% (this investment's income per hour online) %max_limit% %offline_percent% %offline_hours% %withdraw_fee%
+# Functions: invest (asks for an amount in chat), withdraw (only with money invested), top,
+#            collect, delete (only with money invested),
+#            auto-collect-on / auto-collect-off (only the one that applies shows, so both can
+#            sit in the same slot).
+#
+# Every item and template takes: slot / slots, material, name, lore, glow, amount,
+# custom-model-data, item-model, skull, permission, sound ("" = silent), close-on-click, and
+# commands: / left-commands: / right-commands: ([player] [console] [message] [broadcast]
+# [actionbar] [title] [sound] [chat] [refresh] [close]).
+
+title: "&8ɪɴᴠᴇsᴛᴍᴇɴᴛs"
+rows: 3
+
+items:
+
+  border:
+    slots: "0-26"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  delete:
+    slot: 11
+    function: delete
+    material: TNT
+    name: "&#FB0000&lDELETE INVESTMENT"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FB0000Information:"
+      - "&#FB0000¦ &fYou get &#FB0000%refund% &fof it back."
+      - ""
+      - "&#FB0000▶ &n&lCLICK&r&#FB0000 to delete"
+
+  invest:
+    slot: 12
+    function: invest
+    material: GOLD_INGOT
+    name: "&#00ADFC&lINVEST MONEY"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#00ADFCInformation:"
+      - "&#00ADFC¦ &fLimit: &#00ADFC%limit%"
+      - "&#00ADFC¦ &fRoom left: &#00ADFC%room%"
+      - "&#00ADFC¦ &fServer cap: &#00ADFC%max_limit%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to invest"
+
+  information:
+    slot: 13
+    material: KNOWLEDGE_BOOK
+    name: "&#00ADFC&lYOUR INVESTMENT"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#00ADFC¦ &fInvested: &#00ADFC%invested%"
+      - "&#00ADFC¦ &fIncome: &#7CFC00%income%&f/s &7(%hourly%/h)"
+      - "&#00ADFC¦ &fReturn: &#7CFC00%rate% &fper second"
+      - "&#00ADFC¦ &fEvent multiplier: &#7CFC00%multiplier%x"
+      - "&#00ADFC¦ &fEarned all time: &#7CFC00%earned%"
+      - "&#00ADFC¦ &fThis account earns: %earning%"
+      - ""
+      - "&#00ADFCOffline"
+      - "&#00ADFC¦ &fEarns &#7CFC00%offline_percent% &fof the rate"
+      - "&#00ADFC¦ &ffor up to &#7CFC00%offline_hours%h &fwhile away"
+    sound: ""
+
+  withdraw:
+    slot: 14
+    function: withdraw
+    material: HOPPER
+    name: "&#FFA500&lWITHDRAW"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FFA500Information:"
+      - "&#FFA500¦ &fTake part of your investment"
+      - "&#FFA500¦ &fout. Fee: &#FFA500%withdraw_fee%"
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to withdraw"
+
+  top:
+    slot: 22
+    function: top
+    material: GOLDEN_HELMET
+    name: "&#FFD900&lTOP INVESTORS"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#FFD900¦ &fThe biggest investments"
+      - "&#FFD900¦ &fon the server."
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to view"
+
+  collect:
+    slot: 15
+    function: collect
+    material: HOPPER_MINECART
+    name: "&#7CFC00&lCOLLECT INCOME"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#7CFC00¦ &fWaiting: &#7CFC00%pending%"
+      - ""
+      - "&#7CFC00▶ &n&lCLICK&r&#7CFC00 to collect"
+
+  auto-collect-on:
+    slot: 24
+    function: auto-collect-on
+    material: RED_STAINED_GLASS_PANE
+    name: "&#FB0000&lAUTO COLLECT &#FB0000&lOFF"
+    lore:
+      - "&fIncome piles up until you collect it."
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to turn on"
+
+  auto-collect-off:
+    slot: 24
+    function: auto-collect-off
+    material: LIME_STAINED_GLASS_PANE
+    name: "&#7CFC00&lAUTO COLLECT &#7CFC00&lON"
+    lore:
+      - "&fIncome goes straight to your balance."
+      - ""
+      - "&#FFD900▶ &n&lCLICK&r&#FFD900 to turn off"
+
+# ── Sounds ──────────────────────────────────────────────────────────────────
+sounds:
+  open:
+    enabled: true
+    sound: "block.barrel.open"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2
+  page:
+    enabled: true
+    sound: "item.book.page_turn"
+    volume: 1.0
+    pitch: 1.0

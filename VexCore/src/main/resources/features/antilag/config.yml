@@ -1,0 +1,31 @@
+# Clears ground items every clear-interval (10m, 90s...). /antilag clears now.
+# Placeholder %vexcore_antilag% (time left). Paper only.
+clear-interval: "10m"
+worlds-ignored: []
+# What a clear removes (entity types: ITEM, ARROW, EXPERIENCE_ORB...). Players never.
+entity-types: [ITEM]
+# Action bar warnings before the clear.
+countdowns:
+  1m:
+    actionbar: "&#FF0000&lANTILAG &7▷ &fClearing items in &#FF00001 Minute&f!"
+  30s:
+    actionbar: "&#FF0000&lANTILAG &7▷ &fClearing items in &#FF000030 Seconds&f!"
+  10s:
+    actionbar: "&#FF0000&lANTILAG &7▷ &fClearing items in &#FF000010 Seconds&f!"
+  5s:
+    actionbar: "&#FF0000&lANTILAG &7▷ &fClearing items in &#FF00005 Seconds&f!"
+  3s:
+    actionbar: "&#FF0000&lANTILAG &7▷ &fClearing items in &#FF00003 Seconds&f!"
+  2s:
+    actionbar: "&#FF0000&lANTILAG &7▷ &fClearing items in &#FF00002 Seconds&f!"
+  1s:
+    actionbar: "&#FF0000&lANTILAG &7▷ &fClearing items in &#FF00001 Second&f!"
+# %count% = ground items removed.
+cleared-actionbar: "&#FF0000&lANTILAG &7▷ &fCleared &#FF0000%count% &fitems!"
+messages:
+  sound: ""
+sounds:
+  sound:
+    sound: "block.note_block.pling"
+    volume: 1.0
+    pitch: 1.0

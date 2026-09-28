@@ -1,0 +1,24 @@
+# /store: every line of the message opens the link when clicked.
+# %url% can be used in the message. {prefix} works too.
+
+message:
+  - ""
+  - "&#97F900$ &lSERVER STORE&r &#97F900$"
+  - "&7[ɪɴғᴏʀᴍᴀᴛɪᴏɴ]"
+  - ""
+  - "&#97F900¦ &fKeep the server alive and grab"
+  - "&#97F900¦ &f&#97F900ranks&f, &#97F900keys &fand more in return!"
+  - ""
+  - "&#97F900▷ &fLink: &#97F900&n%url%"
+
+url: "https://store.yourserver.com"
+
+# Shown when hovering over the message. "" = nothing.
+hover: "&7Click to open &#97F900%url%"
+
+# Played when the message is shown.
+sound:
+  enabled: true
+  sound: "block.note_block.pling"
+  volume: 0.8
+  pitch: 1.4

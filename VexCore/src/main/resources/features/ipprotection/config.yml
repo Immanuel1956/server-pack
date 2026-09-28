@@ -1,0 +1,89 @@
+# IP protection: alt accounts can't multiply grind rewards.
+#
+# Accounts are grouped by the network (IP address) they connect from. Addresses are never
+# stored, only a salted hash (the salt is in data/ipprotection.yml; keep it).
+# Behind Velocity/BungeeCord, player IP forwarding must be on, or everyone shares the proxy's IP.
+#
+#   invest       only the network's first account(s) online earn income; one account per network
+#                may invest, and only that one earns offline income
+#   keyall       only the network's first account(s) online get keys
+#   ggwave       one GG reward per network per wave (store purchase waves too)
+#   giveaway     one entry per group of linked accounts per giveaway (kept over restarts)
+#   killrewards  each kill reward can be claimed by one account per network
+#   playtime     each playtime reward can be claimed by one account per network
+#   daily        one daily reward per network per cooldown
+#   kills        kill farming: see kill-farming below (stats, kill rewards, the kill statistic)
+#
+# Links are ALL-TIME and saved in the database: accounts that ever played from the same network
+# stay linked forever, even after one switches network (VPN, mobile data, moving house). Every
+# check above looks at the whole linked group, not just the network the player is on now.
+#
+# /alts <player> (vexcore.ipprotection.alts) lists every linked account, all time.
+prefix: "&#FF3B3B&lALT CHECK &7▷ "
+
+# How many linked accounts may earn at the same time (invest, keyall, vote party).
+max-accounts-per-ip: 1
+
+link:
+  # true: links are all-time (see above). false: only accounts on the same network right now.
+  all-time: true
+  # 1 = accounts that shared a network with this one; 2 = also their alts (alt of an alt).
+  depth: 2
+  # Safety caps: a shared network (school, café, a big household) would otherwise link hundreds.
+  # Put such networks in exempt-ips, or give trusted players the bypass permission.
+  max-accounts: 40
+  max-networks: 60
+
+# Staff can give this to a trusted household so its accounts are treated separately.
+bypass-permission: "vexcore.ipprotection.bypass"
+
+# Networks that are never limited (a school or café). Written as plain IPs; hashed on load.
+exempt-ips: []
+
+protect:
+  invest: true
+  keyall: true
+  ggwave: true
+  giveaway: true
+  killrewards: true
+  playtime: true
+  daily: true
+  kills: true
+  voteparty: true
+
+kill-farming:
+  # false: killing an account from your own network doesn't count as a kill.
+  count-same-ip-kills: false
+  # Killing the same player again within this many minutes doesn't count. 0 = off.
+  same-victim-cooldown-minutes: 10
+
+# How each system is called in the messages below (%system%).
+names:
+  invest: "investment income"
+  keyall: "keyall rewards"
+  ggwave: "GG rewards"
+  giveaway: "giveaway entries"
+  killrewards: "kill rewards"
+  playtime: "playtime rewards"
+  daily: "the daily reward"
+  voteparty: "vote party rewards"
+
+messages:
+  claimed-elsewhere: "&#FF0000&lERROR &7▷ &fAn account linked to yours already has &#FF3B3B%system%&f."
+  not-earning: "{prefix}&fYou don't get &#FF3B3B%system% &fon this account: a linked account already does &7(%max% at a time)&f."
+  kill-not-counted-same-network: "[actionbar]{prefix}&fKilling &#FF3B3B%player% &fdoesn't count: same network."
+  kill-not-counted-same-victim: "[actionbar]{prefix}&fKilling &#FF3B3B%player% &fagain within %minutes% minutes doesn't count."
+  alts-none: "{prefix}&fNo account has ever been linked to &#FF3B3B%player%&f."
+  alts-header: "{prefix}&#FF3B3B%count% &faccount(s) linked to &#FF3B3B%player% &7(all time)&f:"
+  alts-line: "&#FF3B3B¦ &f%player% &7(%link%, last seen %ago% ago)"
+  alts-line-online: "&#FF3B3B¦ &f%player% &7(%link%) &#97F900online"
+
+words:
+  direct: "shared a network"
+  indirect: "through another alt"
+
+sounds:
+  not-earning:
+    sound: "entity.villager.no"
+    volume: 0.8
+    pitch: 1.0

@@ -1,0 +1,1936 @@
+# money per difficulty. change these four blocks to rescale the whole board at once.
+# a quest may override them with its own reward.money and reward.first-bonus.
+rewards:
+  easy:
+    money: 25000
+    first-bonus: 10000
+  medium:
+    money: 60000
+    first-bonus: 25000
+  hard:
+    money: 150000
+    first-bonus: 60000
+  elite:
+    money: 350000
+    first-bonus: 150000
+
+# weight decides how often a quest is drawn onto a board. an empty filter list counts everything.
+quests:
+
+  diamond-rush:
+    enabled: true
+    type: MINE_ORE
+    target: 64
+    difficulty: hard
+    weight: 10
+    accent: '#4FD8FF'
+    blocks: [DIAMOND_ORE, DEEPSLATE_DIAMOND_ORE]
+    item:
+      material: DIAMOND_ORE
+      name: '#4FD8FF☄ &lDIAMOND RUSH'
+      lore:
+        - '&8Description'
+        - ''
+        - '#4FD8FFInformation:'
+        - '&fBreak &#4FD8FF%target% &fdiamond ore'
+        - '&fbefore anybody else does.'
+        - ''
+        - '#4FD8FF⌚ &fProgress: &f%progress%&8/&f%target% &8(#4FD8FF%percent%&8)'
+        - '#4FD8FF⭐ &fPosition: #4FD8FF#%rank% &8| &fStep: #4FD8FF%step%'
+        - '#4FD8FF🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#4FD8FF#1. &f%top_1_name% #4FD8FF%top_1_value%'
+        - '#4FD8FF#2. &f%top_2_name% #4FD8FF%top_2_value%'
+        - '#4FD8FF#3. &f%top_3_name% #4FD8FF%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  ancient-debris:
+    enabled: true
+    type: MINE_ORE
+    target: 24
+    difficulty: elite
+    weight: 5
+    accent: '#FF7200'
+    blocks: [ANCIENT_DEBRIS]
+    item:
+      material: ANCIENT_DEBRIS
+      name: '#FF7200🔥 &lANCIENT DEBRIS'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FF7200Information:'
+        - '&fDig out &#FF7200%target% &fancient'
+        - '&fdebris in the nether.'
+        - ''
+        - '#FF7200⌚ &fProgress: &f%progress%&8/&f%target% &8(#FF7200%percent%&8)'
+        - '#FF7200⭐ &fPosition: #FF7200#%rank% &8| &fStep: #FF7200%step%'
+        - '#FF7200🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FF7200#1. &f%top_1_name% #FF7200%top_1_value%'
+        - '#FF7200#2. &f%top_2_name% #FF7200%top_2_value%'
+        - '#FF7200#3. &f%top_3_name% #FF7200%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  iron-veins:
+    enabled: true
+    type: MINE_ORE
+    target: 512
+    difficulty: medium
+    weight: 20
+    accent: '#E8E8E8'
+    blocks: [IRON_ORE, DEEPSLATE_IRON_ORE]
+    item:
+      material: RAW_IRON
+      name: '#E8E8E8☄ &lIRON VEINS'
+      lore:
+        - '&8Description'
+        - ''
+        - '#E8E8E8Information:'
+        - '&fBreak &#E8E8E8%target% &firon ore'
+        - '&fanywhere in the world.'
+        - ''
+        - '#E8E8E8⌚ &fProgress: &f%progress%&8/&f%target% &8(#E8E8E8%percent%&8)'
+        - '#E8E8E8⭐ &fPosition: #E8E8E8#%rank% &8| &fStep: #E8E8E8%step%'
+        - '#E8E8E8🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#E8E8E8#1. &f%top_1_name% #E8E8E8%top_1_value%'
+        - '#E8E8E8#2. &f%top_2_name% #E8E8E8%top_2_value%'
+        - '#E8E8E8#3. &f%top_3_name% #E8E8E8%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  gold-fever:
+    enabled: true
+    type: MINE_ORE
+    target: 256
+    difficulty: medium
+    weight: 20
+    accent: '#FFD900'
+    blocks: [GOLD_ORE, DEEPSLATE_GOLD_ORE, NETHER_GOLD_ORE]
+    item:
+      material: RAW_GOLD
+      name: '#FFD900☄ &lGOLD FEVER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FFD900Information:'
+        - '&fBreak &#FFD900%target% &fgold ore'
+        - '&fabove or below ground.'
+        - ''
+        - '#FFD900⌚ &fProgress: &f%progress%&8/&f%target% &8(#FFD900%percent%&8)'
+        - '#FFD900⭐ &fPosition: #FFD900#%rank% &8| &fStep: #FFD900%step%'
+        - '#FFD900🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FFD900#1. &f%top_1_name% #FFD900%top_1_value%'
+        - '#FFD900#2. &f%top_2_name% #FFD900%top_2_value%'
+        - '#FFD900#3. &f%top_3_name% #FFD900%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  emerald-hunt:
+    enabled: true
+    type: MINE_ORE
+    target: 32
+    difficulty: hard
+    weight: 8
+    accent: '#16D223'
+    blocks: [EMERALD_ORE, DEEPSLATE_EMERALD_ORE]
+    item:
+      material: EMERALD_ORE
+      name: '#16D223☄ &lEMERALD HUNT'
+      lore:
+        - '&8Description'
+        - ''
+        - '#16D223Information:'
+        - '&fFind and break &#16D223%target%'
+        - '&femerald ore in the hills.'
+        - ''
+        - '#16D223⌚ &fProgress: &f%progress%&8/&f%target% &8(#16D223%percent%&8)'
+        - '#16D223⭐ &fPosition: #16D223#%rank% &8| &fStep: #16D223%step%'
+        - '#16D223🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#16D223#1. &f%top_1_name% #16D223%top_1_value%'
+        - '#16D223#2. &f%top_2_name% #16D223%top_2_value%'
+        - '#16D223#3. &f%top_3_name% #16D223%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  coal-run:
+    enabled: true
+    type: MINE_ORE
+    target: 1024
+    difficulty: easy
+    weight: 25
+    accent: '#9A9A9A'
+    blocks: [COAL_ORE, DEEPSLATE_COAL_ORE]
+    item:
+      material: COAL
+      name: '#9A9A9A☄ &lCOAL RUN'
+      lore:
+        - '&8Description'
+        - ''
+        - '#9A9A9AInformation:'
+        - '&fBreak &#9A9A9A%target% &fcoal ore'
+        - '&fwherever you find it.'
+        - ''
+        - '#9A9A9A⌚ &fProgress: &f%progress%&8/&f%target% &8(#9A9A9A%percent%&8)'
+        - '#9A9A9A⭐ &fPosition: #9A9A9A#%rank% &8| &fStep: #9A9A9A%step%'
+        - '#9A9A9A🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#9A9A9A#1. &f%top_1_name% #9A9A9A%top_1_value%'
+        - '#9A9A9A#2. &f%top_2_name% #9A9A9A%top_2_value%'
+        - '#9A9A9A#3. &f%top_3_name% #9A9A9A%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  lapis-dive:
+    enabled: true
+    type: MINE_ORE
+    target: 128
+    difficulty: medium
+    weight: 15
+    accent: '#2C52C4'
+    blocks: [LAPIS_ORE, DEEPSLATE_LAPIS_ORE]
+    item:
+      material: LAPIS_LAZULI
+      name: '#2C52C4☄ &lLAPIS DIVE'
+      lore:
+        - '&8Description'
+        - ''
+        - '#2C52C4Information:'
+        - '&fBreak &#2C52C4%target% &flapis ore'
+        - '&fdeep underground.'
+        - ''
+        - '#2C52C4⌚ &fProgress: &f%progress%&8/&f%target% &8(#2C52C4%percent%&8)'
+        - '#2C52C4⭐ &fPosition: #2C52C4#%rank% &8| &fStep: #2C52C4%step%'
+        - '#2C52C4🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#2C52C4#1. &f%top_1_name% #2C52C4%top_1_value%'
+        - '#2C52C4#2. &f%top_2_name% #2C52C4%top_2_value%'
+        - '#2C52C4#3. &f%top_3_name% #2C52C4%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  redstone-rush:
+    enabled: true
+    type: MINE_ORE
+    target: 256
+    difficulty: medium
+    weight: 15
+    accent: '#FF0000'
+    blocks: [REDSTONE_ORE, DEEPSLATE_REDSTONE_ORE]
+    item:
+      material: REDSTONE
+      name: '#FF0000⚡ &lREDSTONE RUSH'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FF0000Information:'
+        - '&fBreak &#FF0000%target% &fredstone'
+        - '&fore under the world.'
+        - ''
+        - '#FF0000⌚ &fProgress: &f%progress%&8/&f%target% &8(#FF0000%percent%&8)'
+        - '#FF0000⭐ &fPosition: #FF0000#%rank% &8| &fStep: #FF0000%step%'
+        - '#FF0000🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FF0000#1. &f%top_1_name% #FF0000%top_1_value%'
+        - '#FF0000#2. &f%top_2_name% #FF0000%top_2_value%'
+        - '#FF0000#3. &f%top_3_name% #FF0000%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  deep-digger:
+    enabled: true
+    type: BREAK_BLOCK
+    target: 4096
+    difficulty: easy
+    weight: 25
+    accent: '#8A8A8A'
+    blocks: [STONE, DEEPSLATE, TUFF, ANDESITE, DIORITE, GRANITE, COBBLESTONE, COBBLED_DEEPSLATE]
+    item:
+      material: IRON_PICKAXE
+      name: '#8A8A8A⚡ &lDEEP DIGGER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#8A8A8AInformation:'
+        - '&fBreak &#8A8A8A%target% &fblocks'
+        - '&fof plain old stone.'
+        - ''
+        - '#8A8A8A⌚ &fProgress: &f%progress%&8/&f%target% &8(#8A8A8A%percent%&8)'
+        - '#8A8A8A⭐ &fPosition: #8A8A8A#%rank% &8| &fStep: #8A8A8A%step%'
+        - '#8A8A8A🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#8A8A8A#1. &f%top_1_name% #8A8A8A%top_1_value%'
+        - '#8A8A8A#2. &f%top_2_name% #8A8A8A%top_2_value%'
+        - '#8A8A8A#3. &f%top_3_name% #8A8A8A%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  lumberjack:
+    enabled: true
+    type: BREAK_BLOCK
+    target: 1024
+    difficulty: easy
+    weight: 25
+    accent: '#A0662B'
+    blocks: [OAK_LOG, BIRCH_LOG, SPRUCE_LOG, JUNGLE_LOG, ACACIA_LOG, DARK_OAK_LOG, MANGROVE_LOG, CHERRY_LOG, PALE_OAK_LOG]
+    item:
+      material: OAK_LOG
+      name: '#A0662B🪓 &lLUMBERJACK'
+      lore:
+        - '&8Description'
+        - ''
+        - '#A0662BInformation:'
+        - '&fChop &#A0662B%target% &flogs of'
+        - '&fany kind of tree.'
+        - ''
+        - '#A0662B⌚ &fProgress: &f%progress%&8/&f%target% &8(#A0662B%percent%&8)'
+        - '#A0662B⭐ &fPosition: #A0662B#%rank% &8| &fStep: #A0662B%step%'
+        - '#A0662B🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#A0662B#1. &f%top_1_name% #A0662B%top_1_value%'
+        - '#A0662B#2. &f%top_2_name% #A0662B%top_2_value%'
+        - '#A0662B#3. &f%top_3_name% #A0662B%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  jungle-clearing:
+    enabled: true
+    type: BREAK_BLOCK
+    target: 384
+    difficulty: medium
+    weight: 12
+    accent: '#2FA92F'
+    blocks: [JUNGLE_LOG]
+    item:
+      material: JUNGLE_LOG
+      name: '#2FA92F🪓 &lJUNGLE CLEARING'
+      lore:
+        - '&8Description'
+        - ''
+        - '#2FA92FInformation:'
+        - '&fChop &#2FA92F%target% &fjungle logs'
+        - '&fout of the deep green.'
+        - ''
+        - '#2FA92F⌚ &fProgress: &f%progress%&8/&f%target% &8(#2FA92F%percent%&8)'
+        - '#2FA92F⭐ &fPosition: #2FA92F#%rank% &8| &fStep: #2FA92F%step%'
+        - '#2FA92F🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#2FA92F#1. &f%top_1_name% #2FA92F%top_1_value%'
+        - '#2FA92F#2. &f%top_2_name% #2FA92F%top_2_value%'
+        - '#2FA92F#3. &f%top_3_name% #2FA92F%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  wheat-harvest:
+    enabled: true
+    type: HARVEST_CROP
+    target: 1024
+    difficulty: easy
+    weight: 25
+    accent: '#FFD900'
+    blocks: [WHEAT]
+    item:
+      material: WHEAT
+      name: '#FFD900☀ &lWHEAT HARVEST'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FFD900Information:'
+        - '&fHarvest &#FFD900%target% &fgrown'
+        - '&fwheat from your fields.'
+        - ''
+        - '#FFD900⌚ &fProgress: &f%progress%&8/&f%target% &8(#FFD900%percent%&8)'
+        - '#FFD900⭐ &fPosition: #FFD900#%rank% &8| &fStep: #FFD900%step%'
+        - '#FFD900🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FFD900#1. &f%top_1_name% #FFD900%top_1_value%'
+        - '#FFD900#2. &f%top_2_name% #FFD900%top_2_value%'
+        - '#FFD900#3. &f%top_3_name% #FFD900%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  carrot-patch:
+    enabled: true
+    type: HARVEST_CROP
+    target: 512
+    difficulty: easy
+    weight: 20
+    accent: '#FF8800'
+    blocks: [CARROTS]
+    item:
+      material: CARROT
+      name: '#FF8800☀ &lCARROT PATCH'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FF8800Information:'
+        - '&fPull &#FF8800%target% &fgrown'
+        - '&fcarrots out of the ground.'
+        - ''
+        - '#FF8800⌚ &fProgress: &f%progress%&8/&f%target% &8(#FF8800%percent%&8)'
+        - '#FF8800⭐ &fPosition: #FF8800#%rank% &8| &fStep: #FF8800%step%'
+        - '#FF8800🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FF8800#1. &f%top_1_name% #FF8800%top_1_value%'
+        - '#FF8800#2. &f%top_2_name% #FF8800%top_2_value%'
+        - '#FF8800#3. &f%top_3_name% #FF8800%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  potato-farm:
+    enabled: true
+    type: HARVEST_CROP
+    target: 512
+    difficulty: easy
+    weight: 20
+    accent: '#E0C070'
+    blocks: [POTATOES]
+    item:
+      material: POTATO
+      name: '#E0C070☀ &lPOTATO FARM'
+      lore:
+        - '&8Description'
+        - ''
+        - '#E0C070Information:'
+        - '&fHarvest &#E0C070%target% &fgrown'
+        - '&fpotatoes from your farm.'
+        - ''
+        - '#E0C070⌚ &fProgress: &f%progress%&8/&f%target% &8(#E0C070%percent%&8)'
+        - '#E0C070⭐ &fPosition: #E0C070#%rank% &8| &fStep: #E0C070%step%'
+        - '#E0C070🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#E0C070#1. &f%top_1_name% #E0C070%top_1_value%'
+        - '#E0C070#2. &f%top_2_name% #E0C070%top_2_value%'
+        - '#E0C070#3. &f%top_3_name% #E0C070%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  melon-season:
+    enabled: true
+    type: BREAK_BLOCK
+    target: 256
+    difficulty: medium
+    weight: 15
+    accent: '#16D223'
+    blocks: [MELON]
+    item:
+      material: MELON
+      name: '#16D223☀ &lMELON SEASON'
+      lore:
+        - '&8Description'
+        - ''
+        - '#16D223Information:'
+        - '&fBreak &#16D223%target% &fmelons'
+        - '&fgrown on your farm.'
+        - ''
+        - '#16D223⌚ &fProgress: &f%progress%&8/&f%target% &8(#16D223%percent%&8)'
+        - '#16D223⭐ &fPosition: #16D223#%rank% &8| &fStep: #16D223%step%'
+        - '#16D223🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#16D223#1. &f%top_1_name% #16D223%top_1_value%'
+        - '#16D223#2. &f%top_2_name% #16D223%top_2_value%'
+        - '#16D223#3. &f%top_3_name% #16D223%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  pumpkin-patch:
+    enabled: true
+    type: BREAK_BLOCK
+    target: 256
+    difficulty: medium
+    weight: 15
+    accent: '#FF7200'
+    blocks: [PUMPKIN]
+    item:
+      material: PUMPKIN
+      name: '#FF7200☀ &lPUMPKIN PATCH'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FF7200Information:'
+        - '&fBreak &#FF7200%target% &fpumpkins'
+        - '&fwherever they grow.'
+        - ''
+        - '#FF7200⌚ &fProgress: &f%progress%&8/&f%target% &8(#FF7200%percent%&8)'
+        - '#FF7200⭐ &fPosition: #FF7200#%rank% &8| &fStep: #FF7200%step%'
+        - '#FF7200🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FF7200#1. &f%top_1_name% #FF7200%top_1_value%'
+        - '#FF7200#2. &f%top_2_name% #FF7200%top_2_value%'
+        - '#FF7200#3. &f%top_3_name% #FF7200%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  sugar-run:
+    enabled: true
+    type: BREAK_BLOCK
+    target: 1024
+    difficulty: easy
+    weight: 20
+    accent: '#A5FF3D'
+    blocks: [SUGAR_CANE]
+    item:
+      material: SUGAR_CANE
+      name: '#A5FF3D🌊 &lSUGAR RUN'
+      lore:
+        - '&8Description'
+        - ''
+        - '#A5FF3DInformation:'
+        - '&fCut &#A5FF3D%target% &fsugar cane'
+        - '&fdown by the water.'
+        - ''
+        - '#A5FF3D⌚ &fProgress: &f%progress%&8/&f%target% &8(#A5FF3D%percent%&8)'
+        - '#A5FF3D⭐ &fPosition: #A5FF3D#%rank% &8| &fStep: #A5FF3D%step%'
+        - '#A5FF3D🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#A5FF3D#1. &f%top_1_name% #A5FF3D%top_1_value%'
+        - '#A5FF3D#2. &f%top_2_name% #A5FF3D%top_2_value%'
+        - '#A5FF3D#3. &f%top_3_name% #A5FF3D%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  nether-wart:
+    enabled: true
+    type: HARVEST_CROP
+    target: 512
+    difficulty: medium
+    weight: 12
+    accent: '#B4202A'
+    blocks: [NETHER_WART]
+    item:
+      material: NETHER_WART
+      name: '#B4202A🔥 &lNETHER WART'
+      lore:
+        - '&8Description'
+        - ''
+        - '#B4202AInformation:'
+        - '&fHarvest &#B4202A%target% &fgrown'
+        - '&fnether wart down below.'
+        - ''
+        - '#B4202A⌚ &fProgress: &f%progress%&8/&f%target% &8(#B4202A%percent%&8)'
+        - '#B4202A⭐ &fPosition: #B4202A#%rank% &8| &fStep: #B4202A%step%'
+        - '#B4202A🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#B4202A#1. &f%top_1_name% #B4202A%top_1_value%'
+        - '#B4202A#2. &f%top_2_name% #B4202A%top_2_value%'
+        - '#B4202A#3. &f%top_3_name% #B4202A%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  builder:
+    enabled: true
+    type: PLACE_BLOCK
+    target: 4096
+    difficulty: easy
+    weight: 25
+    accent: '#FDDD3E'
+    blocks: []
+    item:
+      material: BRICKS
+      name: '#FDDD3E✎ &lBUILDER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FDDD3EInformation:'
+        - '&fPlace &#FDDD3E%target% &fblocks'
+        - '&fof anything at all.'
+        - ''
+        - '#FDDD3E⌚ &fProgress: &f%progress%&8/&f%target% &8(#FDDD3E%percent%&8)'
+        - '#FDDD3E⭐ &fPosition: #FDDD3E#%rank% &8| &fStep: #FDDD3E%step%'
+        - '#FDDD3E🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FDDD3E#1. &f%top_1_name% #FDDD3E%top_1_value%'
+        - '#FDDD3E#2. &f%top_2_name% #FDDD3E%top_2_value%'
+        - '#FDDD3E#3. &f%top_3_name% #FDDD3E%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  stone-mason:
+    enabled: true
+    type: PLACE_BLOCK
+    target: 1024
+    difficulty: medium
+    weight: 15
+    accent: '#8A8A8A'
+    blocks: [STONE_BRICKS, CHISELED_STONE_BRICKS, POLISHED_ANDESITE, POLISHED_DIORITE, POLISHED_GRANITE, POLISHED_DEEPSLATE, DEEPSLATE_BRICKS]
+    item:
+      material: STONE_BRICKS
+      name: '#8A8A8A✎ &lSTONE MASON'
+      lore:
+        - '&8Description'
+        - ''
+        - '#8A8A8AInformation:'
+        - '&fPlace &#8A8A8A%target% &fworked'
+        - '&fstone blocks in a build.'
+        - ''
+        - '#8A8A8A⌚ &fProgress: &f%progress%&8/&f%target% &8(#8A8A8A%percent%&8)'
+        - '#8A8A8A⭐ &fPosition: #8A8A8A#%rank% &8| &fStep: #8A8A8A%step%'
+        - '#8A8A8A🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#8A8A8A#1. &f%top_1_name% #8A8A8A%top_1_value%'
+        - '#8A8A8A#2. &f%top_2_name% #8A8A8A%top_2_value%'
+        - '#8A8A8A#3. &f%top_3_name% #8A8A8A%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  night-hunter:
+    enabled: true
+    type: KILL_MOB
+    target: 250
+    difficulty: medium
+    weight: 25
+    accent: '#FF0000'
+    mobs: [ZOMBIE, SKELETON, SPIDER, CREEPER]
+    item:
+      material: ROTTEN_FLESH
+      name: '#FF0000🗡 &lNIGHT HUNTER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FF0000Information:'
+        - '&fKill &#FF0000%target% &fmonsters'
+        - '&fafter the sun goes down.'
+        - ''
+        - '#FF0000⌚ &fProgress: &f%progress%&8/&f%target% &8(#FF0000%percent%&8)'
+        - '#FF0000⭐ &fPosition: #FF0000#%rank% &8| &fStep: #FF0000%step%'
+        - '#FF0000🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FF0000#1. &f%top_1_name% #FF0000%top_1_value%'
+        - '#FF0000#2. &f%top_2_name% #FF0000%top_2_value%'
+        - '#FF0000#3. &f%top_3_name% #FF0000%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  creeper-cull:
+    enabled: true
+    type: KILL_MOB
+    target: 128
+    difficulty: medium
+    weight: 18
+    accent: '#16D223'
+    mobs: [CREEPER]
+    item:
+      material: GUNPOWDER
+      name: '#16D223☠ &lCREEPER CULL'
+      lore:
+        - '&8Description'
+        - ''
+        - '#16D223Information:'
+        - '&fKill &#16D223%target% &fcreepers'
+        - '&fbefore they reach you.'
+        - ''
+        - '#16D223⌚ &fProgress: &f%progress%&8/&f%target% &8(#16D223%percent%&8)'
+        - '#16D223⭐ &fPosition: #16D223#%rank% &8| &fStep: #16D223%step%'
+        - '#16D223🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#16D223#1. &f%top_1_name% #16D223%top_1_value%'
+        - '#16D223#2. &f%top_2_name% #16D223%top_2_value%'
+        - '#16D223#3. &f%top_3_name% #16D223%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  enderman-hunt:
+    enabled: true
+    type: KILL_MOB
+    target: 96
+    difficulty: hard
+    weight: 10
+    accent: '#CB00FF'
+    mobs: [ENDERMAN]
+    item:
+      material: ENDER_PEARL
+      name: '#CB00FF☄ &lENDERMAN HUNT'
+      lore:
+        - '&8Description'
+        - ''
+        - '#CB00FFInformation:'
+        - '&fKill &#CB00FF%target% &fendermen'
+        - '&fwherever they wander.'
+        - ''
+        - '#CB00FF⌚ &fProgress: &f%progress%&8/&f%target% &8(#CB00FF%percent%&8)'
+        - '#CB00FF⭐ &fPosition: #CB00FF#%rank% &8| &fStep: #CB00FF%step%'
+        - '#CB00FF🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#CB00FF#1. &f%top_1_name% #CB00FF%top_1_value%'
+        - '#CB00FF#2. &f%top_2_name% #CB00FF%top_2_value%'
+        - '#CB00FF#3. &f%top_3_name% #CB00FF%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  blaze-run:
+    enabled: true
+    type: KILL_MOB
+    target: 128
+    difficulty: hard
+    weight: 10
+    accent: '#FF8800'
+    mobs: [BLAZE]
+    item:
+      material: BLAZE_ROD
+      name: '#FF8800🔥 &lBLAZE RUN'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FF8800Information:'
+        - '&fKill &#FF8800%target% &fblazes'
+        - '&fin a nether fortress.'
+        - ''
+        - '#FF8800⌚ &fProgress: &f%progress%&8/&f%target% &8(#FF8800%percent%&8)'
+        - '#FF8800⭐ &fPosition: #FF8800#%rank% &8| &fStep: #FF8800%step%'
+        - '#FF8800🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FF8800#1. &f%top_1_name% #FF8800%top_1_value%'
+        - '#FF8800#2. &f%top_2_name% #FF8800%top_2_value%'
+        - '#FF8800#3. &f%top_3_name% #FF8800%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  wither-skeletons:
+    enabled: true
+    type: KILL_MOB
+    target: 64
+    difficulty: elite
+    weight: 5
+    accent: '#4A4A4A'
+    mobs: [WITHER_SKELETON]
+    item:
+      material: WITHER_SKELETON_SKULL
+      name: '#4A4A4A☠ &lWITHER SKELETONS'
+      lore:
+        - '&8Description'
+        - ''
+        - '#4A4A4AInformation:'
+        - '&fKill &#4A4A4A%target% &fwither'
+        - '&fskeletons in the fortress.'
+        - ''
+        - '#4A4A4A⌚ &fProgress: &f%progress%&8/&f%target% &8(#4A4A4A%percent%&8)'
+        - '#4A4A4A⭐ &fPosition: #4A4A4A#%rank% &8| &fStep: #4A4A4A%step%'
+        - '#4A4A4A🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#4A4A4A#1. &f%top_1_name% #4A4A4A%top_1_value%'
+        - '#4A4A4A#2. &f%top_2_name% #4A4A4A%top_2_value%'
+        - '#4A4A4A#3. &f%top_3_name% #4A4A4A%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  guardian-raid:
+    enabled: true
+    type: KILL_MOB
+    target: 64
+    difficulty: hard
+    weight: 8
+    accent: '#0AACE6'
+    mobs: [GUARDIAN, ELDER_GUARDIAN]
+    item:
+      material: PRISMARINE_SHARD
+      name: '#0AACE6🔱 &lGUARDIAN RAID'
+      lore:
+        - '&8Description'
+        - ''
+        - '#0AACE6Information:'
+        - '&fKill &#0AACE6%target% &fguardians'
+        - '&fin an ocean monument.'
+        - ''
+        - '#0AACE6⌚ &fProgress: &f%progress%&8/&f%target% &8(#0AACE6%percent%&8)'
+        - '#0AACE6⭐ &fPosition: #0AACE6#%rank% &8| &fStep: #0AACE6%step%'
+        - '#0AACE6🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#0AACE6#1. &f%top_1_name% #0AACE6%top_1_value%'
+        - '#0AACE6#2. &f%top_2_name% #0AACE6%top_2_value%'
+        - '#0AACE6#3. &f%top_3_name% #0AACE6%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  piglin-purge:
+    enabled: true
+    type: KILL_MOB
+    target: 200
+    difficulty: medium
+    weight: 15
+    accent: '#FF5C8A'
+    mobs: [PIGLIN, PIGLIN_BRUTE, ZOMBIFIED_PIGLIN]
+    item:
+      material: GOLDEN_SWORD
+      name: '#FF5C8A🗡 &lPIGLIN PURGE'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FF5C8AInformation:'
+        - '&fKill &#FF5C8A%target% &fpiglins'
+        - '&fof any kind at all.'
+        - ''
+        - '#FF5C8A⌚ &fProgress: &f%progress%&8/&f%target% &8(#FF5C8A%percent%&8)'
+        - '#FF5C8A⭐ &fPosition: #FF5C8A#%rank% &8| &fStep: #FF5C8A%step%'
+        - '#FF5C8A🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FF5C8A#1. &f%top_1_name% #FF5C8A%top_1_value%'
+        - '#FF5C8A#2. &f%top_2_name% #FF5C8A%top_2_value%'
+        - '#FF5C8A#3. &f%top_3_name% #FF5C8A%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  slayer:
+    enabled: true
+    type: KILL_MOB
+    target: 750
+    difficulty: medium
+    weight: 22
+    accent: '#B4202A'
+    mobs: []
+    item:
+      material: DIAMOND_SWORD
+      name: '#B4202A🗡 &lSLAYER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#B4202AInformation:'
+        - '&fKill &#B4202A%target% &fcreatures'
+        - '&fof any kind whatsoever.'
+        - ''
+        - '#B4202A⌚ &fProgress: &f%progress%&8/&f%target% &8(#B4202A%percent%&8)'
+        - '#B4202A⭐ &fPosition: #B4202A#%rank% &8| &fStep: #B4202A%step%'
+        - '#B4202A🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#B4202A#1. &f%top_1_name% #B4202A%top_1_value%'
+        - '#B4202A#2. &f%top_2_name% #B4202A%top_2_value%'
+        - '#B4202A#3. &f%top_3_name% #B4202A%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  skeleton-sniper:
+    enabled: true
+    type: KILL_MOB
+    target: 200
+    difficulty: medium
+    weight: 15
+    accent: '#E8E8E8'
+    mobs: [SKELETON, STRAY, BOGGED]
+    item:
+      material: BOW
+      name: '#E8E8E8🏹 &lSKELETON SNIPER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#E8E8E8Information:'
+        - '&fKill &#E8E8E8%target% &fskeletons'
+        - '&fbefore they shoot back.'
+        - ''
+        - '#E8E8E8⌚ &fProgress: &f%progress%&8/&f%target% &8(#E8E8E8%percent%&8)'
+        - '#E8E8E8⭐ &fPosition: #E8E8E8#%rank% &8| &fStep: #E8E8E8%step%'
+        - '#E8E8E8🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#E8E8E8#1. &f%top_1_name% #E8E8E8%top_1_value%'
+        - '#E8E8E8#2. &f%top_2_name% #E8E8E8%top_2_value%'
+        - '#E8E8E8#3. &f%top_3_name% #E8E8E8%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  duelist:
+    enabled: true
+    type: KILL_PLAYER
+    target: 25
+    difficulty: hard
+    weight: 12
+    accent: '#FF0000'
+    item:
+      material: NETHERITE_SWORD
+      name: '#FF0000🗡 &lDUELIST'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FF0000Information:'
+        - '&fKill &#FF0000%target% &fother'
+        - '&fplayers on the server.'
+        - ''
+        - '#FF0000⌚ &fProgress: &f%progress%&8/&f%target% &8(#FF0000%percent%&8)'
+        - '#FF0000⭐ &fPosition: #FF0000#%rank% &8| &fStep: #FF0000%step%'
+        - '#FF0000🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FF0000#1. &f%top_1_name% #FF0000%top_1_value%'
+        - '#FF0000#2. &f%top_2_name% #FF0000%top_2_value%'
+        - '#FF0000#3. &f%top_3_name% #FF0000%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  bloodbath:
+    enabled: true
+    type: KILL_PLAYER
+    target: 60
+    difficulty: elite
+    weight: 5
+    accent: '#B4202A'
+    item:
+      material: NETHERITE_AXE
+      name: '#B4202A☠ &lBLOODBATH'
+      lore:
+        - '&8Description'
+        - ''
+        - '#B4202AInformation:'
+        - '&fKill &#B4202A%target% &fplayers'
+        - '&fbefore this board is over.'
+        - ''
+        - '#B4202A⌚ &fProgress: &f%progress%&8/&f%target% &8(#B4202A%percent%&8)'
+        - '#B4202A⭐ &fPosition: #B4202A#%rank% &8| &fStep: #B4202A%step%'
+        - '#B4202A🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#B4202A#1. &f%top_1_name% #B4202A%top_1_value%'
+        - '#B4202A#2. &f%top_2_name% #B4202A%top_2_value%'
+        - '#B4202A#3. &f%top_3_name% #B4202A%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  heavy-hitter:
+    enabled: true
+    type: DAMAGE_DEALT
+    target: 5000
+    difficulty: medium
+    weight: 18
+    accent: '#FF0000'
+    item:
+      material: IRON_AXE
+      name: '#FF0000⚡ &lHEAVY HITTER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FF0000Information:'
+        - '&fDeal &#FF0000%target% &fhearts'
+        - '&fof damage to anything.'
+        - ''
+        - '#FF0000⌚ &fProgress: &f%progress%&8/&f%target% &8(#FF0000%percent%&8)'
+        - '#FF0000⭐ &fPosition: #FF0000#%rank% &8| &fStep: #FF0000%step%'
+        - '#FF0000🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FF0000#1. &f%top_1_name% #FF0000%top_1_value%'
+        - '#FF0000#2. &f%top_2_name% #FF0000%top_2_value%'
+        - '#FF0000#3. &f%top_3_name% #FF0000%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  tank:
+    enabled: true
+    type: DAMAGE_TAKEN
+    target: 2500
+    difficulty: medium
+    weight: 15
+    accent: '#4FD8FF'
+    item:
+      material: SHIELD
+      name: '#4FD8FF🛡 &lTANK'
+      lore:
+        - '&8Description'
+        - ''
+        - '#4FD8FFInformation:'
+        - '&fSurvive &#4FD8FF%target% &fhearts'
+        - '&fof damage taken.'
+        - ''
+        - '#4FD8FF⌚ &fProgress: &f%progress%&8/&f%target% &8(#4FD8FF%percent%&8)'
+        - '#4FD8FF⭐ &fPosition: #4FD8FF#%rank% &8| &fStep: #4FD8FF%step%'
+        - '#4FD8FF🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#4FD8FF#1. &f%top_1_name% #4FD8FF%top_1_value%'
+        - '#4FD8FF#2. &f%top_2_name% #4FD8FF%top_2_value%'
+        - '#4FD8FF#3. &f%top_3_name% #4FD8FF%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  hardcore:
+    enabled: true
+    type: DEATHS
+    target: 15
+    difficulty: easy
+    weight: 10
+    accent: '#4A4A4A'
+    item:
+      material: SKELETON_SKULL
+      name: '#4A4A4A☠ &lHARDCORE'
+      lore:
+        - '&8Description'
+        - ''
+        - '#4A4A4AInformation:'
+        - '&fDie &#4A4A4A%target% &ftimes.'
+        - '&fSomebody has to.'
+        - ''
+        - '#4A4A4A⌚ &fProgress: &f%progress%&8/&f%target% &8(#4A4A4A%percent%&8)'
+        - '#4A4A4A⭐ &fPosition: #4A4A4A#%rank% &8| &fStep: #4A4A4A%step%'
+        - '#4A4A4A🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#4A4A4A#1. &f%top_1_name% #4A4A4A%top_1_value%'
+        - '#4A4A4A#2. &f%top_2_name% #4A4A4A%top_2_value%'
+        - '#4A4A4A#3. &f%top_3_name% #4A4A4A%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  angler:
+    enabled: true
+    type: FISH
+    target: 256
+    difficulty: easy
+    weight: 22
+    accent: '#0AACE6'
+    items: []
+    item:
+      material: FISHING_ROD
+      name: '#0AACE6🎣 &lANGLER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#0AACE6Information:'
+        - '&fCatch &#0AACE6%target% &fthings'
+        - '&fout of the water.'
+        - ''
+        - '#0AACE6⌚ &fProgress: &f%progress%&8/&f%target% &8(#0AACE6%percent%&8)'
+        - '#0AACE6⭐ &fPosition: #0AACE6#%rank% &8| &fStep: #0AACE6%step%'
+        - '#0AACE6🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#0AACE6#1. &f%top_1_name% #0AACE6%top_1_value%'
+        - '#0AACE6#2. &f%top_2_name% #0AACE6%top_2_value%'
+        - '#0AACE6#3. &f%top_3_name% #0AACE6%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  treasure-hunter:
+    enabled: true
+    type: FISH
+    target: 24
+    difficulty: hard
+    weight: 8
+    accent: '#FFD900'
+    items: [ENCHANTED_BOOK, NAME_TAG, NAUTILUS_SHELL, SADDLE, BOW, FISHING_ROD]
+    item:
+      material: NAUTILUS_SHELL
+      name: '#FFD900🎣 &lTREASURE HUNTER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FFD900Information:'
+        - '&fFish &#FFD900%target% &freal'
+        - '&ftreasures out of the sea.'
+        - ''
+        - '#FFD900⌚ &fProgress: &f%progress%&8/&f%target% &8(#FFD900%percent%&8)'
+        - '#FFD900⭐ &fPosition: #FFD900#%rank% &8| &fStep: #FFD900%step%'
+        - '#FFD900🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FFD900#1. &f%top_1_name% #FFD900%top_1_value%'
+        - '#FFD900#2. &f%top_2_name% #FFD900%top_2_value%'
+        - '#FFD900#3. &f%top_3_name% #FFD900%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  crafter:
+    enabled: true
+    type: CRAFT_ITEM
+    target: 512
+    difficulty: easy
+    weight: 22
+    accent: '#FDDD3E'
+    items: []
+    item:
+      material: CRAFTING_TABLE
+      name: '#FDDD3E✎ &lCRAFTER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FDDD3EInformation:'
+        - '&fCraft &#FDDD3E%target% &fitems'
+        - '&fof any kind at all.'
+        - ''
+        - '#FDDD3E⌚ &fProgress: &f%progress%&8/&f%target% &8(#FDDD3E%percent%&8)'
+        - '#FDDD3E⭐ &fPosition: #FDDD3E#%rank% &8| &fStep: #FDDD3E%step%'
+        - '#FDDD3E🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FDDD3E#1. &f%top_1_name% #FDDD3E%top_1_value%'
+        - '#FDDD3E#2. &f%top_2_name% #FDDD3E%top_2_value%'
+        - '#FDDD3E#3. &f%top_3_name% #FDDD3E%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  toolsmith:
+    enabled: true
+    type: CRAFT_ITEM
+    target: 64
+    difficulty: medium
+    weight: 12
+    accent: '#4FD8FF'
+    items: [DIAMOND_PICKAXE, DIAMOND_SWORD, DIAMOND_AXE, DIAMOND_SHOVEL, DIAMOND_HOE]
+    item:
+      material: DIAMOND_PICKAXE
+      name: '#4FD8FF✎ &lTOOLSMITH'
+      lore:
+        - '&8Description'
+        - ''
+        - '#4FD8FFInformation:'
+        - '&fCraft &#4FD8FF%target% &fdiamond'
+        - '&ftools at a table.'
+        - ''
+        - '#4FD8FF⌚ &fProgress: &f%progress%&8/&f%target% &8(#4FD8FF%percent%&8)'
+        - '#4FD8FF⭐ &fPosition: #4FD8FF#%rank% &8| &fStep: #4FD8FF%step%'
+        - '#4FD8FF🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#4FD8FF#1. &f%top_1_name% #4FD8FF%top_1_value%'
+        - '#4FD8FF#2. &f%top_2_name% #4FD8FF%top_2_value%'
+        - '#4FD8FF#3. &f%top_3_name% #4FD8FF%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  armorer:
+    enabled: true
+    type: CRAFT_ITEM
+    target: 48
+    difficulty: medium
+    weight: 12
+    accent: '#4FD8FF'
+    items: [DIAMOND_HELMET, DIAMOND_CHESTPLATE, DIAMOND_LEGGINGS, DIAMOND_BOOTS]
+    item:
+      material: DIAMOND_CHESTPLATE
+      name: '#4FD8FF🛡 &lARMORER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#4FD8FFInformation:'
+        - '&fCraft &#4FD8FF%target% &fpieces'
+        - '&fof diamond armour.'
+        - ''
+        - '#4FD8FF⌚ &fProgress: &f%progress%&8/&f%target% &8(#4FD8FF%percent%&8)'
+        - '#4FD8FF⭐ &fPosition: #4FD8FF#%rank% &8| &fStep: #4FD8FF%step%'
+        - '#4FD8FF🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#4FD8FF#1. &f%top_1_name% #4FD8FF%top_1_value%'
+        - '#4FD8FF#2. &f%top_2_name% #4FD8FF%top_2_value%'
+        - '#4FD8FF#3. &f%top_3_name% #4FD8FF%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  smelter:
+    enabled: true
+    type: SMELT_ITEM
+    target: 1024
+    difficulty: easy
+    weight: 22
+    accent: '#FF7200'
+    items: []
+    item:
+      material: FURNACE
+      name: '#FF7200🔥 &lSMELTER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FF7200Information:'
+        - '&fPull &#FF7200%target% &fitems'
+        - '&fout of your furnaces.'
+        - ''
+        - '#FF7200⌚ &fProgress: &f%progress%&8/&f%target% &8(#FF7200%percent%&8)'
+        - '#FF7200⭐ &fPosition: #FF7200#%rank% &8| &fStep: #FF7200%step%'
+        - '#FF7200🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FF7200#1. &f%top_1_name% #FF7200%top_1_value%'
+        - '#FF7200#2. &f%top_2_name% #FF7200%top_2_value%'
+        - '#FF7200#3. &f%top_3_name% #FF7200%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  steelworks:
+    enabled: true
+    type: SMELT_ITEM
+    target: 512
+    difficulty: medium
+    weight: 15
+    accent: '#E8E8E8'
+    items: [IRON_INGOT]
+    item:
+      material: IRON_INGOT
+      name: '#E8E8E8🔥 &lSTEELWORKS'
+      lore:
+        - '&8Description'
+        - ''
+        - '#E8E8E8Information:'
+        - '&fSmelt &#E8E8E8%target% &firon'
+        - '&fingots out of raw ore.'
+        - ''
+        - '#E8E8E8⌚ &fProgress: &f%progress%&8/&f%target% &8(#E8E8E8%percent%&8)'
+        - '#E8E8E8⭐ &fPosition: #E8E8E8#%rank% &8| &fStep: #E8E8E8%step%'
+        - '#E8E8E8🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#E8E8E8#1. &f%top_1_name% #E8E8E8%top_1_value%'
+        - '#E8E8E8#2. &f%top_2_name% #E8E8E8%top_2_value%'
+        - '#E8E8E8#3. &f%top_3_name% #E8E8E8%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  enchanter:
+    enabled: true
+    type: ENCHANT_ITEM
+    target: 64
+    difficulty: medium
+    weight: 15
+    accent: '#CB00FF'
+    item:
+      material: ENCHANTING_TABLE
+      name: '#CB00FF🧪 &lENCHANTER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#CB00FFInformation:'
+        - '&fEnchant &#CB00FF%target% &fitems'
+        - '&fat an enchanting table.'
+        - ''
+        - '#CB00FF⌚ &fProgress: &f%progress%&8/&f%target% &8(#CB00FF%percent%&8)'
+        - '#CB00FF⭐ &fPosition: #CB00FF#%rank% &8| &fStep: #CB00FF%step%'
+        - '#CB00FF🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#CB00FF#1. &f%top_1_name% #CB00FF%top_1_value%'
+        - '#CB00FF#2. &f%top_2_name% #CB00FF%top_2_value%'
+        - '#CB00FF#3. &f%top_3_name% #CB00FF%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  alchemist:
+    enabled: true
+    type: BREW_POTION
+    target: 128
+    difficulty: medium
+    weight: 12
+    accent: '#A5FF3D'
+    item:
+      material: BREWING_STAND
+      name: '#A5FF3D🧪 &lALCHEMIST'
+      lore:
+        - '&8Description'
+        - ''
+        - '#A5FF3DInformation:'
+        - '&fTake &#A5FF3D%target% &ffinished'
+        - '&fpotions out of a stand.'
+        - ''
+        - '#A5FF3D⌚ &fProgress: &f%progress%&8/&f%target% &8(#A5FF3D%percent%&8)'
+        - '#A5FF3D⭐ &fPosition: #A5FF3D#%rank% &8| &fStep: #A5FF3D%step%'
+        - '#A5FF3D🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#A5FF3D#1. &f%top_1_name% #A5FF3D%top_1_value%'
+        - '#A5FF3D#2. &f%top_2_name% #A5FF3D%top_2_value%'
+        - '#A5FF3D#3. &f%top_3_name% #A5FF3D%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  trader:
+    enabled: true
+    type: TRADE_VILLAGER
+    target: 128
+    difficulty: medium
+    weight: 15
+    accent: '#16D223'
+    item:
+      material: EMERALD
+      name: '#16D223⚓ &lTRADER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#16D223Information:'
+        - '&fMake &#16D223%target% &ftrades'
+        - '&fwith any villager.'
+        - ''
+        - '#16D223⌚ &fProgress: &f%progress%&8/&f%target% &8(#16D223%percent%&8)'
+        - '#16D223⭐ &fPosition: #16D223#%rank% &8| &fStep: #16D223%step%'
+        - '#16D223🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#16D223#1. &f%top_1_name% #16D223%top_1_value%'
+        - '#16D223#2. &f%top_2_name% #16D223%top_2_value%'
+        - '#16D223#3. &f%top_3_name% #16D223%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  breeder:
+    enabled: true
+    type: BREED_ANIMAL
+    target: 128
+    difficulty: easy
+    weight: 20
+    accent: '#FF5C8A'
+    mobs: []
+    item:
+      material: WHEAT_SEEDS
+      name: '#FF5C8A☀ &lBREEDER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FF5C8AInformation:'
+        - '&fBreed &#FF5C8A%target% &fanimals'
+        - '&fof any kind on your farm.'
+        - ''
+        - '#FF5C8A⌚ &fProgress: &f%progress%&8/&f%target% &8(#FF5C8A%percent%&8)'
+        - '#FF5C8A⭐ &fPosition: #FF5C8A#%rank% &8| &fStep: #FF5C8A%step%'
+        - '#FF5C8A🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FF5C8A#1. &f%top_1_name% #FF5C8A%top_1_value%'
+        - '#FF5C8A#2. &f%top_2_name% #FF5C8A%top_2_value%'
+        - '#FF5C8A#3. &f%top_3_name% #FF5C8A%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  tamer:
+    enabled: true
+    type: TAME_ANIMAL
+    target: 24
+    difficulty: medium
+    weight: 12
+    accent: '#FFD900'
+    mobs: []
+    item:
+      material: BONE
+      name: '#FFD900⚐ &lTAMER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FFD900Information:'
+        - '&fTame &#FFD900%target% &fanimals'
+        - '&fand make them yours.'
+        - ''
+        - '#FFD900⌚ &fProgress: &f%progress%&8/&f%target% &8(#FFD900%percent%&8)'
+        - '#FFD900⭐ &fPosition: #FFD900#%rank% &8| &fStep: #FFD900%step%'
+        - '#FFD900🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FFD900#1. &f%top_1_name% #FFD900%top_1_value%'
+        - '#FFD900#2. &f%top_2_name% #FFD900%top_2_value%'
+        - '#FFD900#3. &f%top_3_name% #FFD900%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  shepherd:
+    enabled: true
+    type: SHEAR_SHEEP
+    target: 256
+    difficulty: easy
+    weight: 18
+    accent: '#E8E8E8'
+    item:
+      material: SHEARS
+      name: '#E8E8E8☁ &lSHEPHERD'
+      lore:
+        - '&8Description'
+        - ''
+        - '#E8E8E8Information:'
+        - '&fShear &#E8E8E8%target% &fsheep'
+        - '&fout on the fields.'
+        - ''
+        - '#E8E8E8⌚ &fProgress: &f%progress%&8/&f%target% &8(#E8E8E8%percent%&8)'
+        - '#E8E8E8⭐ &fPosition: #E8E8E8#%rank% &8| &fStep: #E8E8E8%step%'
+        - '#E8E8E8🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#E8E8E8#1. &f%top_1_name% #E8E8E8%top_1_value%'
+        - '#E8E8E8#2. &f%top_2_name% #E8E8E8%top_2_value%'
+        - '#E8E8E8#3. &f%top_3_name% #E8E8E8%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  glutton:
+    enabled: true
+    type: CONSUME_ITEM
+    target: 256
+    difficulty: easy
+    weight: 18
+    accent: '#FF8800'
+    items: []
+    item:
+      material: COOKED_BEEF
+      name: '#FF8800☀ &lGLUTTON'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FF8800Information:'
+        - '&fEat or drink &#FF8800%target%'
+        - '&fthings, whatever they are.'
+        - ''
+        - '#FF8800⌚ &fProgress: &f%progress%&8/&f%target% &8(#FF8800%percent%&8)'
+        - '#FF8800⭐ &fPosition: #FF8800#%rank% &8| &fStep: #FF8800%step%'
+        - '#FF8800🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FF8800#1. &f%top_1_name% #FF8800%top_1_value%'
+        - '#FF8800#2. &f%top_2_name% #FF8800%top_2_value%'
+        - '#FF8800#3. &f%top_3_name% #FF8800%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  hoarder:
+    enabled: true
+    type: PICKUP_ITEM
+    target: 8192
+    difficulty: easy
+    weight: 18
+    accent: '#FDDD3E'
+    items: []
+    item:
+      material: HOPPER
+      name: '#FDDD3E⚓ &lHOARDER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FDDD3EInformation:'
+        - '&fPick &#FDDD3E%target% &fitems'
+        - '&fup off the ground.'
+        - ''
+        - '#FDDD3E⌚ &fProgress: &f%progress%&8/&f%target% &8(#FDDD3E%percent%&8)'
+        - '#FDDD3E⭐ &fPosition: #FDDD3E#%rank% &8| &fStep: #FDDD3E%step%'
+        - '#FDDD3E🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FDDD3E#1. &f%top_1_name% #FDDD3E%top_1_value%'
+        - '#FDDD3E#2. &f%top_2_name% #FDDD3E%top_2_value%'
+        - '#FDDD3E#3. &f%top_3_name% #FDDD3E%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  scholar:
+    enabled: true
+    type: GAIN_EXPERIENCE
+    target: 25000
+    difficulty: medium
+    weight: 15
+    accent: '#80EE0B'
+    item:
+      material: EXPERIENCE_BOTTLE
+      name: '#80EE0B🧪 &lSCHOLAR'
+      lore:
+        - '&8Description'
+        - ''
+        - '#80EE0BInformation:'
+        - '&fGather &#80EE0B%target% &fpoints'
+        - '&fof raw experience.'
+        - ''
+        - '#80EE0B⌚ &fProgress: &f%progress%&8/&f%target% &8(#80EE0B%percent%&8)'
+        - '#80EE0B⭐ &fPosition: #80EE0B#%rank% &8| &fStep: #80EE0B%step%'
+        - '#80EE0B🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#80EE0B#1. &f%top_1_name% #80EE0B%top_1_value%'
+        - '#80EE0B#2. &f%top_2_name% #80EE0B%top_2_value%'
+        - '#80EE0B#3. &f%top_3_name% #80EE0B%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  explorer:
+    enabled: true
+    type: WALK_DISTANCE
+    target: 25000
+    difficulty: medium
+    weight: 15
+    accent: '#45FF17'
+    item:
+      material: LEATHER_BOOTS
+      name: '#45FF17⚡ &lEXPLORER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#45FF17Information:'
+        - '&fWalk &#45FF17%target% &fblocks'
+        - '&fon your own two feet.'
+        - ''
+        - '#45FF17⌚ &fProgress: &f%progress%&8/&f%target% &8(#45FF17%percent%&8)'
+        - '#45FF17⭐ &fPosition: #45FF17#%rank% &8| &fStep: #45FF17%step%'
+        - '#45FF17🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#45FF17#1. &f%top_1_name% #45FF17%top_1_value%'
+        - '#45FF17#2. &f%top_2_name% #45FF17%top_2_value%'
+        - '#45FF17#3. &f%top_3_name% #45FF17%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  grinder:
+    enabled: true
+    type: PLAYTIME
+    target: 480
+    difficulty: hard
+    weight: 10
+    accent: '#FFF300'
+    item:
+      material: CLOCK
+      name: '#FFF300⌛ &lGRINDER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FFF300Information:'
+        - '&fStay online for &#FFF300%target%'
+        - '&fminutes on this board.'
+        - ''
+        - '#FFF300⌚ &fProgress: &f%progress%&8/&f%target% &8(#FFF300%percent%&8)'
+        - '#FFF300⭐ &fPosition: #FFF300#%rank% &8| &fStep: #FFF300%step%'
+        - '#FFF300🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FFF300#1. &f%top_1_name% #FFF300%top_1_value%'
+        - '#FFF300#2. &f%top_2_name% #FFF300%top_2_value%'
+        - '#FFF300#3. &f%top_3_name% #FFF300%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  merchant:
+    enabled: true
+    type: SELL_ITEMS
+    target: 10000
+    difficulty: hard
+    weight: 12
+    accent: '#80EE0B'
+    item:
+      material: GOLD_INGOT
+      name: '#80EE0B⭐ &lMERCHANT'
+      lore:
+        - '&8Description'
+        - ''
+        - '#80EE0BInformation:'
+        - '&fSell &#80EE0B%target% &fitems'
+        - '&fthrough the sell system.'
+        - ''
+        - '#80EE0B⌚ &fProgress: &f%progress%&8/&f%target% &8(#80EE0B%percent%&8)'
+        - '#80EE0B⭐ &fPosition: #80EE0B#%rank% &8| &fStep: #80EE0B%step%'
+        - '#80EE0B🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#80EE0B#1. &f%top_1_name% #80EE0B%top_1_value%'
+        - '#80EE0B#2. &f%top_2_name% #80EE0B%top_2_value%'
+        - '#80EE0B#3. &f%top_3_name% #80EE0B%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  netherrack-run:
+    enabled: true
+    type: BREAK_BLOCK
+    target: 2048
+    difficulty: easy
+    weight: 18
+    accent: '#B4202A'
+    blocks: [NETHERRACK]
+    item:
+      material: NETHERRACK
+      name: '#B4202A🔥 &lNETHERRACK RUN'
+      lore:
+        - '&8Description'
+        - ''
+        - '#B4202AInformation:'
+        - '&fBreak &#B4202A%target% &fnetherrack'
+        - '&fon the other side.'
+        - ''
+        - '#B4202A⌚ &fProgress: &f%progress%&8/&f%target% &8(#B4202A%percent%&8)'
+        - '#B4202A⭐ &fPosition: #B4202A#%rank% &8| &fStep: #B4202A%step%'
+        - '#B4202A🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#B4202A#1. &f%top_1_name% #B4202A%top_1_value%'
+        - '#B4202A#2. &f%top_2_name% #B4202A%top_2_value%'
+        - '#B4202A#3. &f%top_3_name% #B4202A%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  obsidian-cutter:
+    enabled: true
+    type: BREAK_BLOCK
+    target: 128
+    difficulty: hard
+    weight: 8
+    accent: '#CB00FF'
+    blocks: [OBSIDIAN, CRYING_OBSIDIAN]
+    item:
+      material: OBSIDIAN
+      name: '#CB00FF⚡ &lOBSIDIAN CUTTER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#CB00FFInformation:'
+        - '&fBreak &#CB00FF%target% &fblocks'
+        - '&fof obsidian. Slowly.'
+        - ''
+        - '#CB00FF⌚ &fProgress: &f%progress%&8/&f%target% &8(#CB00FF%percent%&8)'
+        - '#CB00FF⭐ &fPosition: #CB00FF#%rank% &8| &fStep: #CB00FF%step%'
+        - '#CB00FF🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#CB00FF#1. &f%top_1_name% #CB00FF%top_1_value%'
+        - '#CB00FF#2. &f%top_2_name% #CB00FF%top_2_value%'
+        - '#CB00FF#3. &f%top_3_name% #CB00FF%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  witch-hunt:
+    enabled: true
+    type: KILL_MOB
+    target: 96
+    difficulty: hard
+    weight: 8
+    accent: '#A5FF3D'
+    mobs: [WITCH]
+    item:
+      material: GLASS_BOTTLE
+      name: '#A5FF3D🧪 &lWITCH HUNT'
+      lore:
+        - '&8Description'
+        - ''
+        - '#A5FF3DInformation:'
+        - '&fKill &#A5FF3D%target% &fwitches'
+        - '&fbefore they throw back.'
+        - ''
+        - '#A5FF3D⌚ &fProgress: &f%progress%&8/&f%target% &8(#A5FF3D%percent%&8)'
+        - '#A5FF3D⭐ &fPosition: #A5FF3D#%rank% &8| &fStep: #A5FF3D%step%'
+        - '#A5FF3D🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#A5FF3D#1. &f%top_1_name% #A5FF3D%top_1_value%'
+        - '#A5FF3D#2. &f%top_2_name% #A5FF3D%top_2_value%'
+        - '#A5FF3D#3. &f%top_3_name% #A5FF3D%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  phantom-nights:
+    enabled: true
+    type: KILL_MOB
+    target: 64
+    difficulty: medium
+    weight: 12
+    accent: '#437CF7'
+    mobs: [PHANTOM]
+    item:
+      material: PHANTOM_MEMBRANE
+      name: '#437CF7☁ &lPHANTOM NIGHTS'
+      lore:
+        - '&8Description'
+        - ''
+        - '#437CF7Information:'
+        - '&fKill &#437CF7%target% &fphantoms'
+        - '&fout of the night sky.'
+        - ''
+        - '#437CF7⌚ &fProgress: &f%progress%&8/&f%target% &8(#437CF7%percent%&8)'
+        - '#437CF7⭐ &fPosition: #437CF7#%rank% &8| &fStep: #437CF7%step%'
+        - '#437CF7🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#437CF7#1. &f%top_1_name% #437CF7%top_1_value%'
+        - '#437CF7#2. &f%top_2_name% #437CF7%top_2_value%'
+        - '#437CF7#3. &f%top_3_name% #437CF7%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  bee-keeper:
+    enabled: true
+    type: BREED_ANIMAL
+    target: 48
+    difficulty: medium
+    weight: 10
+    accent: '#FFD900'
+    mobs: [BEE]
+    item:
+      material: HONEYCOMB
+      name: '#FFD900☀ &lBEE KEEPER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FFD900Information:'
+        - '&fBreed &#FFD900%target% &fbees'
+        - '&fwith flowers in hand.'
+        - ''
+        - '#FFD900⌚ &fProgress: &f%progress%&8/&f%target% &8(#FFD900%percent%&8)'
+        - '#FFD900⭐ &fPosition: #FFD900#%rank% &8| &fStep: #FFD900%step%'
+        - '#FFD900🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FFD900#1. &f%top_1_name% #FFD900%top_1_value%'
+        - '#FFD900#2. &f%top_2_name% #FFD900%top_2_value%'
+        - '#FFD900#3. &f%top_3_name% #FFD900%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  deep-sea-diver:
+    enabled: true
+    type: BREAK_BLOCK
+    target: 512
+    difficulty: medium
+    weight: 10
+    accent: '#0AACE6'
+    blocks: [PRISMARINE, PRISMARINE_BRICKS, DARK_PRISMARINE, SEA_LANTERN]
+    item:
+      material: SEA_LANTERN
+      name: '#0AACE6🌊 &lDEEP SEA DIVER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#0AACE6Information:'
+        - '&fBreak &#0AACE6%target% &fblocks'
+        - '&fof a sunken monument.'
+        - ''
+        - '#0AACE6⌚ &fProgress: &f%progress%&8/&f%target% &8(#0AACE6%percent%&8)'
+        - '#0AACE6⭐ &fPosition: #0AACE6#%rank% &8| &fStep: #0AACE6%step%'
+        - '#0AACE6🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#0AACE6#1. &f%top_1_name% #0AACE6%top_1_value%'
+        - '#0AACE6#2. &f%top_2_name% #0AACE6%top_2_value%'
+        - '#0AACE6#3. &f%top_3_name% #0AACE6%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  end-runner:
+    enabled: true
+    type: KILL_MOB
+    target: 48
+    difficulty: elite
+    weight: 5
+    accent: '#CB00FF'
+    mobs: [SHULKER]
+    item:
+      material: SHULKER_SHELL
+      name: '#CB00FF🔱 &lEND RUNNER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#CB00FFInformation:'
+        - '&fKill &#CB00FF%target% &fshulkers'
+        - '&fout in the end cities.'
+        - ''
+        - '#CB00FF⌚ &fProgress: &f%progress%&8/&f%target% &8(#CB00FF%percent%&8)'
+        - '#CB00FF⭐ &fPosition: #CB00FF#%rank% &8| &fStep: #CB00FF%step%'
+        - '#CB00FF🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#CB00FF#1. &f%top_1_name% #CB00FF%top_1_value%'
+        - '#CB00FF#2. &f%top_2_name% #CB00FF%top_2_value%'
+        - '#CB00FF#3. &f%top_3_name% #CB00FF%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  glass-blower:
+    enabled: true
+    type: SMELT_ITEM
+    target: 512
+    difficulty: easy
+    weight: 15
+    accent: '#4FD8FF'
+    items: [GLASS]
+    item:
+      material: GLASS
+      name: '#4FD8FF🔥 &lGLASS BLOWER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#4FD8FFInformation:'
+        - '&fSmelt &#4FD8FF%target% &fblocks'
+        - '&fof sand into glass.'
+        - ''
+        - '#4FD8FF⌚ &fProgress: &f%progress%&8/&f%target% &8(#4FD8FF%percent%&8)'
+        - '#4FD8FF⭐ &fPosition: #4FD8FF#%rank% &8| &fStep: #4FD8FF%step%'
+        - '#4FD8FF🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#4FD8FF#1. &f%top_1_name% #4FD8FF%top_1_value%'
+        - '#4FD8FF#2. &f%top_2_name% #4FD8FF%top_2_value%'
+        - '#4FD8FF#3. &f%top_3_name% #4FD8FF%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  sand-shoveller:
+    enabled: true
+    type: BREAK_BLOCK
+    target: 2048
+    difficulty: easy
+    weight: 18
+    accent: '#E0C070'
+    blocks: [SAND, RED_SAND, GRAVEL]
+    item:
+      material: SAND
+      name: '#E0C070☀ &lSAND SHOVELLER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#E0C070Information:'
+        - '&fDig &#E0C070%target% &fblocks'
+        - '&fof sand and gravel.'
+        - ''
+        - '#E0C070⌚ &fProgress: &f%progress%&8/&f%target% &8(#E0C070%percent%&8)'
+        - '#E0C070⭐ &fPosition: #E0C070#%rank% &8| &fStep: #E0C070%step%'
+        - '#E0C070🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#E0C070#1. &f%top_1_name% #E0C070%top_1_value%'
+        - '#E0C070#2. &f%top_2_name% #E0C070%top_2_value%'
+        - '#E0C070#3. &f%top_3_name% #E0C070%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  golden-apples:
+    enabled: true
+    type: CONSUME_ITEM
+    target: 64
+    difficulty: hard
+    weight: 10
+    accent: '#FFD900'
+    items: [GOLDEN_APPLE, ENCHANTED_GOLDEN_APPLE]
+    item:
+      material: GOLDEN_APPLE
+      name: '#FFD900⭐ &lGOLDEN APPLES'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FFD900Information:'
+        - '&fEat &#FFD900%target% &fgolden'
+        - '&fapples, however you get them.'
+        - ''
+        - '#FFD900⌚ &fProgress: &f%progress%&8/&f%target% &8(#FFD900%percent%&8)'
+        - '#FFD900⭐ &fPosition: #FFD900#%rank% &8| &fStep: #FFD900%step%'
+        - '#FFD900🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FFD900#1. &f%top_1_name% #FFD900%top_1_value%'
+        - '#FFD900#2. &f%top_2_name% #FFD900%top_2_value%'
+        - '#FFD900#3. &f%top_3_name% #FFD900%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  ghast-hunter:
+    enabled: true
+    type: KILL_MOB
+    target: 48
+    difficulty: hard
+    weight: 8
+    accent: '#E8E8E8'
+    mobs: [GHAST]
+    item:
+      material: GHAST_TEAR
+      name: '#E8E8E8🏹 &lGHAST HUNTER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#E8E8E8Information:'
+        - '&fShoot &#E8E8E8%target% &fghasts'
+        - '&fout of the nether sky.'
+        - ''
+        - '#E8E8E8⌚ &fProgress: &f%progress%&8/&f%target% &8(#E8E8E8%percent%&8)'
+        - '#E8E8E8⭐ &fPosition: #E8E8E8#%rank% &8| &fStep: #E8E8E8%step%'
+        - '#E8E8E8🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#E8E8E8#1. &f%top_1_name% #E8E8E8%top_1_value%'
+        - '#E8E8E8#2. &f%top_2_name% #E8E8E8%top_2_value%'
+        - '#E8E8E8#3. &f%top_3_name% #E8E8E8%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  iron-armorer:
+    enabled: true
+    type: CRAFT_ITEM
+    target: 96
+    difficulty: easy
+    weight: 15
+    accent: '#E8E8E8'
+    items: [IRON_HELMET, IRON_CHESTPLATE, IRON_LEGGINGS, IRON_BOOTS]
+    item:
+      material: IRON_CHESTPLATE
+      name: '#E8E8E8🛡 &lIRON ARMORER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#E8E8E8Information:'
+        - '&fCraft &#E8E8E8%target% &fpieces'
+        - '&fof plain iron armour.'
+        - ''
+        - '#E8E8E8⌚ &fProgress: &f%progress%&8/&f%target% &8(#E8E8E8%percent%&8)'
+        - '#E8E8E8⭐ &fPosition: #E8E8E8#%rank% &8| &fStep: #E8E8E8%step%'
+        - '#E8E8E8🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#E8E8E8#1. &f%top_1_name% #E8E8E8%top_1_value%'
+        - '#E8E8E8#2. &f%top_2_name% #E8E8E8%top_2_value%'
+        - '#E8E8E8#3. &f%top_3_name% #E8E8E8%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  torch-bearer:
+    enabled: true
+    type: PLACE_BLOCK
+    target: 1024
+    difficulty: easy
+    weight: 15
+    accent: '#FFF300'
+    blocks: [TORCH, WALL_TORCH, SOUL_TORCH, SOUL_WALL_TORCH, LANTERN, SOUL_LANTERN]
+    item:
+      material: TORCH
+      name: '#FFF300⚡ &lTORCH BEARER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#FFF300Information:'
+        - '&fPlace &#FFF300%target% &ftorches'
+        - '&fand lanterns underground.'
+        - ''
+        - '#FFF300⌚ &fProgress: &f%progress%&8/&f%target% &8(#FFF300%percent%&8)'
+        - '#FFF300⭐ &fPosition: #FFF300#%rank% &8| &fStep: #FFF300%step%'
+        - '#FFF300🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#FFF300#1. &f%top_1_name% #FFF300%top_1_value%'
+        - '#FFF300#2. &f%top_2_name% #FFF300%top_2_value%'
+        - '#FFF300#3. &f%top_3_name% #FFF300%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  amethyst-geode:
+    enabled: true
+    type: BREAK_BLOCK
+    target: 256
+    difficulty: medium
+    weight: 12
+    accent: '#7C30B5'
+    blocks: [AMETHYST_BLOCK, AMETHYST_CLUSTER, BUDDING_AMETHYST]
+    item:
+      material: AMETHYST_SHARD
+      name: '#7C30B5☄ &lAMETHYST GEODE'
+      lore:
+        - '&8Description'
+        - ''
+        - '#7C30B5Information:'
+        - '&fBreak &#7C30B5%target% &fblocks'
+        - '&fout of a geode.'
+        - ''
+        - '#7C30B5⌚ &fProgress: &f%progress%&8/&f%target% &8(#7C30B5%percent%&8)'
+        - '#7C30B5⭐ &fPosition: #7C30B5#%rank% &8| &fStep: #7C30B5%step%'
+        - '#7C30B5🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#7C30B5#1. &f%top_1_name% #7C30B5%top_1_value%'
+        - '#7C30B5#2. &f%top_2_name% #7C30B5%top_2_value%'
+        - '#7C30B5#3. &f%top_3_name% #7C30B5%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  cave-spider-nest:
+    enabled: true
+    type: KILL_MOB
+    target: 150
+    difficulty: medium
+    weight: 12
+    accent: '#4A4A4A'
+    mobs: [CAVE_SPIDER, SPIDER]
+    item:
+      material: STRING
+      name: '#4A4A4A☠ &lSPIDER NEST'
+      lore:
+        - '&8Description'
+        - ''
+        - '#4A4A4AInformation:'
+        - '&fClear &#4A4A4A%target% &fspiders'
+        - '&fout of the dark.'
+        - ''
+        - '#4A4A4A⌚ &fProgress: &f%progress%&8/&f%target% &8(#4A4A4A%percent%&8)'
+        - '#4A4A4A⭐ &fPosition: #4A4A4A#%rank% &8| &fStep: #4A4A4A%step%'
+        - '#4A4A4A🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#4A4A4A#1. &f%top_1_name% #4A4A4A%top_1_value%'
+        - '#4A4A4A#2. &f%top_2_name% #4A4A4A%top_2_value%'
+        - '#4A4A4A#3. &f%top_3_name% #4A4A4A%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'
+
+  bulk-seller:
+    enabled: true
+    type: SELL_ITEMS
+    target: 50000
+    difficulty: elite
+    weight: 5
+    accent: '#80EE0B'
+    item:
+      material: DIAMOND_BLOCK
+      name: '#80EE0B⭐ &lBULK SELLER'
+      lore:
+        - '&8Description'
+        - ''
+        - '#80EE0BInformation:'
+        - '&fSell &#80EE0B%target% &fitems'
+        - '&fbefore the board turns over.'
+        - ''
+        - '#80EE0B⌚ &fProgress: &f%progress%&8/&f%target% &8(#80EE0B%percent%&8)'
+        - '#80EE0B⭐ &fPosition: #80EE0B#%rank% &8| &fStep: #80EE0B%step%'
+        - '#80EE0B🧪 &fReward: &#80EE0B$%money%'
+        - ''
+        - '#80EE0B#1. &f%top_1_name% #80EE0B%top_1_value%'
+        - '#80EE0B#2. &f%top_2_name% #80EE0B%top_2_value%'
+        - '#80EE0B#3. &f%top_3_name% #80EE0B%top_3_value%'
+        - ''
+        - '#FFD900▶ &l&nCLICK#FFD900 To Open'

@@ -1,0 +1,73 @@
+# /rtp menu: the Overworld, the Nether and the End, and 1v1 right next to them.
+# function world-<key> teleports to worlds.<key> of config.yml. %end_status% shows /endlock.
+#
+# Every item takes: slot / slots, material, name, lore, glow, amount, custom-model-data,
+# item-model, skull, permission, sound ("" = silent), close-on-click, and commands: /
+# left-commands: / right-commands: ([player] [console] [message] [broadcast] [actionbar]
+# [title] [sound] [chat] [refresh] [close]).
+
+title: "&8Random Teleport"
+rows: 3
+items:
+  border:
+    slots: "0-9, 11, 13, 15, 17-26"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+  overworld:
+    slot: 10
+    function: world-overworld
+    material: GRASS_BLOCK
+    name: "&#97F900&lOVERWORLD"
+    lore:
+      - "&7[ʀᴀɴᴅᴏᴍ ᴛᴇʟᴇᴘᴏʀᴛ]"
+      - ""
+      - "&#97F900Description:"
+      - "&#97F900¦ &fClick to randomly teleport"
+      - "&#97F900¦ &fsomewhere inside the &#97F900Overworld&f!"
+      - ""
+      - "&#97F900▷ &n&lCLICK&r&#97F900 To Teleport"
+  nether:
+    slot: 12
+    function: world-nether
+    material: NETHERRACK
+    name: "&#FF3B3B&lTHE NETHER"
+    lore:
+      - "&7[ʀᴀɴᴅᴏᴍ ᴛᴇʟᴇᴘᴏʀᴛ]"
+      - ""
+      - "&#FF3B3BDescription:"
+      - "&#FF3B3B¦ &fClick to randomly teleport"
+      - "&#FF3B3B¦ &fsomewhere inside &#FF3B3BThe Nether&f!"
+      - ""
+      - "&#FF3B3B▷ &n&lCLICK&r&#FF3B3B To Teleport"
+  end:
+    slot: 14
+    function: world-end
+    material: END_STONE
+    name: "&#D66BFC&lTHE END"
+    lore:
+      - "&7[ʀᴀɴᴅᴏᴍ ᴛᴇʟᴇᴘᴏʀᴛ]"
+      - ""
+      - "&#D66BFCDescription:"
+      - "&#D66BFC¦ &fClick to randomly teleport"
+      - "&#D66BFC¦ &fsomewhere inside &#D66BFCThe End&f!"
+      - ""
+      - "&#D66BFCℹ &fStatus: %end_status%"
+      - ""
+      - "&#D66BFC▷ &n&lCLICK&r&#D66BFC To Teleport"
+  duel:
+    slot: 16
+    material: DIAMOND_SWORD
+    name: "&#22AFFB&l1V1"
+    lore:
+      - "&7[ʀᴀɴᴅᴏᴍ ᴛᴇʟᴇᴘᴏʀᴛ]"
+      - ""
+      - "&#22AFFBDescription:"
+      - "&#22AFFB¦ &fChallenge a player to"
+      - "&#22AFFB¦ &fa fight one on one."
+      - ""
+      - "&#22AFFB⚓ &fAccess: &#22AFFB/1v1 <player>"
+    commands: ["[close]", "[message] &#22AFFB&l1V1 &7▷ &fUse /1v1 <player> [wager] [world]", "[sound] block.note_block.pling;1;1.4"]
+sounds:
+  open: {sound: "block.barrel.open", volume: 0.7, pitch: 1.2}
+  click: {sound: "ui.button.click", volume: 1.0, pitch: 1.2}

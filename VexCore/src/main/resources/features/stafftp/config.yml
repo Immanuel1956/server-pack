@@ -1,0 +1,8 @@
+# Staff teleports without countdowns: /stp <player> [target], /stphere <player>, /stpback.
+prefix: "&#00E5FF&lSTP &7▷ "
+messages:
+  teleported: "{prefix}&fTeleported to &#00E5FF%player%&f."
+  brought: "{prefix}&fBrought &#00E5FF%player% &fto you."
+  sent: "{prefix}&fSent &#00E5FF%player% &fto &#00E5FF%target%&f."
+  back: "{prefix}&fBack where you were."
+  no-back: "&#FF0000&lERROR &7▷ &fThere is nowhere to go back to."

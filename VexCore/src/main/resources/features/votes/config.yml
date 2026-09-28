@@ -1,0 +1,99 @@
+# Vote rewards. Needs NuVotifier (https://github.com/NuVotifier/NuVotifier) set up with your vote
+# sites; without it only /fakevote <player> [site] (vexcore.votes.admin) gives votes.
+# /vote: the sites (click for the link), /votetop: this month's top voters, /voteparty: progress.
+# Votes for offline players are kept until they join.
+# Placeholders: %vexcore_voteparty_current%, %vexcore_voteparty_needed%
+prefix: "&#FFD900&lVOTE &7▷ "
+
+offline:
+  queue: true
+
+# Every vote. %player% %site% %money% work in commands. [console] [player] [message]...
+rewards:
+  money: 2500
+  commands:
+    - "[console] crate key give %player% vote 1"
+  # Extra rewards, each rolled on every vote (chance in percent).
+  bonus:
+    lucky:
+      name: "&#22AFFBLucky Vote"
+      chance: 10
+      commands:
+        - "[console] crate key give %player% rare 1"
+    jackpot:
+      name: "&#FF256EJackpot"
+      chance: 1
+      announce: true
+      commands:
+        - "[console] crate key give %player% legendary 1"
+
+# Every party.votes votes (server-wide), everyone online gets these. One account per network
+# (IP protection: protect.voteparty).
+party:
+  enabled: true
+  votes: 50
+  money: 10000
+  commands:
+    - "[console] crate key give %player% vote 2"
+  # Announce when this many votes are left.
+  remind-at: [25, 10, 5, 1]
+
+# The /vote menu. service must be the name the site sends through Votifier (see your NuVotifier
+# console when someone votes); it is how the menu knows when you last voted there.
+sites:
+  planetminecraft:
+    name: "PlanetMinecraft"
+    service: "PlanetMinecraft.com"
+    url: "https://www.planetminecraft.com/server/yourserver/vote/"
+    material: GRASS_BLOCK
+    cooldown-hours: 24
+  minecraftmp:
+    name: "Minecraft-MP"
+    service: "minecraft-mp.com"
+    url: "https://minecraft-mp.com/server/000000/vote/"
+    material: DIAMOND
+    cooldown-hours: 24
+  minecraftservers:
+    name: "Minecraft-Server-List"
+    service: "MinecraftServers.org"
+    url: "https://minecraftservers.org/vote/000000"
+    material: EMERALD
+    cooldown-hours: 24
+
+top-size: 10
+# The chat line sent when a site is clicked. %url% %site%
+link: "{prefix}&fVote on &#FFD900%site%&f: &#FFD900&n%url%"
+
+words:
+  ready: "&#97F900Ready to vote!"
+  wait: "&#FF3B3BVote again in %time%"
+
+messages:
+  voted: "{prefix}&fThanks for voting on &#FFD900%site%&f! &7(+%money%)"
+  voted-broadcast: "{prefix}&#FFD900%player% &fvoted on &#FFD900%site%&f! &7/vote"
+  bonus: "{prefix}&fBonus: %bonus%&f!"
+  bonus-broadcast: "{prefix}&#FFD900%player% &fgot the %bonus% &fvote bonus!"
+  queued: "{prefix}&fYou voted &#FFD900%count% &ftime(s) while away. Here are your rewards!"
+  party-soon: "{prefix}&fOnly &#FFD900%left% &fmore votes until the &#FFD900Vote Party&f! &7/vote"
+  party-start:
+    - ""
+    - "&#FFD900&lVOTE PARTY &7▷ &fThe goal was reached! Everyone online gets rewards."
+    - ""
+    - "[title] &#FFD900&lVOTE PARTY|&fThanks for voting!"
+  party-status: "{prefix}&fVote party: &#FFD900%current%&f/&#FFD900%needed% &7(%left% to go)"
+  fake-sent: "{prefix}&fSent a test vote for &#FFD900%player%&f."
+  top-header:
+    - ""
+    - "&#FFD900&lTOP VOTERS &7(%month%)"
+  top-line: "&#FFD900#%place% &f%player% &7▷ &#FFD900%votes% &fvotes"
+  top-empty: "{prefix}&fNobody has voted this month yet."
+
+sounds:
+  voted:
+    sound: "entity.player.levelup"
+    volume: 0.8
+    pitch: 1.4
+  party-start:
+    sound: "ui.toast.challenge_complete"
+    volume: 1.0
+    pitch: 1.0

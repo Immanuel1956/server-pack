@@ -1,0 +1,87 @@
+# Staff mode: everyone online. Left click teleports, right click opens the punish menu,
+# shift + right click shows their inventory.
+# player template: %target% %health% %world% %gamemode% %ping% %staff%.  Everywhere: %online% %page% %pages%.
+
+title: "&8Online Players &7(%online%) &8[%page%/%pages%]"
+rows: 6
+
+content-slots: "10-16, 19-25, 28-34, 37-43"
+
+items:
+
+  border:
+    slots: "0-9, 17, 18, 26, 27, 35, 36, 44-53"
+    material: BLACK_STAINED_GLASS_PANE
+    name: " "
+    sound: ""
+
+  empty:
+    slot: 22
+    function: empty
+    material: BARRIER
+    name: "&#FF3B3B&lNOBODY ONLINE"
+    sound: ""
+
+  previous-page:
+    slot: 48
+    function: previous-page
+    material: RED_STAINED_GLASS_PANE
+    name: "&#FF3B3B&lPREVIOUS PAGE"
+    lore:
+      - "&7Page &f%page%&7/&f%pages%"
+
+  close:
+    slot: 49
+    material: BARRIER
+    name: "&#FF3B3B&lCLOSE"
+    commands:
+      - "[close]"
+
+  next-page:
+    slot: 50
+    function: next-page
+    material: LIME_STAINED_GLASS_PANE
+    name: "&#97F900&lNEXT PAGE"
+    lore:
+      - "&7Page &f%page%&7/&f%pages%"
+
+templates:
+  player:
+    material: PLAYER_HEAD
+    skull: "%target%"
+    name: "&#00E5FF&l%target%"
+    lore:
+      - "&8Description"
+      - ""
+      - "&#00E5FFInformation:"
+      - "&#00E5FF¦ &fHealth &7¦ &f%health%"
+      - "&#00E5FF¦ &fWorld &7¦ &f%world%"
+      - "&#00E5FF¦ &fMode &7¦ &f%gamemode%"
+      - "&#00E5FF¦ &fPing &7¦ &f%ping%ms"
+      - "&#00E5FF¦ &fStaff mode &7¦ %staff%"
+      - ""
+      - "&#FBE401▶ &l&nCLICK&r &#FBE401To Teleport"
+      - "&#FBE401▶ &l&nRIGHT-CLICK&r &#FBE401To Punish"
+      - "&#FBE401▶ &l&nSHIFT + RIGHT&r &#FBE401To Inspect"
+
+sounds:
+  open:
+    enabled: true
+    sound: "block.barrel.open"
+    volume: 0.7
+    pitch: 1.2
+  close:
+    enabled: true
+    sound: "block.barrel.close"
+    volume: 0.7
+    pitch: 1.2
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 0.6
+    pitch: 1.2
+  page:
+    enabled: true
+    sound: "item.book.page_turn"
+    volume: 1.0
+    pitch: 1.0
