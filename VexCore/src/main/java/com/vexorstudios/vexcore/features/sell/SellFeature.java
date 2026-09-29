@@ -81,13 +81,37 @@ public final class SellFeature extends Feature implements Listener {
     private volatile Set<String> worthHiddenModes = Set.of();
     private volatile Set<String> worthPlaces = Set.of();
 
+    /** A sell multiplier: players with the permission get the value. */
+    private record Multiplier(String permission, double value) {
+    }
+
+    /**
+     * The pricing settings, read once: pricing runs for every stack in every inventory the game is
+     * sent (worth tooltips) and every slot of the sell menu.
+     */
+    private record Rules(int decimals, boolean sellCustom, boolean sellEnchanted, String damaged, List<Multiplier> multipliers) {
+    }
+
+    private volatile Rules rules = new Rules(2, false, true, "SCALE", List.of());
+
     @Override
     protected void enable() {
         loadPrices();
         String damaged = config().getString("damaged", "SCALE").toUpperCase(Locale.ROOT);
         if (!List.of("FULL", "SCALE", "NONE").contains(damaged)) {
             problems().add("features/sell/config.yml: damaged must be FULL, SCALE or NONE (not '" + damaged + "')");
+            damaged = "SCALE";
         }
+        List<Multiplier> multipliers = new ArrayList<>();
+        ConfigurationSection section = config().getConfigurationSection("multipliers");
+        if (section != null) for (String key : section.getKeys(false)) {
+            String permission = section.getString(key + ".permission", "");
+            double value = section.getDouble(key + ".value", 1);
+            if (!permission.isEmpty() && value > 1 && Double.isFinite(value)) multipliers.add(new Multiplier(permission, value));
+        }
+        multipliers.sort((a, b) -> Double.compare(b.value(), a.value())); // highest first: the first match wins
+        rules = new Rules(Math.max(0, Math.min(8, config().getInt("decimals", 2))), config().getBoolean("sell-custom-items", false),
+                config().getBoolean("sell-enchanted", true), damaged, List.copyOf(multipliers));
         listen(this);
         command("sell", this::sellCommand, (s, a) -> {
             if (a.length == 1) return s.hasPermission(adminPermission()) ? List.of("hand", "all", "price") : List.of("hand", "all");
@@ -200,19 +224,13 @@ public final class SellFeature extends Feature implements Listener {
     }
 
     private int decimals() {
-        return Math.max(0, Math.min(8, config().getInt("decimals", 2)));
+        return rules.decimals();
     }
 
     /** The highest multiplier the player has a permission for (1 when none). */
     double multiplier(Player player) {
-        double best = 1;
-        ConfigurationSection section = config().getConfigurationSection("multipliers");
-        if (section != null) for (String key : section.getKeys(false)) {
-            String permission = section.getString(key + ".permission", "");
-            double value = section.getDouble(key + ".value", 1);
-            if (value > best && Double.isFinite(value) && !permission.isEmpty() && player.hasPermission(permission)) best = value;
-        }
-        return best;
+        for (Multiplier m : rules.multipliers()) if (player.hasPermission(m.permission())) return m.value();
+        return 1;
     }
 
     /** The facts of a real item. */
@@ -231,21 +249,29 @@ public final class SellFeature extends Feature implements Listener {
 
     /** The worth of a stack for this player, multiplier included. */
     Price price(Player player, ItemStack item) {
-        if (item == null || item.isEmpty()) return new Price(0, 0, "empty");
-        return price(player, facts(item));
+        return price(item, multiplier(player));
     }
 
-    Price price(Player player, Facts f) {
-        if (f == null || f.type() == null || f.type().isAir() || f.amount() <= 0) return new Price(0, 0, "empty");
+    /** With the multiplier already known (several stacks for the same player). */
+    Price price(ItemStack item, double multiplier) {
+        if (item == null || item.isEmpty()) return EMPTY;
+        return price(facts(item), multiplier);
+    }
+
+    private static final Price EMPTY = new Price(0, 0, "empty");
+
+    Price price(Facts f, double multiplier) {
+        if (f == null || f.type() == null || f.type().isAir() || f.amount() <= 0) return EMPTY;
+        Rules r = rules;
         if (unobtainable.contains(f.type())) return new Price(0, 0, "unobtainable");
         Double base = prices.get(f.type());
         if (base == null) return new Price(0, 0, "no-price");
         double each = base;
         if (f.contents()) return new Price(0, 0, "has-contents");
-        if (f.custom() && !config().getBoolean("sell-custom-items", false)) return new Price(0, 0, "custom");
-        if (f.enchanted() && !config().getBoolean("sell-enchanted", true)) return new Price(0, 0, "enchanted");
+        if (f.custom() && !r.sellCustom()) return new Price(0, 0, "custom");
+        if (f.enchanted() && !r.sellEnchanted()) return new Price(0, 0, "enchanted");
         if (f.damage() > 0) {
-            switch (config().getString("damaged", "SCALE").toUpperCase(Locale.ROOT)) {
+            switch (r.damaged()) {
                 case "NONE" -> {
                     return new Price(0, 0, "damaged");
                 }
@@ -256,10 +282,10 @@ public final class SellFeature extends Feature implements Listener {
                 }
             }
         }
-        each *= multiplier(player);
+        each *= multiplier;
         // Rounded down: rounding to the nearest cent would pay more for items sold one by one
         // than for the same items in one stack (0.006 each: 0.01 alone, 0.38 for 64).
-        double total = Numbers.round(each * f.amount(), decimals(), java.math.RoundingMode.FLOOR);
+        double total = Numbers.round(each * f.amount(), r.decimals(), java.math.RoundingMode.FLOOR);
         if (total <= 0) return new Price(0, 0, "worthless");
         return new Price(each, total, null);
     }
@@ -373,9 +399,10 @@ public final class SellFeature extends Feature implements Listener {
         Map<Integer, ItemStack> taken = new LinkedHashMap<>();
         double money = 0;
         int items = 0;
+        double multiplier = multiplier(player);
         for (int slot : slots) {
             ItemStack item = inventory.getItem(slot);
-            Price p = price(player, item);
+            Price p = price(item, multiplier);
             if (!p.sellable()) continue;
             taken.put(slot, item.clone());
             money += p.each * item.getAmount(); // exact; rounded down once for the whole sale
@@ -447,14 +474,7 @@ public final class SellFeature extends Feature implements Listener {
     }
 
     static String name(ItemStack item) {
-        String raw = item.getType().name().toLowerCase(Locale.ROOT).replace('_', ' ');
-        StringBuilder out = new StringBuilder(raw.length());
-        boolean upper = true;
-        for (char c : raw.toCharArray()) {
-            out.append(upper ? Character.toUpperCase(c) : c);
-            upper = c == ' ';
-        }
-        return out.toString();
+        return Text.itemName(item.getType());
     }
 
     // ── Worth ─────────────────────────────────────────────────────────────
@@ -528,9 +548,9 @@ public final class SellFeature extends Feature implements Listener {
         return worthPlaces.contains(place);
     }
 
-    /** The lines added under an item's tooltip, or null for none. */
-    List<Component> worthLines(Player player, Facts f) {
-        Price p = price(player, f);
+    /** The lines added under an item's tooltip, or null for none. {@code multiplier}: the player's. */
+    List<Component> worthLines(Facts f, double multiplier) {
+        Price p = price(f, multiplier);
         List<String> lines;
         Map<String, Object> ph = new HashMap<>();
         if (p.sellable()) {
@@ -539,7 +559,7 @@ public final class SellFeature extends Feature implements Listener {
             ph.put("worth", plugin.money().format(p.total));
             ph.put("each", plugin.money().format(Numbers.round(p.each, decimals(), java.math.RoundingMode.FLOOR)));
             ph.put("amount", f.amount());
-            ph.put("multiplier", Numbers.full(multiplier(player), 2, ""));
+            ph.put("multiplier", Numbers.full(multiplier, 2, ""));
         } else {
             if (p.refusal.equals("empty")) return null;
             lines = config().getStringList("worth-lore.unsellable-lines");
@@ -570,10 +590,9 @@ public final class SellFeature extends Feature implements Listener {
         open(player, "sell", menu -> {
             List<Integer> slots = Slots.parse(menu.file().yml().get("sell-slots"));
             menu.editable(slots);
-            menu.with("multiplier", Numbers.full(multiplier(player), 2, ""));
-            summary(menu, player, slots);
+            summary(menu, player, slots); // also %multiplier%
             // What can't be sold doesn't go in: it stays where it was, with an anvil sound.
-            menu.accepts(item -> price(player, item).sellable(), item -> msg(player, "refused", "item", name(item), "reason", reason(price(player, item))));
+            menu.accepts(item -> price(item, 1).sellable(), item -> msg(player, "refused", "item", name(item), "reason", reason(price(item, 1))));
             menu.onChange(m -> {
                 summary(m, player, slots);
                 m.redraw("summary");
@@ -596,10 +615,11 @@ public final class SellFeature extends Feature implements Listener {
         Map<Material, Double> money = new LinkedHashMap<>();
         double total = 0;
         int items = 0, refused = 0;
+        double multiplier = multiplier(player);
         if (inv != null) for (int slot : slots) {
             ItemStack item = slot < inv.getSize() ? inv.getItem(slot) : null;
             if (item == null || item.isEmpty()) continue;
-            Price p = price(player, item);
+            Price p = price(item, multiplier);
             if (!p.sellable()) {
                 refused += item.getAmount();
                 continue;
@@ -629,7 +649,8 @@ public final class SellFeature extends Feature implements Listener {
                 .with("items", Numbers.format(items))
                 .with("kinds", counts.size())
                 .with("refused", refused)
-                .with("lines", lines.toString());
+                .with("lines", lines.toString())
+                .with("multiplier", Numbers.full(multiplier, 2, ""));
     }
 
     /**

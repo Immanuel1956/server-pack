@@ -146,6 +146,24 @@ public final class Text {
         return name.length() > 32 ? name.substring(0, 32) : name;
     }
 
+    /** An item's name the way players read it: ACACIA_BOAT -> "Acacia Boat". */
+    public static String itemName(org.bukkit.Material material) {
+        String key = material.name();
+        StringBuilder out = new StringBuilder(key.length());
+        boolean upper = true;
+        for (int i = 0; i < key.length(); i++) {
+            char c = key.charAt(i);
+            if (c == '_') {
+                out.append(' ');
+                upper = true;
+            } else {
+                out.append(upper ? c : Character.toLowerCase(c));
+                upper = false;
+            }
+        }
+        return out.toString();
+    }
+
     /** PlaceholderAPI placeholders only (for commands). Unchanged without PlaceholderAPI. */
     public static String papi(Player player, String text) {
         return papi && player != null && text.indexOf('%') >= 0 ? PapiBridge.apply(player, text) : text;

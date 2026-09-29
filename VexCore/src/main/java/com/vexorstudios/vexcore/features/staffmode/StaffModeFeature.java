@@ -91,10 +91,6 @@ public final class StaffModeFeature extends Feature implements Listener {
         }
     }
 
-    public boolean inStaffMode(UUID player) {
-        return active.containsKey(player);
-    }
-
     // ── Entering and leaving ──────────────────────────────────────────────
 
     private void enter(Player p) {

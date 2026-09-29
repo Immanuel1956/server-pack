@@ -138,7 +138,7 @@ public final class VanishFeature extends Feature implements Listener {
             onPlayerThread(target, () -> tags.rebuild(target));
         }
         boolean hidden = vanished.contains(target.getUniqueId());
-        target.setMetadata("vanished", new FixedMetadataValue(plugin, hidden));
+        setVanishedMetadata(target, hidden);
         for (Player viewer : Bukkit.getOnlinePlayers()) {
             // Through Visibility: un-vanishing must not show someone a viewer's /playerhide hides.
             if (!viewer.equals(target)) onPlayerThread(viewer, () -> Visibility.update(viewer, target));
@@ -185,5 +185,14 @@ public final class VanishFeature extends Feature implements Listener {
         if (event.getEntity() instanceof Player p && vanished.contains(p.getUniqueId()) && config().getBoolean("invulnerable", true)) {
             event.setCancelled(true);
         }
+    }
+
+    /**
+     * The "vanished" metadata other plugins (tab lists, chat, Essentials) read to hide vanished
+     * players. Bukkit calls metadata deprecated, but there is no other shared way to say it.
+     */
+    @SuppressWarnings("deprecation")
+    private void setVanishedMetadata(Player target, boolean hidden) {
+        target.setMetadata("vanished", new FixedMetadataValue(plugin, hidden));
     }
 }

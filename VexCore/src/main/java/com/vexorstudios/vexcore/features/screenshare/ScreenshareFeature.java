@@ -4,7 +4,6 @@ import com.vexorstudios.vexcore.core.Feature;
 import com.vexorstudios.vexcore.core.Pos;
 import com.vexorstudios.vexcore.core.Scheduler;
 import com.vexorstudios.vexcore.core.Text;
-import com.vexorstudios.vexcore.gui.Actions;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;

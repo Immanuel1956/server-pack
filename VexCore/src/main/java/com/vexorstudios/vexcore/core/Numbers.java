@@ -13,6 +13,7 @@ public final class Numbers {
     private static final Pattern PLAIN = Pattern.compile("\\d+(\\.\\d*)?|\\.\\d+");
     private static final Pattern NOISE = Pattern.compile("(?i)[§&][0-9a-fk-or]|[\\s\\u00A0\\u200B-\\u200D\\uFEFF_]");
     private static final String SUFFIXES = "kmbtq";
+    private static final Pattern THOUSANDS = Pattern.compile("\\d{1,3}(,\\d{3})+(\\.\\d+)?");
 
     private Numbers() {
     }
@@ -33,7 +34,7 @@ public final class Numbers {
             s = s.substring(0, s.length() - 1);
         }
         // "1,000,000" means thousands; a single comma with 1-2 digits after it is a decimal comma.
-        if (s.matches("\\d{1,3}(,\\d{3})+(\\.\\d+)?")) s = s.replace(",", "");
+        if (THOUSANDS.matcher(s).matches()) s = s.replace(",", "");
         else s = s.replace(',', '.');
         if (!PLAIN.matcher(s).matches()) return Double.NaN;
         double value = Double.parseDouble(s) * multiplier;

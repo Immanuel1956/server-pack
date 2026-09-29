@@ -101,10 +101,11 @@ final class WorthLore implements PacketListener {
         boolean topMatches = topInventory != null && topInventory.getSize() == top;
         boolean inventory = feature.worthIn("inventory");
         boolean changed = false;
+        double[] multiplier = {Double.NaN};
         for (int i = 0; i < items.size(); i++) {
             boolean ok = i < top ? topMatches && topAllows(topInventory, i) : inventory;
             if (!ok) continue;
-            ItemStack decorated = decorate(player, items.get(i));
+            ItemStack decorated = decorate(player, items.get(i), multiplier);
             if (decorated != null) {
                 items.set(i, decorated);
                 changed = true;
@@ -112,7 +113,7 @@ final class WorthLore implements PacketListener {
         }
         if (inventory) {
             Optional<ItemStack> carried = w.getCarriedItem();
-            ItemStack decorated = carried.isPresent() ? decorate(player, carried.get()) : null;
+            ItemStack decorated = carried.isPresent() ? decorate(player, carried.get(), multiplier) : null;
             if (decorated != null) {
                 w.setCarriedItem(decorated);
                 changed = true;
@@ -166,18 +167,32 @@ final class WorthLore implements PacketListener {
      */
     private boolean topAllows(Inventory top, int slot) {
         InventoryHolder holder = top.getHolder(false);
-        if (holder instanceof Menu menu) return menu.feature() == feature && menu.isEditableSlot(slot) && feature.worthIn("sell-menu");
+        if (holder instanceof Menu menu) return menu.feature() == feature && menu.isEditable(slot) && feature.worthIn("sell-menu");
         boolean container = holder instanceof org.bukkit.block.Container || holder instanceof DoubleChest || holder instanceof Entity;
         return container && feature.worthIn("containers");
     }
 
     /** A copy of the stack with the worth lines, or null when it gets none. */
     private ItemStack decorate(Player player, ItemStack stack) {
+        return decorate(player, stack, null);
+    }
+
+    /**
+     * {@code multiplier}: the player's sell multiplier, worked out on the first item that needs it
+     * and kept for the rest of the packet (it is a permission check per multiplier).
+     */
+    private ItemStack decorate(Player player, ItemStack stack, double[] multiplier) {
         if (stack == null || stack.isEmpty()) return null;
         Material material = materials.computeIfAbsent(stack.getType(),
                 t -> Optional.ofNullable(Material.matchMaterial(t.getName().toString()))).orElse(null);
         if (material == null || !material.isItem()) return null;
-        List<Component> lines = feature.worthLines(player, facts(material, stack));
+        double mult;
+        if (multiplier == null) mult = feature.multiplier(player);
+        else {
+            if (Double.isNaN(multiplier[0])) multiplier[0] = feature.multiplier(player);
+            mult = multiplier[0];
+        }
+        List<Component> lines = feature.worthLines(facts(material, stack), mult);
         if (lines == null || lines.isEmpty()) return null;
         ItemStack copy = stack.copy();
         ItemLore lore = copy.getComponentOr(ComponentTypes.LORE, null);
@@ -191,11 +206,17 @@ final class WorthLore implements PacketListener {
         return copy;
     }
 
-    /** What the sell rules look at, read from the packet's copy of the item. */
+    /**
+     * What the sell rules look at, read from the packet's copy of the item. Only the patches
+     * (what was changed on this item) say whether it was renamed or remodelled: the defaults
+     * every item has (item_name, item_model) must not count. PacketEvents marks getPatches()
+     * deprecated but has no other way to read them.
+     */
+    @SuppressWarnings("deprecation")
     private static SellFeature.Facts facts(Material material, ItemStack s) {
         Map<ComponentType<?>, Optional<?>> patches = s.getComponents().getPatches();
         boolean custom = present(patches, ComponentTypes.CUSTOM_NAME) || present(patches, ComponentTypes.ITEM_NAME)
-                || present(patches, ComponentTypes.CUSTOM_MODEL_DATA_LISTS) || present(patches, ComponentTypes.CUSTOM_MODEL_DATA)
+                || present(patches, ComponentTypes.CUSTOM_MODEL_DATA_LISTS)
                 || present(patches, ComponentTypes.ITEM_MODEL);
         Optional<?> lore = patches.get(ComponentTypes.LORE);
         if (!custom && lore != null && lore.orElse(null) instanceof ItemLore l) custom = !l.getLines().isEmpty();
@@ -231,7 +252,8 @@ final class WorthLore implements PacketListener {
         }
     }
 
-    /** The stack without the added lines and mark, or null when it has none. */
+    /** The stack without the added lines and mark, or null when it has none (removing a patch restores the default exactly). */
+    @SuppressWarnings("deprecation")
     static ItemStack strip(ItemStack stack) {
         if (stack == null || stack.isEmpty()) return null;
         NBTCompound data = stack.getComponentOr(ComponentTypes.CUSTOM_DATA, null);

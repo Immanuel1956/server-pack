@@ -372,12 +372,8 @@ public final class Menu implements InventoryHolder {
         return buttons.get(slot);
     }
 
-    boolean isEditable(int slot) {
-        return editable.contains(slot);
-    }
-
-    /** Whether players put items into this slot (the sell menu's item slots). */
-    public boolean isEditableSlot(int slot) {
+    /** Whether players put items into this slot (the trash, the sell menu's item slots). */
+    public boolean isEditable(int slot) {
         return editable.contains(slot);
     }
 

@@ -19,6 +19,7 @@ import java.util.Map;
 public final class JoinCounterFeature extends Feature implements Listener {
 
     private File file;
+    private final Object writing = new Object();
     private volatile long counter;
 
     @Override
@@ -65,7 +66,7 @@ public final class JoinCounterFeature extends Feature implements Listener {
 
     private void write() {
         if (file == null) return;
-        synchronized (file) {
+        synchronized (writing) {
             YamlConfiguration yml = new YamlConfiguration();
             yml.set("counter", counter);
             try {

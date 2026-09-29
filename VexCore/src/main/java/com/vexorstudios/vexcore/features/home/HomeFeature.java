@@ -311,7 +311,7 @@ public final class HomeFeature extends Feature implements PlayerData.Store {
                     else if (state.equals("set")) {
                         player.closeInventory();
                         // Right click: the home's dialog (teleport, icon, rename, delete).
-                        if (click.type().isRightClick() && HomeDialogs.available()) dialogs.home(player, n);
+                        if (click.type().isRightClick() && com.vexorstudios.vexcore.core.Dialogs.available()) dialogs.home(player, n);
                         else teleport(player, n);
                     } else if (set(player, n)) menu.refresh();
                 });

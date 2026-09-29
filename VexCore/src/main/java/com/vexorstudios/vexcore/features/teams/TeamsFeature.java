@@ -9,7 +9,6 @@ import com.vexorstudios.vexcore.features.chatfilter.ChatFilterFeature;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -152,17 +151,6 @@ public final class TeamsFeature extends Feature implements Listener {
             for (Player m : online(t)) if (!vanished(m)) n++; // vanished staff don't show as online
             return String.valueOf(n);
         });
-    }
-
-    /** The team name of a player, or null. For other features (nametags, chat). */
-    public String teamOf(UUID player) {
-        Team t = byMember.get(player);
-        return t == null ? null : t.name;
-    }
-
-    public boolean sameTeam(UUID a, UUID b) {
-        Team t = byMember.get(a);
-        return t != null && t == byMember.get(b);
     }
 
     private String role(int role) {
@@ -388,10 +376,10 @@ public final class TeamsFeature extends Feature implements Listener {
         int myRole = mine == null ? -1 : mine.members.getOrDefault(player.getUniqueId(), MEMBER);
         switch (sub) {
             case "create" -> create(player, mine, arg);
-            case "invite" -> invite(player, mine, myRole, arg);
+            case "invite" -> invite(player, mine, arg);
             case "join", "accept" -> join(player, mine, arg);
             case "leave" -> leave(player, mine, myRole);
-            case "kick" -> kick(player, mine, myRole, arg);
+            case "kick" -> kick(player, mine, arg);
             case "promote", "demote" -> promote(player, mine, myRole, arg, sub.equals("promote"));
             case "transfer" -> transfer(player, mine, myRole, arg);
             case "rename" -> rename(player, mine, myRole, arg);
@@ -473,7 +461,7 @@ public final class TeamsFeature extends Feature implements Listener {
         if (config().getBoolean("broadcast-create", false)) broadcast(Bukkit.getOnlinePlayers(), "created-broadcast", Map.of("team", name, "player", player.getName()));
     }
 
-    private void invite(Player player, Team mine, int role, String name) {
+    private void invite(Player player, Team mine, String name) {
         if (!allowed(player, mine, MANAGE)) return;
         if (name == null) {
             usage(player, "team");
@@ -541,7 +529,7 @@ public final class TeamsFeature extends Feature implements Listener {
         return null;
     }
 
-    private void kick(Player player, Team mine, int role, String name) {
+    private void kick(Player player, Team mine, String name) {
         if (!allowed(player, mine, MANAGE)) return;
         if (name == null) {
             usage(player, "team");
@@ -784,7 +772,7 @@ public final class TeamsFeature extends Feature implements Listener {
                 player.closeInventory();
                 com.vexorstudios.vexcore.core.Dialogs.ask(this, player, "invite", "invite-prompt", Map.of("team", t.name), "", text -> {
                     if (text.isBlank()) openTeam(player);
-                    else invite(player, byMember.get(me), 0, text.strip().split(" ")[0]);
+                    else invite(player, byMember.get(me), text.strip().split(" ")[0]);
                 }, () -> openTeam(player));
             });
             menu.function("team-home", c -> {
@@ -1011,11 +999,5 @@ public final class TeamsFeature extends Feature implements Listener {
         List<String> out = new ArrayList<>();
         for (Team t : teams.values()) out.add(t.name);
         return out;
-    }
-
-    /** For other features: the members of a player's team who are online. */
-    public List<Player> onlineMates(OfflinePlayer player) {
-        Team t = byMember.get(player.getUniqueId());
-        return t == null ? List.of() : online(t);
     }
 }

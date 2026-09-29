@@ -12,7 +12,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
-import java.util.Locale;
 
 /**
  * /rename &lt;name&gt; renames the held item, /rename reset takes the name off. The name goes

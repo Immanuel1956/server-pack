@@ -17,6 +17,9 @@ import java.util.Locale;
  * at startup, so it always forwards to the economy that is running now (never to an old one,
  * whose balances were already saved and dropped).
  */
+// Vault's Economy interface still has the old name-based methods; every implementation must
+// provide them, deprecated or not.
+@SuppressWarnings("deprecation")
 final class VaultEconomy implements Economy {
 
     private static volatile EconomyFeature current;

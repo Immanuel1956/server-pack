@@ -67,11 +67,6 @@ messages:
   list: "{prefix}&fYour homes (&#16D223%amount%&f/&#16D223%allowed%&f): &#16D223%homes%"
 
 sounds:
-  dialog-click:
-    enabled: true
-    sound: "ui.button.click"
-    volume: 1.0
-    pitch: 1.2
   renamed:
     enabled: true
     sound: "entity.experience_orb.pickup"

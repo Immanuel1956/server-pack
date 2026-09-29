@@ -28,10 +28,6 @@ final class ReportDialog {
         this.feature = feature;
     }
 
-    static boolean available() {
-        return Dialogs.available();
-    }
-
     void open(Player p, UUID targetId, String targetName) {
         open(p, targetId, targetName, "");
     }

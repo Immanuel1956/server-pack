@@ -41,10 +41,6 @@ final class HomeDialogs {
         this.feature = feature;
     }
 
-    static boolean available() {
-        return Dialogs.available();
-    }
-
     private Dialogs.Screen screen(String name, Player p, int n) {
         return new Dialogs.Screen(feature, name, p, feature.placeholdersOf(p, n));
     }
@@ -184,14 +180,7 @@ final class HomeDialogs {
     }
 
     static String pretty(Material m) {
-        String[] words = m.getKey().getKey().split("_");
-        StringBuilder out = new StringBuilder();
-        for (String w : words) {
-            if (w.isEmpty()) continue;
-            if (!out.isEmpty()) out.append(' ');
-            out.append(Character.toUpperCase(w.charAt(0))).append(w.substring(1));
-        }
-        return out.toString();
+        return Text.itemName(m);
     }
 
     /** The item's picture ({@code %icon%}), or nothing. */

@@ -225,6 +225,7 @@ Placeholders:
 | 8 ✔ | LifestealCore nametags (text displays fixed to the head with PacketEvents), LifestealCore quest board, /hide, speed pass |
 | 9 ✔ | ProGuard, code check, speed and bug-fix pass |
 | 18 ✔ | Server warps, player warps, all-time alt links, giveaway cancel and login win titles, startup banner, speed pass |
+| 27 ✔ | Clean-up (no deprecated server calls, dead code removed, shared helpers) and faster selling/worth tooltips |
 | 26 ✔ | /report works on offline players who have joined before; names that never joined are refused |
 | 25 ✔ | A price for every obtainable item (from the recipes), /sell price, the sell menu refuses unsellable items and shows Money Receive, worth in tooltips without touching items, dialogs instead of chat prompts, gui/dialogs/ files, home icons fixed and 3 per row |
 | 24 ✔ | Short numbers everywhere (1k, 1.5m, 2b, 3t) from one `numbers:` setting in config.yml, `_raw` placeholders for plain counts |

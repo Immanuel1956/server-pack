@@ -90,7 +90,12 @@ public final class ItemSpec {
             meta.lore(lines);
         }
         if (glow) meta.setEnchantmentGlintOverride(true);
-        if (modelData != 0) meta.setCustomModelData(modelData);
+        if (modelData != 0) {
+            // custom-model-data: 1001 is the first number of the 1.21.4+ custom model data.
+            var cmd = meta.getCustomModelDataComponent();
+            cmd.setFloats(java.util.List.of((float) modelData));
+            meta.setCustomModelDataComponent(cmd);
+        }
         if (!itemModel.isBlank()) {
             NamespacedKey key = NamespacedKey.fromString(itemModel.trim().toLowerCase(java.util.Locale.ROOT));
             if (key != null) meta.setItemModel(key);

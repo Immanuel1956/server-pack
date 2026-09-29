@@ -5,8 +5,8 @@ import org.bukkit.Bukkit;
 import com.vexorstudios.vexcore.core.Feature;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.function.Consumer;
+import org.bukkit.inventory.MenuType;
+import org.bukkit.inventory.view.builder.LocationInventoryViewBuilder;
 
 /**
  * Portable workstations: /craft, /anvil, /grindstone, /smithingtable, /loom,
@@ -16,22 +16,23 @@ public final class WorkstationsFeature extends Feature implements org.bukkit.eve
 
     @Override
     protected void enable() {
-        station("craft", p -> p.openWorkbench(null, true));
-        station("anvil", p -> p.openAnvil(null, true));
-        station("grindstone", p -> p.openGrindstone(null, true));
-        station("smithingtable", p -> p.openSmithingTable(null, true));
-        station("loom", p -> p.openLoom(null, true));
-        station("cartographytable", p -> p.openCartographyTable(null, true));
-        station("stonecutter", p -> p.openStonecutter(null, true));
+        station("craft", MenuType.CRAFTING);
+        station("anvil", MenuType.ANVIL);
+        station("grindstone", MenuType.GRINDSTONE);
+        station("smithingtable", MenuType.SMITHING);
+        station("loom", MenuType.LOOM);
+        station("cartographytable", MenuType.CARTOGRAPHY_TABLE);
+        station("stonecutter", MenuType.STONECUTTER);
         command("echest", this::echest);
         listen(this);
     }
 
-    private void station(String id, Consumer<Player> open) {
+    /** A workstation without the block: it stays open wherever the player goes (checkReachable off). */
+    private void station(String id, MenuType.Typed<?, ? extends LocationInventoryViewBuilder<?>> type) {
         command(id, (sender, label, args) -> {
             Player player = player(sender);
             if (player == null) return;
-            open.accept(player);
+            player.openInventory(type.builder().checkReachable(false).build(player));
             msg(player, "opened", "station", id);
         }, (s, a) -> java.util.List.of());
     }

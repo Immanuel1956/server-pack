@@ -1,5 +1,9 @@
 # VexCore update: install and configuration
 
+## Round 27 (clean-up and speed)
+
+Nothing to change: install the new jar. Behaviour is the same. Optional: delete `dialog-click` under `sounds:` in `features/home/config.yml`; it's no longer read (each dialog file in `gui/dialogs/` has its own click sound).
+
 ## Round 26 (report offline players)
 
 Nothing to change: install the new jar. Offline reports are on by default. `offline-reports` and the `never-joined` message work without being in your file. Copy them from the bundled `features/reports/config.yml` to change them.

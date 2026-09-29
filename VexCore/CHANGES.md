@@ -1,5 +1,21 @@
 # VexCore changelog
 
+## Round 27: clean-up and speed
+
+### Faster
+- **Selling and worth tooltips:** the pricing settings (decimals, custom/enchanted/damaged rules, multipliers) are read once instead of for every item. The player's multiplier (one permission check per multiplier) is worked out once per sale, sell-menu update or inventory packet instead of once per stack. A full inventory sent with worth tooltips did up to about 140 permission checks; now it's at most one per multiplier.
+- Amount parsing (`/pay 1,000,000`) uses a precompiled pattern instead of building one on every call.
+
+### Cleaner
+- **No more deprecated server calls:** portable workstations (/craft, /anvil, /grindstone, /smithingtable, /loom, /cartographytable, /stonecutter) use Paper's current menu API. Menu items' `custom-model-data` uses the 1.21.4+ custom model data component (same number, same result). Quests pack block positions themselves. The only exceptions are marked with the reason: Vault's old name-based methods (every economy must still provide them), the "vanished" metadata other plugins read, and PacketEvents' patch map (it has no other way to tell a renamed item from a plain one).
+- Removed code nothing used: team, staff mode, god mode, kit and server-state helpers written for other features that never called them; the dialog "available" wrappers; a second editable-slot check in menus; unused parameters and imports; the home `dialog-click` sound (each dialog file has its own click now).
+- One helper writes item names ("Acacia Boat") for the sell messages and the home icon list, instead of two copies.
+- Small fixes found on the way: a lock on a field that could change (join counter), per-feature ThreadLocals made one shared static (quests dispensers), an int multiplication that could overflow before becoming a long (coinflip animation length), and the chat filter's strike record renamed so it no longer shadows Java's `Record`.
+
+Error Prone warnings went from 183 to 146. The rest are deliberate (fire-and-forget saves, empty catches around optional steps, enum positions used as array indexes) and were reviewed in Round 22.
+
+Validation: `mvn clean package` against Paper API 1.21.10: compiles, 60 tests pass (new: `ItemNameTest`, `BlockKeyTest`), ProGuard completes. `mvn -Ddev -Panalysis verify` (SpotBugs) passes. Not run on a live server.
+
 ## Round 26: report offline players
 
 - **`/report <player>` works while they're offline, if they have joined this server before.** Drifter343 played here last week and is offline: the report goes through, by dialog or `/report Drifter343 <reason>` as usual. Gobbygoobbb99 never joined: "Gobbygoobbb99 has never joined the server."

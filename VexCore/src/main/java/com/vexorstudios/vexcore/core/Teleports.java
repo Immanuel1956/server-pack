@@ -29,7 +29,7 @@ import java.util.function.Supplier;
  */
 public final class Teleports implements Listener {
 
-    private final class Pending {
+    private static final class Pending {
         final Feature feature;
         final Supplier<Location> destination;
         final boolean cancelOnMove;

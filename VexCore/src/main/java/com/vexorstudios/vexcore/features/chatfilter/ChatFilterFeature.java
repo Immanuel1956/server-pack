@@ -66,7 +66,7 @@ public final class ChatFilterFeature extends Feature implements Listener {
     }
 
     /** Strikes: rule hits add up; crossing a threshold mutes (and runs commands). Kept over relogs. */
-    private static final class Record {
+    private static final class Strikes {
         int strikes;
         long lastStrike;
         long mutedUntil;
@@ -117,7 +117,7 @@ public final class ChatFilterFeature extends Feature implements Listener {
     }
 
     private final Map<UUID, State> states = new ConcurrentHashMap<>();
-    private final Map<UUID, Record> records = new ConcurrentHashMap<>();
+    private final Map<UUID, Strikes> records = new ConcurrentHashMap<>();
     /** Swapped whole on reload, never changed in place: chat threads read it at any moment. */
     private volatile List<Rule> rules = List.of();
     private volatile List<Pattern> allowed = List.of();
@@ -518,7 +518,7 @@ public final class ChatFilterFeature extends Feature implements Listener {
 
     /** Seconds the filter still mutes this player, 0 if not muted. */
     private long mutedFor(UUID id) {
-        Record r = records.get(id);
+        Strikes r = records.get(id);
         if (r == null) return 0;
         long left = r.mutedUntil - System.currentTimeMillis();
         return left <= 0 ? 0 : (left + 999) / 1000;
@@ -531,7 +531,7 @@ public final class ChatFilterFeature extends Feature implements Listener {
         long now = System.currentTimeMillis();
         long forget = Math.max(1, config().getLong("strikes.forget-minutes", 30)) * 60_000L;
         int before, after;
-        Record r = records.computeIfAbsent(player.getUniqueId(), k -> new Record());
+        Strikes r = records.computeIfAbsent(player.getUniqueId(), k -> new Strikes());
         synchronized (r) {
             if (now - r.lastStrike > forget) r.strikes = 0;
             before = r.strikes;
@@ -810,7 +810,7 @@ public final class ChatFilterFeature extends Feature implements Listener {
                     msg(sender, "strikes-cleared", "player", target.getName());
                     return;
                 }
-                Record r = records.get(target.getUniqueId());
+                Strikes r = records.get(target.getUniqueId());
                 long forget = Math.max(1, config().getLong("strikes.forget-minutes", 30)) * 60_000L;
                 int strikes = r == null || System.currentTimeMillis() - r.lastStrike > forget ? 0 : r.strikes;
                 msg(sender, "strikes-info", "player", target.getName(), "strikes", strikes,

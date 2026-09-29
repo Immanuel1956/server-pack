@@ -295,10 +295,6 @@ public final class VexCore extends JavaPlugin implements Listener {
         return config;
     }
 
-    public boolean isServerLoaded() {
-        return serverLoaded;
-    }
-
     public Files files() {
         return files;
     }

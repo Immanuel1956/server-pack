@@ -652,7 +652,12 @@ public final class QuestsFeature extends Feature implements PlayerData.Store, Li
     }
 
     private static At placedKey(Block b) {
-        return new At(b.getWorld().getUID(), b.getBlockKey());
+        return new At(b.getWorld().getUID(), blockKey(b.getX(), b.getY(), b.getZ()));
+    }
+
+    /** x, y and z packed into one long (Paper's old block key layout). */
+    static long blockKey(int x, int y, int z) {
+        return ((long) x & 0x7FFFFFF) | (((long) z & 0x7FFFFFF) << 27) | ((long) y << 54);
     }
 
     // Placed blocks keep their mark when they move (pistons, sand falling) and lose it when
@@ -716,25 +721,24 @@ public final class QuestsFeature extends Feature implements PlayerData.Store, Li
      * Items a dropper or dispenser spits out don't count as picked up (put in, pick up, repeat).
      * The item spawns right after the event on the same thread, next to the block.
      */
-    private final ThreadLocal<org.bukkit.Location> dispensed = new ThreadLocal<>();
-    private final ThreadLocal<Integer> dispensedTick = new ThreadLocal<>();
+    private record Dispensed(org.bukkit.Location from, int tick) {
+    }
+
+    private static final ThreadLocal<Dispensed> DISPENSED = new ThreadLocal<>();
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onDispense(org.bukkit.event.block.BlockDispenseEvent e) {
         if (!byType.containsKey("PICKUP_ITEM")) return;
-        dispensed.set(e.getBlock().getLocation());
-        dispensedTick.set(Bukkit.getCurrentTick());
+        DISPENSED.set(new Dispensed(e.getBlock().getLocation(), Bukkit.getCurrentTick()));
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onSpawn(org.bukkit.event.entity.ItemSpawnEvent e) {
-        org.bukkit.Location from = dispensed.get();
-        if (from == null) return;
-        Integer tick = dispensedTick.get();
-        dispensed.remove();
-        dispensedTick.remove();
+        Dispensed d = DISPENSED.get();
+        if (d == null) return;
+        DISPENSED.remove();
         org.bukkit.Location at = e.getEntity().getLocation();
-        if (tick == null || tick != Bukkit.getCurrentTick() || at.getWorld() != from.getWorld() || at.distanceSquared(from) > 9) return;
+        if (d.tick() != Bukkit.getCurrentTick() || at.getWorld() != d.from().getWorld() || at.distanceSquared(d.from()) > 9) return;
         if (noPickup.size() >= 10_000) noPickup.clear();
         noPickup.add(e.getEntity().getUniqueId());
     }

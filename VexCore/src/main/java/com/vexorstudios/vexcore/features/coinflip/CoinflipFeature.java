@@ -20,7 +20,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -320,7 +319,7 @@ public final class CoinflipFeature extends Feature implements PlayerData.Store {
             return;
         }
         var anim = menu("animation").yml();
-        long length = Math.max(1, anim.getInt("steps", 12)) * Math.max(1, anim.getInt("interval-ticks", 6))
+        long length = (long) Math.max(1, anim.getInt("steps", 12)) * Math.max(1, anim.getInt("interval-ticks", 6))
                 + Math.max(1, anim.getInt("hold-ticks", 30));
         Scheduler.globalLater(reveal, length + Math.max(1, config().getLong("animation.reveal-buffer-ticks", 40))); // one-shot; not tracked so flips never pile up handles
         Scheduler.entity(joiner, () -> animate(joiner, game, winnerName, joiner.getName(), reveal));

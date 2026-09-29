@@ -234,7 +234,7 @@ public final class ReportsFeature extends Feature implements Listener {
             submit(p, targetId, targetName, reason);
             return;
         }
-        if (ReportDialog.available()) dialog.open(p, targetId, targetName);
+        if (com.vexorstudios.vexcore.core.Dialogs.available()) dialog.open(p, targetId, targetName);
         else msg(p, "no-dialog", "command", plugin.commands().name("report"), "target", targetName);
     }
 

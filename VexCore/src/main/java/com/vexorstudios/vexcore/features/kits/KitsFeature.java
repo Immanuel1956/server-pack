@@ -193,17 +193,6 @@ public final class KitsFeature extends Feature implements PlayerData.Store, List
         }
     }
 
-    /** For FFA and duels: whether a kit exists. */
-    public boolean hasKit(String key) {
-        return key != null && kits.containsKey(key.toLowerCase(Locale.ROOT));
-    }
-
-    /** For FFA and duels: hands a kit's items to a player (no cooldown, nothing recorded). */
-    public void equip(Player player, String key) {
-        Kit kit = key == null ? null : kits.get(key.toLowerCase(Locale.ROOT));
-        if (kit != null) give(player, items(kit));
-    }
-
     // ── Claims ────────────────────────────────────────────────────────────
 
     private Map<String, Long> claimsOf(UUID player) {

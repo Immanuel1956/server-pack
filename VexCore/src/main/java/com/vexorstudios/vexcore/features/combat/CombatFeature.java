@@ -33,12 +33,12 @@ public final class CombatFeature extends Feature implements Listener {
     private final Map<UUID, Long> taggedUntil = new ConcurrentHashMap<>();
     /** Tags running during /vexcore reload: kept, or a reload would be a free combat log. */
     private static final Map<UUID, Long> CARRIED = new ConcurrentHashMap<>();
+    private Set<String> blocked = Set.of();
 
     @Override
     protected void disable() {
         if (plugin.isEnabled()) CARRIED.putAll(taggedUntil);
     }
-    private Set<String> blocked = Set.of();
 
     @Override
     protected void enable() {

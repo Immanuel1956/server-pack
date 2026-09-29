@@ -192,8 +192,4 @@ public final class StaffEssentialsFeature extends Feature implements Listener {
         com.vexorstudios.vexcore.core.OpenInventories.closeViewers(event.getPlayer());
         if (!config().getBoolean("god-survives-relog", false)) god.remove(event.getPlayer().getUniqueId());
     }
-
-    public boolean isGod(UUID player) {
-        return god.contains(player);
-    }
 }
