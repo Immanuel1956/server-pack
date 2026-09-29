@@ -1,5 +1,16 @@
 # VexCore changelog
 
+## Round 26: report offline players
+
+- **`/report <player>` works while they're offline, if they have joined this server before.** Drifter343 played here last week and is offline: the report goes through, by dialog or `/report Drifter343 <reason>` as usual. Gobbygoobbb99 never joined: "Gobbygoobbb99 has never joined the server."
+- "Joined before" is checked properly. The server's name cache also holds names that other plugins only looked up, so a name there counts only when the player has a player file on this server. The cache also forgets names after about a month, so VexCore now keeps its own list of everyone who joins (`report_players` in the database). A player who hasn't been on for months can still be reported.
+- Staff who can't be reported (`vexcore.reports.exempt`) stay protected while offline: whether they had it is remembered each time they join and leave. Staff who haven't joined since this update aren't in that list yet.
+- A vanished player counts as offline: they can be reported like anyone who has joined, and the answer gives nothing away about whether they're online.
+- The dialog shows the offline player's head too. Staff get the report the same way, with location "-" and "Offline".
+- `offline-reports: false` in `features/reports/config.yml` turns it off (online players only, as before). New message: `never-joined`.
+
+Validation: `mvn clean package` against Paper API 1.21.10: compiles, 58 tests pass, ProGuard completes. `mvn -Ddev -Panalysis verify` (SpotBugs) passes. Not run on a live server.
+
 ## Round 25: selling rework, worth in tooltips, dialogs for every prompt
 
 ### Selling

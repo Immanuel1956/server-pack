@@ -1,4 +1,5 @@
 # /report <player>: a dialog opens to type the reason in (or /report <player> <reason>).
+# Offline players can be reported too, if they have joined the server before (offline-reports).
 # Reports are numbered #0001, #0002 ... and go to online staff (vexcore.reports.notify, clickable)
 # and to the Discord webhook below.
 # /reports: every pending report. Click one for the report menu (reporter head, report, offender
@@ -11,6 +12,9 @@ server-name: "survival"
 first-number: 1
 cooldown-seconds: 60
 allow-self-report: false
+# Players can be reported while offline, but only if they have joined this server before:
+# a name that never played here is refused (never-joined). false = online players only.
+offline-reports: true
 tell-reporter-when-resolved: true
 
 # How dates are written (Java SimpleDateFormat). timezone "" = the server's own.
@@ -89,6 +93,7 @@ webhook-resolved:
 messages:
   loading: "&#FF0000&lERROR &7▷ &fReports are still loading, try again in a moment."
   self: "&#FF0000&lERROR &7▷ &fYou can't report yourself."
+  never-joined: "&#FF0000&lERROR &7▷ &#FF3B3B%target% &fhas never joined the server."
   exempt: "&#FF0000&lERROR &7▷ &#FF3B3B%target% &fcan't be reported."
   cooldown: "&#FF0000&lERROR &7▷ &fYou can report again in &#FF3B3B%time%&f."
   reason-too-short: "&#FF0000&lERROR &7▷ &fPlease write at least &#FF3B3B%min% &fcharacters."

@@ -8,8 +8,14 @@ import com.vexorstudios.vexcore.core.Webhook;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,7 +42,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *   <li>/report resolve &lt;number&gt; closes a report.</li>
  * </ul>
  */
-public final class ReportsFeature extends Feature {
+public final class ReportsFeature extends Feature implements Listener {
 
     static final String PENDING = "PENDING";
     static final String RESOLVED = "RESOLVED";
@@ -66,6 +72,13 @@ public final class ReportsFeature extends Feature {
                 + "reporter_loc VARCHAR(128) NOT NULL, target_loc VARCHAR(128) NOT NULL, server VARCHAR(64) NOT NULL, "
                 + "created BIGINT NOT NULL, status VARCHAR(16) NOT NULL, resolved_by VARCHAR(32), resolved_at BIGINT)");
         db().index("reports", "status");
+        // Everyone who has joined, so offline players can be reported by name (only those who
+        // really played here), and whether they could be reported the last time they were online.
+        db().schema("report_players", "CREATE TABLE IF NOT EXISTS {t} (uuid VARCHAR(36) NOT NULL PRIMARY KEY, "
+                + "name VARCHAR(32) NOT NULL, name_lower VARCHAR(32) NOT NULL, exempt INT NOT NULL, last_seen BIGINT NOT NULL)");
+        db().index("report_players", "name_lower");
+        listen(this);
+        for (Player online : Bukkit.getOnlinePlayers()) remember(online);
         String table = db().table("reports");
         db().query("load reports", c -> {
             Map<Integer, Report> out = new HashMap<>();
@@ -139,14 +152,77 @@ public final class ReportsFeature extends Feature {
             msg(p, "loading");
             return;
         }
-        Player target = target(p, args[0]);
-        if (target == null) return;
-        if (target.equals(p) && !config().getBoolean("allow-self-report", false)) {
+        String typed = args[0];
+        String reason = args.length > 1 ? String.join(" ", Arrays.copyOfRange(args, 1, args.length)) : null;
+        Player online = Bukkit.getPlayerExact(typed);
+        if (online == null) online = Bukkit.getPlayer(typed);
+        if (online != null && Visibility.knows(p, online)) {
+            proceed(p, online.getUniqueId(), online.getName(), online.hasPermission(exemptPermission()), reason);
+            return;
+        }
+        if (!config().getBoolean("offline-reports", true)) {
+            target(p, typed); // says they're not online
+            return;
+        }
+        offline(p, typed, reason);
+    }
+
+    private String exemptPermission() {
+        return config().getString("permissions.exempt", "vexcore.reports.exempt");
+    }
+
+    /** Someone who has played here, found by name. */
+    private record Known(UUID uuid, String name, boolean exempt) {
+    }
+
+    /**
+     * An offline player (or a vanished one): only someone who has really joined this server. The
+     * server's name cache also holds names other plugins looked up, and forgets names after a
+     * while, so it counts only with a player file behind it (hasPlayedBefore); VexCore's own list
+     * of everyone who joined covers the rest.
+     */
+    private void offline(Player p, String typed, String reason) {
+        if (typed.length() > 32 || !com.vexorstudios.vexcore.core.Text.safeName(typed).equals(typed)) {
+            msg(p, "never-joined", "target", typed);
+            return;
+        }
+        OfflinePlayer cached = Bukkit.getOfflinePlayerIfCached(typed);
+        UUID cachedId = cached != null && (cached.hasPlayedBefore() || cached.isOnline()) ? cached.getUniqueId() : null;
+        String cachedName = cachedId != null && cached.getName() != null ? cached.getName() : typed;
+        String table = db().table("report_players");
+        db().query("report target", c -> {
+            String sql = cachedId != null
+                    ? "SELECT uuid, name, exempt FROM " + table + " WHERE uuid = ?"
+                    : "SELECT uuid, name, exempt FROM " + table + " WHERE name_lower = ? ORDER BY last_seen DESC";
+            try (PreparedStatement ps = c.prepareStatement(sql)) {
+                ps.setString(1, cachedId != null ? cachedId.toString() : typed.toLowerCase(Locale.ROOT));
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) return new Known(UUID.fromString(rs.getString(1)), rs.getString(2), rs.getInt(3) != 0);
+                }
+            }
+            return cachedId != null ? new Known(cachedId, cachedName, false) : null;
+        }).whenComplete((known, error) -> onPlayerThread(p, () -> {
+            if (!isEnabled() || !p.isOnline()) return;
+            if (known == null) {
+                msg(p, error != null ? "failed" : "never-joined", "target", typed);
+                return;
+            }
+            // Online after all (vanished): their permission now, not the remembered one.
+            Player live = Bukkit.getPlayer(known.uuid());
+            boolean exempt = live != null ? live.hasPermission(exemptPermission()) : known.exempt();
+            proceed(p, known.uuid(), known.name(), exempt, reason);
+        }));
+    }
+
+    /** The checks every report goes through, then the reason: typed after the name, or the dialog. */
+    private void proceed(Player p, UUID targetId, String targetName, boolean exempt, String reason) {
+        boolean self = targetId.equals(p.getUniqueId());
+        if (self && !config().getBoolean("allow-self-report", false)) {
             msg(p, "self");
             return;
         }
-        if (!target.equals(p) && target.hasPermission(config().getString("permissions.exempt", "vexcore.reports.exempt"))) {
-            msg(p, "exempt", "target", target.getName());
+        if (!self && exempt) {
+            msg(p, "exempt", "target", targetName);
             return;
         }
         long left = cooldownLeft(p);
@@ -154,12 +230,43 @@ public final class ReportsFeature extends Feature {
             msg(p, "cooldown", "time", plugin.messages().time(left));
             return;
         }
-        if (args.length > 1) { // reason typed straight after the name: no dialog
-            submit(p, target.getUniqueId(), target.getName(), String.join(" ", Arrays.copyOfRange(args, 1, args.length)));
+        if (reason != null) { // reason typed straight after the name: no dialog
+            submit(p, targetId, targetName, reason);
             return;
         }
-        if (ReportDialog.available()) dialog.open(p, target);
-        else msg(p, "no-dialog", "command", plugin.commands().name("report"), "target", target.getName());
+        if (ReportDialog.available()) dialog.open(p, targetId, targetName);
+        else msg(p, "no-dialog", "command", plugin.commands().name("report"), "target", targetName);
+    }
+
+    // ── Who has played here ───────────────────────────────────────────────
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onJoin(PlayerJoinEvent event) {
+        remember(event.getPlayer());
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onQuit(PlayerQuitEvent event) {
+        remember(event.getPlayer()); // permissions may have changed while online
+    }
+
+    /** Their name (it can change) and whether they can be reported, for reports while they're offline. */
+    private void remember(Player player) {
+        String uuid = player.getUniqueId().toString();
+        String name = player.getName();
+        boolean exempt = player.hasPermission(exemptPermission());
+        long now = System.currentTimeMillis();
+        String sql = db().upsert("report_players", new String[]{"uuid"}, "name", "name_lower", "exempt", "last_seen");
+        db().queue("report player", c -> {
+            try (PreparedStatement ps = c.prepareStatement(sql)) {
+                ps.setString(1, uuid);
+                ps.setString(2, name);
+                ps.setString(3, name.toLowerCase(Locale.ROOT));
+                ps.setInt(4, exempt ? 1 : 0);
+                ps.setLong(5, now);
+                ps.executeUpdate();
+            }
+        });
     }
 
     long cooldownLeft(Player p) {

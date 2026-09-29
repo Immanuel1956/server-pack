@@ -1,5 +1,13 @@
 # VexCore update: install and configuration
 
+## Round 26 (report offline players)
+
+Nothing to change: install the new jar. Offline reports are on by default. `offline-reports` and the `never-joined` message work without being in your file. Copy them from the bundled `features/reports/config.yml` to change them.
+
+Staff with `vexcore.reports.exempt` are remembered as exempt the next time they join or leave. Until then they could be reported while offline, so have staff log in once after the update.
+
+Quick test: `/report <someone who played before but is offline>` (the dialog opens with their head), then `/report Gobbygoobbb99` ("has never joined the server").
+
 ## Round 25 (selling, worth tooltips, dialogs)
 
 Install the new jar. New files appear by themselves: `features/sell/prices.yml` and the `gui/dialogs/` folders. Then:

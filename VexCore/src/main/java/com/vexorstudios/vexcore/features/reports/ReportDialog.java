@@ -32,8 +32,8 @@ final class ReportDialog {
         return Dialogs.available();
     }
 
-    void open(Player p, Player target) {
-        open(p, target.getUniqueId(), target.getName(), "");
+    void open(Player p, UUID targetId, String targetName) {
+        open(p, targetId, targetName, "");
     }
 
     /** {@code draft} is put back in the box when the reason was refused. */
@@ -49,7 +49,9 @@ final class ReportDialog {
             ItemStack head = new ItemStack(Material.PLAYER_HEAD);
             if (head.getItemMeta() instanceof SkullMeta meta) {
                 Player online = org.bukkit.Bukkit.getPlayer(targetId);
+                // Offline: the id is enough, the game fetches the skin itself.
                 if (online != null) meta.setPlayerProfile(online.getPlayerProfile());
+                else meta.setPlayerProfile(org.bukkit.Bukkit.createProfile(targetId, targetName));
                 head.setItemMeta(meta);
             }
             body.add(DialogBody.item(head).showTooltip(false).build());
