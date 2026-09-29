@@ -42,18 +42,18 @@ public final class MenuListener implements Listener {
             event.setCancelled(true);
             Inventory from = event.getClickedInventory();
             int slot = event.getSlot();
-            if (!(event.getWhoClicked() instanceof Player player) || from == null || !menu.live()) return;
-            Scheduler.entity(player, () -> {
-                if (player.getOpenInventory().getTopInventory() != top) return;
-                ItemStack item = from.getItem(slot);
-                if (item == null || item.isEmpty()) return;
-                if (!menu.allows(item)) {
-                    menu.refuse(item);
-                    return;
-                }
-                from.setItem(slot, menu.insert(item));
-                menu.changedLater();
-            });
+            if (!(event.getWhoClicked() instanceof Player) || from == null || !menu.live()) return;
+            // Moved in this same click (the event is cancelled, so the game sends the result right
+            // after): no tick where the item has left one inventory but not reached the other.
+            // Only opening or closing inventories must wait for the next tick, not moving items.
+            ItemStack item = from.getItem(slot);
+            if (item == null || item.isEmpty()) return;
+            if (!menu.allows(item)) {
+                menu.refuse(item);
+                return;
+            }
+            from.setItem(slot, menu.insert(item));
+            menu.changedLater();
             return;
         }
         if (menu.hasEditable() && event.getAction() != InventoryAction.COLLECT_TO_CURSOR

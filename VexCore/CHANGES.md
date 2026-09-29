@@ -1,5 +1,23 @@
 # VexCore changelog
 
+## Round 28: smoother gameplay
+
+### Teleports (spawn, homes, warps, player warps, tpa, rtp, afk, team homes)
+- **No more "Loading terrain" at the end of a countdown.** The destination's chunk starts loading the moment the countdown starts, so when it ends the teleport is instant, even to a far-away home or warp nobody was near.
+- **Changed your mind? The new teleport wins.** /spawn and then /home during the countdown now starts the home countdown instead of "You are already teleporting." (`teleports.replace-pending: false` for the old way.)
+- **A nudge doesn't cancel it.** Being bumped by a mob, stepping slightly to the side or jumping in place no longer counts as moving away. Walking more than `move-tolerance` blocks (1 by default), or falling, still cancels. Riding follows the same rule.
+- **Arriving is safe.** Fall damage built up before the teleport is forgotten, and for 1.5 seconds after arriving nothing can hurt the player while the world around them appears (`arrival-protection-ticks`, 0 turns it off).
+- `/spawn <player>` tells both players once the teleport has really happened, not before.
+
+### Instant feedback
+- **The sidebar shows money changes at once:** paying, getting paid, selling, a quest or vote reward. Before, it waited for the next round (up to a second). Several changes in one moment are shown with one redraw.
+- **The sidebar appears as soon as a joining player's data is loaded**, not after a fixed delay.
+- **Shift-clicking items into /sell (and the trash) moves them in the same click.** Before, they spent a tick in neither inventory, a visible flicker.
+
+All settings are under `teleports:` in config.yml.
+
+Validation: `mvn clean package` against Paper API 1.21.10: compiles, 62 tests pass (new: `TeleportMoveTest`), ProGuard completes. `mvn -Ddev -Panalysis verify` (SpotBugs) passes. Not run on a live server.
+
 ## Round 27: clean-up and speed
 
 ### Faster

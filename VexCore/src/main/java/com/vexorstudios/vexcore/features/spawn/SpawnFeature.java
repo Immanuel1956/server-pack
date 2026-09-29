@@ -102,9 +102,16 @@ public final class SpawnFeature extends Feature implements Listener {
                 msg(sender, "teleport-failed", "name", name);
                 return;
             }
-            Scheduler.entity(target, () -> target.teleportAsync(location));
-            msg(target, "teleport-success", "name", name);
-            msg(sender, "sent-other", "player", target.getName(), "name", name);
+            // Told once they're there, not before.
+            Scheduler.entity(target, () -> target.teleportAsync(location).thenAccept(ok -> {
+                if (!ok) {
+                    msg(sender, "teleport-failed", "name", name);
+                    return;
+                }
+                plugin.teleports().arrived(target);
+                msg(target, "teleport-success", "name", name);
+                msg(sender, "sent-other", "player", target.getName(), "name", name);
+            }));
             return;
         }
         Player player = player(sender);

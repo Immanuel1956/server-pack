@@ -199,6 +199,26 @@ numbers:
   thousands-separator: ","
 
 # ──────────────────────────────────────────────────────────────────────────
+#  TELEPORTS  -  how every countdown teleport feels: /spawn, /home, /warp, /pwarp, /tpa, /rtp,
+#  /afk, team homes. The countdown itself (delay, cancel on move/damage) is in each feature's file.
+# ──────────────────────────────────────────────────────────────────────────
+teleports:
+  # Load the destination while the countdown runs: arriving is instant, no freeze or
+  # "Loading terrain" at a far-away home or warp.
+  preload: true
+  # A new teleport replaces one that is counting down (/spawn, then changed your mind: /home).
+  # false: "You are already teleporting."
+  replace-pending: true
+  # How far (in blocks, sideways) a player may be nudged during the countdown before it counts as
+  # moving away (cancel-on-move). Jumping in place never counts. 0 = any movement cancels.
+  move-tolerance: 1.0
+  # Arriving forgets fall damage built up before the teleport.
+  reset-fall-distance: true
+  # Ticks (20 = 1 second) nothing can hurt a player who just arrived, while the world around them
+  # appears. 0 = none.
+  arrival-protection-ticks: 30
+
+# ──────────────────────────────────────────────────────────────────────────
 #  GENERAL
 # ──────────────────────────────────────────────────────────────────────────
 

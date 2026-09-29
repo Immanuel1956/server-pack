@@ -1,5 +1,20 @@
 # VexCore update: install and configuration
 
+## Round 28 (smoother gameplay)
+
+Nothing to change: install the new jar. Everything is on by default. To see or change the settings, copy the `teleports:` block from the bundled `config.yml` into yours (above `GENERAL`):
+
+```yaml
+teleports:
+  preload: true                 # load the destination during the countdown
+  replace-pending: true         # a new teleport replaces a pending one
+  move-tolerance: 1.0           # blocks a player may be nudged; 0 = any move cancels
+  reset-fall-distance: true
+  arrival-protection-ticks: 30  # 0 = no protection after arriving
+```
+
+Quick test: `/home` at a home far away (no "Loading terrain"), `/spawn` then `/home` during the countdown (the home one runs), jump during a countdown (it keeps going), `/pay` someone and watch their sidebar update at once.
+
 ## Round 27 (clean-up and speed)
 
 Nothing to change: install the new jar. Behaviour is the same. Optional: delete `dialog-click` under `sounds:` in `features/home/config.yml`; it's no longer read (each dialog file in `gui/dialogs/` has its own click sound).

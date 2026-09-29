@@ -232,6 +232,11 @@ public final class EconomyFeature extends Feature implements PlayerData.Store, M
         return await(stored(player.getUniqueId()), null) != null;
     }
 
+    /** The balance changed: the sidebar shows it now, not at its next round. */
+    private void shown(UUID player) {
+        if (plugin.features().get("scoreboard") instanceof com.vexorstudios.vexcore.features.scoreboard.ScoreboardFeature board) board.soon(player);
+    }
+
     @Override
     public boolean withdraw(OfflinePlayer player, double amount) {
         if (!Double.isFinite(amount) || amount < 0) return false;
@@ -247,6 +252,7 @@ public final class EconomyFeature extends Feature implements PlayerData.Store, M
                     if (a.frozen || a.balance < amount) return false;
                     a.balance = Numbers.round(a.balance - amount, decimals());
                     a.dirty = a.touched = true;
+                    shown(player.getUniqueId());
                     return true;
                 }
             }
@@ -270,6 +276,7 @@ public final class EconomyFeature extends Feature implements PlayerData.Store, M
                     if (a.frozen || a.balance + amount > max()) return false;
                     a.balance = Numbers.round(a.balance + amount, decimals());
                     a.dirty = a.touched = true;
+                    shown(player.getUniqueId());
                     return true;
                 }
             }
@@ -353,6 +360,7 @@ public final class EconomyFeature extends Feature implements PlayerData.Store, M
                 a.dirty = a.touched = true;
                 now = a.balance;
             }
+            shown(target.getUniqueId());
             done.accept(now);
             return;
         }

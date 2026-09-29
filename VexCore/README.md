@@ -225,6 +225,7 @@ Placeholders:
 | 8 ✔ | LifestealCore nametags (text displays fixed to the head with PacketEvents), LifestealCore quest board, /hide, speed pass |
 | 9 ✔ | ProGuard, code check, speed and bug-fix pass |
 | 18 ✔ | Server warps, player warps, all-time alt links, giveaway cancel and login win titles, startup banner, speed pass |
+| 28 ✔ | Smoother gameplay: teleports preload the destination, replace each other, survive nudges and jumps, protect on arrival; instant sidebar money; same-click shift into menus |
 | 27 ✔ | Clean-up (no deprecated server calls, dead code removed, shared helpers) and faster selling/worth tooltips |
 | 26 ✔ | /report works on offline players who have joined before; names that never joined are refused |
 | 25 ✔ | A price for every obtainable item (from the recipes), /sell price, the sell menu refuses unsellable items and shows Money Receive, worth in tooltips without touching items, dialogs instead of chat prompts, gui/dialogs/ files, home icons fixed and 3 per row |

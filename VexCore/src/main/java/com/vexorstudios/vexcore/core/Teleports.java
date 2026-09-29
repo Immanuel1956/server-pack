@@ -19,13 +19,19 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 /**
- * Countdown teleports shared by spawn, afk, homes and tpa.
+ * Countdown teleports shared by spawn, afk, homes, warps, player warps, team homes, rtp and tpa.
  *
  * <p>Each feature configures its own countdown under {@code teleport:} in its config.yml
  * ({@code delay-seconds}, {@code cancel-on-move}, {@code cancel-on-damage}) and may override the
  * teleport messages ({@code teleport-countdown}, {@code teleport-success}, ...) and their sounds.
  * The destination is read when the countdown ends, so a player who moved in the meantime is
  * followed and a deleted home fails cleanly. One teleport per player at a time.
+ *
+ * <p>Smoothing ({@code teleports:} in config.yml): the destination's chunk is loaded while the
+ * countdown runs, so arriving is instant instead of a freeze or "Loading terrain"; starting a new
+ * teleport replaces a pending one instead of refusing; a nudge smaller than
+ * {@code move-tolerance} doesn't cancel; arriving clears fall damage built up before and gives a
+ * moment of protection while the world appears.
  */
 public final class Teleports implements Listener {
 
@@ -38,6 +44,7 @@ public final class Teleports implements Listener {
         final Runnable after;
         Scheduler.Task task = Scheduler.NOOP;
         int remaining;
+        Location start;
 
         Pending(Feature feature, Supplier<Location> destination, Map<String, ?> placeholders, Runnable after) {
             ConfigurationSection cfg = feature.config().getConfigurationSection("teleport");
@@ -71,8 +78,12 @@ public final class Teleports implements Listener {
         }
         UUID id = player.getUniqueId();
         if (pending.containsKey(id)) {
-            feature.msg(player, "already-teleporting", placeholders);
-            return;
+            // Changed their mind (/spawn, then /home): the new one wins, unless configured not to.
+            if (!settings().getBoolean("replace-pending", true)) {
+                feature.msg(player, "already-teleporting", placeholders);
+                return;
+            }
+            cancel(player, null);
         }
         if (plugin.restrictions().deny(player)) return;
         Pending p = new Pending(feature, destination, placeholders, after);
@@ -80,9 +91,34 @@ public final class Teleports implements Listener {
             arrive(player, p);
             return;
         }
+        p.start = player.getLocation();
         pending.put(id, p);
+        preload(p);
         countdown(player, p);
         p.task = Scheduler.entityTimer(player, () -> tick(player, p), 20, 20);
+    }
+
+    private org.bukkit.configuration.ConfigurationSection settings() {
+        org.bukkit.configuration.ConfigurationSection s = plugin.settings() == null ? null : plugin.settings().getConfigurationSection("teleports");
+        return s != null ? s : new org.bukkit.configuration.MemoryConfiguration();
+    }
+
+    /**
+     * Starts loading where the countdown ends, so the chunk is there when it does: the teleport
+     * then takes no time and nobody stands in "Loading terrain". A loaded chunk stays loaded for a
+     * while after (Paper keeps unused chunks ~10 s), longer than most countdowns.
+     */
+    private void preload(Pending p) {
+        if (!settings().getBoolean("preload", true)) return;
+        Location target;
+        try {
+            target = p.destination.get();
+        } catch (RuntimeException e) {
+            return; // it fails again, and is reported, when the countdown ends
+        }
+        if (target == null || target.getWorld() == null) return;
+        target.getWorld().getChunkAtAsync(target.getBlockX() >> 4, target.getBlockZ() >> 4, true, chunk -> {
+        });
     }
 
     public boolean isPending(Player player) {
@@ -129,9 +165,22 @@ public final class Teleports implements Listener {
                 p.feature.msg(player, "teleport-failed", p.placeholders);
                 return;
             }
+            arrived(player);
             p.feature.msg(player, "teleport-success", p.placeholders);
             if (p.after != null) p.after.run();
         });
+    }
+
+    /**
+     * Just arrived: the fall they were in before doesn't hurt when they land here, and for a
+     * moment (arrival-protection-ticks) nothing hurts while the world around them appears.
+     */
+    public void arrived(Player player) {
+        org.bukkit.configuration.ConfigurationSection s = settings();
+        if (s.getBoolean("reset-fall-distance", true)) player.setFallDistance(0);
+        int protect = Math.max(0, Math.min(200, s.getInt("arrival-protection-ticks", 30)));
+        // Damage is ignored while no-damage ticks are above half the maximum (vanilla's hit cooldown).
+        if (protect > 0) player.setNoDamageTicks(Math.max(player.getNoDamageTicks(), protect + player.getMaximumNoDamageTicks() / 2));
     }
 
     /** Stops a player's countdown; sends {@code messageKey} of the owning feature if not null. */
@@ -154,8 +203,23 @@ public final class Teleports implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onMove(PlayerMoveEvent event) {
         Pending p = pending.get(event.getPlayer().getUniqueId());
-        if (p == null || !p.cancelOnMove || !event.hasChangedBlock()) return;
+        if (p == null || !p.cancelOnMove || !event.hasChangedPosition()) return;
+        if (stayed(p, event.getTo())) return;
         cancel(event.getPlayer(), "teleport-cancelled");
+    }
+
+    /**
+     * A nudge (bumped by a mob, a step to the side) or a jump in place is not walking away: within
+     * move-tolerance blocks sideways and a jump's height up or down of where the countdown began.
+     */
+    private boolean stayed(Pending p, Location to) {
+        return stayed(p.start, to, settings().getDouble("move-tolerance", 1.0));
+    }
+
+    static boolean stayed(Location start, Location to, double tolerance) {
+        if (start == null || to == null || to.getWorld() != start.getWorld() || tolerance <= 0) return false;
+        double dx = to.getX() - start.getX(), dz = to.getZ() - start.getZ();
+        return dx * dx + dz * dz <= tolerance * tolerance && Math.abs(to.getY() - start.getY()) <= 1.5;
     }
 
     /** Riding doesn't fire the player's own move event: a horse or boat can't carry them off either. */
@@ -167,7 +231,8 @@ public final class Teleports implements Listener {
         for (org.bukkit.entity.Entity rider : event.getVehicle().getPassengers()) {
             if (!(rider instanceof Player player)) continue;
             Pending p = pending.get(player.getUniqueId());
-            if (p != null && p.cancelOnMove) cancel(player, "teleport-cancelled");
+            if (p == null || !p.cancelOnMove || stayed(p, to)) continue;
+            cancel(player, "teleport-cancelled");
         }
     }
 

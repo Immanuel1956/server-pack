@@ -145,6 +145,32 @@ public final class ScoreboardFeature extends Feature implements Listener {
                 ? v.visibleCount() : Bukkit.getOnlinePlayers().size();
     }
 
+    /** Players whose sidebar redraws on their next tick: several changes at once, one redraw. */
+    private final java.util.Set<UUID> due = ConcurrentHashMap.newKeySet();
+
+    /**
+     * Something on the sidebar changed (their money): redraw it on their next tick instead of at
+     * the next round (update-ticks), so a payment or a sale shows at once. Any thread.
+     */
+    public void soon(UUID player) {
+        if (!isEnabled() || Scheduler.FOLIA || !due.add(player)) return;
+        Player p = Bukkit.getPlayer(player);
+        if (p == null) {
+            due.remove(player);
+            return;
+        }
+        Scheduler.entity(p, () -> {
+            due.remove(player);
+            if (isEnabled() && p.isOnline()) update(p);
+        }, () -> due.remove(player));
+    }
+
+    /** Their data is loaded: the sidebar can show now, not only after join-delay-ticks. */
+    @Override
+    protected void loaded(Player player) {
+        if (!Scheduler.FOLIA) update(player);
+    }
+
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player p = event.getPlayer();
@@ -153,6 +179,7 @@ public final class ScoreboardFeature extends Feature implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
+        due.remove(event.getPlayer().getUniqueId());
         boards.remove(event.getPlayer().getUniqueId());
         shown.remove(event.getPlayer().getUniqueId());
     }
