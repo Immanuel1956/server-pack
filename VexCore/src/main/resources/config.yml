@@ -18,7 +18,8 @@
 #                        leaderboard, stats, scoreboard, nametags, commandwhitelist, commandroutes
 #     utility/           dropfix, workstations, sign, ping, msg, rename
 #     <feature>/         bigger features with menus keep a folder of their own
-#                        (config.yml, and gui/ with one file per menu)
+#                        (config.yml, gui/ with one file per menu, and gui/dialogs/ with one
+#                        file per dialog screen: titles, texts, buttons and their hover text)
 #   data/                server data: spawns, warps, afk area, the SQLite database
 #
 #   Text works everywhere with &-codes, &#RRGGBB, #RRGGBB and MiniMessage
