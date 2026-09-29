@@ -181,6 +181,14 @@ public abstract class Feature {
         plugin.placeholders().add(this, key, resolver);
     }
 
+    /**
+     * A count for a placeholder: written the way numbers: in config.yml says (1.5k), or the plain
+     * number when the placeholder ends in _raw (%vexcore_kills_raw%) for plugins that compare it.
+     */
+    protected static String count(double value, String argument) {
+        return "raw".equalsIgnoreCase(argument) ? Numbers.full(value, 2, "") : Numbers.format(value);
+    }
+
     /** Blocks teleports while {@code blocks} holds; tells the player {@code messageKey}. */
     protected final void restriction(Predicate<Player> blocks, String messageKey) {
         plugin.restrictions().add(this, blocks, messageKey);

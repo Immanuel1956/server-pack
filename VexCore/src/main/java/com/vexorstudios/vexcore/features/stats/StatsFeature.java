@@ -64,11 +64,16 @@ public final class StatsFeature extends Feature implements PlayerData.Store, Lis
         every(Math.max(5, config().getInt("save-seconds", 30)) * 20L, this::flush);
         command("stats", this::command, (s, a) -> a.length == 1 ? null : java.util.List.of());
         placeholder("stats", (p, key) -> {
+            if (key.equalsIgnoreCase("kdr")) {
+                Row r = rows.get(p.getUniqueId());
+                return r == null ? "0.00" : kdr(r);
+            }
+            // stats_kills: 1.5k (numbers: in config.yml); stats_kills_raw: 1500.
+            boolean raw = key.toLowerCase(Locale.ROOT).endsWith("_raw");
+            Stat stat = BY_NAME.get((raw ? key.substring(0, key.length() - 4) : key).toLowerCase(Locale.ROOT)); // not Stat.valueOf: it throws for unknown names
+            if (stat == null) return null;
             Row r = rows.get(p.getUniqueId());
-            if (r == null) return "0";
-            if (key.equalsIgnoreCase("kdr")) return kdr(r);
-            Stat stat = BY_NAME.get(key.toLowerCase(Locale.ROOT)); // not Stat.valueOf: it throws for unknown names
-            return stat == null ? null : String.valueOf(r.values[stat.ordinal()]);
+            return count(r == null ? 0 : r.values[stat.ordinal()], raw ? "raw" : "");
         });
     }
 
@@ -164,7 +169,7 @@ public final class StatsFeature extends Feature implements PlayerData.Store, Lis
     private void show(CommandSender sender, String name, Row r) {
         Map<String, Object> ph = new HashMap<>();
         ph.put("player", name);
-        for (Stat s : Stat.values()) ph.put(s.column(), r.values[s.ordinal()]);
+        for (Stat s : Stat.values()) ph.put(s.column(), com.vexorstudios.vexcore.core.Numbers.format(r.values[s.ordinal()]));
         ph.put("kdr", kdr(r));
         msg(sender, "stats", ph);
     }

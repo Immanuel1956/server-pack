@@ -447,8 +447,8 @@ PlaceholderAPI, and everywhere else (TAB, holograms, other plugins) through Plac
 | Placeholder | What it shows |
 |---|---|
 | `%vexcore_balance%` | Balance, plain number (1500.25) |
-| `%vexcore_balance_formatted%` | Balance with the currency ($1,500.25) |
-| `%vexcore_balance_short%` | Balance short ($1.5k) |
+| `%vexcore_balance_formatted%` | Balance with the currency, as numbers: in config.yml says ($1.5k, or $1,500.25 with style FULL) |
+| `%vexcore_balance_short%` | Balance short, whatever the style ($1.5k) |
 | `%vexcore_baltop_name_[place]%` | Name at that place of /baltop (baltop_name_1) |
 | `%vexcore_baltop_balance_[place]%` | Balance at that place of /baltop |
 
@@ -501,9 +501,9 @@ PlaceholderAPI, and everywhere else (TAB, holograms, other plugins) through Plac
 
 | Placeholder | What it shows |
 |---|---|
-| `%vexcore_coinflip_games%` | Open coinflip games |
-| `%vexcore_coinflip_wins%` | Coinflips the player won |
-| `%vexcore_coinflip_losses%` | Coinflips the player lost |
+| `%vexcore_coinflip_games%` | Open coinflip games (_raw: plain number) |
+| `%vexcore_coinflip_wins%` | Coinflips the player won (1.2k; coinflip_wins_raw: 1200) |
+| `%vexcore_coinflip_losses%` | Coinflips the player lost (_raw: plain number) |
 
 ### invest
 
@@ -533,7 +533,7 @@ PlaceholderAPI, and everywhere else (TAB, holograms, other plugins) through Plac
 
 | Placeholder | What it shows |
 |---|---|
-| `%vexcore_kills%` | Player kills (what kill rewards count) |
+| `%vexcore_kills%` | Player kills, what kill rewards count (1.2k; kills_raw: 1200) |
 
 ### prestige
 
@@ -601,7 +601,8 @@ PlaceholderAPI, and everywhere else (TAB, holograms, other plugins) through Plac
 
 | Placeholder | What it shows |
 |---|---|
-| `%vexcore_stats_[stat]%` | kills, deaths, streak, best_streak, mob_kills, blocks_broken, blocks_placed, duel_wins, duel_losses, ffa_kills |
+| `%vexcore_stats_[stat]%` | kills, deaths, streak, best_streak, mob_kills, blocks_broken, blocks_placed, duel_wins, duel_losses, ffa_kills (1.2k) |
+| `%vexcore_stats_[stat]_raw%` | The same as a plain number (stats_kills_raw: 1200), for plugins that compare it |
 | `%vexcore_stats_kdr%` | Kills per death |
 
 ### leaderboard
@@ -615,7 +616,7 @@ PlaceholderAPI, and everywhere else (TAB, holograms, other plugins) through Plac
 
 | Placeholder | What it shows |
 |---|---|
-| `%vexcore_joincount%` | How many new players have joined (first joins) |
+| `%vexcore_joincount%` | How many new players have joined, first joins (6.82k; joincount_raw: 6822) |
 
 ### antilag
 
@@ -627,7 +628,7 @@ PlaceholderAPI, and everywhere else (TAB, holograms, other plugins) through Plac
 
 | Placeholder | What it shows |
 |---|---|
-| `%vexcore_quests_done%` | Quests the player finished |
+| `%vexcore_quests_done%` | Quests the player finished (_raw: plain number) |
 
 ### tebex
 
@@ -635,17 +636,17 @@ PlaceholderAPI, and everywhere else (TAB, holograms, other plugins) through Plac
 |---|---|
 | `%vexcore_goal_name%` | The store goal's name |
 | `%vexcore_goal_current%` | Money towards the goal, plain number |
-| `%vexcore_goal_current_formatted%` | Money towards the goal ($120.00) |
+| `%vexcore_goal_current_formatted%` | Money towards the goal ($120.00, $1.5k) |
 | `%vexcore_goal_target%` | The goal's target, plain number |
-| `%vexcore_goal_target_formatted%` | The goal's target ($500.00) |
+| `%vexcore_goal_target_formatted%` | The goal's target ($500.00, $2k) |
 | `%vexcore_goal_percent%` | How far the goal is, in percent |
 
 ### votes
 
 | Placeholder | What it shows |
 |---|---|
-| `%vexcore_voteparty_current%` | Votes towards the next vote party |
-| `%vexcore_voteparty_needed%` | Votes a vote party needs |
+| `%vexcore_voteparty_current%` | Votes towards the next vote party (_raw: plain number) |
+| `%vexcore_voteparty_needed%` | Votes a vote party needs (_raw: plain number) |
 
 ### events
 

@@ -1,5 +1,25 @@
 # VexCore update: install and configuration
 
+## Round 24 (short numbers: 1k, 1.5m, 2b, 3t)
+
+Install the new jar: numbers are short at once (the setting's default is SHORT). To change it, copy the `numbers:` block from the bundled `config.yml` into yours (above `GENERAL`), then `/vexcore reload`:
+
+```yaml
+numbers:
+  style: SHORT          # FULL for 1,500,000
+  short-from: 1000      # 10000 keeps 1,500 but writes 10k
+  decimals: 2           # 1.23m; 1 for 1.2m, 0 for 1m
+  suffixes: [k, m, b, t, q]
+  thousands-separator: ","
+```
+
+- `format:` (`chat`, `suffixes`) in `features/economy/config.yml` is no longer read: delete it. Money follows `numbers:`.
+- `thousands-separator` in `features/server/joincounter.yml` is no longer read. `format-number: false` still writes the plain number.
+- If another plugin compares a VexCore count (a menu that needs 100 kills, for example), use the `_raw` placeholder: `%vexcore_stats_kills_raw%`, `%vexcore_kills_raw%`, `%vexcore_coinflip_wins_raw%`, `%vexcore_joincount_raw%`. `%vexcore_balance%` was always plain and stays so.
+- A quest `commands:` line that used `%money%` as a number should use `%money_raw%`.
+
+Quick test: `/eco give <you> 1500000`, then `/bal` shows $1.5m and the scoreboard $1.5m. `/stats` and `/leaderboard` show 1.2k-style numbers. Set `style: FULL`, `/vexcore reload`, and `/bal` shows $1,500,000.00.
+
 ## Round 23 (dupes, economy exploits, manipulation)
 
 Nothing to change: install the new jar. The new rules work without new keys. To see and change them, copy these from the bundled files:

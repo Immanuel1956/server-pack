@@ -564,7 +564,7 @@ public final class PlayerWarpsFeature extends Feature implements org.bukkit.even
                 // Player text as a component: colour codes and tags in it stay plain text.
                 ph.put("description", Component.text(w.description.isEmpty()
                         ? config().getString("words.no-description", "No description") : w.description));
-                ph.put("visits", w.visits.get());
+                ph.put("visits", com.vexorstudios.vexcore.core.Numbers.format(w.visits.get()));
                 ph.put("world", pos.world());
                 ph.put("created", plugin.messages().time(Math.max(0, (System.currentTimeMillis() - w.created) / 1000)));
                 menu.place(w.owner.equals(me) ? "own-warp" : "warp", slot, ph, c -> {

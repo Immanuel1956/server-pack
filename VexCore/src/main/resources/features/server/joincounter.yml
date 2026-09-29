@@ -1,9 +1,8 @@
 # Broadcast once, the first time a player ever joins. Placeholder %vexcore_joincount%.
 # /joincounter, /joincounter reset, /joincounter clear, /joincounter set <number>
 message: "&#FF256E🗡  &fWelcome &#FF256E%player% &fto &#FF256E&lOUR SERVER&f! &7[&f#%counter%&7]"
-# 6822 or 6,822
+# true: the way numbers: in config.yml writes it (#6.82k, or #6,822 with style FULL). false: #6822.
 format-number: true
-thousands-separator: ","
 sound:
   enabled: false
   # true = play it for everyone, false = only for the new player

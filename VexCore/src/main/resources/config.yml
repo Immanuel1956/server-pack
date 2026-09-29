@@ -178,6 +178,26 @@ op-bypass:
   combat-tag: false
 
 # ──────────────────────────────────────────────────────────────────────────
+#  NUMBERS  -  how money and big numbers are written everywhere: chat, menus, the scoreboard,
+#  name tags, leaderboards, quests, stats and VexCore's placeholders.
+#  (Console commands and the _raw placeholders always get the plain number.)
+# ──────────────────────────────────────────────────────────────────────────
+numbers:
+  # SHORT: 1000 -> 1k, 1500 -> 1.5k, 2500000 -> 2.5m, 3000000000 -> 3b, 4000000000000 -> 4t
+  # FULL:  1,000   1,500   2,500,000   3,000,000,000
+  style: SHORT
+  # Numbers below this are written out in full (999, $12.50). 10000 keeps 1,500 but makes 10k.
+  short-from: 1000
+  # Decimals kept when shortened: 2 = 1.23m, 1 = 1.2m, 0 = 1m. Never rounded up (1,999 is 1.99k,
+  # not 2k), and zeros are dropped (1k, not 1.00k).
+  decimals: 2
+  # One per step of a thousand: thousand, million, billion, trillion, quadrillion. Write them as
+  # you want them shown ([K, M, B, T, Q] for capitals).
+  suffixes: [k, m, b, t, q]
+  # Separator for numbers written in full (1,500,000). "" for none, "." or " " if you prefer.
+  thousands-separator: ","
+
+# ──────────────────────────────────────────────────────────────────────────
 #  GENERAL
 # ──────────────────────────────────────────────────────────────────────────
 

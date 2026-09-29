@@ -89,11 +89,74 @@ public final class Numbers {
 
     /** 1234567 -> "1.23M" with the given suffixes (K, M, B, T, Q). */
     public static String shortened(double v, String[] suffixes) {
+        return shortened(v, suffixes, 2, "");
+    }
+
+    /**
+     * 1234567 -> "1.23m": one suffix per thousand step, {@code decimals} kept and never rounded up
+     * (999,999 is "999.99k", not "1000k", and a balance never looks bigger than it is). Trailing
+     * zeros are dropped: "1k", "1.5m". Under 1000 the number as it is.
+     */
+    public static String shortened(double v, String[] suffixes, int decimals, String separator) {
         double abs = Math.abs(v);
-        int index = -1;
+        if (abs < 1000 || suffixes.length == 0 || !Double.isFinite(v)) return full(v, 2, separator);
+        int index = 0;
         while (index + 1 < suffixes.length && abs >= Math.pow(1000, index + 2)) index++;
-        if (abs < 1000) return full(v, 2, "");
-        double scaled = v / Math.pow(1000, index + 1);
-        return full((long) (scaled * 100) / 100.0, 2, "") + suffixes[index];
+        double scaled = round(v / Math.pow(1000, index + 1), decimals, RoundingMode.DOWN);
+        return full(scaled, decimals, separator) + suffixes[index];
+    }
+
+    // ── How numbers are shown everywhere: numbers: in config.yml ────────────
+
+    /**
+     * {@code shorten}: SHORT (1.5k) or FULL (1,500). {@code from}: the first number that is
+     * shortened. {@code decimals}: kept after shortening. {@code separator}: thousands separator for
+     * numbers written in full.
+     */
+    public record Style(boolean shorten, double from, int decimals, String[] suffixes, String separator) {
+    }
+
+    public static final Style DEFAULT = new Style(true, 1000, 2, new String[]{"k", "m", "b", "t", "q"}, ",");
+    private static volatile Style style = DEFAULT;
+
+    public static Style style() {
+        return style;
+    }
+
+    public static void style(Style s) {
+        style = s == null ? DEFAULT : s;
+    }
+
+    /** Reads {@code numbers:} from config.yml (start and /vexcore reload). */
+    public static void configure(org.bukkit.configuration.ConfigurationSection numbers) {
+        if (numbers == null) {
+            style = DEFAULT;
+            return;
+        }
+        java.util.List<String> list = numbers.getStringList("suffixes");
+        style = new Style(!"FULL".equalsIgnoreCase(numbers.getString("style", "SHORT").trim()),
+                Math.max(1000, numbers.getDouble("short-from", 1000)), // nothing to shorten below 1k
+                Math.max(0, Math.min(3, numbers.getInt("decimals", 2))),
+                list.isEmpty() ? DEFAULT.suffixes() : list.toArray(new String[0]),
+                numbers.getString("thousands-separator", ","));
+    }
+
+    /** A count (kills, votes, blocks, quest progress): "1.5k" with SHORT, "1,500" with FULL. */
+    public static String format(double v) {
+        Style s = style;
+        if (s.shorten() && Math.abs(v) >= s.from()) return shortened(v, s.suffixes(), s.decimals(), s.separator());
+        return full(v, 2, s.separator());
+    }
+
+    /** Money without its currency: "1.5k" with SHORT, "1,500.25" with FULL, "12.50" when small. */
+    public static String formatMoney(double v, int decimals, String separator) {
+        return style.shorten() ? shortMoney(v, decimals, separator) : money(v, decimals, separator);
+    }
+
+    /** Money shortened whatever the style (menus, scoreboards): "1.5k", and "12.50" when small. */
+    public static String shortMoney(double v, int decimals, String separator) {
+        Style s = style;
+        if (Math.abs(v) < s.from()) return money(v, decimals, separator);
+        return shortened(v, s.suffixes(), s.decimals(), separator);
     }
 }

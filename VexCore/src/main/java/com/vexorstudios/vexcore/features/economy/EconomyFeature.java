@@ -141,17 +141,21 @@ public final class EconomyFeature extends Feature implements PlayerData.Store, M
         return config().getString("currency-format", "$%amount%").replace("%amount%", number);
     }
 
-    @Override
-    public String format(double amount) {
-        if ("SHORT".equalsIgnoreCase(config().getString("format.chat", "FULL"))) return shortFormat(amount);
-        return currency(Numbers.money(amount, decimals(), config().getString("thousands-separator", ",")));
+    /** The economy file's own separator if it has one, else the one in config.yml numbers:. */
+    private String separator() {
+        return config().getString("thousands-separator", Numbers.style().separator());
     }
 
+    /** $1.5k or $1,500.25, as numbers: in config.yml says. */
+    @Override
+    public String format(double amount) {
+        return currency(Numbers.formatMoney(amount, decimals(), separator()));
+    }
+
+    /** $1.5k (and $12.50 under a thousand), whatever the style: menus and scoreboards. */
     @Override
     public String shortFormat(double amount) {
-        List<String> list = config().getStringList("format.suffixes");
-        String[] suffixes = list.isEmpty() ? new String[]{"K", "M", "B", "T", "Q"} : list.toArray(new String[0]);
-        return currency(Numbers.shortened(amount, suffixes));
+        return currency(Numbers.shortMoney(amount, decimals(), separator()));
     }
 
     String currencyName(boolean plural) {

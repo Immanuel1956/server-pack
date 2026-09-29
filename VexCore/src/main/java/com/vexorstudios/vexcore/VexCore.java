@@ -96,6 +96,7 @@ public final class VexCore extends JavaPlugin implements Listener {
         files = new Files(this);
         files.extract();
         config = files.settings("config.yml");
+        com.vexorstudios.vexcore.core.Numbers.configure(config.getConfigurationSection("numbers"));
 
         messages = new Messages(this);
         database = new Database(this);
@@ -214,6 +215,7 @@ public final class VexCore extends JavaPlugin implements Listener {
     /** Reads the files, opens the database and starts every enabled feature. Returns problems. */
     private List<String> boot() {
         config = files.settings("config.yml");
+        com.vexorstudios.vexcore.core.Numbers.configure(config.getConfigurationSection("numbers"));
         messages.load(files.settings("globalmessages.yml"));
         commands.load(files.settings("commands.yml"));
         List<String> problems = new ArrayList<>();

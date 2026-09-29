@@ -96,9 +96,9 @@ public final class CoinflipFeature extends Feature implements PlayerData.Store {
         store(this);
         toggle(TOGGLE, config().getBoolean("default-toggle", true), p -> flip(p, TOGGLE, "toggle-on", "toggle-off"));
         command("coinflip", this::command, (s, a) -> a.length == 1 ? List.of("create", "delete", "toggle", "history") : List.of());
-        placeholder("coinflip_games", (p, a) -> String.valueOf(games.size()));
-        placeholder("coinflip_wins", (p, a) -> String.valueOf(stats.getOrDefault(p.getUniqueId(), new Stats(0, 0, 0, 0)).wins));
-        placeholder("coinflip_losses", (p, a) -> String.valueOf(stats.getOrDefault(p.getUniqueId(), new Stats(0, 0, 0, 0)).losses));
+        placeholder("coinflip_games", (p, a) -> count(games.size(), a));
+        placeholder("coinflip_wins", (p, a) -> count(stats.getOrDefault(p.getUniqueId(), new Stats(0, 0, 0, 0)).wins, a));
+        placeholder("coinflip_losses", (p, a) -> count(stats.getOrDefault(p.getUniqueId(), new Stats(0, 0, 0, 0)).losses, a));
     }
 
     private Money money() {
@@ -426,7 +426,7 @@ public final class CoinflipFeature extends Feature implements PlayerData.Store {
             List<Game> list = new ArrayList<>(games.values());
             list.sort(Comparator.comparingDouble(Game::amount).reversed());
             Stats s = stats.getOrDefault(player.getUniqueId(), new Stats(0, 0, 0, 0));
-            menu.with("wins", s.wins).with("losses", s.losses).with("games", list.size())
+            menu.with("wins", Numbers.format(s.wins)).with("losses", Numbers.format(s.losses)).with("games", Numbers.format(list.size()))
                     .with("won", money().format(s.won)).with("lost", money().format(s.lost))
                     .with("profit", money().format(s.won - s.lost));
             menu.function("refresh", c -> menu.refresh());

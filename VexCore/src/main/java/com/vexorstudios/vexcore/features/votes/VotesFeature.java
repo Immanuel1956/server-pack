@@ -2,6 +2,7 @@ package com.vexorstudios.vexcore.features.votes;
 
 import com.vexorstudios.vexcore.core.Feature;
 import com.vexorstudios.vexcore.core.Messages;
+import com.vexorstudios.vexcore.core.Numbers;
 import com.vexorstudios.vexcore.core.Scheduler;
 import com.vexorstudios.vexcore.core.Text;
 import com.vexorstudios.vexcore.features.ipprotection.IpProtectionFeature;
@@ -70,7 +71,8 @@ public final class VotesFeature extends Feature {
                 startParty();
                 return;
             }
-            msg(s, "party-status", "current", party.get(), "needed", partyNeeded(), "left", Math.max(0, partyNeeded() - party.get()));
+            msg(s, "party-status", "current", Numbers.format(party.get()), "needed", Numbers.format(partyNeeded()),
+                    "left", Numbers.format(Math.max(0, partyNeeded() - party.get())));
         }, (s, a) -> a.length == 1 && s.hasPermission("vexcore.votes.admin") ? List.of("start") : List.of());
         command("fakevote", (s, l, a) -> {
             if (a.length == 0) {
@@ -81,8 +83,8 @@ public final class VotesFeature extends Feature {
             msg(s, "fake-sent", "player", a[0]);
         }, (s, a) -> a.length == 1 ? null : List.of());
 
-        placeholder("voteparty_current", (p, a) -> String.valueOf(party.get()));
-        placeholder("voteparty_needed", (p, a) -> String.valueOf(partyNeeded()));
+        placeholder("voteparty_current", (p, a) -> count(party.get(), a));
+        placeholder("voteparty_needed", (p, a) -> count(partyNeeded(), a));
     }
 
     /** Listens for NuVotifier's event by name, so VexCore needs no Votifier jar to build or run. */
@@ -310,8 +312,8 @@ public final class VotesFeature extends Feature {
         }).whenComplete((info, error) -> {
             if (info == null || !plugin.isEnabled()) return;
             Scheduler.entity(p, () -> open(p, "vote", menu -> {
-                menu.with("total", info.getValue()[0]).with("month", info.getValue()[1])
-                        .with("party", party.get()).with("party_needed", partyNeeded());
+                menu.with("total", Numbers.format(info.getValue()[0])).with("month", Numbers.format(info.getValue()[1]))
+                        .with("party", Numbers.format(party.get())).with("party_needed", Numbers.format(partyNeeded()));
                 ConfigurationSection sitesCfg = config().getConfigurationSection("sites");
                 List<String> keys = sitesCfg == null ? List.of() : new ArrayList<>(sitesCfg.getKeys(false));
                 menu.paginate(keys, (key, slot) -> {
@@ -361,7 +363,7 @@ public final class VotesFeature extends Feature {
                 }
                 msg(sender, "top-header", "month", month);
                 int place = 1;
-                for (Object[] r : rows) msg(sender, "top-line", "place", place++, "player", r[0], "votes", r[1]);
+                for (Object[] r : rows) msg(sender, "top-line", "place", place++, "player", r[0], "votes", Numbers.format((Integer) r[1]));
             });
         });
     }

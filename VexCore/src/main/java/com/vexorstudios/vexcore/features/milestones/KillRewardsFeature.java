@@ -23,12 +23,12 @@ public final class KillRewardsFeature extends MilestoneFeature {
 
     @Override
     protected String show(long value) {
-        return String.valueOf(value);
+        return com.vexorstudios.vexcore.core.Numbers.format(value);
     }
 
     @Override
     protected void enable() {
         super.enable();
-        placeholder("kills", (p, a) -> p.getPlayer() == null ? "0" : String.valueOf(progress(p.getPlayer())));
+        placeholder("kills", (p, a) -> count(p.getPlayer() == null ? 0 : progress(p.getPlayer()), a));
     }
 }

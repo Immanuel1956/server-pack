@@ -194,7 +194,7 @@ public final class SellFeature extends Feature {
         if (plugin.features().get("quests") instanceof com.vexorstudios.vexcore.features.quests.QuestsFeature quests) {
             quests.add(player, "SELL_ITEMS", null, sale.items);
         }
-        msg(player, "sold", "amount", sale.items, "money", plugin.money().format(sale.money),
+        msg(player, "sold", "amount", Numbers.format(sale.items), "money", plugin.money().format(sale.money),
                 "multiplier", Numbers.full(multiplier(player), 2, ""));
     }
 

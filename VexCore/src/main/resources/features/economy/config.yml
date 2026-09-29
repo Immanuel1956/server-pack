@@ -14,9 +14,9 @@ prefix: "&#80EE0B&lECONOMY &7▷ "
 start-balance: 1000
 
 decimals: 2
-thousands-separator: ","
 
-# How money is written. %amount% is the number.
+# How money is written. %amount% is the number. Short ($1.5k) or full ($1,500.00), the letters
+# and the thousands separator are set for everything at once under numbers: in config.yml.
 currency-format: "$%amount%"
 currency-singular: "Dollar"
 currency-plural: "Dollars"
@@ -32,11 +32,6 @@ vault:
   register: true
   # Lowest, Low, Normal, High, Highest
   priority: Highest
-
-format:
-  # FULL = $1,234,567.89   SHORT = $1.23M (menus always use SHORT)
-  chat: FULL
-  suffixes: [K, M, B, T, Q]
 
 pay:
   minimum: 1

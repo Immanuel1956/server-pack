@@ -26,7 +26,7 @@ public final class JoinCounterFeature extends Feature implements Listener {
         file = plugin.files().data("joincounter.yml");
         counter = YamlConfiguration.loadConfiguration(file).getLong("counter", 0);
         listen(this);
-        placeholder("joincount", (p, a) -> format(counter));
+        placeholder("joincount", (p, a) -> "raw".equalsIgnoreCase(a) ? String.valueOf(counter) : format(counter));
         command("joincounter", (sender, label, args) -> {
             if (args.length == 0) {
                 msg(sender, "current", "counter", format(counter));
@@ -54,7 +54,7 @@ public final class JoinCounterFeature extends Feature implements Listener {
     }
 
     private String format(long n) {
-        return config().getBoolean("format-number", true) ? Numbers.full(n, 0, config().getString("thousands-separator", ",")) : String.valueOf(n);
+        return config().getBoolean("format-number", true) ? Numbers.format(n) : String.valueOf(n);
     }
 
     /** Sets the counter; the file is written off the main thread (always the latest value). */

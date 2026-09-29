@@ -220,7 +220,7 @@ public final class EventsFeature extends Feature implements Listener {
         for (int i = 0; i < places; i++) {
             Map.Entry<UUID, Integer> e = top.get(i);
             lines.add(Text.fill(config().getString("result-line", "&#FFD900#%place% &f%player% &7▷ &#FFD900%score%"),
-                    Map.of("place", i + 1, "player", r.names.getOrDefault(e.getKey(), "?"), "score", e.getValue())));
+                    Map.of("place", i + 1, "player", r.names.getOrDefault(e.getKey(), "?"), "score", com.vexorstudios.vexcore.core.Numbers.format(e.getValue()))));
             pay(e.getKey(), r.names.getOrDefault(e.getKey(), "?"), r.type, i + 1);
         }
         broadcast(Messages.everyone(), "results", Map.of("event", typeName(r.type), "results", String.join("\n", lines)));
@@ -276,7 +276,7 @@ public final class EventsFeature extends Feature implements Listener {
         Map.Entry<UUID, Integer> lead = null;
         for (Map.Entry<UUID, Integer> e : r.scores.entrySet()) if (lead == null || e.getValue() > lead.getValue()) lead = e;
         ph.put("leader", lead == null ? config().getString("words.nobody", "nobody") : r.names.getOrDefault(lead.getKey(), "?"));
-        ph.put("score", lead == null ? Integer.valueOf(0) : lead.getValue());
+        ph.put("score", com.vexorstudios.vexcore.core.Numbers.format(lead == null ? 0 : lead.getValue()));
         float progress = (float) Math.max(0, Math.min(1, (double) (r.ends - System.currentTimeMillis()) / Math.max(1, r.ends - r.started)));
         if (r.type == Type.KOTH) {
             ph.put("capturer", r.capturer == null ? config().getString("words.nobody", "nobody") : r.names.getOrDefault(r.capturer, "?"));
@@ -530,7 +530,7 @@ public final class EventsFeature extends Feature implements Listener {
         ph.put("time", plugin.messages().time(Math.max(0, (r.ends - System.currentTimeMillis()) / 1000)));
         ph.put("question", r.question == null ? "-" : r.question);
         Integer mine = sender instanceof Player p ? r.scores.get(p.getUniqueId()) : null;
-        ph.put("score", mine == null ? Integer.valueOf(0) : mine);
+        ph.put("score", com.vexorstudios.vexcore.core.Numbers.format(mine == null ? 0 : mine));
         msg(sender, "status", ph);
     }
 

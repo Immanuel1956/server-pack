@@ -64,12 +64,12 @@ public final class Money {
 
     public String format(double amount) {
         Provider p = current();
-        return p == null ? Numbers.full(amount, 2, ",") : p.format(amount);
+        return p == null ? Numbers.formatMoney(amount, 2, Numbers.style().separator()) : p.format(amount);
     }
 
     public String shortFormat(double amount) {
         Provider p = current();
-        return p == null ? Numbers.shortened(amount, new String[]{"K", "M", "B", "T", "Q"}) : p.shortFormat(amount);
+        return p == null ? Numbers.shortMoney(amount, 2, Numbers.style().separator()) : p.shortFormat(amount);
     }
 
     /** Only loaded when Vault is installed. */
@@ -108,7 +108,7 @@ public final class Money {
 
         @Override
         public String shortFormat(double amount) {
-            return Numbers.shortened(amount, new String[]{"K", "M", "B", "T", "Q"});
+            return Numbers.shortMoney(amount, 2, Numbers.style().separator());
         }
     }
 }

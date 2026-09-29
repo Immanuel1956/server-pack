@@ -225,6 +225,7 @@ Placeholders:
 | 8 ✔ | LifestealCore nametags (text displays fixed to the head with PacketEvents), LifestealCore quest board, /hide, speed pass |
 | 9 ✔ | ProGuard, code check, speed and bug-fix pass |
 | 18 ✔ | Server warps, player warps, all-time alt links, giveaway cancel and login win titles, startup banner, speed pass |
+| 24 ✔ | Short numbers everywhere (1k, 1.5m, 2b, 3t) from one `numbers:` setting in config.yml, `_raw` placeholders for plain counts |
 | 23 ✔ | Invsee dupe fix, money rounding exploits, no creative selling or giveaways, kits once per network, mob hunt and kill quest farming, vote and Tebex name injection, click-free item names in chat |
 | 22 ✔ | Staff mode death and item fixes, mutes cover team chat, locale-safe triggers, rollback backup before restore, Error Prone and SpotBugs scans, `-Panalysis` profile |
 | 21 ✔ | One sound per action, silent info items, GG wave and name tag fixes, less work per message and per block for quests, SpotBugs pass |

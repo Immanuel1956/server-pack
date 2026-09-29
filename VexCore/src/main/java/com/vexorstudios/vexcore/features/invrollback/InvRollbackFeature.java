@@ -430,7 +430,7 @@ public final class InvRollbackFeature extends Feature implements Listener {
         long seconds = Math.max(0, (System.currentTimeMillis() - b.time) / 1000);
         ph.put("date", date(b.time));
         ph.put("ago", config().getString("ago-format", "%time% ago").replace("%time%", plugin.messages().time(seconds)));
-        ph.put("items", b.count);
+        ph.put("items", com.vexorstudios.vexcore.core.Numbers.format(b.count));
         ph.put("level", b.level);
         ph.put("world", b.world);
         ph.put("x", b.x);

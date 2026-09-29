@@ -32,8 +32,8 @@ placeholders:
       description: "true/false for a /settings toggle: pay, msg, tpa, tpahere, tpauto, chat, mentions, scoreboard, nightvision, playerhide, mobtoggle, phantoms, joinmessages, deathmessages, live, coinflip"
   economy:
     - {placeholder: "%vexcore_balance%", description: "Balance, plain number (1500.25)"}
-    - {placeholder: "%vexcore_balance_formatted%", description: "Balance with the currency ($1,500.25)"}
-    - {placeholder: "%vexcore_balance_short%", description: "Balance short ($1.5k)"}
+    - {placeholder: "%vexcore_balance_formatted%", description: "Balance with the currency, as numbers: in config.yml says ($1.5k, or $1,500.25 with style FULL)"}
+    - {placeholder: "%vexcore_balance_short%", description: "Balance short, whatever the style ($1.5k)"}
     - {placeholder: "%vexcore_baltop_name_[place]%", description: "Name at that place of /baltop (baltop_name_1)"}
     - {placeholder: "%vexcore_baltop_balance_[place]%", description: "Balance at that place of /baltop"}
   keyall:
@@ -58,9 +58,9 @@ placeholders:
   ping:
     - {placeholder: "%vexcore_ping%", description: "The player's ping in ms"}
   coinflip:
-    - {placeholder: "%vexcore_coinflip_games%", description: "Open coinflip games"}
-    - {placeholder: "%vexcore_coinflip_wins%", description: "Coinflips the player won"}
-    - {placeholder: "%vexcore_coinflip_losses%", description: "Coinflips the player lost"}
+    - {placeholder: "%vexcore_coinflip_games%", description: "Open coinflip games (_raw: plain number)"}
+    - {placeholder: "%vexcore_coinflip_wins%", description: "Coinflips the player won (1.2k; coinflip_wins_raw: 1200)"}
+    - {placeholder: "%vexcore_coinflip_losses%", description: "Coinflips the player lost (_raw: plain number)"}
   invest:
     - {placeholder: "%vexcore_invest_invested%", description: "Money invested"}
     - {placeholder: "%vexcore_invest_pending%", description: "Income waiting to be collected"}
@@ -74,7 +74,7 @@ placeholders:
   playtime:
     - {placeholder: "%vexcore_playtime%", description: "The player's playtime"}
   killrewards:
-    - {placeholder: "%vexcore_kills%", description: "Player kills (what kill rewards count)"}
+    - {placeholder: "%vexcore_kills%", description: "Player kills, what kill rewards count (1.2k; kills_raw: 1200)"}
   prestige:
     - {placeholder: "%vexcore_prestige%", description: "The player's prestige level"}
     - {placeholder: "%vexcore_prestige_max%", description: "The highest prestige level"}
@@ -102,27 +102,28 @@ placeholders:
   reports:
     - {placeholder: "%vexcore_reports_pending%", description: "Reports waiting for staff"}
   stats:
-    - {placeholder: "%vexcore_stats_[stat]%", description: "kills, deaths, streak, best_streak, mob_kills, blocks_broken, blocks_placed, duel_wins, duel_losses, ffa_kills"}
+    - {placeholder: "%vexcore_stats_[stat]%", description: "kills, deaths, streak, best_streak, mob_kills, blocks_broken, blocks_placed, duel_wins, duel_losses, ffa_kills (1.2k)"}
+    - {placeholder: "%vexcore_stats_[stat]_raw%", description: "The same as a plain number (stats_kills_raw: 1200), for plugins that compare it"}
     - {placeholder: "%vexcore_stats_kdr%", description: "Kills per death"}
   leaderboard:
     - {placeholder: "%vexcore_top_[category]_[place]_name%", description: "Name at that place (top_kills_1_name); categories are in the leaderboard file"}
     - {placeholder: "%vexcore_top_[category]_[place]_value%", description: "Value at that place (top_kills_1_value)"}
   joincounter:
-    - {placeholder: "%vexcore_joincount%", description: "How many new players have joined (first joins)"}
+    - {placeholder: "%vexcore_joincount%", description: "How many new players have joined, first joins (6.82k; joincount_raw: 6822)"}
   antilag:
     - {placeholder: "%vexcore_antilag%", description: "Time to the next ground item clear"}
   quests:
-    - {placeholder: "%vexcore_quests_done%", description: "Quests the player finished"}
+    - {placeholder: "%vexcore_quests_done%", description: "Quests the player finished (_raw: plain number)"}
   tebex:
     - {placeholder: "%vexcore_goal_name%", description: "The store goal's name"}
     - {placeholder: "%vexcore_goal_current%", description: "Money towards the goal, plain number"}
-    - {placeholder: "%vexcore_goal_current_formatted%", description: "Money towards the goal ($120.00)"}
+    - {placeholder: "%vexcore_goal_current_formatted%", description: "Money towards the goal ($120.00, $1.5k)"}
     - {placeholder: "%vexcore_goal_target%", description: "The goal's target, plain number"}
-    - {placeholder: "%vexcore_goal_target_formatted%", description: "The goal's target ($500.00)"}
+    - {placeholder: "%vexcore_goal_target_formatted%", description: "The goal's target ($500.00, $2k)"}
     - {placeholder: "%vexcore_goal_percent%", description: "How far the goal is, in percent"}
   votes:
-    - {placeholder: "%vexcore_voteparty_current%", description: "Votes towards the next vote party"}
-    - {placeholder: "%vexcore_voteparty_needed%", description: "Votes a vote party needs"}
+    - {placeholder: "%vexcore_voteparty_current%", description: "Votes towards the next vote party (_raw: plain number)"}
+    - {placeholder: "%vexcore_voteparty_needed%", description: "Votes a vote party needs (_raw: plain number)"}
   events:
     - {placeholder: "%vexcore_event_name%", description: "The running event, or None"}
     - {placeholder: "%vexcore_event_time%", description: "Time left in the running event"}

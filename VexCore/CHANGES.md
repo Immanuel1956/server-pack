@@ -1,5 +1,17 @@
 # VexCore changelog
 
+## Round 24: short numbers everywhere (1k, 1.5m, 2b, 3t)
+
+- **One setting for how every number looks:** `numbers:` in config.yml. `style: SHORT` (the default) writes 1000 as 1k, 1500 as 1.5k, 2,500,000 as 2.5m, then b, t and q. `style: FULL` writes 1,000 and 2,500,000. Also there: `short-from` (the first number that is shortened; 10000 keeps 1,500 but makes 10k), `decimals` (1.23m, 1.2m or 1m), the `suffixes` (write `[K, M, B, T, Q]` for capitals) and the `thousands-separator`.
+- **Where it applies:** money in chat, menus, /bal, /baltop, /pay, sell, coinflip, invest, prestige, player warps, Tebex goals and anything that asks VexCore's economy through Vault; stats (/stats, `%vexcore_stats_kills%`), kill rewards, leaderboards (`%vexcore_top_..._value%`), quest progress and rewards, event scores, vote counts and /votetop, coinflip wins and losses, the join counter, giveaway item counts, player warp visits and rollback item counts.
+- Shortened numbers are cut, never rounded up: 999,999 is 999.99k, not 1000k, and a balance never looks bigger than it is. Zeros are dropped (1k, not 1.00k). Money under 1k keeps its cents ($12.50).
+- **Plain numbers where they're needed:** console commands, `%vexcore_balance%` and the other plain-number placeholders stay plain. Counts that are now short have a `_raw` twin for plugins that compare them: `%vexcore_stats_kills_raw%`, `%vexcore_kills_raw%`, `%vexcore_coinflip_wins_raw%`, `%vexcore_joincount_raw%`, `%vexcore_voteparty_current_raw%`, `%vexcore_quests_done_raw%`. Quest reward commands get `%money_raw%` and `%bonus_raw%`, and prestige commands get `%kills_raw%`.
+- Typing short amounts already worked everywhere (/pay Bob 1.5k, /cf create 2m, /eco give Bob 1b).
+- Fixed: the old short format cut 1,150,000 to 1.14M (floating-point noise). Short money under 1,000 showed $2.5 instead of $2.50.
+- The economy file's `format.chat` and `format.suffixes` are replaced by `numbers:` in config.yml, and the join counter's `thousands-separator` by `numbers.thousands-separator`. The economy's own `thousands-separator` still works if it is in your file.
+
+Validation: `mvn clean package` against Paper API 1.21.10: compiles, 52 tests pass (new: `NumberStyleTest`), ProGuard completes. `mvn -Ddev -Panalysis verify` (SpotBugs) passes. Not run on a live server.
+
 ## Round 23: dupes, economy exploits and manipulation
 
 ### Dupes

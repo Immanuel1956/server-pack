@@ -82,7 +82,7 @@ public final class LeaderboardFeature extends Feature {
     }
 
     private String value(String category, double v) {
-        return category.equals("balance") ? plugin.money().shortFormat(v) : Numbers.full(v, 0, ",");
+        return category.equals("balance") ? plugin.money().shortFormat(v) : Numbers.format(v);
     }
 
     private void refresh() {

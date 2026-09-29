@@ -167,7 +167,7 @@ public final class QuestsFeature extends Feature implements PlayerData.Store, Li
             lastKill.values().removeIf(t -> t < cut); // pairs past their cooldown count again anyway
         });
         refreshRankings();
-        placeholder("quests_done", (p, a) -> String.valueOf(doneCount(p.getUniqueId())));
+        placeholder("quests_done", (p, a) -> count(doneCount(p.getUniqueId()), a));
     }
 
     @Override
@@ -377,13 +377,15 @@ public final class QuestsFeature extends Feature implements PlayerData.Store, Li
                 Map<String, Object> ph = placeholders(q);
                 ph.put("player", player.getName());
                 ph.put("step", step);
-                ph.put("money", Numbers.full(pay, 0, ","));
+                ph.put("money", Numbers.format(pay));
+                ph.put("money_raw", Numbers.full(pay, 2, "")); // for commands
+                ph.put("bonus_raw", Numbers.full(extra, 2, ""));
                 if (pay > 0) plugin.money().deposit(player, pay);
                 Actions.run(player, q.commands, ph, null);
                 msg(player, "completed", ph);
                 if (first) {
                     if (extra > 0) plugin.money().deposit(player, extra);
-                    ph.put("bonus", Numbers.full(extra, 0, ","));
+                    ph.put("bonus", Numbers.format(extra));
                     broadcast(Messages.everyone(), "first", ph);
                 }
             }, () -> {
@@ -449,8 +451,8 @@ public final class QuestsFeature extends Feature implements PlayerData.Store, Li
             State s = state(p.getUniqueId(), q.key);
             if (s == null) continue;
             Map<String, Object> ph = placeholders(q);
-            ph.put("progress", Numbers.full(s.into, 0, ","));
-            ph.put("target", Numbers.full(target(q, s.step), 0, ","));
+            ph.put("progress", Numbers.format(s.into));
+            ph.put("target", Numbers.format(target(q, s.step)));
             ph.put("step", s.step);
             Scheduler.entity(p, () -> p.sendActionBar(Text.parse(config().getString("track.format",
                     "%accent%%quest% &8▷ &f%progress%&8/&f%target%"), p, ph)));
@@ -466,14 +468,14 @@ public final class QuestsFeature extends Feature implements PlayerData.Store, Li
         List<Rank> list = rankings.getOrDefault(q.key, List.of());
         Map<String, Object> ph = placeholders(q);
         int rank = rank(p.getUniqueId(), list);
-        ph.put("progress", Numbers.full(into, 0, ","));
-        ph.put("target", Numbers.full(target, 0, ","));
+        ph.put("progress", Numbers.format(into));
+        ph.put("target", Numbers.format(target));
         ph.put("percent", Math.min(100, into * 100 / Math.max(1, target)) + "%");
         ph.put("rank", rank == 0 ? config().getString("empty-rank", "-") : String.valueOf(rank));
         ph.put("players", list.size());
         ph.put("step", step);
-        ph.put("money", Numbers.full(money(q, step), 0, ","));
-        ph.put("first_bonus", Numbers.full(bonus(q, step), 0, ","));
+        ph.put("money", Numbers.format(money(q, step)));
+        ph.put("first_bonus", Numbers.format(bonus(q, step)));
         ph.put("difficulty", q.difficulty);
         ph.put("started", plugin.messages().time((System.currentTimeMillis() - cycle * Math.max(1, config().getLong("reset.hours", 24)) * 3_600_000L) / 1000));
         boolean done = s != null && s.done;
@@ -482,7 +484,7 @@ public final class QuestsFeature extends Feature implements PlayerData.Store, Li
         for (int i = 1; i <= top; i++) {
             Rank r = i <= list.size() ? list.get(i - 1) : null;
             ph.put("top_" + i + "_name", r == null ? config().getString("empty-name", "---") : r.name);
-            ph.put("top_" + i + "_value", r == null ? config().getString("empty-value", "0") : Numbers.full(r.value, 0, ","));
+            ph.put("top_" + i + "_value", r == null ? config().getString("empty-value", "0") : Numbers.format(r.value));
         }
         ph.put("material", q.item == null ? "PAPER" : q.item.getString("material", "PAPER"));
         return ph;
@@ -501,7 +503,7 @@ public final class QuestsFeature extends Feature implements PlayerData.Store, Li
             Map<String, State> states = players.getOrDefault(p.getUniqueId(), Map.of());
             for (State s : states.values()) earned += s.earned;
             long next = (cycle + 1) * Math.max(1, config().getLong("reset.hours", 24)) * 3_600_000L;
-            menu.with("done", doneCount(p.getUniqueId())).with("active", board.size()).with("earned", Numbers.full(earned, 0, ","))
+            menu.with("done", doneCount(p.getUniqueId())).with("active", board.size()).with("earned", Numbers.format(earned))
                     .with("reset", plugin.messages().time(Math.max(0, (next - System.currentTimeMillis()) / 1000)));
             for (int i = 0; i < Math.min(slots.size(), board.size()); i++) {
                 Quest q = board.get(i);
@@ -559,14 +561,14 @@ public final class QuestsFeature extends Feature implements PlayerData.Store, Li
                     .with("filter_board", allTime ? inactive : active).with("filter_alltime", allTime ? active : inactive);
             int mine = rank(p.getUniqueId(), list);
             menu.with("rank", mine == 0 ? config().getString("empty-rank", "-") : String.valueOf(mine))
-                    .with("value", mine == 0 ? "0" : Numbers.full(list.get(mine - 1).value, 0, ","));
+                    .with("value", mine == 0 ? "0" : Numbers.format(list.get(mine - 1).value));
             menu.function("filter", x -> openLeaderboard(p, q, !allTime));
             menu.function("back", x -> openDetail(p, q));
             menu.paginate(list, (r, slot) -> {
                 Map<String, Object> e = new HashMap<>();
                 e.put("name", r.name);
                 e.put("rank", list.indexOf(r) + 1);
-                e.put("value", Numbers.full(r.value, 0, ","));
+                e.put("value", Numbers.format(r.value));
                 State s = state(r.uuid, q.key);
                 boolean done = s != null && s.done;
                 e.put("status", config().getString(done ? "status.done" : "status.open", done ? "Done" : "Open"));

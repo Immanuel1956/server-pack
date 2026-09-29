@@ -92,9 +92,10 @@ public final class PrestigeFeature extends Feature implements PlayerData.Store {
         Map<String, Object> ph = new HashMap<>();
         ph.put("number", number);
         ph.put("cost", plugin.money().format(l.cost));
-        ph.put("kills", l.kills);
+        ph.put("kills", com.vexorstudios.vexcore.core.Numbers.format(l.kills));
+        ph.put("kills_raw", l.kills); // for commands
         ph.put("playtime", trim(l.hours));
-        ph.put("kills_have", kills(p));
+        ph.put("kills_have", com.vexorstudios.vexcore.core.Numbers.format(kills(p)));
         ph.put("playtime_have", trim(Math.floor(hours(p) * 10) / 10));
         ph.put("invest_limit", plugin.money().format(l.investLimit));
         ph.put("material", l.material);

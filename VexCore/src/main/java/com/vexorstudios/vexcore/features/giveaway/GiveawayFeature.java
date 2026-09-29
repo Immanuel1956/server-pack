@@ -125,7 +125,7 @@ public final class GiveawayFeature extends Feature implements org.bukkit.event.L
             });
             menu.paginate(all, (g, slot) -> {
                 boolean in = g.entries.contains(p.getUniqueId());
-                menu.place(in ? "entered" : "giveaway", slot, Map.of("player", g.ownerName, "items", g.count, "prize", prize(g.items, g.count),
+                menu.place(in ? "entered" : "giveaway", slot, Map.of("player", g.ownerName, "items", com.vexorstudios.vexcore.core.Numbers.format(g.count), "prize", prize(g.items, g.count),
                         "entries", g.entries.size(), "time", plugin.messages().time(Math.max(0, (g.ends - System.currentTimeMillis()) / 1000))), c -> {
                     if (c.type().isRightClick()) preview(p, g.items, () -> openList(p));
                     else {
@@ -188,7 +188,7 @@ public final class GiveawayFeature extends Feature implements org.bukkit.event.L
 
     private String prize(String data, int count) {
         double amount = moneyAmount(data);
-        return amount > 0 ? plugin.money().format(amount) : count + " items";
+        return amount > 0 ? plugin.money().format(amount) : com.vexorstudios.vexcore.core.Numbers.format(count) + " items";
     }
 
     private boolean canStart(Player p) {
@@ -338,7 +338,7 @@ public final class GiveawayFeature extends Feature implements org.bukkit.event.L
             running.put(id, g);
             lastStart.put(g.owner, System.currentTimeMillis());
             starting.remove(g.owner);
-            if (isEnabled()) broadcast(Messages.everyone(), "started", Map.of("player", g.ownerName, "items", count,
+            if (isEnabled()) broadcast(Messages.everyone(), "started", Map.of("player", g.ownerName, "items", com.vexorstudios.vexcore.core.Numbers.format(count),
                     "prize", prize(data, count), "time", plugin.messages().time(Math.max(1, (g.ends - System.currentTimeMillis()) / 1000))));
         });
         p.closeInventory();
@@ -393,7 +393,7 @@ public final class GiveawayFeature extends Feature implements org.bukkit.event.L
             if (list.isEmpty()) menu.function("empty", c -> {
             });
             menu.function("back", c -> openList(p));
-            menu.paginate(list, (claim, slot) -> menu.place("claim", slot, Map.of("items", claim.count, "player", claim.from, "prize", prize(claim.items, claim.count)), c -> {
+            menu.paginate(list, (claim, slot) -> menu.place("claim", slot, Map.of("items", com.vexorstudios.vexcore.core.Numbers.format(claim.count), "player", claim.from, "prize", prize(claim.items, claim.count)), c -> {
                 if (c.type().isRightClick()) {
                     preview(p, claim.items, () -> openClaims(p));
                     return;
@@ -438,7 +438,7 @@ public final class GiveawayFeature extends Feature implements org.bukkit.event.L
                         restore(p.getUniqueId(), claim); msg(p, "claim-failed"); return;
                     }
                     for (ItemStack item : contents) Menu.giveBack(p, item);
-                    msg(p, "claimed", "items", claim.count, "prize", prize(claim.items, claim.count));
+                    msg(p, "claimed", "items", com.vexorstudios.vexcore.core.Numbers.format(claim.count), "prize", prize(claim.items, claim.count));
                 }
                 openClaims(p);
             }, () -> {

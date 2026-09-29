@@ -304,7 +304,7 @@ public final class TebexFeature extends Feature implements Listener {
         long ggSeconds = Math.max(0, com.vexorstudios.vexcore.core.Time.seconds(s.getString("gg-wave.duration", "30s")));
         Map<String, Object> ph = new HashMap<>();
         ph.put("player", name);
-        ph.put("amount", (currency == null || currency.isEmpty() ? config().getString("currency-symbol", "$") : currency) + Numbers.money(amount, 2, ","));
+        ph.put("amount", (currency == null || currency.isEmpty() ? config().getString("currency-symbol", "$") : currency) + Numbers.formatMoney(amount, 2, Numbers.style().separator()));
         ph.put("package", pack == null || pack.isBlank() ? s.getString("unknown-package", "a package") : pack);
         ph.put("money", plugin.money().format(ggMoney));
         ph.put("money_short", plugin.money().shortFormat(ggMoney));
@@ -417,7 +417,7 @@ public final class TebexFeature extends Feature implements Listener {
     }
 
     private String money(double v) {
-        return config().getString("currency-symbol", "$") + Numbers.money(v, 2, ",");
+        return config().getString("currency-symbol", "$") + Numbers.formatMoney(v, 2, Numbers.style().separator());
     }
 
     /** Own goals: rewards every goal the total has passed, once. */
