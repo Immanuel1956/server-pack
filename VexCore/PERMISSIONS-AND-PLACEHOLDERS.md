@@ -55,7 +55,8 @@ or *nobody* (only players or groups you give it to, for example with LuckPerms).
 | Permission | Who has it | What it does |
 |---|---|---|
 | `vexcore.sell` | everyone | /sell (menu, hand, all) |
-| `vexcore.worth` | everyone | /worth |
+| `vexcore.worth` | everyone | /worth and /worth toggle (worth in tooltips on or off) |
+| `vexcore.sell.admin` | op | /sell price <amount\|remove> [item] (set or take out sell prices) |
 | `vexcore.sell.multiplier.vip` | nobody | Sell multiplier "vip" from features/sell/config.yml (add your own the same way) |
 | `vexcore.sell.multiplier.mvp` | nobody | Sell multiplier "mvp" |
 | `vexcore.sell.multiplier.elite` | nobody | Sell multiplier "elite" |
@@ -308,7 +309,7 @@ Rename, alias, re-permission or turn off any of these in `commands.yml`.
 | `/prestige` |  | `vexcore.prestige` | Prestige levels |
 | `/boosts` | /boost, /booster | `vexcore.boosts` | Short potion boosts |
 | `/sell [hand\|all]` |  | `vexcore.sell` | Sell items for money |
-| `/worth [item]` | /price | `vexcore.worth` | What an item sells for |
+| `/worth [item\|toggle]` | /price | `vexcore.worth` | What an item sells for |
 | `/kit [kit\|preview <kit>\|save <kit>\|delete <kit>\|give <kit> <player>\|reset <player> [kit]]` | /kits | `vexcore.kit` | Claim a kit |
 | `/chatfilter <regex\|remove\|similar\|test\|strikes\|clear\|reload>` | /cf-rules | `vexcore.chatfilter.admin` | Chat filter tools |
 | `/chathistory [player]` | /chatlog | `vexcore.chatfilter.admin` | Everything the chat filter caught |
@@ -440,7 +441,7 @@ PlaceholderAPI, and everywhere else (TAB, holograms, other plugins) through Plac
 
 | Placeholder | What it shows |
 |---|---|
-| `%vexcore_toggle_[id]%` | true/false for a /settings toggle: pay, msg, tpa, tpahere, tpauto, chat, mentions, scoreboard, nightvision, playerhide, mobtoggle, phantoms, joinmessages, deathmessages, live, coinflip |
+| `%vexcore_toggle_[id]%` | true/false for a /settings toggle: pay, msg, tpa, tpahere, tpauto, chat, mentions, scoreboard, nightvision, playerhide, mobtoggle, phantoms, joinmessages, deathmessages, live, coinflip, worth |
 
 ### economy
 

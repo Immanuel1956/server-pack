@@ -13,7 +13,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -55,11 +54,14 @@ public final class Menu implements InventoryHolder {
     private final Map<String, Consumer<Click>> functions = new HashMap<>();
     private final Map<Integer, Entry> entries = new HashMap<>();
     private final Map<Integer, Button> buttons = new HashMap<>();
-    private final Set<Integer> editable = new HashSet<>();
+    private final Set<Integer> editable = java.util.concurrent.ConcurrentHashMap.newKeySet(); // also read by worth tooltips
     private Inventory inventory;
     private String shownTitle;
     private int page;
     private Consumer<Menu> closeAction;
+    private java.util.function.Predicate<ItemStack> accepts;
+    private Consumer<ItemStack> refused;
+    private Consumer<Menu> changed;
     private boolean closed;
 
     public Menu(Feature feature, MenuFile file, Player viewer, Consumer<Menu> builder) {
@@ -158,6 +160,40 @@ public final class Menu implements InventoryHolder {
         closeAction = action;
     }
 
+    /**
+     * Only items {@code filter} accepts may go into the editable slots, whichever way they come
+     * (placed, number keys, shift-click, dragged). {@code refused} is told about the others, which
+     * stay where they were. Set it from the builder.
+     */
+    public void accepts(java.util.function.Predicate<ItemStack> filter, Consumer<ItemStack> refused) {
+        this.accepts = filter;
+        this.refused = refused;
+    }
+
+    /** Runs a tick after items went into or out of the editable slots. Set it from the builder. */
+    public void onChange(Consumer<Menu> action) {
+        changed = action;
+    }
+
+    /** Draws the file's item {@code key} again with the current placeholders (after {@link #with}). */
+    public void redraw(String key) {
+        if (inventory == null || viewer.getOpenInventory().getTopInventory() != inventory) return;
+        for (MenuItem item : file.items()) {
+            if (!item.key().equals(key)) continue;
+            if (!item.permission().isEmpty() && !viewer.hasPermission(item.permission())) continue;
+            Button old = null;
+            for (int slot : item.slots()) if (buttons.containsKey(slot)) old = buttons.get(slot);
+            if (item.function() != null && (old == null || old.action == null)) continue; // not offered
+            ItemStack stack = item.spec().build(viewer, placeholders);
+            Button button = new Button(item, new HashMap<>(placeholders), old == null ? null : old.action);
+            for (int slot : item.slots()) {
+                if (slot < 0 || slot >= inventory.getSize() || editable.contains(slot)) continue;
+                inventory.setItem(slot, stack);
+                buttons.put(slot, button);
+            }
+        }
+    }
+
     /** The editable slots, in order. */
     public List<Integer> editableSlots() {
         List<Integer> out = new java.util.ArrayList<>(editable);
@@ -239,6 +275,9 @@ public final class Menu implements InventoryHolder {
         buttons.clear();
         editable.clear();
         closeAction = null;
+        accepts = null;
+        refused = null;
+        changed = null;
         placeholders.put("player", viewer.getName());
         builder.accept(this);
 
@@ -337,8 +376,31 @@ public final class Menu implements InventoryHolder {
         return editable.contains(slot);
     }
 
+    /** Whether players put items into this slot (the sell menu's item slots). */
+    public boolean isEditableSlot(int slot) {
+        return editable.contains(slot);
+    }
+
     boolean hasEditable() {
         return !editable.isEmpty();
+    }
+
+    /** Whether this item may go into the editable slots. */
+    boolean allows(ItemStack item) {
+        return accepts == null || item == null || item.isEmpty() || accepts.test(item);
+    }
+
+    void refuse(ItemStack item) {
+        if (refused != null && item != null && !item.isEmpty()) refused.accept(item.clone());
+    }
+
+    /** The editable slots changed: the change action, a tick later so the click has happened. */
+    void changedLater() {
+        Consumer<Menu> action = changed;
+        if (action == null || closed) return;
+        com.vexorstudios.vexcore.core.Scheduler.entity(viewer, () -> {
+            if (!closed && viewer.getOpenInventory().getTopInventory() == inventory) action.accept(this);
+        });
     }
 
     void click(int slot, Button button, ClickType type) {

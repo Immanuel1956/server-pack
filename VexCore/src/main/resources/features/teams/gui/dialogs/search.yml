@@ -1,0 +1,32 @@
+# Search in the team menu: shows the members whose name has the text. %team% works.
+# MiniMessage or & colours. buttons: each is a text, or text + hover (shown when the mouse is
+# on it) + width. Escape counts as cancel. Servers before 1.21.7 have no dialogs: the matching
+# *-prompt message in ../../config.yml is sent instead and the answer is typed in the chat.
+
+title: "Search %team%"
+body:
+  - "<gray>Type part of a name. Empty shows everyone again."
+body-width: 250
+button-width: 150
+can-close-with-escape: true
+
+input:
+  label: "Name"
+  label-visible: true
+  width: 250
+  max-length: 16
+
+buttons:
+  confirm:
+    text: "<#FF00F8>Search"
+    hover: "<gray>Show the members whose name has this text"
+  cancel:
+    text: "Cancel"
+    hover: "<gray>Back to the team"
+
+sounds:
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 1.0
+    pitch: 1.2

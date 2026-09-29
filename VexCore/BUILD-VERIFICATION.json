@@ -1,7 +1,7 @@
 {
   "java": "21",
   "paper_api": "1.21.10-R0.1-SNAPSHOT (compiled from PaperMC ver/1.21.10 source)",
-  "maven_build": "mvn clean package: BUILD SUCCESS (compile, 52 tests, ProGuard 7.6.1); mvn -Ddev -Panalysis verify: SpotBugs clean",
-  "tests": "52 passed, 0 failed",
+  "maven_build": "mvn clean package: BUILD SUCCESS (compile, 58 tests, ProGuard 7.6.1); mvn -Ddev -Panalysis verify: SpotBugs clean",
+  "tests": "58 passed, 0 failed",
   "live_server_tested": false
 }

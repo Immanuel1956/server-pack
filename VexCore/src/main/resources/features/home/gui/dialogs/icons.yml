@@ -1,0 +1,55 @@
+# Change Icon: every item in the game, with its picture, and a search box.
+# %home% %name% (the home's) work in title/body/buttons; %page% %pages% %found% in page lines.
+
+title: "Choose Icon"
+# The home's current icon at the top.
+show-icon: true
+body-width: 250
+# Items per row, and items per page (rounded down to whole rows).
+columns: 3
+per-page: 90
+button-width: 150
+can-close-with-escape: true
+
+# Shown above the buttons when there is more than one page / when the search finds nothing.
+page:
+  - "<gray>Page %page%/%pages% (%found% items)"
+nothing-found:
+  - "<red>Nothing found, try another search."
+
+input:
+  label: "Search"
+  label-visible: true
+  width: 300
+  max-length: 32
+
+# Each item's button. %icon% = its picture, %name% = Acacia Boat, %id% = acacia_boat.
+item:
+  text: "%icon% %name%"
+  hover: "<gray>Use <white>%name%</white> as the icon"
+# false: names only, no pictures.
+show-pictures: true
+
+buttons:
+  search:
+    text: "Search"
+    hover: "<gray>Show items whose name has the text in the box"
+  default:
+    text: "Default"
+    hover: "<gray>Back to the default icon"
+  back:
+    text: "Back"
+    hover: "<gray>Back to the home"
+  previous:
+    text: "◀ Previous Page"
+    hover: "<gray>Page %page% of %pages%"
+  next:
+    text: "Next Page ▶"
+    hover: "<gray>Page %page% of %pages%"
+
+sounds:
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 1.0
+    pitch: 1.2

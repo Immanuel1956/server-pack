@@ -1,0 +1,34 @@
+# Invest from the menu. %room% = how much more may be invested, %balance% = their money.
+# MiniMessage or & colours. buttons: each is a text, or text + hover (shown when the mouse is
+# on it) + width. Escape counts as cancel. Servers before 1.21.7 have no dialogs: the matching
+# *-prompt message in ../../config.yml is sent instead and the answer is typed in the chat.
+
+title: "<#00ADFC><b>INVEST</b>"
+body:
+  - "<gray>How much do you want to invest?"
+  - "<gray>Room left: <#00ADFC>%room%</#00ADFC>. You have <green>%balance%</green>."
+  - "<dark_gray>1000, 2.5k and 1m all work, or all."
+body-width: 250
+button-width: 150
+can-close-with-escape: true
+
+input:
+  label: "Amount"
+  label-visible: true
+  width: 200
+  max-length: 16
+
+buttons:
+  confirm:
+    text: "<#00ADFC>Invest"
+    hover: "<gray>Put this much in"
+  cancel:
+    text: "Cancel"
+    hover: "<gray>Back to your investment"
+
+sounds:
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 1.0
+    pitch: 1.2

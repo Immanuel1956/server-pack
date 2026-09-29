@@ -1,0 +1,34 @@
+# Create a coinflip from the menu. %balance% = their money.
+# MiniMessage or & colours. buttons: each is a text, or text + hover (shown when the mouse is
+# on it) + width. Escape counts as cancel. Servers before 1.21.7 have no dialogs: the matching
+# *-prompt message in ../../config.yml is sent instead and the answer is typed in the chat.
+
+title: "<#FFE925><b>COINFLIP</b>"
+body:
+  - "<gray>How much do you want to bet?"
+  - "<gray>You have <green>%balance%</green>."
+  - "<dark_gray>1000, 2.5k and 1m all work."
+body-width: 250
+button-width: 150
+can-close-with-escape: true
+
+input:
+  label: "Bet"
+  label-visible: true
+  width: 200
+  max-length: 16
+
+buttons:
+  confirm:
+    text: "<#FFE925>Create"
+    hover: "<gray>Put the coinflip up for anyone to join"
+  cancel:
+    text: "Cancel"
+    hover: "<gray>Back to the coinflips"
+
+sounds:
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 1.0
+    pitch: 1.2

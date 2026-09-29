@@ -1,0 +1,38 @@
+# The screen of one home: right-click a home in /home.
+# MiniMessage or & colours. %home% (number) %name% %icon% %world% %x% %y% %z% work everywhere.
+# buttons: each one is a text, or text + hover (shown when the mouse is on it) + width.
+
+title: "%name%"
+# The home's icon above the buttons.
+show-icon: true
+# Lines of text under the icon (one per entry).
+body: []
+body-width: 250
+columns: 2
+button-width: 150
+can-close-with-escape: true
+
+buttons:
+  teleport:
+    text: "Teleport"
+    hover: "<gray>Go to <white>%name%"
+  change-icon:
+    text: "Change Icon"
+    hover: "<gray>Pick any item as this home's icon"
+  rename:
+    text: "Rename"
+    hover: "<gray>Give this home a name"
+  delete:
+    text: "<red>Delete"
+    hover: "<red>Delete this home"
+  # The wide button at the bottom.
+  back:
+    text: "Back"
+    hover: "<gray>Back to your homes"
+
+sounds:
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 1.0
+    pitch: 1.2

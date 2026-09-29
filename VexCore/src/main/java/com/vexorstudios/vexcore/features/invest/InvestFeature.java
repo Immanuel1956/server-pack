@@ -605,18 +605,17 @@ public final class InvestFeature extends Feature implements PlayerData.Store {
                     .with("refund", Numbers.full(config().getDouble("delete-refund-percent", 0), 1, "") + "%");
             menu.function("invest", c -> {
                 player.closeInventory();
-                msg(player, "invest-prompt", "room", money().format(Math.max(0, limit(player) - get(player).invested)));
-                plugin.chatInput().ask(player, Math.max(5, config().getInt("input-seconds", 30)), text -> {
-                    invest(player, text);
+                com.vexorstudios.vexcore.core.Dialogs.ask(this, player, "invest", "invest-prompt", Map.of("room", money().format(Math.max(0, limit(player) - get(player).invested)),
+                        "balance", money().format(money().balance(player))), "", text -> {
+                    if (!text.isBlank()) invest(player, text);
                     openInvest(player);
                 }, () -> openInvest(player));
             });
             if (a.invested > 0 && config().getBoolean("withdraw.enabled", true)) menu.function("withdraw", c -> {
                 player.closeInventory();
-                msg(player, "withdraw-prompt", "invested", money().format(get(player).invested),
-                        "fee", Numbers.full(config().getDouble("withdraw.fee-percent", 50), 1, "") + "%");
-                plugin.chatInput().ask(player, Math.max(5, config().getInt("input-seconds", 30)), text -> {
-                    withdraw(player, text);
+                com.vexorstudios.vexcore.core.Dialogs.ask(this, player, "withdraw", "withdraw-prompt", Map.of("invested", money().format(get(player).invested),
+                        "fee", Numbers.full(config().getDouble("withdraw.fee-percent", 50), 1, "") + "%"), "", text -> {
+                    if (!text.isBlank()) withdraw(player, text);
                     openInvest(player);
                 }, () -> openInvest(player));
             });

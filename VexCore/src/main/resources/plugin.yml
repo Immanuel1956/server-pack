@@ -108,8 +108,11 @@ permissions:
     description: /sell (menu, hand, all)
     default: true
   vexcore.worth:
-    description: /worth
+    description: /worth and /worth toggle (worth in tooltips on or off)
     default: true
+  vexcore.sell.admin:
+    description: /sell price <amount|remove> [item] (set or take out sell prices)
+    default: op
   vexcore.sell.multiplier.vip:
     description: Sell multiplier "vip" from features/sell/config.yml (add your own the same way)
     default: false

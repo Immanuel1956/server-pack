@@ -1,0 +1,32 @@
+# Create a team from the team menu. %min% %max% = allowed name length.
+# MiniMessage or & colours. buttons: each is a text, or text + hover (shown when the mouse is
+# on it) + width. Escape counts as cancel. Servers before 1.21.7 have no dialogs: the matching
+# *-prompt message in ../../config.yml is sent instead and the answer is typed in the chat.
+
+title: "Create a Team"
+body:
+  - "<gray>Pick a name: <white>%min%-%max%</white> letters, numbers or _."
+body-width: 250
+button-width: 150
+can-close-with-escape: true
+
+input:
+  label: "Team name"
+  label-visible: true
+  width: 250
+  max-length: 32
+
+buttons:
+  confirm:
+    text: "<#FF00F8>Create"
+    hover: "<gray>Create the team"
+  cancel:
+    text: "Cancel"
+    hover: "<gray>Back"
+
+sounds:
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 1.0
+    pitch: 1.2

@@ -29,7 +29,7 @@ permission-patterns:
 placeholders:
   core:
     - placeholder: "%vexcore_toggle_[id]%"
-      description: "true/false for a /settings toggle: pay, msg, tpa, tpahere, tpauto, chat, mentions, scoreboard, nightvision, playerhide, mobtoggle, phantoms, joinmessages, deathmessages, live, coinflip"
+      description: "true/false for a /settings toggle: pay, msg, tpa, tpahere, tpauto, chat, mentions, scoreboard, nightvision, playerhide, mobtoggle, phantoms, joinmessages, deathmessages, live, coinflip, worth"
   economy:
     - {placeholder: "%vexcore_balance%", description: "Balance, plain number (1500.25)"}
     - {placeholder: "%vexcore_balance_formatted%", description: "Balance with the currency, as numbers: in config.yml says ($1.5k, or $1,500.25 with style FULL)"}

@@ -432,8 +432,11 @@ public final class CoinflipFeature extends Feature implements PlayerData.Store {
             menu.function("refresh", c -> menu.refresh());
             menu.function("create", c -> {
                 player.closeInventory();
-                msg(player, "create-prompt");
-                plugin.chatInput().ask(player, Math.max(5, config().getInt("input-seconds", 30)), text -> create(player, text), null);
+                com.vexorstudios.vexcore.core.Dialogs.ask(this, player, "create", "create-prompt",
+                        Map.of("balance", money().format(money().balance(player))), "", text -> {
+                    if (text.isBlank()) openGames(player);
+                    else create(player, text);
+                }, () -> openGames(player));
             });
             if (games.containsKey(player.getUniqueId())) menu.function("delete", c -> {
                 delete(player);

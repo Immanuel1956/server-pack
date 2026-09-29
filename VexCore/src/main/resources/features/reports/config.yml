@@ -38,22 +38,8 @@ words:
   online: "&#97F900Online"
   offline: "&#FF3B3BOffline"
 
-# The dialog (Paper 1.21.7+). MiniMessage or & colours; %target% %min% %max%.
-dialog:
-  title: "<#FF3B3B><b>REPORT</b> <white>%target%"
-  show-head: true
-  body:
-    - "<gray>Tell staff what <#FF3B3B>%target%</#FF3B3B> did."
-    - "<gray>Be specific: what, where and when."
-    - "<dark_gray>False reports can be punished."
-  input:
-    label: "<white>Reason <dark_gray>(%min%-%max% characters)"
-    lines: 4
-    width: 300
-  button-width: 150
-  buttons:
-    submit: "<#FF3B3B><b>Submit Report</b>"
-    cancel: "<gray>Cancel"
+# The report dialog (Paper 1.21.7+): gui/dialogs/report.yml (title, text, reason box, buttons
+# and their hover text).
 
 # ── Discord ─────────────────────────────────────────────────────────────────
 # Placeholders: %id% %reporter% %target% %reason% %date% %server% %status%

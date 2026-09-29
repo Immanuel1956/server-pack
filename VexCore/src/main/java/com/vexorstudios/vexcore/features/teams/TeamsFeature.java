@@ -766,8 +766,7 @@ public final class TeamsFeature extends Feature implements Listener {
             });
             menu.function("search", c -> {
                 player.closeInventory();
-                msg(player, "search-prompt");
-                plugin.chatInput().ask(player, Math.max(5, config().getInt("input-seconds", 30)), text -> {
+                com.vexorstudios.vexcore.core.Dialogs.ask(this, player, "search", "search-prompt", Map.of("team", t.name), view.search == null ? "" : view.search, text -> {
                     view.search = text.isBlank() ? null : text.strip();
                     openTeam(player);
                 }, () -> openTeam(player));
@@ -783,9 +782,10 @@ public final class TeamsFeature extends Feature implements Listener {
             menu.function("invite", c -> {
                 if (!allowed(player, t, MANAGE)) return;
                 player.closeInventory();
-                msg(player, "invite-prompt");
-                plugin.chatInput().ask(player, Math.max(5, config().getInt("input-seconds", 30)),
-                        text -> invite(player, byMember.get(me), 0, text.strip().split(" ")[0]), null);
+                com.vexorstudios.vexcore.core.Dialogs.ask(this, player, "invite", "invite-prompt", Map.of("team", t.name), "", text -> {
+                    if (text.isBlank()) openTeam(player);
+                    else invite(player, byMember.get(me), 0, text.strip().split(" ")[0]);
+                }, () -> openTeam(player));
             });
             menu.function("team-home", c -> {
                 if (c.type().isRightClick()) {
@@ -918,11 +918,15 @@ public final class TeamsFeature extends Feature implements Listener {
             });
             menu.function("create", c -> {
                 player.closeInventory();
-                msg(player, "create-prompt", "min", config().getInt("name.min-length", 3), "max", config().getInt("name.max-length", 16));
-                plugin.chatInput().ask(player, Math.max(5, config().getInt("input-seconds", 30)), text -> {
+                com.vexorstudios.vexcore.core.Dialogs.ask(this, player, "create", "create-prompt", Map.of("min", config().getInt("name.min-length", 3),
+                        "max", config().getInt("name.max-length", 16)), "", text -> {
+                    if (text.isBlank()) {
+                        openMenu(player);
+                        return;
+                    }
                     create(player, byMember.get(me), text.strip().split(" ")[0]);
                     if (byMember.get(me) != null) openTeam(player);
-                }, null);
+                }, () -> openMenu(player));
             });
         });
     }

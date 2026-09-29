@@ -126,6 +126,13 @@ public abstract class Feature {
         return Collections.unmodifiableMap(menus);
     }
 
+    private final Map<String, YamlConfiguration> dialogs = new java.util.concurrent.ConcurrentHashMap<>();
+
+    /** A dialog file (gui/dialogs/&lt;name&gt;.yml), read once, with the jar's copy as defaults. */
+    public final YamlConfiguration dialog(String name) {
+        return dialogs.computeIfAbsent(name, n -> plugin.files().settings(Files.dialogPath(id, n)));
+    }
+
     protected final Database db() {
         return plugin.database();
     }

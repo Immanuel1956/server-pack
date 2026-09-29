@@ -1,5 +1,8 @@
-# Selling items: /sell (menu), /sell hand, /sell all, /worth [item]
+# Selling items: /sell (menu), /sell hand, /sell all, /worth [item], /worth toggle
+# Staff: /sell price <amount> [item] sets a price (the held item when no item is named),
+#        /sell price remove [item] takes an item out (vexcore.sell.admin).
 #
+# Prices are in prices.yml, next to this file: every item a survival player can get has one.
 # Items are only taken once the money is paid. If paying fails (no economy, frozen balance,
 # maximum balance) everything stays or goes back where it was. Shulker boxes, bundles and other
 # containers that still hold items are never sold.
@@ -42,99 +45,74 @@ multipliers:
     permission: "vexcore.sell.multiplier.elite"
     value: 2.0
 
-# The price of ONE item. Items that aren't listed can't be sold.
-prices:
-  # Farming
-  WHEAT: 4
-  CARROT: 3
-  POTATO: 3
-  BEETROOT: 4
-  MELON_SLICE: 1
-  PUMPKIN: 8
-  SUGAR_CANE: 3
-  CACTUS: 3
-  BAMBOO: 1
-  KELP: 1
-  COCOA_BEANS: 3
-  NETHER_WART: 5
-  SWEET_BERRIES: 2
-  GLOW_BERRIES: 3
-  APPLE: 5
-  CHORUS_FRUIT: 6
-  BROWN_MUSHROOM: 4
-  RED_MUSHROOM: 4
-  EGG: 2
-  # Mob drops
-  ROTTEN_FLESH: 1
-  BONE: 3
-  STRING: 3
-  SPIDER_EYE: 4
-  GUNPOWDER: 6
-  ENDER_PEARL: 20
-  BLAZE_ROD: 25
-  GHAST_TEAR: 40
-  SLIME_BALL: 8
-  MAGMA_CREAM: 10
-  PHANTOM_MEMBRANE: 15
-  LEATHER: 5
-  FEATHER: 2
-  RABBIT_HIDE: 3
-  INK_SAC: 3
-  GLOW_INK_SAC: 6
-  PRISMARINE_SHARD: 5
-  PRISMARINE_CRYSTALS: 6
-  SHULKER_SHELL: 60
-  # Meat and fish
-  BEEF: 4
-  PORKCHOP: 4
-  CHICKEN: 3
-  MUTTON: 3
-  RABBIT: 3
-  COD: 3
-  SALMON: 4
-  # Ores and minerals
-  COAL: 4
-  RAW_IRON: 8
-  IRON_INGOT: 10
-  RAW_COPPER: 3
-  COPPER_INGOT: 4
-  RAW_GOLD: 12
-  GOLD_INGOT: 15
-  REDSTONE: 3
-  LAPIS_LAZULI: 4
-  QUARTZ: 5
-  AMETHYST_SHARD: 6
-  DIAMOND: 100
-  EMERALD: 60
-  NETHERITE_SCRAP: 400
-  NETHERITE_INGOT: 1800
-  # Blocks
-  COBBLESTONE: 0.5
-  STONE: 1
-  DEEPSLATE: 0.5
-  COBBLED_DEEPSLATE: 0.5
-  DIRT: 0.25
-  SAND: 0.5
-  GRAVEL: 0.5
-  NETHERRACK: 0.25
-  END_STONE: 1
-  OBSIDIAN: 15
-  # Wood
-  OAK_LOG: 2
-  SPRUCE_LOG: 2
-  BIRCH_LOG: 2
-  JUNGLE_LOG: 2
-  ACACIA_LOG: 2
-  DARK_OAK_LOG: 2
-  MANGROVE_LOG: 2
-  CHERRY_LOG: 2
-  PALE_OAK_LOG: 2
-  CRIMSON_STEM: 2
-  WARPED_STEM: 2
+# Who may use /sell price.
+admin-permission: "vexcore.sell.admin"
+
+# Never sold, whatever prices.yml says: items survival players can't get (creative and commands
+# only). * matches anything: "*_SPAWN_EGG" is every spawn egg.
+unobtainable:
+  - BEDROCK
+  - BARRIER
+  - LIGHT
+  - STRUCTURE_BLOCK
+  - STRUCTURE_VOID
+  - JIGSAW
+  - COMMAND_BLOCK
+  - CHAIN_COMMAND_BLOCK
+  - REPEATING_COMMAND_BLOCK
+  - COMMAND_BLOCK_MINECART
+  - DEBUG_STICK
+  - KNOWLEDGE_BOOK
+  - SPAWNER
+  - TRIAL_SPAWNER
+  - VAULT
+  - END_PORTAL_FRAME
+  - REINFORCED_DEEPSLATE
+  - BUDDING_AMETHYST
+  - PETRIFIED_OAK_SLAB
+  - PLAYER_HEAD
+  - FARMLAND
+  - DIRT_PATH
+  - FROGSPAWN
+  - CHORUS_PLANT
+  - TEST_BLOCK
+  - TEST_INSTANCE_BLOCK
+  - SUSPICIOUS_SAND
+  - SUSPICIOUS_GRAVEL
+  - "*_SPAWN_EGG"
+  - "INFESTED_*"
+
+# ── Worth in tooltips ──────────────────────────────────────────────────────
+# Hover over any item to see what it sells for. Only what the player's game SHOWS changes: the
+# item itself (its NBT/data) is never touched, so items keep stacking with each other no matter
+# where they came from, and nothing is left behind when this is turned off.
+# Needs the PacketEvents plugin. Players hide it for themselves with /worth toggle.
+worth-lore:
+  enabled: true
+  # Added under the item's own lore. %worth% = the whole stack (3 carrots at $2 = $6),
+  # %each% = one item, %amount% = how many, %multiplier% = the player's sell multiplier.
+  lines:
+    - ""
+    - "&7Worth: &#80EE0B%worth%"
+  # For a single item instead ([] = use lines above).
+  single-lines: []
+  # For items that can't be sold (named, unobtainable, holding items...). %reason%.
+  # [] = nothing added.
+  unsellable-lines: []
+  # Where tooltips show it. Other plugins' menus and VexCore's own buttons never do.
+  show-in:
+    inventory: true
+    # Chests, barrels, shulker boxes, hoppers, minecarts, donkeys, ender chests.
+    containers: true
+    # The item slots of /sell.
+    sell-menu: true
+  # Creative sends items back to the server as the game shows them: no lines there.
+  hidden-gamemodes: [CREATIVE, SPECTATOR]
 
 # How the reasons in not-sellable are written.
 reasons:
   no-price: "it has no price"
+  unobtainable: "it can't be obtained in survival"
   custom: "it is a special item"
   enchanted: "it is enchanted"
   damaged: "it is damaged"
@@ -152,8 +130,35 @@ messages:
   not-sellable: "&#FF0000&lERROR &7▷ &#80EE0B%item% &fcan't be sold: %reason%."
   unknown-item: "&#FF0000&lERROR &7▷ &#80EE0B%item% &fis not an item."
   worth: "{prefix}&#80EE0B%item% &7x%count% &fis worth &#80EE0B%total% &7(%each% each, %multiplier%x)"
+  # Put into /sell but it can't be sold: it stays where it was.
+  refused: "&#FF0000&lERROR &7▷ &#80EE0B%item% &fcan't be sold: %reason%."
+  worth-on: "{prefix}&fItems show their worth again."
+  worth-off: "{prefix}&fItems no longer show their worth."
+  price-usage: "{prefix}&f/sell price <amount> [item] &7or &f/sell price remove [item] &7(the held item when none is named)"
+  price-set: "{prefix}&#80EE0B%item% &fnow sells for &#80EE0B%price% &feach.%unobtainable%"
+  price-removed: "{prefix}&#80EE0B%item% &fcan no longer be sold."
+
+words:
+  # Added to price-set for an item on the unobtainable list.
+  unobtainable-note: " &7(It is on the unobtainable list in config.yml, so it still won't sell.)"
 
 sounds:
+  # The anvil breaking: this item can't go into /sell.
+  refused:
+    enabled: true
+    sound: "block.anvil.destroy"
+    volume: 0.8
+    pitch: 1.0
+  price-set:
+    enabled: true
+    sound: "entity.experience_orb.pickup"
+    volume: 1.0
+    pitch: 1.2
+  price-removed:
+    enabled: true
+    sound: "entity.item.break"
+    volume: 0.8
+    pitch: 1.0
   sold:
     enabled: true
     sound: "entity.experience_orb.pickup"

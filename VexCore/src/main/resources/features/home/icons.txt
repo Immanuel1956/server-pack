@@ -403,7 +403,7 @@ dead_tube_coral block/dead_tube_coral
 dead_tube_coral_block block/dead_tube_coral_block
 dead_tube_coral_fan block/dead_tube_coral_fan
 debug_stick item/stick
-decorated_pot entity/decorated_pot/decorated_pot_side
+decorated_pot block/terracotta
 deepslate block/deepslate
 deepslate_brick_slab block/deepslate_bricks
 deepslate_brick_stairs block/deepslate_bricks

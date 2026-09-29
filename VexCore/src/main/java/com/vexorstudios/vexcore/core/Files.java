@@ -75,6 +75,16 @@ public final class Files {
         return "features/" + group + "/gui/" + (menu.equals(feature) ? feature : feature + "-" + menu) + ".yml";
     }
 
+    /**
+     * Where one of a feature's dialogs is: features/&lt;id&gt;/gui/dialogs/&lt;dialog&gt;.yml, or
+     * features/&lt;group&gt;/gui/dialogs/&lt;id&gt;-&lt;dialog&gt;.yml.
+     */
+    public static String dialogPath(String feature, String dialog) {
+        String group = GROUPS.get(feature);
+        if (group == null) return "features/" + feature + "/gui/dialogs/" + dialog + ".yml";
+        return "features/" + group + "/gui/dialogs/" + feature + "-" + dialog + ".yml";
+    }
+
     private final VexCore plugin;
     private final List<String> errors = new ArrayList<>();
 

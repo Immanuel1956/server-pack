@@ -1,0 +1,23 @@
+# Delete a home from its screen. %home% %name% work.
+
+title: "Delete %name%?"
+body:
+  - "<gray>This home is gone for good."
+body-width: 250
+button-width: 150
+can-close-with-escape: true
+
+buttons:
+  confirm:
+    text: "<red>Delete"
+    hover: "<red>Delete %name% for good"
+  cancel:
+    text: "Cancel"
+    hover: "<gray>Keep this home"
+
+sounds:
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 1.0
+    pitch: 1.2

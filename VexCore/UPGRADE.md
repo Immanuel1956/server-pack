@@ -1,5 +1,16 @@
 # VexCore update: install and configuration
 
+## Round 25 (selling, worth tooltips, dialogs)
+
+Install the new jar. New files appear by themselves: `features/sell/prices.yml` and the `gui/dialogs/` folders. Then:
+
+1. **Sell menu:** delete `features/sell/gui/sell.yml` and `/vexcore reload` to get the new menu. It adds the Money Receive item in the middle and moves the SELL button to the right. Your old file keeps working, just without the middle item.
+2. **Prices:** delete the old `prices:` list from `features/sell/config.yml`. `prices.yml` now has every item, and `/vexcore reload` reminds you until the old list is gone. Change prices in prices.yml, or with `/sell price <amount>` holding the item.
+3. **Worth tooltips** need the PacketEvents plugin (the same one /hide uses). Without it, everything else works and `/vexcore reload` says why there's no worth. Settings: `worth-lore:` in `features/sell/config.yml`.
+4. **Dialog texts moved:** the `dialog:` block in `features/home/config.yml` and `features/reports/config.yml` is no longer read. The texts are in `gui/dialogs/` of each feature. If you had changed them, copy your texts over. The `*-prompt` messages stay, for servers without dialogs.
+
+Quick test: /sell, drop in carrots and a bedrock (anvil sound, "can't be sold"), hover over the gold ingot in the middle. Hover over a carrot stack in your inventory (Worth: ...), add more carrots to it, and the worth goes up. /home, right-click a home, then Change Icon (3 per row, boats and signs have pictures). /team, then Search (a dialog, not chat).
+
 ## Round 24 (short numbers: 1k, 1.5m, 2b, 3t)
 
 Install the new jar: numbers are short at once (the setting's default is SHORT). To change it, copy the `numbers:` block from the bundled `config.yml` into yours (above `GENERAL`), then `/vexcore reload`:

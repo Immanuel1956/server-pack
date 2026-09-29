@@ -153,7 +153,7 @@ commands:
     aliases: [price]
     permission: "vexcore.worth"
     description: "What an item sells for"
-    usage: "/%command% [item]"
+    usage: "/%command% [item|toggle]"
   kit:
     enabled: true
     name: kit

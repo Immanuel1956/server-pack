@@ -31,38 +31,9 @@ confirm-delete: true
 default-name: "Home %home%"
 default-icon: "LIME_BED"
 
-# The home dialogs (Paper 1.21.7+). MiniMessage or & colours. %home% %name% %icon% work.
-dialog:
-  button-width: 150
-  name-max-length: 24
-  rename-title: "Rename"
-  rename-label: "New Name"
-  delete-title: "Delete %name%?"
-  delete-text: "<gray>This home is gone for good."
-  icons-title: "Choose Icon"
-  search-label: "Search"
-  buttons:
-    teleport: "Teleport"
-    change-icon: "Change Icon"
-    rename: "Rename"
-    delete: "<red>Delete"
-    confirm-delete: "<red>Delete"
-    back: "Back"
-    save: "Save"
-    cancel: "Cancel"
-    search: "Search"
-    default: "Default"
-    previous: "◀ Previous Page"
-    next: "Next Page ▶"
-  icons:
-    # Every item in the game can be picked; this many per page, in this many columns.
-    per-page: 120
-    columns: 4
-    button-width: 150
-    # The item's picture in front of its name.
-    show-pictures: true
-    page: "<gray>Page %page%/%pages% (%found% items)"
-    nothing-found: "<red>Nothing found, try another search."
+# The home dialogs (Paper 1.21.7+, right-click a home) are in gui/dialogs/: home.yml (a home's
+# screen), rename.yml, delete.yml and icons.yml (Change Icon). Titles, texts, button labels and
+# their hover text, widths and columns are all there.
 
 # Homes can't be set in these worlds.
 disabled-worlds:

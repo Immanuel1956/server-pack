@@ -1,0 +1,30 @@
+# /report <player>: the dialog to type the reason in (Paper 1.21.7+).
+# MiniMessage or & colours. %target% %player% %min% %max% work.
+# buttons: each one is a text, or text + hover (shown when the mouse is on it) + width.
+# The open/close sounds are dialog-open and dialog-close in ../../config.yml.
+
+title: "<#FF3B3B><b>REPORT</b> <white>%target%"
+# The offender's head at the top.
+show-head: true
+body:
+  - "<gray>Tell staff what <#FF3B3B>%target%</#FF3B3B> did."
+  - "<gray>Be specific: what, where and when."
+  - "<dark_gray>False reports can be punished."
+body-width: 250
+button-width: 150
+can-close-with-escape: true
+
+input:
+  label: "<white>Reason <dark_gray>(%min%-%max% characters)"
+  label-visible: true
+  # Lines of the text box (1-10).
+  lines: 4
+  width: 300
+
+buttons:
+  submit:
+    text: "<#FF3B3B><b>Submit Report</b>"
+    hover: "<gray>Send the report to staff"
+  cancel:
+    text: "<gray>Cancel"
+    hover: "<gray>Don't report"

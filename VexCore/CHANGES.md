@@ -1,5 +1,26 @@
 # VexCore changelog
 
+## Round 25: selling rework, worth in tooltips, dialogs for every prompt
+
+### Selling
+- **Every item a survival player can get has a sell price** (1,369 items), in the new `features/sell/prices.yml`. Mined, farmed, fished and dropped things are priced by hand. Everything crafted, smelted or cut was worked out from the vanilla 1.21.10 recipes: a crafted item sells for what went into it, never more, so crafting can't make money (a block of iron is exactly 9 ingots). Smelting adds 25% for the fuel and time. `tools/gen_prices.py` rebuilds the file.
+- **Unobtainable items are never sold:** bedrock, barriers, command blocks, spawners, spawn eggs, infested blocks, the debug stick and the rest (`unobtainable:` in the sell config, with `*` patterns). An admin price doesn't change that.
+- **Add or take out items:** add a line to prices.yml, or delete it or set it to 0. Or in game: `/sell price <amount> [item]` and `/sell price remove [item]` (held item when none is named, `vexcore.sell.admin`, ops have it). The file keeps its comments, and changes apply at once.
+- **The sell menu refuses what can't be sold:** an unobtainable, unpriced or special item (named, holding items...) doesn't go in, whichever way it comes (click, number keys, shift-click, drag, out of a bundle). It stays where it was, the anvil-break sound plays and the chat says why (`refused` message and sound).
+- **Money Receive:** the middle item of /sell shows what everything in it sells for (a carrot at $2 and a potato at $1 = Money Receive: $3), with a line per kind of item. It updates as items go in and out. The SELL button (now on the right) shows the total too. Items can be taken back out before selling.
+
+### Worth in tooltips, without touching items
+- Hover over any item to see `Worth: $6` (3 carrots at $2: the whole stack, times the player's multiplier). The lines are fully customisable (`worth-lore:` in the sell config, with `%worth%` `%each%` `%amount%` `%multiplier%`, separate lines for single items and for unsellable ones). Turn it off with `worth-lore.enabled: false`; players turn it off for themselves with `/worth toggle`.
+- **The item itself is never changed.** Other worth plugins write the lore into the item's NBT, so a picked-up carrot and a crafted one stop stacking, and the lore stays forever. VexCore adds the lines only to what each player's game is shown (through PacketEvents). Items keep stacking wherever they came from, the worth follows the stack (put a 4th carrot on and it shows $8), and nothing is left behind when it is turned off.
+- Shown in the player's inventory, chests and other real containers, and the sell menu's slots; never on menu buttons (VexCore's or other plugins'). Creative players see none, because creative sends items back as shown. Anything that comes back with the lines anyway is cleaned.
+
+### Dialogs
+- **Every "type it in chat" prompt is now a dialog** with a text box, like the home dialogs: team search, invite and create; the giveaway amount; invest and withdraw; coinflip create. The chat is still used on servers without dialogs (before 1.21.7).
+- **Each feature with dialogs has a `gui/dialogs/` folder:** `features/<feature>/gui/dialogs/<dialog>.yml`. Title, text lines, text box (label, width, max length, lines), every button's text, **hover text** and width, columns and click sound are all there. Home (`home.yml`, `rename.yml`, `delete.yml`, `icons.yml`) and report (`report.yml`) moved there from their config.yml; the rest are new.
+- **Home icons:** three per row (`columns: 3` in `icons.yml`), whole rows per page, page buttons below the items. **Every item's picture shows.** Since 1.21.9 item textures live in their own atlas; asking the blocks atlas for them gave the purple and black "missing" square (boats, signs, doors...). The decorated pot shows terracotta.
+
+Validation: `mvn clean package` against Paper API 1.21.10: compiles, 58 tests pass (new: `SellPricesTest`, `HomeIconsTest`, `DialogFilesTest`), ProGuard completes. `mvn -Ddev -Panalysis verify` (SpotBugs) passes. Not run on a live server: the worth tooltips need PacketEvents, and dialogs need a 1.21.7+ client.
+
 ## Round 24: short numbers everywhere (1k, 1.5m, 2b, 3t)
 
 - **One setting for how every number looks:** `numbers:` in config.yml. `style: SHORT` (the default) writes 1000 as 1k, 1500 as 1.5k, 2,500,000 as 2.5m, then b, t and q. `style: FULL` writes 1,000 and 2,500,000. Also there: `short-from` (the first number that is shortened; 10000 keeps 1,500 but makes 10k), `decimals` (1.23m, 1.2m or 1m), the `suffixes` (write `[K, M, B, T, Q]` for capitals) and the `thousands-separator`.

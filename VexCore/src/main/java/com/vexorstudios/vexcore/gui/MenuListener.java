@@ -47,13 +47,29 @@ public final class MenuListener implements Listener {
                 if (player.getOpenInventory().getTopInventory() != top) return;
                 ItemStack item = from.getItem(slot);
                 if (item == null || item.isEmpty()) return;
+                if (!menu.allows(item)) {
+                    menu.refuse(item);
+                    return;
+                }
                 from.setItem(slot, menu.insert(item));
+                menu.changedLater();
             });
             return;
         }
         if (menu.hasEditable() && event.getAction() != InventoryAction.COLLECT_TO_CURSOR
                 && (!inMenu || menu.isEditable(raw))) {
-            return; // the player's own inventory or a free slot of an editable menu
+            // The player's own inventory or a free slot of an editable menu. What goes into the
+            // menu has to pass its filter (the sell menu refuses what can't be sold).
+            if (inMenu) {
+                ItemStack incoming = incoming(event);
+                if (!menu.allows(incoming)) {
+                    event.setCancelled(true);
+                    menu.refuse(incoming);
+                    return;
+                }
+                menu.changedLater();
+            }
+            return;
         }
         event.setCancelled(true);
         if (!(event.getWhoClicked() instanceof Player player)) return;
@@ -76,12 +92,36 @@ public final class MenuListener implements Listener {
     public void onDrag(InventoryDragEvent event) {
         Inventory top = event.getView().getTopInventory();
         if (!(top.getHolder(false) instanceof Menu menu)) return;
+        boolean intoMenu = false;
         for (int raw : event.getRawSlots()) {
             if (raw < top.getSize() && !menu.isEditable(raw)) {
                 event.setCancelled(true);
                 return;
             }
+            if (raw < top.getSize()) intoMenu = true;
         }
+        if (!intoMenu) return;
+        if (!menu.allows(event.getOldCursor())) {
+            event.setCancelled(true);
+            menu.refuse(event.getOldCursor());
+            return;
+        }
+        menu.changedLater();
+    }
+
+    /** The item a click in a menu slot puts there, or null when it only takes out. */
+    private static ItemStack incoming(InventoryClickEvent event) {
+        return switch (event.getAction()) {
+            // PLACE_FROM_BUNDLE: an item out of the bundle on the cursor. The bundle holds items,
+            // so a filter that refuses full bundles (the sell menu) refuses this too.
+            case PLACE_ALL, PLACE_ONE, PLACE_SOME, SWAP_WITH_CURSOR, PLACE_FROM_BUNDLE -> event.getCursor();
+            case HOTBAR_SWAP, HOTBAR_MOVE_AND_READD -> {
+                if (!(event.getWhoClicked() instanceof Player p)) yield null;
+                int button = event.getHotbarButton();
+                yield button >= 0 ? p.getInventory().getItem(button) : p.getInventory().getItemInOffHand();
+            }
+            default -> null;
+        };
     }
 
     /** Also fires on disconnect, before the quit event and the final save. */

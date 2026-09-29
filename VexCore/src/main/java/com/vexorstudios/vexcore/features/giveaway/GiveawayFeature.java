@@ -221,8 +221,10 @@ public final class GiveawayFeature extends Feature implements org.bukkit.event.L
     private void askMoney(Player p) {
         if (!plugin.money().available()) { msg(p, "no-economy"); return; }
         p.closeInventory();
-        msg(p, "money-prompt");
-        plugin.chatInput().ask(p, 60, text -> {
+        double draft = moneyDraft.getOrDefault(p.getUniqueId(), 0.0);
+        com.vexorstudios.vexcore.core.Dialogs.ask(this, p, "money", "money-prompt", Map.of("min", plugin.money().format(Math.max(0.01, config().getDouble("money.min", 1))),
+                "max", plugin.money().format(config().getDouble("money.max", 1000000000)), "balance", plugin.money().format(plugin.money().balance(p))),
+                draft > 0 ? com.vexorstudios.vexcore.core.Numbers.full(draft, 2, "") : "", text -> {
             if (!isEnabled() || !ready(p)) return;
             double amount = com.vexorstudios.vexcore.core.Numbers.amount(text, 2);
             if (!Double.isFinite(amount) || amount < Math.max(0.01, config().getDouble("money.min", 1))

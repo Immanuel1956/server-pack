@@ -1,0 +1,29 @@
+# Rename a home. %home% %name% work. Only plain text is kept (no colour codes in names).
+
+title: "Rename"
+body: []
+body-width: 250
+button-width: 200
+can-close-with-escape: true
+
+# The text box.
+input:
+  label: "New Name"
+  label-visible: true
+  width: 300
+  max-length: 24
+
+buttons:
+  save:
+    text: "Save"
+    hover: "<gray>Save the new name"
+  cancel:
+    text: "Cancel"
+    hover: "<gray>Keep the old name"
+
+sounds:
+  click:
+    enabled: true
+    sound: "ui.button.click"
+    volume: 1.0
+    pitch: 1.2
