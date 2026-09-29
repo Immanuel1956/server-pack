@@ -492,7 +492,7 @@ public final class PlayerWarpsFeature extends Feature implements org.bukkit.even
         }
         ChatFilterFeature filter = ChatFilterFeature.of(plugin);
         if (!text.isEmpty() && filter != null && !filter.cleanName(text)) {
-            msg(sender, "name-blocked", "name", text);
+            msg(sender, "name-blocked", "name", Component.text(text));
             return;
         }
         w.description = text;

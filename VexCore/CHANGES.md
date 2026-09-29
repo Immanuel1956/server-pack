@@ -1,5 +1,34 @@
 # VexCore changelog
 
+## Round 23: dupes, economy exploits and manipulation
+
+### Dupes
+- **/invsee (and the staff mode inspect tool with `inspect-can-edit: true`) duped items.** The game saves a player the moment they leave. Anything staff took out of their open inventory after that stayed with the staff member and came back with the player on their next join. Views of a leaving player's inventory and ender chest are now closed before the save. On Folia, /invsee refuses a player in another region (new message `too-far` in `features/staff/staffessentials.yml`), the same as /echest.
+
+### Money exploits
+- **Selling one item at a time paid more than selling a stack.** Every sale was rounded to the nearest cent, so an item worth $0.006 paid $0.01 on its own but $0.38 for 64 (64 single sales = $0.64). Sales are now added up exactly and rounded down once.
+- **/pay tax could be skipped** with small payments in a whole-dollar economy (5% of $1 rounded back to $1). The amount received is rounded down now. The coinflip pot after tax is rounded down too.
+- **Rounding lost or made a cent on some amounts** (0.57 × 100 is 56.99999… for a computer). Rounding now clears that noise first. New test `MoneyRoundingTest`.
+- **Creative mode could print money and items.** Selling in creative or spectator is refused (`blocked-gamemodes` in `features/sell/config.yml`), and so is starting a giveaway (`rules.blocked-gamemodes` in `features/giveaway/config.yml`), so creative items can't reach survival players.
+- **Alt accounts could farm kits.** One-time, first-join and cooldown kits are now claimed once per network, like daily and keyall rewards (`protect.kits: true` in `features/staff/ipprotection.yml`). The first-join kit waits until the network check has loaded.
+- **The mob hunt event could be won with spawn eggs.** Mobs from spawn eggs, commands, other plugins and built golems/snowmen/withers don't score, and nor do creative or spectator players. Kill quests don't count spawn-egg or command mobs either.
+- **Queued vote rewards and offline coinflip winnings could be paid twice** when two servers share a MySQL database (or a player joins two at once). Each queued row is deleted before it's paid, and only the server whose delete removed it pays.
+
+### Manipulation (text that could run commands)
+- **Vote usernames went straight into the vote broadcast and reward commands.** A vote site sends whatever was typed into its name box, so voting as `<click:run_command:/op Bob>` made a vote message that ran a command when a staff member clicked it. Votes for a name no player can have are now ignored and logged. Vote site names are filtered.
+- **Tebex buyer names** are filtered to the characters a name can have before they reach console commands and the purchase broadcast.
+- **Item and mob names with a hidden click command** (made in creative or by another plugin) lost the click in death messages and chat `[item]`. The tooltip stays.
+- **Menu commands:** PlaceholderAPI no longer fills placeholders hidden in text a player typed (a warp description, a reason) when it goes into a menu `[console]` or `[player]` command.
+- The giveaway force-cancel reason is plain text (it's broadcast), the same as punishment and report reasons. Team names never allow `< > % & § \ { }`, even if `name.pattern` is widened.
+
+### Checked and fine
+- Menus: every click type, shift-click, number keys, double-click collect, drags and closing with an item on the cursor; editable slots (sell, trash, giveaway items) give everything back.
+- Money paths: duel wagers (escrow), coinflip create/join/cancel, invest withdraw, prestige, player warp purchase and refunds, giveaway claims, pay to self, negative and NaN amounts (refused), admin economy commands (permission-checked).
+- Typed text: chat, /msg, staff chat, team chat, reports, punishments, rename, /live links, player warp descriptions and inventory rollback notes can't add tags, clicks or placeholders.
+- Console commands are only built from config, player names and numbers. Everything players get by default is a player command.
+
+Validation: `mvn clean package` against Paper API 1.21.10: compiles, 47 tests pass (new: `MoneyRoundingTest`, `InjectionTest`), ProGuard completes. `mvn -Ddev -Panalysis verify` (SpotBugs) passes. Not run on a live server.
+
 ## Round 22: second bug scan, staff mode and mute fixes, repeatable analysis
 
 ### Fixes

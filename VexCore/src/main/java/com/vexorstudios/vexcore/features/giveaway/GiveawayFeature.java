@@ -193,6 +193,11 @@ public final class GiveawayFeature extends Feature implements org.bukkit.event.L
 
     private boolean canStart(Player p) {
         if (!isEnabled() || !loaded || !ready(p)) return false;
+        // Items made in creative must not reach survival players through a giveaway.
+        if (config().getStringList("rules.blocked-gamemodes").stream().anyMatch(m -> m.equalsIgnoreCase(p.getGameMode().name()))) {
+            msg(p, "gamemode-blocked", "gamemode", p.getGameMode().name().toLowerCase(java.util.Locale.ROOT));
+            return false;
+        }
         if (starting.contains(p.getUniqueId())) { msg(p, "data-loading"); return false; }
         int max = Math.max(1, config().getInt("rules.max-running", 1));
         if (running.values().stream().filter(g -> g.owner.equals(p.getUniqueId())).count() >= max) {
@@ -606,8 +611,11 @@ public final class GiveawayFeature extends Feature implements org.bukkit.event.L
             return;
         }
         String who = args[1];
-        String reason = args.length > 2 ? String.join(" ", java.util.Arrays.copyOfRange(args, 2, args.length))
-                : config().getString("words.no-reason", "No reason given");
+        // Plain text: it is broadcast, so no colour codes, clickable tags or placeholders from what was typed.
+        String typed = args.length > 2 ? String.join(" ", java.util.Arrays.copyOfRange(args, 2, args.length))
+                .replace("&", "").replace("§", "").replace("<", "").replace(">", "").replace("%", "").strip() : "";
+        if (typed.length() > 200) typed = typed.substring(0, 200);
+        String reason = typed.isEmpty() ? config().getString("words.no-reason", "No reason given") : typed;
         List<Giveaway> theirs = new ArrayList<>();
         for (Giveaway g : running.values()) if (g.ownerName.equalsIgnoreCase(who)) theirs.add(g);
         if (theirs.isEmpty()) {

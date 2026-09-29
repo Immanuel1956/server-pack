@@ -50,6 +50,8 @@ protect:
   daily: true
   kills: true
   voteparty: true
+  # Each kit once per network: one-time and first-join kits ever, the others once per cooldown.
+  kits: true
 
 kill-farming:
   # false: killing an account from your own network doesn't count as a kill.
@@ -67,6 +69,7 @@ names:
   playtime: "playtime rewards"
   daily: "the daily reward"
   voteparty: "vote party rewards"
+  kits: "this kit"
 
 messages:
   claimed-elsewhere: "&#FF0000&lERROR &7▷ &fAn account linked to yours already has &#FF3B3B%system%&f."

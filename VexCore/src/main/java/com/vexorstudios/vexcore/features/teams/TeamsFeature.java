@@ -352,6 +352,9 @@ public final class TeamsFeature extends Feature implements Listener {
         int min = config().getInt("name.min-length", 3), max = config().getInt("name.max-length", 16);
         if (name.length() < min || name.length() > max) return "name-length";
         if (!name.matches(config().getString("name.pattern", "^[A-Za-z0-9_]+$"))) return "name-characters";
+        // Whatever the pattern allows: team names show in chat, tags and placeholders everywhere,
+        // so never tags, colour codes or placeholders.
+        if (name.chars().anyMatch(ch -> "<>%&§\\{}".indexOf(ch) >= 0)) return "name-characters";
         // Whole words only: "mod" blocks "Mod" and "Mod_Team", not "Modern".
         String lower = name.toLowerCase(Locale.ROOT);
         List<String> words = java.util.Arrays.asList(lower.split("[_0-9]+"));

@@ -41,6 +41,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class VotesFeature extends Feature {
 
     private static final String VOTIFIER_EVENT = "com.vexsoftware.votifier.model.VotifierEvent";
+    private static final java.util.regex.Pattern SERVICE_UNSAFE = java.util.regex.Pattern.compile("[^A-Za-z0-9 ._:-]");
 
     private final AtomicInteger party = new AtomicInteger();
     private File file;
@@ -102,8 +103,14 @@ public final class VotesFeature extends Feature {
             try {
                 Object vote = e.getClass().getMethod("getVote").invoke(e);
                 String user = String.valueOf(vote.getClass().getMethod("getUsername").invoke(vote)).strip();
-                String service = String.valueOf(vote.getClass().getMethod("getServiceName").invoke(vote)).strip();
-                if (!user.isEmpty() && user.length() <= 32) Scheduler.global(() -> vote(user, service));
+                String service = SERVICE_UNSAFE.matcher(String.valueOf(vote.getClass().getMethod("getServiceName").invoke(vote))).replaceAll("").strip();
+                // Vote sites send whatever was typed in their name box: a name no player can have
+                // could carry clickable tags, placeholders or extra command arguments.
+                if (user.isEmpty() || !Text.safeName(user).equals(user)) {
+                    plugin.getLogger().warning("Ignored a vote from " + service + " for an invalid name: " + Text.safeName(user));
+                    return;
+                }
+                Scheduler.global(() -> vote(user, service.length() > 64 ? service.substring(0, 64) : service));
             } catch (ReflectiveOperationException | RuntimeException bad) {
                 plugin.getLogger().warning("Could not read a vote from NuVotifier: " + bad);
             }
@@ -204,16 +211,22 @@ public final class VotesFeature extends Feature {
         String table = db().table("vote_queue");
         String name = p.getName().toLowerCase(Locale.ROOT);
         db().query("vote queue take", c -> {
-            List<String> services = new ArrayList<>();
-            try (PreparedStatement ps = c.prepareStatement("SELECT service FROM " + table + " WHERE name = ?")) {
+            // Each queued vote is taken by deleting its own row, and only rewarded if this server
+            // deleted it: servers sharing one database never both pay it, and a vote queued while
+            // this runs isn't deleted unpaid.
+            Map<Long, String> queued = new java.util.LinkedHashMap<>();
+            try (PreparedStatement ps = c.prepareStatement("SELECT id, service FROM " + table + " WHERE name = ?")) {
                 ps.setString(1, name);
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) services.add(rs.getString(1));
+                    while (rs.next()) queued.put(rs.getLong(1), rs.getString(2));
                 }
             }
-            if (!services.isEmpty()) try (PreparedStatement ps = c.prepareStatement("DELETE FROM " + table + " WHERE name = ?")) {
-                ps.setString(1, name);
-                ps.executeUpdate();
+            List<String> services = new ArrayList<>();
+            if (!queued.isEmpty()) try (PreparedStatement ps = c.prepareStatement("DELETE FROM " + table + " WHERE id = ?")) {
+                for (Map.Entry<Long, String> e : queued.entrySet()) {
+                    ps.setLong(1, e.getKey());
+                    if (ps.executeUpdate() == 1) services.add(e.getValue());
+                }
             }
             return services;
         }).whenComplete((services, error) -> {

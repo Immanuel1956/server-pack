@@ -378,7 +378,7 @@ public final class ChatFeature extends Feature implements Listener {
     private Component item(Player player, ConfigurationSection t) {
         ItemStack hand = onOwner(player, () -> player.getInventory().getItemInMainHand().clone());
         if (hand == null) return null;
-        Component name = hand.isEmpty() ? Text.parse(t.getString("empty", "&7Air")) : hand.displayName();
+        Component name = hand.isEmpty() ? Text.parse(t.getString("empty", "&7Air")) : Text.inert(hand.displayName());
         Map<String, Object> ph = new HashMap<>();
         ph.put("item", name);
         ph.put("player", player.getName());

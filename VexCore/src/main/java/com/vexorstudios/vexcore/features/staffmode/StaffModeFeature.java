@@ -263,6 +263,7 @@ public final class StaffModeFeature extends Feature implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onQuit(PlayerQuitEvent event) {
         leave(event.getPlayer(), false); // before the game saves the player's inventory
+        com.vexorstudios.vexcore.core.OpenInventories.closeViewers(event.getPlayer()); // inspect-can-edit
         lastUse.remove(event.getPlayer().getUniqueId());
     }
 

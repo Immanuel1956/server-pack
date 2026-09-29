@@ -37,6 +37,7 @@ public final class Text {
             "dark_purple", "gold", "gray", "dark_gray", "blue", "green", "aqua", "red", "light_purple", "yellow", "white"};
     private static final Pattern URL = Pattern.compile("https?://[^\\s<>\"']+");
     private static final Pattern TAG_UNSAFE = Pattern.compile("[^a-z0-9_-]");
+    private static final Pattern NAME_UNSAFE = Pattern.compile("[^A-Za-z0-9_.*-]");
     private static final TextReplacementConfig LINKS = TextReplacementConfig.builder()
             .match(URL)
             .replacement(b -> b.clickEvent(ClickEvent.openUrl(b.content())))
@@ -118,20 +119,59 @@ public final class Text {
         return source != null && source.contains("http") ? component.replaceText(LINKS) : component;
     }
 
-    /** Only the {@code %key%} replacement, for strings that are not shown (commands, file names). */
+    /**
+     * Only the {@code %key%} replacement, for strings that are not shown (commands, file names).
+     * Component values (text a player typed) lose their {@code %}, so PlaceholderAPI, which runs on
+     * commands after this, can't fill placeholders hidden in them.
+     */
     public static String fill(String text, Map<String, ?> placeholders) {
         if (text == null || placeholders == null || text.indexOf('%') < 0) return text;
         for (Map.Entry<String, ?> entry : placeholders.entrySet()) {
             Object value = entry.getValue();
             text = text.replace("%" + entry.getKey() + "%",
-                    value instanceof Component c ? plain(c) : string(value));
+                    value instanceof Component c ? plain(c).replace("%", "") : string(value));
         }
         return text;
+    }
+
+    /**
+     * A player name that came from outside the game (a vote site, the store checkout): only the
+     * characters a name can have (Bedrock names through Floodgate start with . or *), at most 32.
+     * These names go into console commands and broadcasts, where anything else could add command
+     * arguments, clickable tags or placeholders. Empty when nothing is left.
+     */
+    public static String safeName(String raw) {
+        if (raw == null) return "";
+        String name = NAME_UNSAFE.matcher(raw).replaceAll("");
+        return name.length() > 32 ? name.substring(0, 32) : name;
     }
 
     /** PlaceholderAPI placeholders only (for commands). Unchanged without PlaceholderAPI. */
     public static String papi(Player player, String text) {
         return papi && player != null && text.indexOf('%') >= 0 ? PapiBridge.apply(player, text) : text;
+    }
+
+    /**
+     * An item or mob name without click actions. Names made in creative or by other plugins can
+     * carry a hidden "run this command" click; shown to everyone in chat, staff could be tricked
+     * into running it. Hover (the item tooltip) stays.
+     */
+    public static Component inert(Component component) {
+        if (component == null) return null;
+        Component out = component.clickEvent(null);
+        if (out instanceof net.kyori.adventure.text.TranslatableComponent t && !t.arguments().isEmpty()) {
+            List<net.kyori.adventure.text.TranslationArgument> args = new ArrayList<>(t.arguments().size());
+            for (net.kyori.adventure.text.TranslationArgument a : t.arguments()) {
+                args.add(a.value() instanceof Component c ? net.kyori.adventure.text.TranslationArgument.component(inert(c)) : a);
+            }
+            out = t.arguments(args);
+        }
+        if (!out.children().isEmpty()) {
+            List<Component> children = new ArrayList<>(out.children().size());
+            for (Component child : out.children()) children.add(inert(child));
+            out = out.children(children);
+        }
+        return out;
     }
 
     public static String plain(Component component) {

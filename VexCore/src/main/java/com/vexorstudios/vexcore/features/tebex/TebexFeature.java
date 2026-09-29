@@ -204,7 +204,8 @@ public final class TebexFeature extends Feature implements Listener {
         java.util.Collections.reverse(fresh);
         for (JsonObject payment : fresh) {
             JsonObject player = payment.has("player") && payment.get("player").isJsonObject() ? payment.getAsJsonObject("player") : new JsonObject();
-            String name = string(player, "name");
+            // What the buyer typed at checkout: it goes into console commands and a broadcast.
+            String name = Text.safeName(string(player, "name"));
             UUID uuid = uuid(string(player, "uuid"));
             double amount = number(payment, "amount");
             String currency = payment.has("currency") && payment.get("currency").isJsonObject()

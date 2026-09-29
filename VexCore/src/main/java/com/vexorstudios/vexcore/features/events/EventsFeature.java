@@ -395,14 +395,23 @@ public final class EventsFeature extends Feature implements Listener {
         score(r, event.getPlayer(), 1);
     }
 
+    private static final java.util.Set<CreatureSpawnEvent.SpawnReason> MADE = java.util.EnumSet.of(
+            CreatureSpawnEvent.SpawnReason.SPAWNER_EGG, CreatureSpawnEvent.SpawnReason.DISPENSE_EGG,
+            CreatureSpawnEvent.SpawnReason.CUSTOM, CreatureSpawnEvent.SpawnReason.COMMAND,
+            CreatureSpawnEvent.SpawnReason.BUILD_IRONGOLEM, CreatureSpawnEvent.SpawnReason.BUILD_SNOWMAN,
+            CreatureSpawnEvent.SpawnReason.BUILD_WITHER);
+
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onMobDeath(EntityDeathEvent event) {
         Running r = running;
         if (r == null || r.type != Type.MOBS || event.getEntity() instanceof Player) return;
         Player killer = event.getEntity().getKiller();
-        if (killer == null) return;
-        if (!typeConfig(Type.MOBS).getBoolean("count-spawner-mobs", false)
-                && event.getEntity().getEntitySpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER) return;
+        if (killer == null || killer.getGameMode() == GameMode.CREATIVE || killer.getGameMode() == GameMode.SPECTATOR) return;
+        CreatureSpawnEvent.SpawnReason reason = event.getEntity().getEntitySpawnReason();
+        if (!typeConfig(Type.MOBS).getBoolean("count-spawner-mobs", false) && reason == CreatureSpawnEvent.SpawnReason.SPAWNER) return;
+        // Mobs made on demand (spawn eggs, commands, built golems) would win the hunt for whoever has
+        // the most eggs or a creative inventory.
+        if (MADE.contains(reason)) return;
         score(r, killer, 1);
     }
 

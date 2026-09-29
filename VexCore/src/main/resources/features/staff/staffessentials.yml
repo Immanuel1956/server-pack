@@ -31,6 +31,7 @@ messages:
   speed-other: "{prefix}&f%player%'s %kind% speed is now &#00E5FF%speed%&f."
   speed-range: "&#FF0000&lERROR &7▷ &fSpeed goes from &#00E5FF1 &fto &#00E5FF10&f."
   invsee: "{prefix}&fViewing &#00E5FF%player%&f's inventory."
+  too-far: "&#FF0000&lERROR &7▷ &f%player% is too far away to open their inventory. Teleport closer first."
 
 sounds:
   healed:

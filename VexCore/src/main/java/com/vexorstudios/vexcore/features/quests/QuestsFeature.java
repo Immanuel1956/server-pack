@@ -751,6 +751,11 @@ public final class QuestsFeature extends Feature implements PlayerData.Store, Li
             lastKill.put(key, System.currentTimeMillis());
             add(killer, "KILL_PLAYER", null, 1);
         } else {
+            // Mobs from spawn eggs or commands can be made on demand: no quest money for those.
+            var reason = e.getEntity().getEntitySpawnReason();
+            if (reason == org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.SPAWNER_EGG
+                    || reason == org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.DISPENSE_EGG
+                    || reason == org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.COMMAND) return;
             add(killer, "KILL_MOB", e.getEntityType().name(), 1);
         }
     }

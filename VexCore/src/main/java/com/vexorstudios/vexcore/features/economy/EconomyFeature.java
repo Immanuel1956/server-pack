@@ -538,7 +538,10 @@ public final class EconomyFeature extends Feature implements PlayerData.Store, M
             msg(from, "frozen-self");
             return;
         }
-        double received = Numbers.round(amount * (1 - Math.max(0, Math.min(100, config().getDouble("pay.tax-percent", 0))) / 100), decimals());
+        // Rounded down: rounding to the nearest unit let many small payments skip the tax (5% of $1
+        // is 5 cents; $0.95 rounded to whole dollars is $1 again).
+        double received = Numbers.round(amount * (1 - Math.max(0, Math.min(100, config().getDouble("pay.tax-percent", 0))) / 100),
+                decimals(), java.math.RoundingMode.FLOOR);
         if (!withdraw(from, amount)) {
             msg(from, "cannot-afford", "amount", format(amount));
             return;

@@ -2,6 +2,7 @@ package com.vexorstudios.vexcore.features.staffessentials;
 
 import com.vexorstudios.vexcore.core.Feature;
 import com.vexorstudios.vexcore.core.Scheduler;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.command.CommandSender;
@@ -75,6 +76,11 @@ public final class StaffEssentialsFeature extends Feature implements Listener {
             }
             Player target = target(p, args[0]);
             if (target == null) return;
+            // Folia: another region's player's items can't be edited safely from here.
+            if (target != p && !Bukkit.isOwnedByCurrentRegion(target)) {
+                msg(p, "too-far", "player", target.getName());
+                return;
+            }
             p.openInventory(target.getInventory());
             msg(p, "invsee", "player", target.getName());
         }, (s, a) -> a.length == 1 ? null : List.of());
@@ -180,8 +186,10 @@ public final class StaffEssentialsFeature extends Feature implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onQuit(PlayerQuitEvent event) {
+        // Staff looking into their inventory stop now, or what they take after the save is duped.
+        com.vexorstudios.vexcore.core.OpenInventories.closeViewers(event.getPlayer());
         if (!config().getBoolean("god-survives-relog", false)) god.remove(event.getPlayer().getUniqueId());
     }
 

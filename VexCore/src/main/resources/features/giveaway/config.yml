@@ -21,6 +21,8 @@ rules:
   # false: only while nobody has entered yet (stops bait-and-cancel).
   owner-cancel-with-entries: false
   blocked-materials: []
+  # No giveaways from these game modes (creative items must not reach survival players).
+  blocked-gamemodes: [CREATIVE, SPECTATOR]
 # /giveaway forcecancel <player> [reason] needs this permission.
 staff-permission: "vexcore.giveaway.forcecancel"
 # Winners who were offline get a title when they next join (after this many ticks).
@@ -33,6 +35,7 @@ words:
   no-reason: "No reason given"
   console: "Console"
 messages:
+  gamemode-blocked: "&#FF0000&lERROR &7▷ &fYou can't start a giveaway in %gamemode% mode."
   won-title: "[title]&#FFB02E&lCONGRATS!|&fYou have won &#FFB02E%player%'s &fgiveaway, enjoy!"
   won-while-away: "&#FFB02E&lGIVEAWAY &7▷ &fWhile you were away you won &#FFB02E%prize% &ffrom %player%'s giveaway! Take it from &#FFB02EYour Prizes &fin /gws."
   returned-while-away: "&#FFB02E&lGIVEAWAY &7▷ &fNobody entered your giveaway while you were away. Your &#FFB02E%prize% &fwaits in &#FFB02EYour Prizes&f."

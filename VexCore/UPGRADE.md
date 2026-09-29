@@ -1,5 +1,18 @@
 # VexCore update: install and configuration
 
+## Round 23 (dupes, economy exploits, manipulation)
+
+Nothing to change: install the new jar. The new rules work without new keys. To see and change them, copy these from the bundled files:
+
+- `blocked-gamemodes: [CREATIVE, SPECTATOR]` and the `gamemode-blocked` message into `features/sell/config.yml`.
+- `blocked-gamemodes` under `rules:` and the `gamemode-blocked` message into `features/giveaway/config.yml`.
+- `kits: true` under `protect:` (and `kits: "this kit"` under `names:`) into `features/staff/ipprotection.yml`. Set it to `false` if alts should get their own kits.
+- `too-far` into `features/staff/staffessentials.yml`.
+
+Heads-up: sell prices and /pay after tax now round **down** to your decimals. With whole-dollar money (`decimals: 0`), an item worth $0.50 sells for nothing on its own. Set prices in whole units or raise `decimals`.
+
+Quick test: /invsee an alt and have the alt log out (the view closes). /gmc then /sell hand (refused). Sell 64 cheap items one by one and as a stack (same money). Claim a one-time kit, then try it on an alt from the same IP (refused).
+
 ## Round 22 (staff mode and mute fixes, rollback safety)
 
 Nothing to change: install the new jar. Optional: add `backup-before-restore: true` to `features/invrollback/config.yml` to see the new switch (it is on without it).

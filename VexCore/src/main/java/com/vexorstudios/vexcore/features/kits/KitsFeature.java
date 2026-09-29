@@ -278,10 +278,24 @@ public final class KitsFeature extends Feature implements PlayerData.Store, List
             msg(player, "no-space", ph);
             return false;
         }
+        // Alt accounts: each kit once per network (one-time and first-join kits ever, the others
+        // once per cooldown), or fresh accounts could farm them and pass the items on.
+        var network = network(player, kit);
+        if (network != com.vexorstudios.vexcore.features.ipprotection.IpProtectionFeature.Result.ALLOWED) {
+            com.vexorstudios.vexcore.features.ipprotection.IpProtectionFeature.deny(player, network, "kits");
+            return false;
+        }
         record(player.getUniqueId(), kit.key, System.currentTimeMillis()); // before anything is handed out
         hand(player, kit, items, ph);
         msg(player, "claimed", ph);
         return true;
+    }
+
+    /** IP protection for a kit: ALLOWED for kits anyone may take again and again (no cooldown). */
+    private com.vexorstudios.vexcore.features.ipprotection.IpProtectionFeature.Result network(Player player, Kit kit) {
+        if (!kit.oneTime && !kit.firstJoin && kit.cooldown <= 0) return com.vexorstudios.vexcore.features.ipprotection.IpProtectionFeature.Result.ALLOWED;
+        long window = kit.oneTime || kit.firstJoin ? 0 : kit.cooldown * 1000;
+        return com.vexorstudios.vexcore.features.ipprotection.IpProtectionFeature.claim(player, "kits", kit.key, window);
     }
 
     private void hand(Player player, Kit kit, List<ItemStack> items, Map<String, Object> ph) {
@@ -511,8 +525,22 @@ public final class KitsFeature extends Feature implements PlayerData.Store, List
     @Override
     protected void loaded(Player player) {
         if (!newPlayers.remove(player.getUniqueId())) return;
+        firstJoin(player, 0);
+    }
+
+    /**
+     * First-join kits. Their network's claims load at join too; while they are still loading the
+     * kits wait (every 2 seconds, up to 20 seconds) instead of being skipped.
+     */
+    private void firstJoin(Player player, int tries) {
+        if (!isEnabled() || !player.isOnline()) return;
         for (Kit kit : kits.values()) {
-            if (kit.firstJoin && !claimsOf(player.getUniqueId()).containsKey(kit.key)) claim(player, kit, false);
+            if (!kit.firstJoin || claimsOf(player.getUniqueId()).containsKey(kit.key)) continue;
+            if (network(player, kit) == com.vexorstudios.vexcore.features.ipprotection.IpProtectionFeature.Result.LOADING && tries < 10) {
+                com.vexorstudios.vexcore.core.Scheduler.entityLater(player, () -> firstJoin(player, tries + 1), 40);
+                return;
+            }
+            claim(player, kit, false);
         }
     }
 

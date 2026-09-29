@@ -66,10 +66,10 @@ public final class DeathMessagesFeature extends Feature implements Listener {
             boolean vanished = plugin.features().get("vanish") instanceof com.vexorstudios.vexcore.features.vanish.VanishFeature v && v.isVanished(p.getUniqueId());
             ph.put("killer", vanished ? config().getString("hidden-killer", "Someone") : com.vexorstudios.vexcore.core.Visibility.name(p));
             ItemStack weapon = p.getInventory().getItemInMainHand();
-            ph.put("weapon", weapon.getType().isAir() ? Component.text(config().getString("fists", "their fists")) : weapon.effectiveName());
+            ph.put("weapon", weapon.getType().isAir() ? Component.text(config().getString("fists", "their fists")) : com.vexorstudios.vexcore.core.Text.inert(weapon.effectiveName()));
         } else if (killer != null) {
             Component name = killer.customName();
-            ph.put("killer", name != null ? name : Component.translatable(killer.getType().translationKey()));
+            ph.put("killer", name != null ? com.vexorstudios.vexcore.core.Text.inert(name) : Component.translatable(killer.getType().translationKey()));
             ph.put("weapon", Component.empty());
         } else {
             ph.put("killer", "");

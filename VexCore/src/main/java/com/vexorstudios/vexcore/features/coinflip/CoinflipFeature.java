@@ -299,7 +299,7 @@ public final class CoinflipFeature extends Feature implements PlayerData.Store {
         String winnerName = creatorWins ? game.name : joiner.getName();
         String loserName = creatorWins ? joiner.getName() : game.name;
         double tax = Math.max(0, Math.min(100, config().getDouble("tax-percent", 0)));
-        double pot = Numbers.round(game.amount * 2 * (1 - tax / 100), decimals());
+        double pot = Numbers.round(game.amount * 2 * (1 - tax / 100), decimals(), java.math.RoundingMode.FLOOR); // the tax never rounds away
         pay(winner, pot, "win"); // settled now; the animation only shows it
         record(winner, winnerName, loser, loserName, game.amount);
 
@@ -525,16 +525,25 @@ public final class CoinflipFeature extends Feature implements PlayerData.Store {
         Database db = db();
         String uuid = player.getUniqueId().toString();
         db.query("coinflip payouts", c -> {
-            double total = 0;
-            try (PreparedStatement ps = c.prepareStatement("SELECT amount FROM " + db.table("coinflip_payouts") + " WHERE uuid = ?")) {
+            // Paid for exactly the rows this delete removed: a payout stored in the meantime (another
+            // server on the same database) is either removed and paid here, or left for next time;
+            // never deleted unpaid.
+            java.util.Set<java.util.Map.Entry<Double, String>> kinds = new java.util.LinkedHashSet<>();
+            try (PreparedStatement ps = c.prepareStatement("SELECT amount, reason FROM " + db.table("coinflip_payouts") + " WHERE uuid = ?")) {
                 ps.setString(1, uuid);
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) total += rs.getDouble(1);
+                    while (rs.next()) kinds.add(Map.entry(rs.getDouble(1), String.valueOf(rs.getString(2))));
                 }
             }
-            if (total > 0) try (PreparedStatement ps = c.prepareStatement("DELETE FROM " + db.table("coinflip_payouts") + " WHERE uuid = ?")) {
-                ps.setString(1, uuid);
-                ps.executeUpdate();
+            double total = 0;
+            if (!kinds.isEmpty()) try (PreparedStatement ps = c.prepareStatement("DELETE FROM " + db.table("coinflip_payouts")
+                    + " WHERE uuid = ? AND amount = ? AND reason = ?")) {
+                for (java.util.Map.Entry<Double, String> k : kinds) {
+                    ps.setString(1, uuid);
+                    ps.setDouble(2, k.getKey());
+                    ps.setString(3, k.getValue());
+                    total += k.getKey() * ps.executeUpdate();
+                }
             }
             return total;
         }).thenAccept(total -> {

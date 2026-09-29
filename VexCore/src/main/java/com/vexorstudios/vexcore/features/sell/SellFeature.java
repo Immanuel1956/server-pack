@@ -123,7 +123,9 @@ public final class SellFeature extends Feature {
             }
         }
         each *= multiplier(player);
-        double total = Numbers.round(each * item.getAmount(), decimals());
+        // Rounded down: rounding to the nearest cent would pay more for items sold one by one
+        // than for the same items in one stack (0.006 each: 0.01 alone, 0.38 for 64).
+        double total = Numbers.round(each * item.getAmount(), decimals(), java.math.RoundingMode.FLOOR);
         if (total <= 0) return new Price(0, 0, "worthless");
         return new Price(each, total, null);
     }
@@ -156,6 +158,11 @@ public final class SellFeature extends Feature {
      * payment failed (after telling the player).
      */
     private Sale sell(Player player, Inventory inventory, List<Integer> slots) {
+        // Creative items cost nothing to make: selling them would be unlimited money.
+        if (config().getStringList("blocked-gamemodes").stream().anyMatch(m -> m.equalsIgnoreCase(player.getGameMode().name()))) {
+            msg(player, "gamemode-blocked", "gamemode", player.getGameMode().name().toLowerCase(Locale.ROOT));
+            return null;
+        }
         Map<Integer, ItemStack> taken = new java.util.LinkedHashMap<>();
         double money = 0;
         int items = 0;
@@ -164,10 +171,10 @@ public final class SellFeature extends Feature {
             Price p = price(player, item);
             if (!p.sellable()) continue;
             taken.put(slot, item.clone());
-            money += p.total;
+            money += p.each * item.getAmount(); // exact; rounded down once for the whole sale
             items += item.getAmount();
         }
-        money = Numbers.round(money, decimals());
+        money = Numbers.round(money, decimals(), java.math.RoundingMode.FLOOR);
         if (taken.isEmpty() || money <= 0) return new Sale(0, 0);
         for (int slot : taken.keySet()) inventory.setItem(slot, null);
         if (!plugin.money().deposit(player, money)) {

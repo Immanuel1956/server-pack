@@ -48,10 +48,16 @@ public final class Numbers {
         return v > 0 ? v : Double.NaN;
     }
 
-    /** Rounded in the given direction: charges round up, payouts down (money is never made up). */
+    /**
+     * Rounded in the given direction: charges round up, payouts down (money is never made up).
+     * Floating-point noise is cleared first (to 9 places past the unit), so 0.57 x 100
+     * (56.99999999999999) pays 57.00 and 1.1 x 3 (3.3000000000000003) charges 3.30, not a cent
+     * off either way.
+     */
     public static double round(double v, int decimals, RoundingMode mode) {
         if (!Double.isFinite(v)) return v;
-        return BigDecimal.valueOf(v).setScale(Math.max(0, decimals), mode).doubleValue();
+        int scale = Math.max(0, decimals);
+        return BigDecimal.valueOf(v).setScale(scale + 9, RoundingMode.HALF_EVEN).setScale(scale, mode).doubleValue();
     }
 
     public static double round(double v, int decimals) {
